@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "/Users/shahirfarhan/.nvm/versions/node/v20.20.0/bin/node node_modules/next/dist/bin/next dev",
-    "build": "/Users/shahirfarhan/.nvm/versions/node/v20.20.0/bin/node node_modules/next/dist/bin/next build",
+    "build": "next build",
     "start": "/Users/shahirfarhan/.nvm/versions/node/v20.20.0/bin/node node_modules/next/dist/bin/next start",
     "lint": "eslint"
   },
