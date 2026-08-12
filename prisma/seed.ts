@@ -333,18 +333,18 @@ async function main() {
     },
   })
 
-  // 3. Create some dummy customers for reviews
+  // 3. Create dummy planners (organizers) for reviews and bookings
   const customers = []
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     const customer = await prisma.user.upsert({
-        where: { email: `customer${i}@example.com` },
-        update: {},
-        create: {
-            email: `customer${i}@example.com`,
-            name: `Customer ${i}`,
-            passwordHash: password,
-            role: 'ORGANIZER', // Assuming customers act like organizers/clients
-        }
+      where: { email: `planner${i}@example.com` },
+      update: {},
+      create: {
+        email: `planner${i}@example.com`,
+        name: `Planner ${i}`,
+        passwordHash: password,
+        role: 'ORGANIZER',
+      }
     })
     customers.push(customer)
   }
@@ -358,10 +358,12 @@ async function main() {
       
       const user = await prisma.user.upsert({
         where: { email },
-        update: {},
+        update: {
+          name: biz.name,
+        },
         create: {
           email,
-          name: `Owner of ${biz.name}`,
+          name: biz.name,
           passwordHash: password,
           role: 'VENDOR',
         },

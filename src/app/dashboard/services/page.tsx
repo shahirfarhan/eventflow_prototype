@@ -23,6 +23,14 @@ export default async function VendorServicesPage() {
 
   const services = await prisma.service.findMany({
     where: { vendorId: vendor.id },
+    include: {
+      images: true,
+      packages: {
+        include: {
+          images: true,
+        },
+      },
+    },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -35,13 +43,13 @@ export default async function VendorServicesPage() {
             Manage the services you offer to event organizers.
           </p>
         </div>
-        <ServiceDialog 
+        {/* <ServiceDialog 
           trigger={
             <Button>
               <Plus className="mr-2 h-4 w-4" /> Add Service
             </Button>
           }
-        />
+        /> */}
       </div>
 
       <ServicesList services={services} />

@@ -83,7 +83,7 @@ export default function RegisterForm() {
             <Input id="password" type="password" {...register('password')} />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-2 pb-4">
             <Label htmlFor="role">I am a...</Label>
             <select 
               id="role" 

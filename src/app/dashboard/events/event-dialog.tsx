@@ -151,7 +151,7 @@ export default function EventDialog({ event, trigger, open, onOpenChange }: Even
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="budget">Budget ($)</Label>
+              <Label htmlFor="budget">Budget (RM)</Label>
               <Input id="budget" type="number" {...register('budget')} placeholder="5000" />
               {errors.budget && <p className="text-red-500 text-sm">{errors.budget.message}</p>}
             </div>

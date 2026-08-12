@@ -7,13 +7,32 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+
+      // Define protected routes
+      const protectedRoutes = ['/dashboard', '/vendors']
+      const isProtectedRoute = protectedRoutes.some(route =>
+        nextUrl.pathname.startsWith(route)
+      )
+
+      // Define auth routes (logged in users shouldn't see these)
+      const authRoutes = ['/login', '/register']
+      const isAuthRoute = authRoutes.some(route =>
+        nextUrl.pathname.startsWith(route)
+      )
+
+      if (isProtectedRoute && !isLoggedIn) {
+        // Not logged in → redirect to login
+        return Response.redirect(new URL('/login', nextUrl))
       }
-      return true;
+
+      if (isAuthRoute && isLoggedIn) {
+        // Already logged in → redirect to home
+        return Response.redirect(new URL('/', nextUrl))
+      }
+
+      return true
     },
+
     jwt({ token, user }) {
       if (user) {
         token.role = user.role
@@ -21,6 +40,7 @@ export const authConfig = {
       }
       return token
     },
+
     session({ session, token }) {
       if (token && session.user) {
         session.user.role = token.role as string

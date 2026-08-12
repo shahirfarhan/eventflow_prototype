@@ -6,6 +6,8 @@ import BookingsList from "./bookings-list";
 export default async function BookingsPage() {
   const session = await auth();
 
+  
+
   if (!session?.user) {
     redirect("/dashboard");
   }
@@ -38,14 +40,28 @@ export default async function BookingsPage() {
     include: {
       event: true,
       service: true,
+      package: true,
+      organizer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
       vendor: {
         select: {
-          businessName: true
+          businessName: true,
+          id: true,
         }
       }
     },
     orderBy: { createdAt: 'desc' }
   });
+
+  const events = Array.from(
+    new Map(bookings.map(b => [b.eventId, b.event])).values()
+  )
+
 
   return (
     <div className="space-y-8">
@@ -55,8 +71,9 @@ export default async function BookingsPage() {
           Manage your booking requests and payments.
         </p>
       </div>
+     
 
-      <BookingsList bookings={bookings as any} userRole={role} />
+      <BookingsList bookings={bookings as any} userRole={role} events={events}/>
     </div>
   );
 }

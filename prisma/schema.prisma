@@ -5,14 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource sqlite {
-  provider = "sqlite"
-  url      = env("SQLITE_URL")
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // Enums removed for SQLite compatibility
@@ -69,11 +65,13 @@ model Service {
   name          String
   description   String?
   basePrice     Float
+  occasions     String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   // Relationships
   packages      Package[]
+  images        ServiceImage[]
   bookings      Booking[]
 }
 
@@ -89,6 +87,7 @@ model Package {
   updatedAt     DateTime  @updatedAt
 
   // Relationships
+  images        PackageImage[]
   bookings      Booking[]
 }
 
@@ -124,6 +123,12 @@ model Booking {
   status        String        @default("PENDING") // PENDING, QUOTED, ACCEPTED, REJECTED, CONFIRMED, COMPLETED, CANCELLED
   date          DateTime
   price         Float         // Final agreed price
+  location      String?
+  guests        Int?
+  specialRequests String?
+  vendorProvidedAt DateTime?
+  organizerConfirmedAt DateTime?
+  organizerDisputedAt DateTime?
   notes         String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -197,4 +202,20 @@ model Availability {
   updatedAt     DateTime           @updatedAt
 
   @@unique([vendorId, date])
+}
+
+model ServiceImage {
+  id        String   @id @default(cuid())
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  url       String
+  createdAt DateTime @default(now())
+}
+
+model PackageImage {
+  id        String   @id @default(cuid())
+  packageId String
+  package   Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  url       String
+  createdAt DateTime @default(now())
 }

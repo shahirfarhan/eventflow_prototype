@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function VendorProfilePage() {
   const session = await auth();
@@ -21,7 +23,12 @@ export default async function VendorProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Vendor Profile</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-bold">Vendor Profile</h1>
+        <Link href={`/vendors/${profile.id}`}>
+          <Button variant="outline">View as Planner</Button>
+        </Link>
+      </div>
       <ProfileForm initialData={profile} />
     </div>
   );

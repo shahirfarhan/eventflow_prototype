@@ -7,6 +7,10 @@ const serviceSchema = z.object({
   name: z.string().min(2),
   description: z.string().optional(),
   basePrice: z.number().min(0),
+  occasions: z
+    .string()
+    .max(1000, "Occasions too long")
+    .optional(),
 });
 
 export async function PUT(
@@ -41,6 +45,7 @@ export async function PUT(
         name: data.name,
         description: data.description,
         basePrice: data.basePrice,
+        occasions: data.occasions ?? null,
       },
     });
 

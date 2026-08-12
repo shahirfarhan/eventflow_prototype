@@ -1,112 +1,54 @@
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const bookingSchema = z.object({
-  vendorId: z.string(),
-  serviceId: z.string(),
-  eventId: z.string(),
-  notes: z.string().optional(),
-});
+import { auth } from "@/auth";
 
 export async function POST(req: Request) {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "ORGANIZER") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user) {
+    return new NextResponse("Unauthorized", { status: 401 });
   }
 
   try {
     const body = await req.json();
-    const data = bookingSchema.parse(body);
+    const {
+      vendorId,
+      serviceId,
+      eventId,
+      date,
+      time,
+      location,
+      guests,
+      notes,
+      price,
+    } = body;
 
-    // Verify event ownership
-    const event = await prisma.event.findUnique({
-      where: { id: data.eventId },
-    });
-
-    if (!event || event.organizerId !== session.user.id) {
-      return NextResponse.json({ error: "Invalid event" }, { status: 400 });
+    if (!vendorId || !eventId || !date || !price) {
+      return new NextResponse("Missing required fields", { status: 400 });
     }
 
-    // Get Service details for price
-    const service = await prisma.service.findUnique({
-      where: { id: data.serviceId },
-    });
-
-    if (!service) {
-      return NextResponse.json({ error: "Invalid service" }, { status: 400 });
-    }
+    // Combine date and time
+    const bookingDate = new Date(`${date}T${time || "00:00"}:00`);
 
     const booking = await prisma.booking.create({
       data: {
-        eventId: data.eventId,
-        vendorId: data.vendorId, // VendorProfile ID
-        serviceId: data.serviceId,
+        vendorId,
+        serviceId,
+        eventId,
         organizerId: session.user.id,
+        date: bookingDate,
+        price: parseFloat(price),
+        location: location || null,
+        guests: guests ? parseInt(guests, 10) : null,
+        specialRequests: notes || null,
+        notes: notes || null,
         status: "PENDING",
-        price: service.basePrice,
-        date: event.date, // Default to event date
-        notes: data.notes,
       },
     });
 
-    return NextResponse.json(booking, { status: 201 });
+    return NextResponse.json(booking);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("[BOOKING_POST]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
-}
-
-export async function GET(req: Request) {
-  const session = await auth();
-
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const role = session.user.role;
-  let where: any = {};
-
-  if (role === "ORGANIZER") {
-    // Organizers see bookings for their events
-    where = {
-      organizerId: session.user.id
-    };
-  } else if (role === "VENDOR") {
-    // Vendors see bookings for their profile
-    const vendorProfile = await prisma.vendorProfile.findUnique({
-      where: { userId: session.user.id }
-    });
-    
-    if (!vendorProfile) {
-      return NextResponse.json([]);
-    }
-
-    where = {
-      vendorId: vendorProfile.id
-    };
-  } else if (role === "ADMIN") {
-    // Admin sees all
-    where = {};
-  }
-
-  const bookings = await prisma.booking.findMany({
-    where,
-    include: {
-      event: true,
-      service: true,
-      vendor: {
-        select: {
-          businessName: true
-        }
-      }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  return NextResponse.json(bookings);
 }

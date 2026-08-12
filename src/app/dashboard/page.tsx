@@ -14,6 +14,18 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  const getDaysUntilEvent = (eventDate: string | Date) => {
+        const today = new Date()
+        const event = new Date(eventDate)
+
+        // Remove the time portion so we're comparing dates only
+        today.setHours(0, 0, 0, 0)
+        event.setHours(0, 0, 0, 0)
+
+        const difference = event.getTime() - today.getTime()
+        return Math.ceil(difference / (1000 * 60 * 60 * 24))
+    }
+
   const role = session.user.role;
 
   if (role === 'ADMIN') {
@@ -66,7 +78,7 @@ export default async function DashboardPage() {
                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">${revenue._sum.price || 0}</div>
+                        <div className="text-2xl font-bold">RM{revenue._sum.price || 0}</div>
                     </CardContent>
                 </Card>
             </div>
@@ -86,8 +98,7 @@ export default async function DashboardPage() {
   if (role === 'ORGANIZER') {
      const events = await prisma.event.findMany({
         where: { organizerId: session.user.id },
-        orderBy: { date: 'asc' },
-        take: 3
+        orderBy: { date: 'asc' }
      });
 
      return (
@@ -97,17 +108,29 @@ export default async function DashboardPage() {
              <Card>
                 <CardHeader>
                     <CardTitle>Upcoming Events</CardTitle>
-                    <CardDescription>Your next 3 events</CardDescription>
+                    <CardDescription>Your next {events.length} events</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {events.length > 0 ? (
                         <div className="space-y-4">
                             {events.map(event => (
                                 <div key={event.id} className="flex justify-between items-center border-b pb-2 last:border-0">
-                                    <div>
+                                    {/* <div>
                                         <p className="font-medium">{event.title}</p>
                                         <p className="text-sm text-muted-foreground">{new Date(event.date).toLocaleDateString()}</p>
+                                    </div> */}
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="font-medium">{event.title}</p>
+                                        <span className="text-xs font-normal text-muted-foreground">
+                                            in {getDaysUntilEvent(event.date)} days
+                                        </span>
                                     </div>
+
+                                    <p className="text-sm text-muted-foreground">
+                                        {new Date(event.date).toLocaleDateString()}
+                                    </p>
+                                </div>
                                     <Button variant="ghost" size="sm" asChild>
                                         <Link href="/dashboard/events">View</Link>
                                     </Button>

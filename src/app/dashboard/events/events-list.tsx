@@ -9,6 +9,7 @@ import { MoreHorizontal, Pencil, Trash, Calendar as CalendarIcon, MapPin, Dollar
 import EventDialog from './event-dialog'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { CalendarCheck } from 'lucide-react'
 
 interface Event {
   id: string
@@ -90,6 +91,11 @@ export default function EventsList({ events }: EventsListProps) {
                      </DropdownMenuItem>
                    }
                 />
+                
+               <DropdownMenuItem onClick={() => router.push('/dashboard/bookings')}>
+                <CalendarCheck className="mr-2 h-4 w-4" /> Bookings
+              </DropdownMenuItem>
+
                 <DropdownMenuItem 
                   className="text-red-600 focus:text-red-600"
                   onClick={() => handleDelete(event.id)}
@@ -112,17 +118,17 @@ export default function EventsList({ events }: EventsListProps) {
             </div>
             <div className="flex items-center">
               <DollarSign className="mr-2 h-4 w-4 opacity-70" />
-              Budget: ${event.budget.toLocaleString()}
+              Budget: RM{event.budget.toLocaleString()}
             </div>
           </CardContent>
         </Card>
       ))}
       
       {/* Add new card */}
-      <Card className="flex flex-col items-center justify-center border-dashed cursor-pointer hover:bg-gray-50 transition-colors min-h-[200px]">
+      <Card className="relative flex flex-col items-center justify-center border-dashed cursor-pointer hover:bg-gray-50 transition-colors min-h-[200px]">
          <EventDialog 
             trigger={
-              <Button variant="ghost" className="h-full w-full flex flex-col gap-2">
+              <Button variant="ghost" className="absolute inset-0 h-full w-full flex flex-col gap-2">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <span className="text-2xl font-light text-primary">+</span>
                 </div>

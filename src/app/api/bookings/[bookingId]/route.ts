@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const statusSchema = z.object({
-  status: z.enum(["PENDING", "ACCEPTED", "REJECTED", "PAID", "COMPLETED", "CANCELLED"]),
+  status: z.enum(["PENDING", "ACCEPTED", "REJECTED", "PAID", "COMPLETED", "CANCELLED", "DISPUTED"]),
 });
 
 export async function PUT(

@@ -22,7 +22,12 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
     include: {
       services: {
         include: {
-          packages: true,
+          images: true,
+          packages: {
+            include: {
+              images: true,
+            },
+          },
         },
       },
     },
@@ -81,7 +86,7 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
                       <div>
                         <CardTitle>{service.name}</CardTitle>
                         <CardDescription className="mt-1">
-                          Starting at <span className="font-semibold text-primary">${service.basePrice}</span>
+                          Starting at <span className="font-semibold text-primary">RM {service.basePrice}</span>
                         </CardDescription>
                       </div>
                       <BookingDialog 
@@ -95,6 +100,55 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
                     <p className="text-sm text-gray-500">
                       {service.description || "No description provided."}
                     </p>
+
+                    {service.images?.length > 0 && (
+                      <div className="mt-4">
+                        <div className="text-sm font-medium mb-2">Sample Images</div>
+                        <div className="flex flex-wrap gap-2">
+                          {service.images.map((img: any) => (
+                            <img
+                              key={img.id}
+                              src={img.url}
+                              alt={service.name}
+                              className="h-20 w-20 object-cover rounded-md border"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {service.packages?.length > 0 && (
+                      <div className="mt-5 space-y-2">
+                        <div className="text-sm font-medium">Packages</div>
+                        <div className="space-y-3">
+                          {service.packages.map((pkg: any) => (
+                            <div key={pkg.id} className="rounded-md border p-3">
+                              <div className="font-medium">{pkg.name}</div>
+                              <div className="text-sm text-primary font-semibold">
+                                RM {pkg.price.toLocaleString()}
+                              </div>
+                              {pkg.description && (
+                                <div className="text-xs text-muted-foreground mt-1">
+                                  {pkg.description}
+                                </div>
+                              )}
+                              {pkg.images?.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {pkg.images.map((img: any) => (
+                                    <img
+                                      key={img.id}
+                                      src={img.url}
+                                      alt={pkg.name}
+                                      className="h-16 w-16 object-cover rounded-md border"
+                                    />
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

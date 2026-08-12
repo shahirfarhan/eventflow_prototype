@@ -7,6 +7,10 @@ const serviceSchema = z.object({
   name: z.string().min(2),
   description: z.string().optional(),
   basePrice: z.number().min(0),
+  occasions: z
+    .string()
+    .max(1000, "Occasions too long")
+    .optional(),
 });
 
 export async function GET(req: Request) {
@@ -26,7 +30,14 @@ export async function GET(req: Request) {
 
   const services = await prisma.service.findMany({
     where: { vendorId: vendor.id },
-    include: { packages: true },
+    include: {
+      images: true,
+      packages: {
+        include: {
+          images: true,
+        },
+      },
+    },
   });
 
   return NextResponse.json(services);
@@ -57,6 +68,7 @@ export async function POST(req: Request) {
         name: data.name,
         description: data.description,
         basePrice: data.basePrice,
+        occasions: data.occasions ?? null,
       },
     });
 

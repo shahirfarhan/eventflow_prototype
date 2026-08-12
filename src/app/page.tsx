@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { prisma } from "@/lib/prisma";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Star, MapPin } from "lucide-react";
+import { auth } from "@/auth";
+import { Plus } from "lucide-react"
+import SurveyPopup from "@/components/survey-popup";
 
 export default async function Home() {
   const allCategories = await prisma.vendorProfile.findMany({
@@ -11,6 +14,8 @@ export default async function Home() {
     distinct: ['category'],
   });
   const categories = allCategories.map(c => c.category).filter(Boolean);
+
+  const session = await auth();
 
   const featuredVendors = await prisma.vendorProfile.findMany({
     orderBy: { rating: 'desc' },
@@ -39,25 +44,48 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
+        {/* <SurveyPopup /> */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           {/* <div className="absolute inset-0 bg-black/50"></div> */}
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Plan Your Perfect Event
+                  What Are We Celebrating Today?
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Connect with top vendors, manage bookings, and create unforgettable memories with EventFlow.
+                  All your vendors and bookings. Now in one app.
                 </p>
               </div>
+              <div>
+                {session?.user?.role == "ORGANIZER" ? (
+                  <Link href="/dashboard/events">
+                    {/* <Button variant="outline" size="lg">Create Event</Button> */}
+                    <Button>
+                      <Plus className="mr-2 h-4 w-4" /> Create Event
+                    </Button>
+                  </Link> 
+                ): ""}
+              </div>
+              
+              
               <div className="space-x-4">
-                <Link href="/register">
-                  <Button size="lg">Get Started</Button>
-                </Link>
-                <Link href="/login">
-                  <Button variant="outline" size="lg">Log In</Button>
-                </Link>
+                {!session?.user ? (
+                  <>
+                    <Link href="/register">
+                      <Button size="lg">Get Started</Button>
+                    </Link>
+                    <Link href="/login">
+                      <Button variant="outline" size="lg">Log In</Button>
+                    </Link> 
+                  </>
+                ) : (
+                  <>
+                    {/* <Link href="/vendors">
+                      <Button size="lg">Vendors</Button>
+                    </Link> */}
+                  </>
+                )}
               </div>
               <form action="/vendors" method="GET" className="w-full max-w-xl mt-6 flex gap-2">
                 <Input
@@ -71,7 +99,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full pt-4 pb-4 md:pt-6 md:pb-24 lg:pt-8 lg:pb-32">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-2xl font-bold mb-6">Explore Categories</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -92,9 +120,9 @@ export default async function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
-                <div className="p-2 bg-black bg-opacity-50 rounded-full">
+                <div className="p-2 bg-secondary/20 rounded-full">
                   <svg
-                    className=" text-white h-6 w-6 mb-2 opacity-75"
+                    className=" text-secondary h-6 w-6 mb-2 opacity-75"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -114,9 +142,9 @@ export default async function Home() {
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
-                <div className="p-2 bg-black bg-opacity-50 rounded-full">
+                <div className="p-2 bg-secondary/20 rounded-full">
                   <svg
-                    className=" text-white h-6 w-6 mb-2 opacity-75"
+                    className=" text-secondary h-6 w-6 mb-2 opacity-75"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -136,9 +164,9 @@ export default async function Home() {
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
-                <div className="p-2 bg-black bg-opacity-50 rounded-full">
+                <div className="p-2 bg-secondary/20 rounded-full">
                    <svg
-                    className=" text-white h-6 w-6 mb-2 opacity-75"
+                    className=" text-secondary h-6 w-6 mb-2 opacity-75"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -173,36 +201,38 @@ export default async function Home() {
                   : null;
                 return (
                   <Link key={vendor.id} href={`/vendors/${vendor.id}`} className="block h-full">
-                    <Card className="flex flex-col h-full hover:shadow-md transition-shadow cursor-pointer">
+                    <Card className="flex flex-col h-full hover:shadow-md transition-shadow cursor-pointer p-0 gap-0 overflow-hidden">
                       {vendor.imageUrl && (
                         <img
                           src={vendor.imageUrl}
                           alt={vendor.businessName}
-                          className="h-40 w-full object-cover rounded-t-md"
+                          className="h-40 w-full object-cover"
                         />
                       )}
-                      <CardHeader>
-                        <CardTitle className="text-xl">{vendor.businessName}</CardTitle>
-                        <CardDescription className="flex items-center mt-1">
-                          <MapPin className="mr-1 h-3 w-3" />
-                          {vendor.location}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-                          <span className="font-medium">{vendor.rating.toFixed(1)}</span>
-                          <span className="ml-1 text-gray-500">({vendor.reviews.length} reviews)</span>
-                        </div>
-                        <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                          {vendor.description || "No description provided."}
-                        </p>
-                        {minPrice !== null && (
-                          <p className="text-sm font-medium">
-                            Starts from <span className="text-primary">RM {minPrice.toLocaleString()}</span>
+                      <div className="flex flex-col gap-6 py-6">
+                        <CardHeader className="py-0">
+                          <CardTitle className="text-xl">{vendor.businessName}</CardTitle>
+                          <CardDescription className="flex items-center mt-1">
+                            <MapPin className="mr-1 h-3 w-3" />
+                            {vendor.location}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-1 py-0">
+                          <div className="flex items-center mb-2">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
+                            <span className="font-medium">{vendor.rating.toFixed(1)}</span>
+                            <span className="ml-1 text-gray-500">({vendor.reviews.length} reviews)</span>
+                          </div>
+                          <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                            {vendor.description || "No description provided."}
                           </p>
-                        )}
-                      </CardContent>
+                          {minPrice !== null && (
+                            <p className="text-sm font-medium">
+                              Starts from <span className="text-primary">RM {minPrice.toLocaleString()}</span>
+                            </p>
+                          )}
+                        </CardContent>
+                      </div>
                     </Card>
                   </Link>
                 )
@@ -212,8 +242,11 @@ export default async function Home() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">© 2026 EventFlow. All rights reserved.</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">© 2026 Gaffers. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs" href="#">
+            gaffers@gmail.com
+          </Link>
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
           </Link>
