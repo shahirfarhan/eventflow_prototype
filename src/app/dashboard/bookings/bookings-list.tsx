@@ -278,8 +278,20 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 {userRole === 'VENDOR' && (
                   <BookingChatDialog
                     bookingId={booking.id}
-                    title="Contact Planner"
-                    description={booking.organizer?.name || booking.organizer?.email ? `Chat about “${booking.event?.title ?? 'Event'}”.` : undefined}
+                    peerId={booking.organizer?.id}
+                    title={
+                      booking.organizer?.name
+                        ? `Planner — ${booking.organizer.name}`
+                        : 'Contact Planner'
+                    }
+                    description={
+                      [
+                        booking.event?.title ? `Event: ${booking.event.title}` : null,
+                        getBookingName(booking) ? `Booking: ${getBookingName(booking)}` : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' • ') || undefined
+                    }
                     trigger={
                       <Button size="sm" variant="outline" disabled={!!processingId}>
                         <MessageSquare className="mr-2 h-4 w-4" />
@@ -292,8 +304,16 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 {userRole === 'ORGANIZER' && (
                   <BookingChatDialog
                     bookingId={booking.id}
-                    title="Contact Vendor"
-                    description={`Chat about “${booking.event?.title ?? 'Event'}”.`}
+                    peerId={booking.vendor.id}
+                    title={`${booking.vendor.businessName}`}
+                    description={
+                      [
+                        booking.event?.title ? `Event: ${booking.event.title}` : null,
+                        getBookingName(booking) ? `Booking: ${getBookingName(booking)}` : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' • ') || undefined
+                    }
                     trigger={
                       <Button size="sm" variant="outline" disabled={!!processingId}>
                         <MessageSquare className="mr-2 h-4 w-4" />

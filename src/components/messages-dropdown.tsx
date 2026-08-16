@@ -1,6 +1,7 @@
 "use client";
 
-import { MessageSquare } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { MessageSquare, Loader2 } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -10,81 +11,220 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import BookingChatDialog from "@/app/dashboard/bookings/booking-chat-dialog";
+import { formatDistanceToNow } from "date-fns";
 
-const DUMMY_CHATS = [
-  {
-    id: "1",
-    vendorName: "Grand Oak Ballroom",
-    lastMessage: "Hi, the venue is available on July 15th. The price is RM 5,000.",
-    time: "2h ago",
-    unread: true,
-  },
-  {
-    id: "2",
-    vendorName: "Capture The Moment",
-    lastMessage: "Sure! We can discuss the photography package during our meeting.",
-    time: "5h ago",
-    unread: false,
-  },
-  {
-    id: "3",
-    vendorName: "Gourmet Delights",
-    lastMessage: "We have updated the menu as per your request. Let us know!",
-    time: "1d ago",
-    unread: false,
-  },
-];
+type Thread = {
+  id: string;
+  peerId: string;
+  peerName: string;
+  bookingId: string | null;
+  eventTitle: string | null;
+  serviceName: string | null;
+  lastMessage: string;
+  lastMessageAt: string;
+  unread: boolean;
+  unreadCount: number;
+};
+
+function fallbackFor(name: string) {
+  const base = (name || "??").trim();
+  if (!base) return "?";
+  const parts = base.split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return base.substring(0, 2).toUpperCase();
+}
+
+function chatTitleFor(t: Thread) {
+  const pieces: string[] = [];
+  if (t.eventTitle) pieces.push(t.eventTitle);
+  if (t.serviceName) pieces.push(t.serviceName);
+  return [t.peerName, pieces.join(" • ")].filter(Boolean).join(" — ");
+}
+
+function chatDescriptionFor(t: Thread) {
+  const pieces: string[] = [];
+  if (t.eventTitle) pieces.push(`Event: ${t.eventTitle}`);
+  if (t.serviceName) pieces.push(`Service: ${t.serviceName}`);
+  if (t.bookingId) pieces.push(`Booking ${t.bookingId.substring(0, 6)}…`);
+  return pieces.join(" • ");
+}
 
 export function MessagesDropdown() {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
+  const [activePeerId, setActivePeerId] = useState<string | null>(null);
+
+  const load = async (signal?: AbortSignal) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/messages", {
+        cache: "no-store",
+        signal,
+      });
+      if (!res.ok) throw new Error("Failed to load messages");
+      const json = await res.json();
+      setThreads(Array.isArray(json) ? json : []);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const controller = new AbortController();
+    load(controller.signal);
+    const interval = setInterval(() => load(), 8000);
+    return () => {
+      controller.abort();
+      clearInterval(interval);
+    };
+  }, [open]);
+
+  const totalUnread = useMemo(
+    () => threads.reduce((acc, t) => acc + (t.unreadCount || 0), 0),
+    [threads]
+  );
+
+  const onOpenThread = async (t: Thread) => {
+    if (!t.bookingId) return;
+    setActiveBookingId(t.bookingId);
+    setActivePeerId(t.peerId);
+    try {
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: t.bookingId,
+          peerId: t.peerId,
+        }),
+      });
+    } catch {
+      /* ignore */
+    }
+    void load();
+    setOpen(false);
+  };
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
-          <MessageSquare className="h-5 w-5" />
-          <span className="absolute top-2 right-2 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-          </span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" align="end">
-        <div className="p-4 border-b">
-          <h3 className="font-semibold text-sm">Messages</h3>
-        </div>
-        <ScrollArea className="h-80">
-          {DUMMY_CHATS.map((chat) => (
-            <div
-              key={chat.id}
-              className={cn(
-                "flex items-start gap-3 p-4 hover:bg-muted cursor-pointer transition-colors",
-                chat.unread && "bg-muted/50"
-              )}
-            >
-              <Avatar className="h-9 w-9">
-                <AvatarFallback>
-                  {chat.vendorName.substring(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium leading-none">
-                    {chat.vendorName}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{chat.time}</p>
-                </div>
-                <p className="text-xs text-muted-foreground line-clamp-2">
-                  {chat.lastMessage}
-                </p>
-              </div>
-            </div>
-          ))}
-        </ScrollArea>
-        <div className="p-2 border-t text-center">
-          <Button variant="ghost" size="sm" className="w-full text-xs">
-            View all messages
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon" className="relative">
+            <MessageSquare className="h-5 w-5" />
+            {totalUnread > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[14px] h-[14px] px-[3px] text-[9px] font-semibold leading-none rounded-full bg-primary text-white ring-2 ring-background">
+                {totalUnread > 99 ? "99+" : totalUnread}
+              </span>
+            )}
           </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </PopoverTrigger>
+        <PopoverContent className="w-88 p-0" align="end">
+          <div className="p-4 border-b flex items-center justify-between">
+            <h3 className="font-semibold text-sm">Messages</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs h-7 px-2"
+              onClick={() => load()}
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                "Refresh"
+              )}
+            </Button>
+          </div>
+          <ScrollArea className="h-80">
+            {loading && threads.length === 0 ? (
+              <div className="p-8 text-sm text-muted-foreground text-center">
+                Loading…
+              </div>
+            ) : threads.length === 0 ? (
+              <div className="p-8 text-sm text-muted-foreground text-center">
+                No messages yet.
+                <br />
+                When you contact a vendor/planner about a booking, it will
+                show up here.
+              </div>
+            ) : (
+              threads.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => onOpenThread(t)}
+                  disabled={!t.bookingId}
+                  className={cn(
+                    "w-full flex items-start gap-3 p-4 hover:bg-muted cursor-pointer transition-colors text-left border-b last:border-b-0",
+                    t.unread && "bg-muted/50"
+                  )}
+                >
+                  <Avatar className="h-9 w-9 shrink-0">
+                    <AvatarFallback>{fallbackFor(t.peerName)}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 space-y-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-medium leading-none truncate">
+                        {t.peerName}
+                      </p>
+                      <p className="text-xs text-muted-foreground shrink-0">
+                        {formatDistanceToNow(new Date(t.lastMessageAt), {
+                          addSuffix: true,
+                        })}
+                      </p>
+                    </div>
+                    {t.eventTitle || t.serviceName ? (
+                      <p className="text-[11px] text-muted-foreground truncate">
+                        {[t.eventTitle, t.serviceName]
+                          .filter(Boolean)
+                          .join(" • ")}
+                      </p>
+                    ) : null}
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {t.lastMessage}
+                    </p>
+                  </div>
+                </button>
+              ))
+            )}
+          </ScrollArea>
+        </PopoverContent>
+      </Popover>
+
+      {activeBookingId && (
+        <BookingChatDialog
+          bookingId={activeBookingId}
+          open={Boolean(activeBookingId)}
+          onOpenChange={(next) => {
+            if (!next) {
+              setActiveBookingId(null);
+              setActivePeerId(null);
+              void load();
+            }
+          }}
+          peerId={activePeerId ?? undefined}
+          trigger={<span />}
+          title={
+            threads.find((t) => t.bookingId === activeBookingId)
+              ? chatTitleFor(
+                  threads.find((t) => t.bookingId === activeBookingId)!
+                )
+              : `Booking ${activeBookingId.substring(0, 6)}…`
+          }
+          description={
+            threads.find((t) => t.bookingId === activeBookingId)
+              ? chatDescriptionFor(
+                  threads.find((t) => t.bookingId === activeBookingId)!
+                )
+              : undefined
+          }
+        />
+      )}
+    </>
   );
 }

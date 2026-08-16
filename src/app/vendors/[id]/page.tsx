@@ -3,14 +3,13 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, ArrowLeft, Globe, Phone, Star, Calendar, Mail } from "lucide-react";
+import { MapPin, ArrowLeft, Globe, Phone, Star, Calendar, Mail, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
 
 export default async function PublicVendorDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await auth();
-
   const vendor = await prisma.vendorProfile.findUnique({
     where: { id },
     include: {
@@ -124,6 +123,7 @@ export default async function PublicVendorDetailsPage({ params }: { params: Prom
                         </CardDescription>
                       </div>
                       {/* Public page action */}
+                      
                       <Button asChild>
                         <Link href={`/vendors/${vendor.id}/book?serviceId=${service.id}`}>
                           Book Now

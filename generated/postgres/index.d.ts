@@ -68,10 +68,20 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  * 
  */
 export type Availability = $Result.DefaultSelection<Prisma.$AvailabilityPayload>
+/**
+ * Model ServiceImage
+ * 
+ */
+export type ServiceImage = $Result.DefaultSelection<Prisma.$ServiceImagePayload>
+/**
+ * Model PackageImage
+ * 
+ */
+export type PackageImage = $Result.DefaultSelection<Prisma.$PackageImagePayload>
 
 /**
  * ##  Prisma Client ʲˢ
- * 
+ *
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
@@ -80,19 +90,19 @@ export type Availability = $Result.DefaultSelection<Prisma.$AvailabilityPayload>
  * const users = await prisma.user.findMany()
  * ```
  *
- * 
+ *
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
 
     /**
    * ##  Prisma Client ʲˢ
-   * 
+   *
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
@@ -101,12 +111,12 @@ export class PrismaClient<
    * const users = await prisma.user.findMany()
    * ```
    *
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
-  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): void;
+  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): PrismaClient;
 
   /**
    * Connect with the database
@@ -118,20 +128,13 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
-
 /**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
    * ```
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
@@ -143,7 +146,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
@@ -154,7 +157,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
@@ -166,7 +169,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
@@ -190,7 +193,9 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
 
-  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>
+  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
+    extArgs: ExtArgs
+  }>>
 
       /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -200,7 +205,7 @@ export class PrismaClient<
     * const users = await prisma.user.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs>;
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vendorProfile`: Exposes CRUD operations for the **VendorProfile** model.
@@ -210,7 +215,7 @@ export class PrismaClient<
     * const vendorProfiles = await prisma.vendorProfile.findMany()
     * ```
     */
-  get vendorProfile(): Prisma.VendorProfileDelegate<ExtArgs>;
+  get vendorProfile(): Prisma.VendorProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.service`: Exposes CRUD operations for the **Service** model.
@@ -220,7 +225,7 @@ export class PrismaClient<
     * const services = await prisma.service.findMany()
     * ```
     */
-  get service(): Prisma.ServiceDelegate<ExtArgs>;
+  get service(): Prisma.ServiceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.package`: Exposes CRUD operations for the **Package** model.
@@ -230,7 +235,7 @@ export class PrismaClient<
     * const packages = await prisma.package.findMany()
     * ```
     */
-  get package(): Prisma.PackageDelegate<ExtArgs>;
+  get package(): Prisma.PackageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.event`: Exposes CRUD operations for the **Event** model.
@@ -240,7 +245,7 @@ export class PrismaClient<
     * const events = await prisma.event.findMany()
     * ```
     */
-  get event(): Prisma.EventDelegate<ExtArgs>;
+  get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.booking`: Exposes CRUD operations for the **Booking** model.
@@ -250,7 +255,7 @@ export class PrismaClient<
     * const bookings = await prisma.booking.findMany()
     * ```
     */
-  get booking(): Prisma.BookingDelegate<ExtArgs>;
+  get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.quote`: Exposes CRUD operations for the **Quote** model.
@@ -260,7 +265,7 @@ export class PrismaClient<
     * const quotes = await prisma.quote.findMany()
     * ```
     */
-  get quote(): Prisma.QuoteDelegate<ExtArgs>;
+  get quote(): Prisma.QuoteDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
@@ -270,7 +275,7 @@ export class PrismaClient<
     * const payments = await prisma.payment.findMany()
     * ```
     */
-  get payment(): Prisma.PaymentDelegate<ExtArgs>;
+  get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.review`: Exposes CRUD operations for the **Review** model.
@@ -280,7 +285,7 @@ export class PrismaClient<
     * const reviews = await prisma.review.findMany()
     * ```
     */
-  get review(): Prisma.ReviewDelegate<ExtArgs>;
+  get review(): Prisma.ReviewDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.message`: Exposes CRUD operations for the **Message** model.
@@ -290,7 +295,7 @@ export class PrismaClient<
     * const messages = await prisma.message.findMany()
     * ```
     */
-  get message(): Prisma.MessageDelegate<ExtArgs>;
+  get message(): Prisma.MessageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.availability`: Exposes CRUD operations for the **Availability** model.
@@ -300,7 +305,27 @@ export class PrismaClient<
     * const availabilities = await prisma.availability.findMany()
     * ```
     */
-  get availability(): Prisma.AvailabilityDelegate<ExtArgs>;
+  get availability(): Prisma.AvailabilityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceImage`: Exposes CRUD operations for the **ServiceImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceImages
+    * const serviceImages = await prisma.serviceImage.findMany()
+    * ```
+    */
+  get serviceImage(): Prisma.ServiceImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.packageImage`: Exposes CRUD operations for the **PackageImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PackageImages
+    * const packageImages = await prisma.packageImage.findMany()
+    * ```
+    */
+  get packageImage(): Prisma.PackageImageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -321,7 +346,6 @@ export namespace Prisma {
   export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
   export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
   export import PrismaClientValidationError = runtime.PrismaClientValidationError
-  export import NotFoundError = runtime.NotFoundError
 
   /**
    * Re-export of sql-template-tag
@@ -342,7 +366,7 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics 
+   * Metrics
    */
   export type Metrics = runtime.Metrics
   export type Metric<T> = runtime.Metric<T>
@@ -360,14 +384,14 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.22.0
-   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
+   * Prisma Client JS version: 6.16.2
+   * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
    */
   export type PrismaVersion = {
     client: string
   }
 
-  export const prismaVersion: PrismaVersion 
+  export const prismaVersion: PrismaVersion
 
   /**
    * Utility Types
@@ -383,15 +407,15 @@ export namespace Prisma {
 
   /**
    * Types of the values used to represent different kinds of `null` values when working with JSON fields.
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   namespace NullTypes {
     /**
     * Type of `Prisma.DbNull`.
-    * 
+    *
     * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
-    * 
+    *
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class DbNull {
@@ -401,9 +425,9 @@ export namespace Prisma {
 
     /**
     * Type of `Prisma.JsonNull`.
-    * 
+    *
     * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
-    * 
+    *
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class JsonNull {
@@ -413,9 +437,9 @@ export namespace Prisma {
 
     /**
     * Type of `Prisma.AnyNull`.
-    * 
+    *
     * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
-    * 
+    *
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class AnyNull {
@@ -426,21 +450,21 @@ export namespace Prisma {
 
   /**
    * Helper for filtering JSON entries that have `null` on the database (empty on the db)
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const DbNull: NullTypes.DbNull
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const JsonNull: NullTypes.JsonNull
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const AnyNull: NullTypes.AnyNull
@@ -628,7 +652,7 @@ export namespace Prisma {
   type AtLeast<O extends object, K extends string> = NoExpand<
     O extends unknown
     ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
-      | {[P in keyof O as P extends K ? K : never]-?: O[P]} & O
+      | {[P in keyof O as P extends K ? P : never]-?: O[P]} & O
     : never>;
 
   type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
@@ -752,7 +776,9 @@ export namespace Prisma {
     Payment: 'Payment',
     Review: 'Review',
     Message: 'Message',
-    Availability: 'Availability'
+    Availability: 'Availability',
+    ServiceImage: 'ServiceImage',
+    PackageImage: 'PackageImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -762,13 +788,16 @@ export namespace Prisma {
     db?: Datasource
   }
 
-  interface TypeMapCb extends $Utils.Fn<{extArgs: $Extensions.InternalArgs, clientOptions: PrismaClientOptions }, $Utils.Record<string, any>> {
-    returns: Prisma.TypeMap<this['params']['extArgs'], this['params']['clientOptions']>
+  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
+    returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
   }
 
-  export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
+  export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> = {
+    globalOmitOptions: {
+      omit: GlobalOmitOptions
+    }
     meta: {
-      modelProps: "user" | "vendorProfile" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability"
+      modelProps: "user" | "vendorProfile" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability" | "serviceImage" | "packageImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -823,6 +852,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
@@ -894,6 +927,10 @@ export namespace Prisma {
             args: Prisma.VendorProfileUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.VendorProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VendorProfilePayload>[]
+          }
           upsert: {
             args: Prisma.VendorProfileUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$VendorProfilePayload>
@@ -963,6 +1000,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.ServiceUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServicePayload>[]
           }
           upsert: {
             args: Prisma.ServiceUpsertArgs<ExtArgs>
@@ -1034,6 +1075,10 @@ export namespace Prisma {
             args: Prisma.PackageUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.PackageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackagePayload>[]
+          }
           upsert: {
             args: Prisma.PackageUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$PackagePayload>
@@ -1103,6 +1148,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.EventUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
           }
           upsert: {
             args: Prisma.EventUpsertArgs<ExtArgs>
@@ -1174,6 +1223,10 @@ export namespace Prisma {
             args: Prisma.BookingUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.BookingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
+          }
           upsert: {
             args: Prisma.BookingUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BookingPayload>
@@ -1243,6 +1296,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.QuoteUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
           }
           upsert: {
             args: Prisma.QuoteUpsertArgs<ExtArgs>
@@ -1314,6 +1371,10 @@ export namespace Prisma {
             args: Prisma.PaymentUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
           upsert: {
             args: Prisma.PaymentUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
@@ -1383,6 +1444,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.ReviewUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReviewUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
           }
           upsert: {
             args: Prisma.ReviewUpsertArgs<ExtArgs>
@@ -1454,6 +1519,10 @@ export namespace Prisma {
             args: Prisma.MessageUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.MessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MessagePayload>[]
+          }
           upsert: {
             args: Prisma.MessageUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$MessagePayload>
@@ -1524,6 +1593,10 @@ export namespace Prisma {
             args: Prisma.AvailabilityUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.AvailabilityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>[]
+          }
           upsert: {
             args: Prisma.AvailabilityUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
@@ -1539,6 +1612,154 @@ export namespace Prisma {
           count: {
             args: Prisma.AvailabilityCountArgs<ExtArgs>
             result: $Utils.Optional<AvailabilityCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceImage: {
+        payload: Prisma.$ServiceImagePayload<ExtArgs>
+        fields: Prisma.ServiceImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          findMany: {
+            args: Prisma.ServiceImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>[]
+          }
+          create: {
+            args: Prisma.ServiceImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          createMany: {
+            args: Prisma.ServiceImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          update: {
+            args: Prisma.ServiceImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceImagePayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceImage>
+          }
+          groupBy: {
+            args: Prisma.ServiceImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceImageCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceImageCountAggregateOutputType> | number
+          }
+        }
+      }
+      PackageImage: {
+        payload: Prisma.$PackageImagePayload<ExtArgs>
+        fields: Prisma.PackageImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PackageImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PackageImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          findFirst: {
+            args: Prisma.PackageImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PackageImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          findMany: {
+            args: Prisma.PackageImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>[]
+          }
+          create: {
+            args: Prisma.PackageImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          createMany: {
+            args: Prisma.PackageImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PackageImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>[]
+          }
+          delete: {
+            args: Prisma.PackageImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          update: {
+            args: Prisma.PackageImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.PackageImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PackageImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PackageImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.PackageImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PackageImagePayload>
+          }
+          aggregate: {
+            args: Prisma.PackageImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePackageImage>
+          }
+          groupBy: {
+            args: Prisma.PackageImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PackageImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PackageImageCountArgs<ExtArgs>
+            result: $Utils.Optional<PackageImageCountAggregateOutputType> | number
           }
         }
       }
@@ -1585,16 +1806,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1609,8 +1838,41 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
+    /**
+     * Global configuration for omitting model fields by default.
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   omit: {
+     *     user: {
+     *       password: true
+     *     }
+     *   }
+     * })
+     * ```
+     */
+    omit?: Prisma.GlobalOmitConfig
   }
-
+  export type GlobalOmitConfig = {
+    user?: UserOmit
+    vendorProfile?: VendorProfileOmit
+    service?: ServiceOmit
+    package?: PackageOmit
+    event?: EventOmit
+    booking?: BookingOmit
+    quote?: QuoteOmit
+    payment?: PaymentOmit
+    review?: ReviewOmit
+    message?: MessageOmit
+    availability?: AvailabilityOmit
+    serviceImage?: ServiceImageOmit
+    packageImage?: PackageImageOmit
+  }
 
   /* Types for Logging */
   export type LogLevel = 'info' | 'query' | 'warn' | 'error'
@@ -1619,10 +1881,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1651,6 +1918,7 @@ export namespace Prisma {
     | 'createManyAndReturn'
     | 'update'
     | 'updateMany'
+    | 'updateManyAndReturn'
     | 'upsert'
     | 'delete'
     | 'deleteMany'
@@ -1661,25 +1929,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -1775,6 +2024,7 @@ export namespace Prisma {
     quotes: number
     availability: number
     reviews: number
+    messagesAsContext: number
   }
 
   export type VendorProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1783,6 +2033,7 @@ export namespace Prisma {
     quotes?: boolean | VendorProfileCountOutputTypeCountQuotesArgs
     availability?: boolean | VendorProfileCountOutputTypeCountAvailabilityArgs
     reviews?: boolean | VendorProfileCountOutputTypeCountReviewsArgs
+    messagesAsContext?: boolean | VendorProfileCountOutputTypeCountMessagesAsContextArgs
   }
 
   // Custom InputTypes
@@ -1831,6 +2082,13 @@ export namespace Prisma {
     where?: ReviewWhereInput
   }
 
+  /**
+   * VendorProfileCountOutputType without action
+   */
+  export type VendorProfileCountOutputTypeCountMessagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
+  }
+
 
   /**
    * Count Type ServiceCountOutputType
@@ -1838,12 +2096,16 @@ export namespace Prisma {
 
   export type ServiceCountOutputType = {
     packages: number
+    images: number
     bookings: number
+    messagesAsContext: number
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     packages?: boolean | ServiceCountOutputTypeCountPackagesArgs
+    images?: boolean | ServiceCountOutputTypeCountImagesArgs
     bookings?: boolean | ServiceCountOutputTypeCountBookingsArgs
+    messagesAsContext?: boolean | ServiceCountOutputTypeCountMessagesAsContextArgs
   }
 
   // Custom InputTypes
@@ -1867,8 +2129,22 @@ export namespace Prisma {
   /**
    * ServiceCountOutputType without action
    */
+  export type ServiceCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceImageWhereInput
+  }
+
+  /**
+   * ServiceCountOutputType without action
+   */
   export type ServiceCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
+  }
+
+  /**
+   * ServiceCountOutputType without action
+   */
+  export type ServiceCountOutputTypeCountMessagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -1877,11 +2153,15 @@ export namespace Prisma {
    */
 
   export type PackageCountOutputType = {
+    images: number
     bookings: number
+    messagesAsContext: number
   }
 
   export type PackageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | PackageCountOutputTypeCountImagesArgs
     bookings?: boolean | PackageCountOutputTypeCountBookingsArgs
+    messagesAsContext?: boolean | PackageCountOutputTypeCountMessagesAsContextArgs
   }
 
   // Custom InputTypes
@@ -1898,8 +2178,22 @@ export namespace Prisma {
   /**
    * PackageCountOutputType without action
    */
+  export type PackageCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageImageWhereInput
+  }
+
+  /**
+   * PackageCountOutputType without action
+   */
   export type PackageCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
+  }
+
+  /**
+   * PackageCountOutputType without action
+   */
+  export type PackageCountOutputTypeCountMessagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -2186,6 +2480,16 @@ export namespace Prisma {
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    name?: boolean
+    role?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
   export type UserSelectScalar = {
     id?: boolean
     email?: boolean
@@ -2196,6 +2500,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendorProfile?: boolean | User$vendorProfileArgs<ExtArgs>
     events?: boolean | User$eventsArgs<ExtArgs>
@@ -2206,6 +2511,7 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -2231,12 +2537,12 @@ export namespace Prisma {
 
   type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
 
-  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: UserCountAggregateInputType | true
     }
 
-  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
     /**
      * Find zero or one User that matches the filter.
@@ -2249,10 +2555,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one User that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
@@ -2263,7 +2569,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first User that matches the filter.
@@ -2278,7 +2584,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first User that matches the filter or
@@ -2294,7 +2600,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Users that matches the filter.
@@ -2312,7 +2618,7 @@ export namespace Prisma {
      * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a User.
@@ -2326,7 +2632,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Users.
@@ -2354,7 +2660,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({ 
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -2364,7 +2670,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a User.
@@ -2378,7 +2684,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one User.
@@ -2395,7 +2701,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Users.
@@ -2431,6 +2737,36 @@ export namespace Prisma {
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one User.
      * @param {UserUpsertArgs} args - Arguments to update or create a User.
      * @example
@@ -2447,7 +2783,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -2587,14 +2923,14 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vendorProfile<T extends User$vendorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$vendorProfileArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    events<T extends User$eventsArgs<ExtArgs> = {}>(args?: Subset<T, User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany"> | Null>
-    bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany"> | Null>
-    reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
-    sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
-    receivedMessages<T extends User$receivedMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    vendorProfile<T extends User$vendorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$vendorProfileArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    events<T extends User$eventsArgs<ExtArgs> = {}>(args?: Subset<T, User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    receivedMessages<T extends User$receivedMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2622,7 +2958,7 @@ export namespace Prisma {
 
   /**
    * Fields of the User model
-   */ 
+   */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
@@ -2644,6 +2980,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2662,6 +3002,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2679,6 +3023,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -2728,6 +3076,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2776,6 +3128,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2819,6 +3175,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2848,6 +3208,10 @@ export namespace Prisma {
      */
     select?: UserSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * The data used to create many Users.
      */
     data: UserCreateManyInput | UserCreateManyInput[]
@@ -2862,6 +3226,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -2888,6 +3256,36 @@ export namespace Prisma {
      * Filter which Users to update
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
   }
 
   /**
@@ -2898,6 +3296,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -2925,6 +3327,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2942,6 +3348,10 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -2952,6 +3362,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the VendorProfile
      */
     select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -2967,6 +3381,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -2988,6 +3406,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -3007,6 +3429,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Review
      */
     select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -3028,6 +3454,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -3048,6 +3478,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -3067,6 +3501,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -3342,10 +3780,28 @@ export namespace Prisma {
     quotes?: boolean | VendorProfile$quotesArgs<ExtArgs>
     availability?: boolean | VendorProfile$availabilityArgs<ExtArgs>
     reviews?: boolean | VendorProfile$reviewsArgs<ExtArgs>
+    messagesAsContext?: boolean | VendorProfile$messagesAsContextArgs<ExtArgs>
     _count?: boolean | VendorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vendorProfile"]>
 
   export type VendorProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    businessName?: boolean
+    description?: boolean
+    category?: boolean
+    location?: boolean
+    occasions?: boolean
+    phoneNumber?: boolean
+    website?: boolean
+    imageUrl?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vendorProfile"]>
+
+  export type VendorProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
     businessName?: boolean
@@ -3378,6 +3834,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type VendorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "businessName" | "description" | "category" | "location" | "occasions" | "phoneNumber" | "website" | "imageUrl" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["vendorProfile"]>
   export type VendorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     services?: boolean | VendorProfile$servicesArgs<ExtArgs>
@@ -3385,9 +3842,13 @@ export namespace Prisma {
     quotes?: boolean | VendorProfile$quotesArgs<ExtArgs>
     availability?: boolean | VendorProfile$availabilityArgs<ExtArgs>
     reviews?: boolean | VendorProfile$reviewsArgs<ExtArgs>
+    messagesAsContext?: boolean | VendorProfile$messagesAsContextArgs<ExtArgs>
     _count?: boolean | VendorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VendorProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VendorProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -3400,6 +3861,7 @@ export namespace Prisma {
       quotes: Prisma.$QuotePayload<ExtArgs>[]
       availability: Prisma.$AvailabilityPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3421,12 +3883,12 @@ export namespace Prisma {
 
   type VendorProfileGetPayload<S extends boolean | null | undefined | VendorProfileDefaultArgs> = $Result.GetResult<Prisma.$VendorProfilePayload, S>
 
-  type VendorProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<VendorProfileFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type VendorProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VendorProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: VendorProfileCountAggregateInputType | true
     }
 
-  export interface VendorProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface VendorProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VendorProfile'], meta: { name: 'VendorProfile' } }
     /**
      * Find zero or one VendorProfile that matches the filter.
@@ -3439,10 +3901,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends VendorProfileFindUniqueArgs>(args: SelectSubset<T, VendorProfileFindUniqueArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends VendorProfileFindUniqueArgs>(args: SelectSubset<T, VendorProfileFindUniqueArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one VendorProfile that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one VendorProfile that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {VendorProfileFindUniqueOrThrowArgs} args - Arguments to find a VendorProfile
      * @example
@@ -3453,7 +3915,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends VendorProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, VendorProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends VendorProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, VendorProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first VendorProfile that matches the filter.
@@ -3468,7 +3930,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends VendorProfileFindFirstArgs>(args?: SelectSubset<T, VendorProfileFindFirstArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends VendorProfileFindFirstArgs>(args?: SelectSubset<T, VendorProfileFindFirstArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first VendorProfile that matches the filter or
@@ -3484,7 +3946,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends VendorProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, VendorProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends VendorProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, VendorProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more VendorProfiles that matches the filter.
@@ -3502,7 +3964,7 @@ export namespace Prisma {
      * const vendorProfileWithIdOnly = await prisma.vendorProfile.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends VendorProfileFindManyArgs>(args?: SelectSubset<T, VendorProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findMany">>
+    findMany<T extends VendorProfileFindManyArgs>(args?: SelectSubset<T, VendorProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a VendorProfile.
@@ -3516,7 +3978,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends VendorProfileCreateArgs>(args: SelectSubset<T, VendorProfileCreateArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends VendorProfileCreateArgs>(args: SelectSubset<T, VendorProfileCreateArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many VendorProfiles.
@@ -3544,7 +4006,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many VendorProfiles and only return the `id`
-     * const vendorProfileWithIdOnly = await prisma.vendorProfile.createManyAndReturn({ 
+     * const vendorProfileWithIdOnly = await prisma.vendorProfile.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -3554,7 +4016,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends VendorProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, VendorProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends VendorProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, VendorProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a VendorProfile.
@@ -3568,7 +4030,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends VendorProfileDeleteArgs>(args: SelectSubset<T, VendorProfileDeleteArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends VendorProfileDeleteArgs>(args: SelectSubset<T, VendorProfileDeleteArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one VendorProfile.
@@ -3585,7 +4047,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends VendorProfileUpdateArgs>(args: SelectSubset<T, VendorProfileUpdateArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends VendorProfileUpdateArgs>(args: SelectSubset<T, VendorProfileUpdateArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more VendorProfiles.
@@ -3621,6 +4083,36 @@ export namespace Prisma {
     updateMany<T extends VendorProfileUpdateManyArgs>(args: SelectSubset<T, VendorProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more VendorProfiles and returns the data updated in the database.
+     * @param {VendorProfileUpdateManyAndReturnArgs} args - Arguments to update many VendorProfiles.
+     * @example
+     * // Update many VendorProfiles
+     * const vendorProfile = await prisma.vendorProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VendorProfiles and only return the `id`
+     * const vendorProfileWithIdOnly = await prisma.vendorProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VendorProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, VendorProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one VendorProfile.
      * @param {VendorProfileUpsertArgs} args - Arguments to update or create a VendorProfile.
      * @example
@@ -3637,7 +4129,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends VendorProfileUpsertArgs>(args: SelectSubset<T, VendorProfileUpsertArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends VendorProfileUpsertArgs>(args: SelectSubset<T, VendorProfileUpsertArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -3777,14 +4269,15 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__VendorProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__VendorProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    services<T extends VendorProfile$servicesArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany"> | Null>
-    bookings<T extends VendorProfile$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany"> | Null>
-    quotes<T extends VendorProfile$quotesArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany"> | Null>
-    availability<T extends VendorProfile$availabilityArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$availabilityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany"> | Null>
-    reviews<T extends VendorProfile$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    services<T extends VendorProfile$servicesArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends VendorProfile$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quotes<T extends VendorProfile$quotesArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    availability<T extends VendorProfile$availabilityArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$availabilityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends VendorProfile$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messagesAsContext<T extends VendorProfile$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3812,7 +4305,7 @@ export namespace Prisma {
 
   /**
    * Fields of the VendorProfile model
-   */ 
+   */
   interface VendorProfileFieldRefs {
     readonly id: FieldRef<"VendorProfile", 'String'>
     readonly userId: FieldRef<"VendorProfile", 'String'>
@@ -3840,6 +4333,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -3858,6 +4355,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -3875,6 +4376,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the VendorProfile
      */
     select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -3924,6 +4429,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -3972,6 +4481,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -4015,6 +4528,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -4044,6 +4561,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * The data used to create many VendorProfiles.
      */
     data: VendorProfileCreateManyInput | VendorProfileCreateManyInput[]
@@ -4062,6 +4583,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the VendorProfile
      */
     select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4088,6 +4613,40 @@ export namespace Prisma {
      * Filter which VendorProfiles to update
      */
     where?: VendorProfileWhereInput
+    /**
+     * Limit how many VendorProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VendorProfile updateManyAndReturn
+   */
+  export type VendorProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VendorProfile
+     */
+    select?: VendorProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update VendorProfiles.
+     */
+    data: XOR<VendorProfileUpdateManyMutationInput, VendorProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which VendorProfiles to update
+     */
+    where?: VendorProfileWhereInput
+    /**
+     * Limit how many VendorProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VendorProfileIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4098,6 +4657,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the VendorProfile
      */
     select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4125,6 +4688,10 @@ export namespace Prisma {
      */
     select?: VendorProfileSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: VendorProfileInclude<ExtArgs> | null
@@ -4142,6 +4709,10 @@ export namespace Prisma {
      * Filter which VendorProfiles to delete
      */
     where?: VendorProfileWhereInput
+    /**
+     * Limit how many VendorProfiles to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -4152,6 +4723,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4173,6 +4748,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -4192,6 +4771,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4213,6 +4796,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -4233,6 +4820,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -4245,6 +4836,30 @@ export namespace Prisma {
   }
 
   /**
+   * VendorProfile.messagesAsContext
+   */
+  export type VendorProfile$messagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
    * VendorProfile without action
    */
   export type VendorProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4252,6 +4867,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the VendorProfile
      */
     select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4285,6 +4904,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     basePrice: number | null
+    occasions: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4295,6 +4915,7 @@ export namespace Prisma {
     name: string | null
     description: string | null
     basePrice: number | null
+    occasions: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4305,6 +4926,7 @@ export namespace Prisma {
     name: number
     description: number
     basePrice: number
+    occasions: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4325,6 +4947,7 @@ export namespace Prisma {
     name?: true
     description?: true
     basePrice?: true
+    occasions?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4335,6 +4958,7 @@ export namespace Prisma {
     name?: true
     description?: true
     basePrice?: true
+    occasions?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4345,6 +4969,7 @@ export namespace Prisma {
     name?: true
     description?: true
     basePrice?: true
+    occasions?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4442,6 +5067,7 @@ export namespace Prisma {
     name: string
     description: string | null
     basePrice: number
+    occasions: string | null
     createdAt: Date
     updatedAt: Date
     _count: ServiceCountAggregateOutputType | null
@@ -4471,11 +5097,14 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     basePrice?: boolean
+    occasions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
     packages?: boolean | Service$packagesArgs<ExtArgs>
+    images?: boolean | Service$imagesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
+    messagesAsContext?: boolean | Service$messagesAsContextArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
@@ -4485,6 +5114,19 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     basePrice?: boolean
+    occasions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["service"]>
+
+  export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vendorId?: boolean
+    name?: boolean
+    description?: boolean
+    basePrice?: boolean
+    occasions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
@@ -4496,17 +5138,24 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     basePrice?: boolean
+    occasions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "name" | "description" | "basePrice" | "occasions" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
     packages?: boolean | Service$packagesArgs<ExtArgs>
+    images?: boolean | Service$imagesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
+    messagesAsContext?: boolean | Service$messagesAsContextArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }
+  export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }
 
@@ -4515,7 +5164,9 @@ export namespace Prisma {
     objects: {
       vendor: Prisma.$VendorProfilePayload<ExtArgs>
       packages: Prisma.$PackagePayload<ExtArgs>[]
+      images: Prisma.$ServiceImagePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4523,6 +5174,7 @@ export namespace Prisma {
       name: string
       description: string | null
       basePrice: number
+      occasions: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["service"]>
@@ -4531,12 +5183,12 @@ export namespace Prisma {
 
   type ServiceGetPayload<S extends boolean | null | undefined | ServiceDefaultArgs> = $Result.GetResult<Prisma.$ServicePayload, S>
 
-  type ServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ServiceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type ServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: ServiceCountAggregateInputType | true
     }
 
-  export interface ServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface ServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Service'], meta: { name: 'Service' } }
     /**
      * Find zero or one Service that matches the filter.
@@ -4549,10 +5201,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends ServiceFindUniqueArgs>(args: SelectSubset<T, ServiceFindUniqueArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends ServiceFindUniqueArgs>(args: SelectSubset<T, ServiceFindUniqueArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Service that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Service that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {ServiceFindUniqueOrThrowArgs} args - Arguments to find a Service
      * @example
@@ -4563,7 +5215,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends ServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Service that matches the filter.
@@ -4578,7 +5230,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends ServiceFindFirstArgs>(args?: SelectSubset<T, ServiceFindFirstArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends ServiceFindFirstArgs>(args?: SelectSubset<T, ServiceFindFirstArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Service that matches the filter or
@@ -4594,7 +5246,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends ServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends ServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Services that matches the filter.
@@ -4612,7 +5264,7 @@ export namespace Prisma {
      * const serviceWithIdOnly = await prisma.service.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ServiceFindManyArgs>(args?: SelectSubset<T, ServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany">>
+    findMany<T extends ServiceFindManyArgs>(args?: SelectSubset<T, ServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Service.
@@ -4626,7 +5278,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends ServiceCreateArgs>(args: SelectSubset<T, ServiceCreateArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends ServiceCreateArgs>(args: SelectSubset<T, ServiceCreateArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Services.
@@ -4654,7 +5306,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Services and only return the `id`
-     * const serviceWithIdOnly = await prisma.service.createManyAndReturn({ 
+     * const serviceWithIdOnly = await prisma.service.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -4664,7 +5316,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends ServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Service.
@@ -4678,7 +5330,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends ServiceDeleteArgs>(args: SelectSubset<T, ServiceDeleteArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends ServiceDeleteArgs>(args: SelectSubset<T, ServiceDeleteArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Service.
@@ -4695,7 +5347,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ServiceUpdateArgs>(args: SelectSubset<T, ServiceUpdateArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends ServiceUpdateArgs>(args: SelectSubset<T, ServiceUpdateArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Services.
@@ -4731,6 +5383,36 @@ export namespace Prisma {
     updateMany<T extends ServiceUpdateManyArgs>(args: SelectSubset<T, ServiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Services and returns the data updated in the database.
+     * @param {ServiceUpdateManyAndReturnArgs} args - Arguments to update many Services.
+     * @example
+     * // Update many Services
+     * const service = await prisma.service.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Services and only return the `id`
+     * const serviceWithIdOnly = await prisma.service.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Service.
      * @param {ServiceUpsertArgs} args - Arguments to update or create a Service.
      * @example
@@ -4747,7 +5429,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends ServiceUpsertArgs>(args: SelectSubset<T, ServiceUpsertArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends ServiceUpsertArgs>(args: SelectSubset<T, ServiceUpsertArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -4887,11 +5569,13 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    packages<T extends Service$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Service$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany"> | Null>
-    bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany"> | Null>
+    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    packages<T extends Service$packagesArgs<ExtArgs> = {}>(args?: Subset<T, Service$packagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    images<T extends Service$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Service$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messagesAsContext<T extends Service$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, Service$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4919,13 +5603,14 @@ export namespace Prisma {
 
   /**
    * Fields of the Service model
-   */ 
+   */
   interface ServiceFieldRefs {
     readonly id: FieldRef<"Service", 'String'>
     readonly vendorId: FieldRef<"Service", 'String'>
     readonly name: FieldRef<"Service", 'String'>
     readonly description: FieldRef<"Service", 'String'>
     readonly basePrice: FieldRef<"Service", 'Float'>
+    readonly occasions: FieldRef<"Service", 'String'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
     readonly updatedAt: FieldRef<"Service", 'DateTime'>
   }
@@ -4940,6 +5625,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4959,6 +5648,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -4976,6 +5669,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5025,6 +5722,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -5073,6 +5774,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -5116,6 +5821,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -5145,6 +5854,10 @@ export namespace Prisma {
      */
     select?: ServiceSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * The data used to create many Services.
      */
     data: ServiceCreateManyInput | ServiceCreateManyInput[]
@@ -5163,6 +5876,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5189,6 +5906,40 @@ export namespace Prisma {
      * Filter which Services to update
      */
     where?: ServiceWhereInput
+    /**
+     * Limit how many Services to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Service updateManyAndReturn
+   */
+  export type ServiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * The data used to update Services.
+     */
+    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Services to update
+     */
+    where?: ServiceWhereInput
+    /**
+     * Limit how many Services to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5199,6 +5950,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5226,6 +5981,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -5243,6 +6002,10 @@ export namespace Prisma {
      * Filter which Services to delete
      */
     where?: ServiceWhereInput
+    /**
+     * Limit how many Services to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -5253,6 +6016,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5266,6 +6033,30 @@ export namespace Prisma {
   }
 
   /**
+   * Service.images
+   */
+  export type Service$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    where?: ServiceImageWhereInput
+    orderBy?: ServiceImageOrderByWithRelationInput | ServiceImageOrderByWithRelationInput[]
+    cursor?: ServiceImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceImageScalarFieldEnum | ServiceImageScalarFieldEnum[]
+  }
+
+  /**
    * Service.bookings
    */
   export type Service$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5273,6 +6064,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5286,6 +6081,30 @@ export namespace Prisma {
   }
 
   /**
+   * Service.messagesAsContext
+   */
+  export type Service$messagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
    * Service without action
    */
   export type ServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5293,6 +6112,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Service
      */
     select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5523,11 +6346,25 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    images?: boolean | Package$imagesArgs<ExtArgs>
     bookings?: boolean | Package$bookingsArgs<ExtArgs>
+    messagesAsContext?: boolean | Package$messagesAsContextArgs<ExtArgs>
     _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["package"]>
 
   export type PackageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    features?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package"]>
+
+  export type PackageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     serviceId?: boolean
     name?: boolean
@@ -5550,12 +6387,18 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type PackageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "name" | "description" | "price" | "features" | "createdAt" | "updatedAt", ExtArgs["result"]["package"]>
   export type PackageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    images?: boolean | Package$imagesArgs<ExtArgs>
     bookings?: boolean | Package$bookingsArgs<ExtArgs>
+    messagesAsContext?: boolean | Package$messagesAsContextArgs<ExtArgs>
     _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PackageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }
+  export type PackageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
 
@@ -5563,7 +6406,9 @@ export namespace Prisma {
     name: "Package"
     objects: {
       service: Prisma.$ServicePayload<ExtArgs>
+      images: Prisma.$PackageImagePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5580,12 +6425,12 @@ export namespace Prisma {
 
   type PackageGetPayload<S extends boolean | null | undefined | PackageDefaultArgs> = $Result.GetResult<Prisma.$PackagePayload, S>
 
-  type PackageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<PackageFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type PackageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PackageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: PackageCountAggregateInputType | true
     }
 
-  export interface PackageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface PackageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Package'], meta: { name: 'Package' } }
     /**
      * Find zero or one Package that matches the filter.
@@ -5598,10 +6443,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends PackageFindUniqueArgs>(args: SelectSubset<T, PackageFindUniqueArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends PackageFindUniqueArgs>(args: SelectSubset<T, PackageFindUniqueArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Package that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Package that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {PackageFindUniqueOrThrowArgs} args - Arguments to find a Package
      * @example
@@ -5612,7 +6457,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PackageFindUniqueOrThrowArgs>(args: SelectSubset<T, PackageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends PackageFindUniqueOrThrowArgs>(args: SelectSubset<T, PackageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Package that matches the filter.
@@ -5627,7 +6472,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends PackageFindFirstArgs>(args?: SelectSubset<T, PackageFindFirstArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends PackageFindFirstArgs>(args?: SelectSubset<T, PackageFindFirstArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Package that matches the filter or
@@ -5643,7 +6488,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends PackageFindFirstOrThrowArgs>(args?: SelectSubset<T, PackageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends PackageFindFirstOrThrowArgs>(args?: SelectSubset<T, PackageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Packages that matches the filter.
@@ -5661,7 +6506,7 @@ export namespace Prisma {
      * const packageWithIdOnly = await prisma.package.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends PackageFindManyArgs>(args?: SelectSubset<T, PackageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany">>
+    findMany<T extends PackageFindManyArgs>(args?: SelectSubset<T, PackageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Package.
@@ -5675,7 +6520,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends PackageCreateArgs>(args: SelectSubset<T, PackageCreateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends PackageCreateArgs>(args: SelectSubset<T, PackageCreateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Packages.
@@ -5703,7 +6548,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Packages and only return the `id`
-     * const packageWithIdOnly = await prisma.package.createManyAndReturn({ 
+     * const packageWithIdOnly = await prisma.package.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -5713,7 +6558,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends PackageCreateManyAndReturnArgs>(args?: SelectSubset<T, PackageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends PackageCreateManyAndReturnArgs>(args?: SelectSubset<T, PackageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Package.
@@ -5727,7 +6572,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends PackageDeleteArgs>(args: SelectSubset<T, PackageDeleteArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends PackageDeleteArgs>(args: SelectSubset<T, PackageDeleteArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Package.
@@ -5744,7 +6589,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PackageUpdateArgs>(args: SelectSubset<T, PackageUpdateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends PackageUpdateArgs>(args: SelectSubset<T, PackageUpdateArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Packages.
@@ -5780,6 +6625,36 @@ export namespace Prisma {
     updateMany<T extends PackageUpdateManyArgs>(args: SelectSubset<T, PackageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Packages and returns the data updated in the database.
+     * @param {PackageUpdateManyAndReturnArgs} args - Arguments to update many Packages.
+     * @example
+     * // Update many Packages
+     * const package = await prisma.package.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Packages and only return the `id`
+     * const packageWithIdOnly = await prisma.package.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PackageUpdateManyAndReturnArgs>(args: SelectSubset<T, PackageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Package.
      * @param {PackageUpsertArgs} args - Arguments to update or create a Package.
      * @example
@@ -5796,7 +6671,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends PackageUpsertArgs>(args: SelectSubset<T, PackageUpsertArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends PackageUpsertArgs>(args: SelectSubset<T, PackageUpsertArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -5936,10 +6811,12 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PackageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__PackageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    bookings<T extends Package$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Package$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany"> | Null>
+    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    images<T extends Package$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Package$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends Package$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Package$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messagesAsContext<T extends Package$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, Package$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5967,7 +6844,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Package model
-   */ 
+   */
   interface PackageFieldRefs {
     readonly id: FieldRef<"Package", 'String'>
     readonly serviceId: FieldRef<"Package", 'String'>
@@ -5990,6 +6867,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6008,6 +6889,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6025,6 +6910,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6074,6 +6963,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6122,6 +7015,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6165,6 +7062,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6194,6 +7095,10 @@ export namespace Prisma {
      */
     select?: PackageSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * The data used to create many Packages.
      */
     data: PackageCreateManyInput | PackageCreateManyInput[]
@@ -6212,6 +7117,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6238,6 +7147,40 @@ export namespace Prisma {
      * Filter which Packages to update
      */
     where?: PackageWhereInput
+    /**
+     * Limit how many Packages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Package updateManyAndReturn
+   */
+  export type PackageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * The data used to update Packages.
+     */
+    data: XOR<PackageUpdateManyMutationInput, PackageUncheckedUpdateManyInput>
+    /**
+     * Filter which Packages to update
+     */
+    where?: PackageWhereInput
+    /**
+     * Limit how many Packages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6248,6 +7191,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6275,6 +7222,10 @@ export namespace Prisma {
      */
     select?: PackageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PackageInclude<ExtArgs> | null
@@ -6292,6 +7243,34 @@ export namespace Prisma {
      * Filter which Packages to delete
      */
     where?: PackageWhereInput
+    /**
+     * Limit how many Packages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Package.images
+   */
+  export type Package$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    where?: PackageImageWhereInput
+    orderBy?: PackageImageOrderByWithRelationInput | PackageImageOrderByWithRelationInput[]
+    cursor?: PackageImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PackageImageScalarFieldEnum | PackageImageScalarFieldEnum[]
   }
 
   /**
@@ -6302,6 +7281,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6315,6 +7298,30 @@ export namespace Prisma {
   }
 
   /**
+   * Package.messagesAsContext
+   */
+  export type Package$messagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
    * Package without action
    */
   export type PackageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6322,6 +7329,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6577,6 +7588,19 @@ export namespace Prisma {
     organizer?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
+  export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizerId?: boolean
+    title?: boolean
+    date?: boolean
+    location?: boolean
+    type?: boolean
+    budget?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organizer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["event"]>
+
   export type EventSelectScalar = {
     id?: boolean
     organizerId?: boolean
@@ -6589,12 +7613,16 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizerId" | "title" | "date" | "location" | "type" | "budget" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organizer?: boolean | UserDefaultArgs<ExtArgs>
     bookings?: boolean | Event$bookingsArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organizer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organizer?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -6620,12 +7648,12 @@ export namespace Prisma {
 
   type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<Prisma.$EventPayload, S>
 
-  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: EventCountAggregateInputType | true
     }
 
-  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event'], meta: { name: 'Event' } }
     /**
      * Find zero or one Event that matches the filter.
@@ -6638,10 +7666,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Event that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Event that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {EventFindUniqueOrThrowArgs} args - Arguments to find a Event
      * @example
@@ -6652,7 +7680,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Event that matches the filter.
@@ -6667,7 +7695,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Event that matches the filter or
@@ -6683,7 +7711,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Events that matches the filter.
@@ -6701,7 +7729,7 @@ export namespace Prisma {
      * const eventWithIdOnly = await prisma.event.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Event.
@@ -6715,7 +7743,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Events.
@@ -6743,7 +7771,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Events and only return the `id`
-     * const eventWithIdOnly = await prisma.event.createManyAndReturn({ 
+     * const eventWithIdOnly = await prisma.event.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -6753,7 +7781,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Event.
@@ -6767,7 +7795,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Event.
@@ -6784,7 +7812,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Events.
@@ -6820,6 +7848,36 @@ export namespace Prisma {
     updateMany<T extends EventUpdateManyArgs>(args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Events and returns the data updated in the database.
+     * @param {EventUpdateManyAndReturnArgs} args - Arguments to update many Events.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EventUpdateManyAndReturnArgs>(args: SelectSubset<T, EventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Event.
      * @param {EventUpsertArgs} args - Arguments to update or create a Event.
      * @example
@@ -6836,7 +7894,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -6976,10 +8034,10 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    organizer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    bookings<T extends Event$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Event$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany"> | Null>
+    organizer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bookings<T extends Event$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Event$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7007,7 +8065,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Event model
-   */ 
+   */
   interface EventFieldRefs {
     readonly id: FieldRef<"Event", 'String'>
     readonly organizerId: FieldRef<"Event", 'String'>
@@ -7031,6 +8089,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7049,6 +8111,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7066,6 +8132,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7115,6 +8185,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7163,6 +8237,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7206,6 +8284,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7235,6 +8317,10 @@ export namespace Prisma {
      */
     select?: EventSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * The data used to create many Events.
      */
     data: EventCreateManyInput | EventCreateManyInput[]
@@ -7253,6 +8339,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7279,6 +8369,40 @@ export namespace Prisma {
      * Filter which Events to update
      */
     where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event updateManyAndReturn
+   */
+  export type EventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7289,6 +8413,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7316,6 +8444,10 @@ export namespace Prisma {
      */
     select?: EventSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: EventInclude<ExtArgs> | null
@@ -7333,6 +8465,10 @@ export namespace Prisma {
      * Filter which Events to delete
      */
     where?: EventWhereInput
+    /**
+     * Limit how many Events to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -7343,6 +8479,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7363,6 +8503,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7656,6 +8800,26 @@ export namespace Prisma {
     service?: boolean | Booking$serviceArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
+  export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    vendorId?: boolean
+    organizerId?: boolean
+    packageId?: boolean
+    serviceId?: boolean
+    status?: boolean
+    date?: boolean
+    price?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    event?: boolean | EventDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+    organizer?: boolean | UserDefaultArgs<ExtArgs>
+    package?: boolean | Booking$packageArgs<ExtArgs>
+    service?: boolean | Booking$serviceArgs<ExtArgs>
+  }, ExtArgs["result"]["booking"]>
+
   export type BookingSelectScalar = {
     id?: boolean
     eventId?: boolean
@@ -7671,6 +8835,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "vendorId" | "organizerId" | "packageId" | "serviceId" | "status" | "date" | "price" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
@@ -7684,6 +8849,13 @@ export namespace Prisma {
     _count?: boolean | BookingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    event?: boolean | EventDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+    organizer?: boolean | UserDefaultArgs<ExtArgs>
+    package?: boolean | Booking$packageArgs<ExtArgs>
+    service?: boolean | Booking$serviceArgs<ExtArgs>
+  }
+  export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
     organizer?: boolean | UserDefaultArgs<ExtArgs>
@@ -7723,12 +8895,12 @@ export namespace Prisma {
 
   type BookingGetPayload<S extends boolean | null | undefined | BookingDefaultArgs> = $Result.GetResult<Prisma.$BookingPayload, S>
 
-  type BookingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<BookingFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type BookingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BookingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: BookingCountAggregateInputType | true
     }
 
-  export interface BookingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface BookingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Booking'], meta: { name: 'Booking' } }
     /**
      * Find zero or one Booking that matches the filter.
@@ -7741,10 +8913,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends BookingFindUniqueArgs>(args: SelectSubset<T, BookingFindUniqueArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends BookingFindUniqueArgs>(args: SelectSubset<T, BookingFindUniqueArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Booking that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Booking that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {BookingFindUniqueOrThrowArgs} args - Arguments to find a Booking
      * @example
@@ -7755,7 +8927,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends BookingFindUniqueOrThrowArgs>(args: SelectSubset<T, BookingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends BookingFindUniqueOrThrowArgs>(args: SelectSubset<T, BookingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Booking that matches the filter.
@@ -7770,7 +8942,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends BookingFindFirstArgs>(args?: SelectSubset<T, BookingFindFirstArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends BookingFindFirstArgs>(args?: SelectSubset<T, BookingFindFirstArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Booking that matches the filter or
@@ -7786,7 +8958,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends BookingFindFirstOrThrowArgs>(args?: SelectSubset<T, BookingFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends BookingFindFirstOrThrowArgs>(args?: SelectSubset<T, BookingFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Bookings that matches the filter.
@@ -7804,7 +8976,7 @@ export namespace Prisma {
      * const bookingWithIdOnly = await prisma.booking.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends BookingFindManyArgs>(args?: SelectSubset<T, BookingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends BookingFindManyArgs>(args?: SelectSubset<T, BookingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Booking.
@@ -7818,7 +8990,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends BookingCreateArgs>(args: SelectSubset<T, BookingCreateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends BookingCreateArgs>(args: SelectSubset<T, BookingCreateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Bookings.
@@ -7846,7 +9018,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Bookings and only return the `id`
-     * const bookingWithIdOnly = await prisma.booking.createManyAndReturn({ 
+     * const bookingWithIdOnly = await prisma.booking.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -7856,7 +9028,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Booking.
@@ -7870,7 +9042,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends BookingDeleteArgs>(args: SelectSubset<T, BookingDeleteArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends BookingDeleteArgs>(args: SelectSubset<T, BookingDeleteArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Booking.
@@ -7887,7 +9059,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends BookingUpdateArgs>(args: SelectSubset<T, BookingUpdateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends BookingUpdateArgs>(args: SelectSubset<T, BookingUpdateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Bookings.
@@ -7923,6 +9095,36 @@ export namespace Prisma {
     updateMany<T extends BookingUpdateManyArgs>(args: SelectSubset<T, BookingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Bookings and returns the data updated in the database.
+     * @param {BookingUpdateManyAndReturnArgs} args - Arguments to update many Bookings.
+     * @example
+     * // Update many Bookings
+     * const booking = await prisma.booking.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Bookings and only return the `id`
+     * const bookingWithIdOnly = await prisma.booking.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BookingUpdateManyAndReturnArgs>(args: SelectSubset<T, BookingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Booking.
      * @param {BookingUpsertArgs} args - Arguments to update or create a Booking.
      * @example
@@ -7939,7 +9141,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends BookingUpsertArgs>(args: SelectSubset<T, BookingUpsertArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends BookingUpsertArgs>(args: SelectSubset<T, BookingUpsertArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -8079,17 +9281,17 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    organizer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    package<T extends Booking$packageArgs<ExtArgs> = {}>(args?: Subset<T, Booking$packageArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    service<T extends Booking$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Booking$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    quotes<T extends Booking$quotesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany"> | Null>
-    payments<T extends Booking$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany"> | Null>
-    review<T extends Booking$reviewArgs<ExtArgs> = {}>(args?: Subset<T, Booking$reviewArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    messages<T extends Booking$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    organizer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    package<T extends Booking$packageArgs<ExtArgs> = {}>(args?: Subset<T, Booking$packageArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    service<T extends Booking$serviceArgs<ExtArgs> = {}>(args?: Subset<T, Booking$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    quotes<T extends Booking$quotesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends Booking$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    review<T extends Booking$reviewArgs<ExtArgs> = {}>(args?: Subset<T, Booking$reviewArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    messages<T extends Booking$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8117,7 +9319,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Booking model
-   */ 
+   */
   interface BookingFieldRefs {
     readonly id: FieldRef<"Booking", 'String'>
     readonly eventId: FieldRef<"Booking", 'String'>
@@ -8144,6 +9346,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8162,6 +9368,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8179,6 +9389,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8228,6 +9442,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8276,6 +9494,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8319,6 +9541,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8348,6 +9574,10 @@ export namespace Prisma {
      */
     select?: BookingSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * The data used to create many Bookings.
      */
     data: BookingCreateManyInput | BookingCreateManyInput[]
@@ -8366,6 +9596,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8392,6 +9626,40 @@ export namespace Prisma {
      * Filter which Bookings to update
      */
     where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Booking updateManyAndReturn
+   */
+  export type BookingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * The data used to update Bookings.
+     */
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>
+    /**
+     * Filter which Bookings to update
+     */
+    where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8402,6 +9670,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8429,6 +9701,10 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
@@ -8446,6 +9722,10 @@ export namespace Prisma {
      * Filter which Bookings to delete
      */
     where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -8456,6 +9736,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Package
      */
     select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8472,6 +9756,10 @@ export namespace Prisma {
      */
     select?: ServiceSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceInclude<ExtArgs> | null
@@ -8486,6 +9774,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8507,6 +9799,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -8527,6 +9823,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -8541,6 +9841,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8561,6 +9865,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Booking
      */
     select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -8816,6 +10124,20 @@ export namespace Prisma {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quote"]>
 
+  export type QuoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    amount?: boolean
+    details?: boolean
+    validUntil?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
   export type QuoteSelectScalar = {
     id?: boolean
     bookingId?: boolean
@@ -8828,11 +10150,16 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type QuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "vendorId" | "amount" | "details" | "validUntil" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["quote"]>
   export type QuoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }
   export type QuoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }
+  export type QuoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }
@@ -8859,12 +10186,12 @@ export namespace Prisma {
 
   type QuoteGetPayload<S extends boolean | null | undefined | QuoteDefaultArgs> = $Result.GetResult<Prisma.$QuotePayload, S>
 
-  type QuoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<QuoteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type QuoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: QuoteCountAggregateInputType | true
     }
 
-  export interface QuoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface QuoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Quote'], meta: { name: 'Quote' } }
     /**
      * Find zero or one Quote that matches the filter.
@@ -8877,10 +10204,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends QuoteFindUniqueArgs>(args: SelectSubset<T, QuoteFindUniqueArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends QuoteFindUniqueArgs>(args: SelectSubset<T, QuoteFindUniqueArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Quote that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Quote that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {QuoteFindUniqueOrThrowArgs} args - Arguments to find a Quote
      * @example
@@ -8891,7 +10218,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends QuoteFindUniqueOrThrowArgs>(args: SelectSubset<T, QuoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends QuoteFindUniqueOrThrowArgs>(args: SelectSubset<T, QuoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Quote that matches the filter.
@@ -8906,7 +10233,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends QuoteFindFirstArgs>(args?: SelectSubset<T, QuoteFindFirstArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends QuoteFindFirstArgs>(args?: SelectSubset<T, QuoteFindFirstArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Quote that matches the filter or
@@ -8922,7 +10249,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends QuoteFindFirstOrThrowArgs>(args?: SelectSubset<T, QuoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends QuoteFindFirstOrThrowArgs>(args?: SelectSubset<T, QuoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Quotes that matches the filter.
@@ -8940,7 +10267,7 @@ export namespace Prisma {
      * const quoteWithIdOnly = await prisma.quote.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends QuoteFindManyArgs>(args?: SelectSubset<T, QuoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany">>
+    findMany<T extends QuoteFindManyArgs>(args?: SelectSubset<T, QuoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Quote.
@@ -8954,7 +10281,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends QuoteCreateArgs>(args: SelectSubset<T, QuoteCreateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends QuoteCreateArgs>(args: SelectSubset<T, QuoteCreateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Quotes.
@@ -8982,7 +10309,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Quotes and only return the `id`
-     * const quoteWithIdOnly = await prisma.quote.createManyAndReturn({ 
+     * const quoteWithIdOnly = await prisma.quote.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -8992,7 +10319,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends QuoteCreateManyAndReturnArgs>(args?: SelectSubset<T, QuoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends QuoteCreateManyAndReturnArgs>(args?: SelectSubset<T, QuoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Quote.
@@ -9006,7 +10333,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends QuoteDeleteArgs>(args: SelectSubset<T, QuoteDeleteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends QuoteDeleteArgs>(args: SelectSubset<T, QuoteDeleteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Quote.
@@ -9023,7 +10350,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends QuoteUpdateArgs>(args: SelectSubset<T, QuoteUpdateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends QuoteUpdateArgs>(args: SelectSubset<T, QuoteUpdateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Quotes.
@@ -9059,6 +10386,36 @@ export namespace Prisma {
     updateMany<T extends QuoteUpdateManyArgs>(args: SelectSubset<T, QuoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Quotes and returns the data updated in the database.
+     * @param {QuoteUpdateManyAndReturnArgs} args - Arguments to update many Quotes.
+     * @example
+     * // Update many Quotes
+     * const quote = await prisma.quote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Quotes and only return the `id`
+     * const quoteWithIdOnly = await prisma.quote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuoteUpdateManyAndReturnArgs>(args: SelectSubset<T, QuoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Quote.
      * @param {QuoteUpsertArgs} args - Arguments to update or create a Quote.
      * @example
@@ -9075,7 +10432,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends QuoteUpsertArgs>(args: SelectSubset<T, QuoteUpsertArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends QuoteUpsertArgs>(args: SelectSubset<T, QuoteUpsertArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -9215,10 +10572,10 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__QuoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__QuoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9246,7 +10603,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Quote model
-   */ 
+   */
   interface QuoteFieldRefs {
     readonly id: FieldRef<"Quote", 'String'>
     readonly bookingId: FieldRef<"Quote", 'String'>
@@ -9270,6 +10627,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9288,6 +10649,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9305,6 +10670,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -9354,6 +10723,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9402,6 +10775,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9445,6 +10822,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9474,6 +10855,10 @@ export namespace Prisma {
      */
     select?: QuoteSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * The data used to create many Quotes.
      */
     data: QuoteCreateManyInput | QuoteCreateManyInput[]
@@ -9492,6 +10877,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -9518,6 +10907,40 @@ export namespace Prisma {
      * Filter which Quotes to update
      */
     where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quote updateManyAndReturn
+   */
+  export type QuoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * The data used to update Quotes.
+     */
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which Quotes to update
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9528,6 +10951,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -9555,6 +10982,10 @@ export namespace Prisma {
      */
     select?: QuoteSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: QuoteInclude<ExtArgs> | null
@@ -9572,6 +11003,10 @@ export namespace Prisma {
      * Filter which Quotes to delete
      */
     where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -9582,6 +11017,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Quote
      */
     select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -9826,6 +11265,18 @@ export namespace Prisma {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
 
+  export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    amount?: boolean
+    status?: boolean
+    method?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
   export type PaymentSelectScalar = {
     id?: boolean
     bookingId?: boolean
@@ -9837,10 +11288,14 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "amount" | "status" | "method" | "transactionId" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
   }
   export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+  }
+  export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
   }
 
@@ -9864,12 +11319,12 @@ export namespace Prisma {
 
   type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
 
-  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: PaymentCountAggregateInputType | true
     }
 
-  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
     /**
      * Find zero or one Payment that matches the filter.
@@ -9882,10 +11337,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Payment that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
      * @example
@@ -9896,7 +11351,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Payment that matches the filter.
@@ -9911,7 +11366,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Payment that matches the filter or
@@ -9927,7 +11382,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Payments that matches the filter.
@@ -9945,7 +11400,7 @@ export namespace Prisma {
      * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Payment.
@@ -9959,7 +11414,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Payments.
@@ -9987,7 +11442,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Payments and only return the `id`
-     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({ 
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -9997,7 +11452,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Payment.
@@ -10011,7 +11466,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Payment.
@@ -10028,7 +11483,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Payments.
@@ -10064,6 +11519,36 @@ export namespace Prisma {
     updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Payments and returns the data updated in the database.
+     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Payment.
      * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
      * @example
@@ -10080,7 +11565,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -10220,9 +11705,9 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10250,7 +11735,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Payment model
-   */ 
+   */
   interface PaymentFieldRefs {
     readonly id: FieldRef<"Payment", 'String'>
     readonly bookingId: FieldRef<"Payment", 'String'>
@@ -10273,6 +11758,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10291,6 +11780,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10308,6 +11801,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Payment
      */
     select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -10357,6 +11854,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10405,6 +11906,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10448,6 +11953,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10477,6 +11986,10 @@ export namespace Prisma {
      */
     select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * The data used to create many Payments.
      */
     data: PaymentCreateManyInput | PaymentCreateManyInput[]
@@ -10495,6 +12008,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Payment
      */
     select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -10521,6 +12038,40 @@ export namespace Prisma {
      * Filter which Payments to update
      */
     where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment updateManyAndReturn
+   */
+  export type PaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10531,6 +12082,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Payment
      */
     select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -10558,6 +12113,10 @@ export namespace Prisma {
      */
     select?: PaymentSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentInclude<ExtArgs> | null
@@ -10575,6 +12134,10 @@ export namespace Prisma {
      * Filter which Payments to delete
      */
     where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -10585,6 +12148,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Payment
      */
     select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -10833,6 +12400,20 @@ export namespace Prisma {
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
+  export type ReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    authorId?: boolean
+    rating?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["review"]>
+
   export type ReviewSelectScalar = {
     id?: boolean
     bookingId?: boolean
@@ -10844,12 +12425,18 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "vendorId" | "authorId" | "rating" | "comment" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>
   export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | BookingDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -10877,12 +12464,12 @@ export namespace Prisma {
 
   type ReviewGetPayload<S extends boolean | null | undefined | ReviewDefaultArgs> = $Result.GetResult<Prisma.$ReviewPayload, S>
 
-  type ReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type ReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: ReviewCountAggregateInputType | true
     }
 
-  export interface ReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface ReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Review'], meta: { name: 'Review' } }
     /**
      * Find zero or one Review that matches the filter.
@@ -10895,10 +12482,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends ReviewFindUniqueArgs>(args: SelectSubset<T, ReviewFindUniqueArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends ReviewFindUniqueArgs>(args: SelectSubset<T, ReviewFindUniqueArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Review that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Review that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {ReviewFindUniqueOrThrowArgs} args - Arguments to find a Review
      * @example
@@ -10909,7 +12496,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends ReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Review that matches the filter.
@@ -10924,7 +12511,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends ReviewFindFirstArgs>(args?: SelectSubset<T, ReviewFindFirstArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends ReviewFindFirstArgs>(args?: SelectSubset<T, ReviewFindFirstArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Review that matches the filter or
@@ -10940,7 +12527,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends ReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends ReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Reviews that matches the filter.
@@ -10958,7 +12545,7 @@ export namespace Prisma {
      * const reviewWithIdOnly = await prisma.review.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ReviewFindManyArgs>(args?: SelectSubset<T, ReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends ReviewFindManyArgs>(args?: SelectSubset<T, ReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Review.
@@ -10972,7 +12559,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends ReviewCreateArgs>(args: SelectSubset<T, ReviewCreateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends ReviewCreateArgs>(args: SelectSubset<T, ReviewCreateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Reviews.
@@ -11000,7 +12587,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Reviews and only return the `id`
-     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({ 
+     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -11010,7 +12597,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Review.
@@ -11024,7 +12611,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends ReviewDeleteArgs>(args: SelectSubset<T, ReviewDeleteArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends ReviewDeleteArgs>(args: SelectSubset<T, ReviewDeleteArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Review.
@@ -11041,7 +12628,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ReviewUpdateArgs>(args: SelectSubset<T, ReviewUpdateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends ReviewUpdateArgs>(args: SelectSubset<T, ReviewUpdateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Reviews.
@@ -11077,6 +12664,36 @@ export namespace Prisma {
     updateMany<T extends ReviewUpdateManyArgs>(args: SelectSubset<T, ReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Reviews and returns the data updated in the database.
+     * @param {ReviewUpdateManyAndReturnArgs} args - Arguments to update many Reviews.
+     * @example
+     * // Update many Reviews
+     * const review = await prisma.review.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Reviews and only return the `id`
+     * const reviewWithIdOnly = await prisma.review.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReviewUpdateManyAndReturnArgs>(args: SelectSubset<T, ReviewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Review.
      * @param {ReviewUpsertArgs} args - Arguments to update or create a Review.
      * @example
@@ -11093,7 +12710,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends ReviewUpsertArgs>(args: SelectSubset<T, ReviewUpsertArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends ReviewUpsertArgs>(args: SelectSubset<T, ReviewUpsertArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -11233,11 +12850,11 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11265,7 +12882,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Review model
-   */ 
+   */
   interface ReviewFieldRefs {
     readonly id: FieldRef<"Review", 'String'>
     readonly bookingId: FieldRef<"Review", 'String'>
@@ -11288,6 +12905,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11306,6 +12927,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11323,6 +12948,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Review
      */
     select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -11372,6 +13001,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11420,6 +13053,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11463,6 +13100,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11492,6 +13133,10 @@ export namespace Prisma {
      */
     select?: ReviewSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * The data used to create many Reviews.
      */
     data: ReviewCreateManyInput | ReviewCreateManyInput[]
@@ -11510,6 +13155,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Review
      */
     select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -11536,6 +13185,40 @@ export namespace Prisma {
      * Filter which Reviews to update
      */
     where?: ReviewWhereInput
+    /**
+     * Limit how many Reviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Review updateManyAndReturn
+   */
+  export type ReviewUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
+     * The data used to update Reviews.
+     */
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which Reviews to update
+     */
+    where?: ReviewWhereInput
+    /**
+     * Limit how many Reviews to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11546,6 +13229,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Review
      */
     select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -11573,6 +13260,10 @@ export namespace Prisma {
      */
     select?: ReviewSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: ReviewInclude<ExtArgs> | null
@@ -11590,6 +13281,10 @@ export namespace Prisma {
      * Filter which Reviews to delete
      */
     where?: ReviewWhereInput
+    /**
+     * Limit how many Reviews to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -11600,6 +13295,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Review
      */
     select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -11620,27 +13319,42 @@ export namespace Prisma {
   export type MessageMinAggregateOutputType = {
     id: string | null
     bookingId: string | null
+    contextServiceId: string | null
+    contextPackageId: string | null
+    contextVendorId: string | null
     senderId: string | null
     receiverId: string | null
     content: string | null
+    imageUrl: string | null
+    readAt: Date | null
     createdAt: Date | null
   }
 
   export type MessageMaxAggregateOutputType = {
     id: string | null
     bookingId: string | null
+    contextServiceId: string | null
+    contextPackageId: string | null
+    contextVendorId: string | null
     senderId: string | null
     receiverId: string | null
     content: string | null
+    imageUrl: string | null
+    readAt: Date | null
     createdAt: Date | null
   }
 
   export type MessageCountAggregateOutputType = {
     id: number
     bookingId: number
+    contextServiceId: number
+    contextPackageId: number
+    contextVendorId: number
     senderId: number
     receiverId: number
     content: number
+    imageUrl: number
+    readAt: number
     createdAt: number
     _all: number
   }
@@ -11649,27 +13363,42 @@ export namespace Prisma {
   export type MessageMinAggregateInputType = {
     id?: true
     bookingId?: true
+    contextServiceId?: true
+    contextPackageId?: true
+    contextVendorId?: true
     senderId?: true
     receiverId?: true
     content?: true
+    imageUrl?: true
+    readAt?: true
     createdAt?: true
   }
 
   export type MessageMaxAggregateInputType = {
     id?: true
     bookingId?: true
+    contextServiceId?: true
+    contextPackageId?: true
+    contextVendorId?: true
     senderId?: true
     receiverId?: true
     content?: true
+    imageUrl?: true
+    readAt?: true
     createdAt?: true
   }
 
   export type MessageCountAggregateInputType = {
     id?: true
     bookingId?: true
+    contextServiceId?: true
+    contextPackageId?: true
+    contextVendorId?: true
     senderId?: true
     receiverId?: true
     content?: true
+    imageUrl?: true
+    readAt?: true
     createdAt?: true
     _all?: true
   }
@@ -11749,9 +13478,14 @@ export namespace Prisma {
   export type MessageGroupByOutputType = {
     id: string
     bookingId: string | null
+    contextServiceId: string | null
+    contextPackageId: string | null
+    contextVendorId: string | null
     senderId: string
     receiverId: string
     content: string
+    imageUrl: string | null
+    readAt: Date | null
     createdAt: Date
     _count: MessageCountAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
@@ -11775,45 +13509,101 @@ export namespace Prisma {
   export type MessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     bookingId?: boolean
+    contextServiceId?: boolean
+    contextPackageId?: boolean
+    contextVendorId?: boolean
     senderId?: boolean
     receiverId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    readAt?: boolean
     createdAt?: boolean
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     bookingId?: boolean
+    contextServiceId?: boolean
+    contextPackageId?: boolean
+    contextVendorId?: boolean
     senderId?: boolean
     receiverId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    readAt?: boolean
     createdAt?: boolean
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
+  }, ExtArgs["result"]["message"]>
+
+  export type MessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    contextServiceId?: boolean
+    contextPackageId?: boolean
+    contextVendorId?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    content?: boolean
+    imageUrl?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    booking?: boolean | Message$bookingArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectScalar = {
     id?: boolean
     bookingId?: boolean
+    contextServiceId?: boolean
+    contextPackageId?: boolean
+    contextVendorId?: boolean
     senderId?: boolean
     receiverId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    readAt?: boolean
     createdAt?: boolean
   }
 
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "contextServiceId" | "contextPackageId" | "contextVendorId" | "senderId" | "receiverId" | "content" | "imageUrl" | "readAt" | "createdAt", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
   }
   export type MessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
+  }
+  export type MessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | Message$bookingArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    contextService?: boolean | Message$contextServiceArgs<ExtArgs>
+    contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
+    contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
   }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11822,13 +13612,21 @@ export namespace Prisma {
       booking: Prisma.$BookingPayload<ExtArgs> | null
       sender: Prisma.$UserPayload<ExtArgs>
       receiver: Prisma.$UserPayload<ExtArgs>
+      contextService: Prisma.$ServicePayload<ExtArgs> | null
+      contextPackage: Prisma.$PackagePayload<ExtArgs> | null
+      contextVendor: Prisma.$VendorProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       bookingId: string | null
+      contextServiceId: string | null
+      contextPackageId: string | null
+      contextVendorId: string | null
       senderId: string
       receiverId: string
       content: string
+      imageUrl: string | null
+      readAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["message"]>
     composites: {}
@@ -11836,12 +13634,12 @@ export namespace Prisma {
 
   type MessageGetPayload<S extends boolean | null | undefined | MessageDefaultArgs> = $Result.GetResult<Prisma.$MessagePayload, S>
 
-  type MessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<MessageFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type MessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: MessageCountAggregateInputType | true
     }
 
-  export interface MessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface MessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Message'], meta: { name: 'Message' } }
     /**
      * Find zero or one Message that matches the filter.
@@ -11854,10 +13652,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends MessageFindUniqueArgs>(args: SelectSubset<T, MessageFindUniqueArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends MessageFindUniqueArgs>(args: SelectSubset<T, MessageFindUniqueArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Message that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Message that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {MessageFindUniqueOrThrowArgs} args - Arguments to find a Message
      * @example
@@ -11868,7 +13666,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends MessageFindUniqueOrThrowArgs>(args: SelectSubset<T, MessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends MessageFindUniqueOrThrowArgs>(args: SelectSubset<T, MessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Message that matches the filter.
@@ -11883,7 +13681,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends MessageFindFirstArgs>(args?: SelectSubset<T, MessageFindFirstArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends MessageFindFirstArgs>(args?: SelectSubset<T, MessageFindFirstArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Message that matches the filter or
@@ -11899,7 +13697,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends MessageFindFirstOrThrowArgs>(args?: SelectSubset<T, MessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends MessageFindFirstOrThrowArgs>(args?: SelectSubset<T, MessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Messages that matches the filter.
@@ -11917,7 +13715,7 @@ export namespace Prisma {
      * const messageWithIdOnly = await prisma.message.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends MessageFindManyArgs>(args?: SelectSubset<T, MessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany">>
+    findMany<T extends MessageFindManyArgs>(args?: SelectSubset<T, MessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Message.
@@ -11931,7 +13729,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends MessageCreateArgs>(args: SelectSubset<T, MessageCreateArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends MessageCreateArgs>(args: SelectSubset<T, MessageCreateArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Messages.
@@ -11959,7 +13757,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Messages and only return the `id`
-     * const messageWithIdOnly = await prisma.message.createManyAndReturn({ 
+     * const messageWithIdOnly = await prisma.message.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -11969,7 +13767,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends MessageCreateManyAndReturnArgs>(args?: SelectSubset<T, MessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends MessageCreateManyAndReturnArgs>(args?: SelectSubset<T, MessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Message.
@@ -11983,7 +13781,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends MessageDeleteArgs>(args: SelectSubset<T, MessageDeleteArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends MessageDeleteArgs>(args: SelectSubset<T, MessageDeleteArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Message.
@@ -12000,7 +13798,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends MessageUpdateArgs>(args: SelectSubset<T, MessageUpdateArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends MessageUpdateArgs>(args: SelectSubset<T, MessageUpdateArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Messages.
@@ -12036,6 +13834,36 @@ export namespace Prisma {
     updateMany<T extends MessageUpdateManyArgs>(args: SelectSubset<T, MessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Messages and returns the data updated in the database.
+     * @param {MessageUpdateManyAndReturnArgs} args - Arguments to update many Messages.
+     * @example
+     * // Update many Messages
+     * const message = await prisma.message.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Messages and only return the `id`
+     * const messageWithIdOnly = await prisma.message.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MessageUpdateManyAndReturnArgs>(args: SelectSubset<T, MessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Message.
      * @param {MessageUpsertArgs} args - Arguments to update or create a Message.
      * @example
@@ -12052,7 +13880,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends MessageUpsertArgs>(args: SelectSubset<T, MessageUpsertArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends MessageUpsertArgs>(args: SelectSubset<T, MessageUpsertArgs<ExtArgs>>): Prisma__MessageClient<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -12192,11 +14020,14 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__MessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__MessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    booking<T extends Message$bookingArgs<ExtArgs> = {}>(args?: Subset<T, Message$bookingArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    booking<T extends Message$bookingArgs<ExtArgs> = {}>(args?: Subset<T, Message$bookingArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    contextService<T extends Message$contextServiceArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextServiceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    contextPackage<T extends Message$contextPackageArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextPackageArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    contextVendor<T extends Message$contextVendorArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextVendorArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12224,13 +14055,18 @@ export namespace Prisma {
 
   /**
    * Fields of the Message model
-   */ 
+   */
   interface MessageFieldRefs {
     readonly id: FieldRef<"Message", 'String'>
     readonly bookingId: FieldRef<"Message", 'String'>
+    readonly contextServiceId: FieldRef<"Message", 'String'>
+    readonly contextPackageId: FieldRef<"Message", 'String'>
+    readonly contextVendorId: FieldRef<"Message", 'String'>
     readonly senderId: FieldRef<"Message", 'String'>
     readonly receiverId: FieldRef<"Message", 'String'>
     readonly content: FieldRef<"Message", 'String'>
+    readonly imageUrl: FieldRef<"Message", 'String'>
+    readonly readAt: FieldRef<"Message", 'DateTime'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
   }
     
@@ -12244,6 +14080,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -12263,6 +14103,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -12280,6 +14124,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -12329,6 +14177,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -12377,6 +14229,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -12420,6 +14276,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -12449,6 +14309,10 @@ export namespace Prisma {
      */
     select?: MessageSelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * The data used to create many Messages.
      */
     data: MessageCreateManyInput | MessageCreateManyInput[]
@@ -12467,6 +14331,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -12493,6 +14361,40 @@ export namespace Prisma {
      * Filter which Messages to update
      */
     where?: MessageWhereInput
+    /**
+     * Limit how many Messages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Message updateManyAndReturn
+   */
+  export type MessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * The data used to update Messages.
+     */
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyInput>
+    /**
+     * Filter which Messages to update
+     */
+    where?: MessageWhereInput
+    /**
+     * Limit how many Messages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -12503,6 +14405,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -12530,6 +14436,10 @@ export namespace Prisma {
      */
     select?: MessageSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: MessageInclude<ExtArgs> | null
@@ -12547,6 +14457,10 @@ export namespace Prisma {
      * Filter which Messages to delete
      */
     where?: MessageWhereInput
+    /**
+     * Limit how many Messages to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -12558,10 +14472,71 @@ export namespace Prisma {
      */
     select?: BookingSelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
     where?: BookingWhereInput
+  }
+
+  /**
+   * Message.contextService
+   */
+  export type Message$contextServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+  }
+
+  /**
+   * Message.contextPackage
+   */
+  export type Message$contextPackageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    where?: PackageWhereInput
+  }
+
+  /**
+   * Message.contextVendor
+   */
+  export type Message$contextVendorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VendorProfile
+     */
+    select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VendorProfileInclude<ExtArgs> | null
+    where?: VendorProfileWhereInput
   }
 
   /**
@@ -12572,6 +14547,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Message
      */
     select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -12764,6 +14743,16 @@ export namespace Prisma {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["availability"]>
 
+  export type AvailabilitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vendorId?: boolean
+    date?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["availability"]>
+
   export type AvailabilitySelectScalar = {
     id?: boolean
     vendorId?: boolean
@@ -12773,10 +14762,14 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type AvailabilityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vendorId" | "date" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["availability"]>
   export type AvailabilityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }
   export type AvailabilityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
+  }
+  export type AvailabilityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
   }
 
@@ -12798,12 +14791,12 @@ export namespace Prisma {
 
   type AvailabilityGetPayload<S extends boolean | null | undefined | AvailabilityDefaultArgs> = $Result.GetResult<Prisma.$AvailabilityPayload, S>
 
-  type AvailabilityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<AvailabilityFindManyArgs, 'select' | 'include' | 'distinct'> & {
+  type AvailabilityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AvailabilityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: AvailabilityCountAggregateInputType | true
     }
 
-  export interface AvailabilityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+  export interface AvailabilityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Availability'], meta: { name: 'Availability' } }
     /**
      * Find zero or one Availability that matches the filter.
@@ -12816,10 +14809,10 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends AvailabilityFindUniqueArgs>(args: SelectSubset<T, AvailabilityFindUniqueArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends AvailabilityFindUniqueArgs>(args: SelectSubset<T, AvailabilityFindUniqueArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Availability that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one Availability that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
      * @param {AvailabilityFindUniqueOrThrowArgs} args - Arguments to find a Availability
      * @example
@@ -12830,7 +14823,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AvailabilityFindUniqueOrThrowArgs>(args: SelectSubset<T, AvailabilityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends AvailabilityFindUniqueOrThrowArgs>(args: SelectSubset<T, AvailabilityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Availability that matches the filter.
@@ -12845,7 +14838,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends AvailabilityFindFirstArgs>(args?: SelectSubset<T, AvailabilityFindFirstArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends AvailabilityFindFirstArgs>(args?: SelectSubset<T, AvailabilityFindFirstArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Availability that matches the filter or
@@ -12861,7 +14854,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends AvailabilityFindFirstOrThrowArgs>(args?: SelectSubset<T, AvailabilityFindFirstOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends AvailabilityFindFirstOrThrowArgs>(args?: SelectSubset<T, AvailabilityFindFirstOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Availabilities that matches the filter.
@@ -12879,7 +14872,7 @@ export namespace Prisma {
      * const availabilityWithIdOnly = await prisma.availability.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends AvailabilityFindManyArgs>(args?: SelectSubset<T, AvailabilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends AvailabilityFindManyArgs>(args?: SelectSubset<T, AvailabilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Availability.
@@ -12893,7 +14886,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends AvailabilityCreateArgs>(args: SelectSubset<T, AvailabilityCreateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends AvailabilityCreateArgs>(args: SelectSubset<T, AvailabilityCreateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Availabilities.
@@ -12921,7 +14914,7 @@ export namespace Prisma {
      * })
      * 
      * // Create many Availabilities and only return the `id`
-     * const availabilityWithIdOnly = await prisma.availability.createManyAndReturn({ 
+     * const availabilityWithIdOnly = await prisma.availability.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -12931,7 +14924,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends AvailabilityCreateManyAndReturnArgs>(args?: SelectSubset<T, AvailabilityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends AvailabilityCreateManyAndReturnArgs>(args?: SelectSubset<T, AvailabilityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Availability.
@@ -12945,7 +14938,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends AvailabilityDeleteArgs>(args: SelectSubset<T, AvailabilityDeleteArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends AvailabilityDeleteArgs>(args: SelectSubset<T, AvailabilityDeleteArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Availability.
@@ -12962,7 +14955,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends AvailabilityUpdateArgs>(args: SelectSubset<T, AvailabilityUpdateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends AvailabilityUpdateArgs>(args: SelectSubset<T, AvailabilityUpdateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Availabilities.
@@ -12998,6 +14991,36 @@ export namespace Prisma {
     updateMany<T extends AvailabilityUpdateManyArgs>(args: SelectSubset<T, AvailabilityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Availabilities and returns the data updated in the database.
+     * @param {AvailabilityUpdateManyAndReturnArgs} args - Arguments to update many Availabilities.
+     * @example
+     * // Update many Availabilities
+     * const availability = await prisma.availability.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Availabilities and only return the `id`
+     * const availabilityWithIdOnly = await prisma.availability.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AvailabilityUpdateManyAndReturnArgs>(args: SelectSubset<T, AvailabilityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one Availability.
      * @param {AvailabilityUpsertArgs} args - Arguments to update or create a Availability.
      * @example
@@ -13014,7 +15037,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends AvailabilityUpsertArgs>(args: SelectSubset<T, AvailabilityUpsertArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends AvailabilityUpsertArgs>(args: SelectSubset<T, AvailabilityUpsertArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -13154,9 +15177,9 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AvailabilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__AvailabilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    vendor<T extends VendorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfileDefaultArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13184,7 +15207,7 @@ export namespace Prisma {
 
   /**
    * Fields of the Availability model
-   */ 
+   */
   interface AvailabilityFieldRefs {
     readonly id: FieldRef<"Availability", 'String'>
     readonly vendorId: FieldRef<"Availability", 'String'>
@@ -13205,6 +15228,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13223,6 +15250,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13240,6 +15271,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Availability
      */
     select?: AvailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -13289,6 +15324,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13337,6 +15376,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13380,6 +15423,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13409,6 +15456,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelectCreateManyAndReturn<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * The data used to create many Availabilities.
      */
     data: AvailabilityCreateManyInput | AvailabilityCreateManyInput[]
@@ -13427,6 +15478,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Availability
      */
     select?: AvailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -13453,6 +15508,40 @@ export namespace Prisma {
      * Filter which Availabilities to update
      */
     where?: AvailabilityWhereInput
+    /**
+     * Limit how many Availabilities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Availability updateManyAndReturn
+   */
+  export type AvailabilityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Availability
+     */
+    select?: AvailabilitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
+     * The data used to update Availabilities.
+     */
+    data: XOR<AvailabilityUpdateManyMutationInput, AvailabilityUncheckedUpdateManyInput>
+    /**
+     * Filter which Availabilities to update
+     */
+    where?: AvailabilityWhereInput
+    /**
+     * Limit how many Availabilities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AvailabilityIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13463,6 +15552,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Availability
      */
     select?: AvailabilitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -13490,6 +15583,10 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
@@ -13507,6 +15604,10 @@ export namespace Prisma {
      * Filter which Availabilities to delete
      */
     where?: AvailabilityWhereInput
+    /**
+     * Limit how many Availabilities to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -13518,9 +15619,2103 @@ export namespace Prisma {
      */
     select?: AvailabilitySelect<ExtArgs> | null
     /**
+     * Omit specific fields from the Availability
+     */
+    omit?: AvailabilityOmit<ExtArgs> | null
+    /**
      * Choose, which related nodes to fetch as well
      */
     include?: AvailabilityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceImage
+   */
+
+  export type AggregateServiceImage = {
+    _count: ServiceImageCountAggregateOutputType | null
+    _min: ServiceImageMinAggregateOutputType | null
+    _max: ServiceImageMaxAggregateOutputType | null
+  }
+
+  export type ServiceImageMinAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceImageMaxAggregateOutputType = {
+    id: string | null
+    serviceId: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceImageCountAggregateOutputType = {
+    id: number
+    serviceId: number
+    url: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ServiceImageMinAggregateInputType = {
+    id?: true
+    serviceId?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type ServiceImageMaxAggregateInputType = {
+    id?: true
+    serviceId?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type ServiceImageCountAggregateInputType = {
+    id?: true
+    serviceId?: true
+    url?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ServiceImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceImage to aggregate.
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceImages to fetch.
+     */
+    orderBy?: ServiceImageOrderByWithRelationInput | ServiceImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceImages
+    **/
+    _count?: true | ServiceImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceImageMaxAggregateInputType
+  }
+
+  export type GetServiceImageAggregateType<T extends ServiceImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceImage[P]>
+      : GetScalarType<T[P], AggregateServiceImage[P]>
+  }
+
+
+
+
+  export type ServiceImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceImageWhereInput
+    orderBy?: ServiceImageOrderByWithAggregationInput | ServiceImageOrderByWithAggregationInput[]
+    by: ServiceImageScalarFieldEnum[] | ServiceImageScalarFieldEnum
+    having?: ServiceImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceImageCountAggregateInputType | true
+    _min?: ServiceImageMinAggregateInputType
+    _max?: ServiceImageMaxAggregateInputType
+  }
+
+  export type ServiceImageGroupByOutputType = {
+    id: string
+    serviceId: string
+    url: string
+    createdAt: Date
+    _count: ServiceImageCountAggregateOutputType | null
+    _min: ServiceImageMinAggregateOutputType | null
+    _max: ServiceImageMaxAggregateOutputType | null
+  }
+
+  type GetServiceImageGroupByPayload<T extends ServiceImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceImageGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceImage"]>
+
+  export type ServiceImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceImage"]>
+
+  export type ServiceImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceImage"]>
+
+  export type ServiceImageSelectScalar = {
+    id?: boolean
+    serviceId?: boolean
+    url?: boolean
+    createdAt?: boolean
+  }
+
+  export type ServiceImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "url" | "createdAt", ExtArgs["result"]["serviceImage"]>
+  export type ServiceImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }
+  export type ServiceImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }
+  export type ServiceImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceImage"
+    objects: {
+      service: Prisma.$ServicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serviceId: string
+      url: string
+      createdAt: Date
+    }, ExtArgs["result"]["serviceImage"]>
+    composites: {}
+  }
+
+  type ServiceImageGetPayload<S extends boolean | null | undefined | ServiceImageDefaultArgs> = $Result.GetResult<Prisma.$ServiceImagePayload, S>
+
+  type ServiceImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceImageCountAggregateInputType | true
+    }
+
+  export interface ServiceImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceImage'], meta: { name: 'ServiceImage' } }
+    /**
+     * Find zero or one ServiceImage that matches the filter.
+     * @param {ServiceImageFindUniqueArgs} args - Arguments to find a ServiceImage
+     * @example
+     * // Get one ServiceImage
+     * const serviceImage = await prisma.serviceImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceImageFindUniqueArgs>(args: SelectSubset<T, ServiceImageFindUniqueArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceImageFindUniqueOrThrowArgs} args - Arguments to find a ServiceImage
+     * @example
+     * // Get one ServiceImage
+     * const serviceImage = await prisma.serviceImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceImageFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageFindFirstArgs} args - Arguments to find a ServiceImage
+     * @example
+     * // Get one ServiceImage
+     * const serviceImage = await prisma.serviceImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceImageFindFirstArgs>(args?: SelectSubset<T, ServiceImageFindFirstArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageFindFirstOrThrowArgs} args - Arguments to find a ServiceImage
+     * @example
+     * // Get one ServiceImage
+     * const serviceImage = await prisma.serviceImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceImageFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceImages
+     * const serviceImages = await prisma.serviceImage.findMany()
+     * 
+     * // Get first 10 ServiceImages
+     * const serviceImages = await prisma.serviceImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceImageWithIdOnly = await prisma.serviceImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceImageFindManyArgs>(args?: SelectSubset<T, ServiceImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceImage.
+     * @param {ServiceImageCreateArgs} args - Arguments to create a ServiceImage.
+     * @example
+     * // Create one ServiceImage
+     * const ServiceImage = await prisma.serviceImage.create({
+     *   data: {
+     *     // ... data to create a ServiceImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceImageCreateArgs>(args: SelectSubset<T, ServiceImageCreateArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceImages.
+     * @param {ServiceImageCreateManyArgs} args - Arguments to create many ServiceImages.
+     * @example
+     * // Create many ServiceImages
+     * const serviceImage = await prisma.serviceImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceImageCreateManyArgs>(args?: SelectSubset<T, ServiceImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceImages and returns the data saved in the database.
+     * @param {ServiceImageCreateManyAndReturnArgs} args - Arguments to create many ServiceImages.
+     * @example
+     * // Create many ServiceImages
+     * const serviceImage = await prisma.serviceImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceImages and only return the `id`
+     * const serviceImageWithIdOnly = await prisma.serviceImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceImageCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceImage.
+     * @param {ServiceImageDeleteArgs} args - Arguments to delete one ServiceImage.
+     * @example
+     * // Delete one ServiceImage
+     * const ServiceImage = await prisma.serviceImage.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceImageDeleteArgs>(args: SelectSubset<T, ServiceImageDeleteArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceImage.
+     * @param {ServiceImageUpdateArgs} args - Arguments to update one ServiceImage.
+     * @example
+     * // Update one ServiceImage
+     * const serviceImage = await prisma.serviceImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceImageUpdateArgs>(args: SelectSubset<T, ServiceImageUpdateArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceImages.
+     * @param {ServiceImageDeleteManyArgs} args - Arguments to filter ServiceImages to delete.
+     * @example
+     * // Delete a few ServiceImages
+     * const { count } = await prisma.serviceImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceImageDeleteManyArgs>(args?: SelectSubset<T, ServiceImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceImages
+     * const serviceImage = await prisma.serviceImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceImageUpdateManyArgs>(args: SelectSubset<T, ServiceImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceImages and returns the data updated in the database.
+     * @param {ServiceImageUpdateManyAndReturnArgs} args - Arguments to update many ServiceImages.
+     * @example
+     * // Update many ServiceImages
+     * const serviceImage = await prisma.serviceImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceImages and only return the `id`
+     * const serviceImageWithIdOnly = await prisma.serviceImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceImageUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceImage.
+     * @param {ServiceImageUpsertArgs} args - Arguments to update or create a ServiceImage.
+     * @example
+     * // Update or create a ServiceImage
+     * const serviceImage = await prisma.serviceImage.upsert({
+     *   create: {
+     *     // ... data to create a ServiceImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceImageUpsertArgs>(args: SelectSubset<T, ServiceImageUpsertArgs<ExtArgs>>): Prisma__ServiceImageClient<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageCountArgs} args - Arguments to filter ServiceImages to count.
+     * @example
+     * // Count the number of ServiceImages
+     * const count = await prisma.serviceImage.count({
+     *   where: {
+     *     // ... the filter for the ServiceImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceImageCountArgs>(
+      args?: Subset<T, ServiceImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceImageAggregateArgs>(args: Subset<T, ServiceImageAggregateArgs>): Prisma.PrismaPromise<GetServiceImageAggregateType<T>>
+
+    /**
+     * Group by ServiceImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceImageGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceImage model
+   */
+  readonly fields: ServiceImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceImage model
+   */
+  interface ServiceImageFieldRefs {
+    readonly id: FieldRef<"ServiceImage", 'String'>
+    readonly serviceId: FieldRef<"ServiceImage", 'String'>
+    readonly url: FieldRef<"ServiceImage", 'String'>
+    readonly createdAt: FieldRef<"ServiceImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceImage findUnique
+   */
+  export type ServiceImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceImage to fetch.
+     */
+    where: ServiceImageWhereUniqueInput
+  }
+
+  /**
+   * ServiceImage findUniqueOrThrow
+   */
+  export type ServiceImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceImage to fetch.
+     */
+    where: ServiceImageWhereUniqueInput
+  }
+
+  /**
+   * ServiceImage findFirst
+   */
+  export type ServiceImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceImage to fetch.
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceImages to fetch.
+     */
+    orderBy?: ServiceImageOrderByWithRelationInput | ServiceImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceImages.
+     */
+    cursor?: ServiceImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceImages.
+     */
+    distinct?: ServiceImageScalarFieldEnum | ServiceImageScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceImage findFirstOrThrow
+   */
+  export type ServiceImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceImage to fetch.
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceImages to fetch.
+     */
+    orderBy?: ServiceImageOrderByWithRelationInput | ServiceImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceImages.
+     */
+    cursor?: ServiceImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceImages.
+     */
+    distinct?: ServiceImageScalarFieldEnum | ServiceImageScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceImage findMany
+   */
+  export type ServiceImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceImages to fetch.
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceImages to fetch.
+     */
+    orderBy?: ServiceImageOrderByWithRelationInput | ServiceImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceImages.
+     */
+    cursor?: ServiceImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceImages.
+     */
+    skip?: number
+    distinct?: ServiceImageScalarFieldEnum | ServiceImageScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceImage create
+   */
+  export type ServiceImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceImage.
+     */
+    data: XOR<ServiceImageCreateInput, ServiceImageUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceImage createMany
+   */
+  export type ServiceImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceImages.
+     */
+    data: ServiceImageCreateManyInput | ServiceImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceImage createManyAndReturn
+   */
+  export type ServiceImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceImages.
+     */
+    data: ServiceImageCreateManyInput | ServiceImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceImage update
+   */
+  export type ServiceImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceImage.
+     */
+    data: XOR<ServiceImageUpdateInput, ServiceImageUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceImage to update.
+     */
+    where: ServiceImageWhereUniqueInput
+  }
+
+  /**
+   * ServiceImage updateMany
+   */
+  export type ServiceImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceImages.
+     */
+    data: XOR<ServiceImageUpdateManyMutationInput, ServiceImageUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceImages to update
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * Limit how many ServiceImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceImage updateManyAndReturn
+   */
+  export type ServiceImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceImages.
+     */
+    data: XOR<ServiceImageUpdateManyMutationInput, ServiceImageUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceImages to update
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * Limit how many ServiceImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceImage upsert
+   */
+  export type ServiceImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceImage to update in case it exists.
+     */
+    where: ServiceImageWhereUniqueInput
+    /**
+     * In case the ServiceImage found by the `where` argument doesn't exist, create a new ServiceImage with this data.
+     */
+    create: XOR<ServiceImageCreateInput, ServiceImageUncheckedCreateInput>
+    /**
+     * In case the ServiceImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceImageUpdateInput, ServiceImageUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceImage delete
+   */
+  export type ServiceImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceImage to delete.
+     */
+    where: ServiceImageWhereUniqueInput
+  }
+
+  /**
+   * ServiceImage deleteMany
+   */
+  export type ServiceImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceImages to delete
+     */
+    where?: ServiceImageWhereInput
+    /**
+     * Limit how many ServiceImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceImage without action
+   */
+  export type ServiceImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceImage
+     */
+    select?: ServiceImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceImage
+     */
+    omit?: ServiceImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceImageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PackageImage
+   */
+
+  export type AggregatePackageImage = {
+    _count: PackageImageCountAggregateOutputType | null
+    _min: PackageImageMinAggregateOutputType | null
+    _max: PackageImageMaxAggregateOutputType | null
+  }
+
+  export type PackageImageMinAggregateOutputType = {
+    id: string | null
+    packageId: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type PackageImageMaxAggregateOutputType = {
+    id: string | null
+    packageId: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type PackageImageCountAggregateOutputType = {
+    id: number
+    packageId: number
+    url: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PackageImageMinAggregateInputType = {
+    id?: true
+    packageId?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type PackageImageMaxAggregateInputType = {
+    id?: true
+    packageId?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type PackageImageCountAggregateInputType = {
+    id?: true
+    packageId?: true
+    url?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PackageImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PackageImage to aggregate.
+     */
+    where?: PackageImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageImages to fetch.
+     */
+    orderBy?: PackageImageOrderByWithRelationInput | PackageImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PackageImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PackageImages
+    **/
+    _count?: true | PackageImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PackageImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PackageImageMaxAggregateInputType
+  }
+
+  export type GetPackageImageAggregateType<T extends PackageImageAggregateArgs> = {
+        [P in keyof T & keyof AggregatePackageImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePackageImage[P]>
+      : GetScalarType<T[P], AggregatePackageImage[P]>
+  }
+
+
+
+
+  export type PackageImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PackageImageWhereInput
+    orderBy?: PackageImageOrderByWithAggregationInput | PackageImageOrderByWithAggregationInput[]
+    by: PackageImageScalarFieldEnum[] | PackageImageScalarFieldEnum
+    having?: PackageImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PackageImageCountAggregateInputType | true
+    _min?: PackageImageMinAggregateInputType
+    _max?: PackageImageMaxAggregateInputType
+  }
+
+  export type PackageImageGroupByOutputType = {
+    id: string
+    packageId: string
+    url: string
+    createdAt: Date
+    _count: PackageImageCountAggregateOutputType | null
+    _min: PackageImageMinAggregateOutputType | null
+    _max: PackageImageMaxAggregateOutputType | null
+  }
+
+  type GetPackageImageGroupByPayload<T extends PackageImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PackageImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PackageImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PackageImageGroupByOutputType[P]>
+            : GetScalarType<T[P], PackageImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PackageImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    packageId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageImage"]>
+
+  export type PackageImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    packageId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageImage"]>
+
+  export type PackageImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    packageId?: boolean
+    url?: boolean
+    createdAt?: boolean
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["packageImage"]>
+
+  export type PackageImageSelectScalar = {
+    id?: boolean
+    packageId?: boolean
+    url?: boolean
+    createdAt?: boolean
+  }
+
+  export type PackageImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "packageId" | "url" | "createdAt", ExtArgs["result"]["packageImage"]>
+  export type PackageImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+  export type PackageImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+  export type PackageImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | PackageDefaultArgs<ExtArgs>
+  }
+
+  export type $PackageImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PackageImage"
+    objects: {
+      package: Prisma.$PackagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      packageId: string
+      url: string
+      createdAt: Date
+    }, ExtArgs["result"]["packageImage"]>
+    composites: {}
+  }
+
+  type PackageImageGetPayload<S extends boolean | null | undefined | PackageImageDefaultArgs> = $Result.GetResult<Prisma.$PackageImagePayload, S>
+
+  type PackageImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PackageImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PackageImageCountAggregateInputType | true
+    }
+
+  export interface PackageImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PackageImage'], meta: { name: 'PackageImage' } }
+    /**
+     * Find zero or one PackageImage that matches the filter.
+     * @param {PackageImageFindUniqueArgs} args - Arguments to find a PackageImage
+     * @example
+     * // Get one PackageImage
+     * const packageImage = await prisma.packageImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PackageImageFindUniqueArgs>(args: SelectSubset<T, PackageImageFindUniqueArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PackageImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PackageImageFindUniqueOrThrowArgs} args - Arguments to find a PackageImage
+     * @example
+     * // Get one PackageImage
+     * const packageImage = await prisma.packageImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PackageImageFindUniqueOrThrowArgs>(args: SelectSubset<T, PackageImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PackageImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageFindFirstArgs} args - Arguments to find a PackageImage
+     * @example
+     * // Get one PackageImage
+     * const packageImage = await prisma.packageImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PackageImageFindFirstArgs>(args?: SelectSubset<T, PackageImageFindFirstArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PackageImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageFindFirstOrThrowArgs} args - Arguments to find a PackageImage
+     * @example
+     * // Get one PackageImage
+     * const packageImage = await prisma.packageImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PackageImageFindFirstOrThrowArgs>(args?: SelectSubset<T, PackageImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PackageImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PackageImages
+     * const packageImages = await prisma.packageImage.findMany()
+     * 
+     * // Get first 10 PackageImages
+     * const packageImages = await prisma.packageImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const packageImageWithIdOnly = await prisma.packageImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PackageImageFindManyArgs>(args?: SelectSubset<T, PackageImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PackageImage.
+     * @param {PackageImageCreateArgs} args - Arguments to create a PackageImage.
+     * @example
+     * // Create one PackageImage
+     * const PackageImage = await prisma.packageImage.create({
+     *   data: {
+     *     // ... data to create a PackageImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends PackageImageCreateArgs>(args: SelectSubset<T, PackageImageCreateArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PackageImages.
+     * @param {PackageImageCreateManyArgs} args - Arguments to create many PackageImages.
+     * @example
+     * // Create many PackageImages
+     * const packageImage = await prisma.packageImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PackageImageCreateManyArgs>(args?: SelectSubset<T, PackageImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PackageImages and returns the data saved in the database.
+     * @param {PackageImageCreateManyAndReturnArgs} args - Arguments to create many PackageImages.
+     * @example
+     * // Create many PackageImages
+     * const packageImage = await prisma.packageImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PackageImages and only return the `id`
+     * const packageImageWithIdOnly = await prisma.packageImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PackageImageCreateManyAndReturnArgs>(args?: SelectSubset<T, PackageImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PackageImage.
+     * @param {PackageImageDeleteArgs} args - Arguments to delete one PackageImage.
+     * @example
+     * // Delete one PackageImage
+     * const PackageImage = await prisma.packageImage.delete({
+     *   where: {
+     *     // ... filter to delete one PackageImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PackageImageDeleteArgs>(args: SelectSubset<T, PackageImageDeleteArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PackageImage.
+     * @param {PackageImageUpdateArgs} args - Arguments to update one PackageImage.
+     * @example
+     * // Update one PackageImage
+     * const packageImage = await prisma.packageImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PackageImageUpdateArgs>(args: SelectSubset<T, PackageImageUpdateArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PackageImages.
+     * @param {PackageImageDeleteManyArgs} args - Arguments to filter PackageImages to delete.
+     * @example
+     * // Delete a few PackageImages
+     * const { count } = await prisma.packageImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PackageImageDeleteManyArgs>(args?: SelectSubset<T, PackageImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PackageImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PackageImages
+     * const packageImage = await prisma.packageImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PackageImageUpdateManyArgs>(args: SelectSubset<T, PackageImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PackageImages and returns the data updated in the database.
+     * @param {PackageImageUpdateManyAndReturnArgs} args - Arguments to update many PackageImages.
+     * @example
+     * // Update many PackageImages
+     * const packageImage = await prisma.packageImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PackageImages and only return the `id`
+     * const packageImageWithIdOnly = await prisma.packageImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PackageImageUpdateManyAndReturnArgs>(args: SelectSubset<T, PackageImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PackageImage.
+     * @param {PackageImageUpsertArgs} args - Arguments to update or create a PackageImage.
+     * @example
+     * // Update or create a PackageImage
+     * const packageImage = await prisma.packageImage.upsert({
+     *   create: {
+     *     // ... data to create a PackageImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PackageImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PackageImageUpsertArgs>(args: SelectSubset<T, PackageImageUpsertArgs<ExtArgs>>): Prisma__PackageImageClient<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PackageImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageCountArgs} args - Arguments to filter PackageImages to count.
+     * @example
+     * // Count the number of PackageImages
+     * const count = await prisma.packageImage.count({
+     *   where: {
+     *     // ... the filter for the PackageImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends PackageImageCountArgs>(
+      args?: Subset<T, PackageImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PackageImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PackageImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PackageImageAggregateArgs>(args: Subset<T, PackageImageAggregateArgs>): Prisma.PrismaPromise<GetPackageImageAggregateType<T>>
+
+    /**
+     * Group by PackageImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PackageImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PackageImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PackageImageGroupByArgs['orderBy'] }
+        : { orderBy?: PackageImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PackageImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPackageImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PackageImage model
+   */
+  readonly fields: PackageImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PackageImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PackageImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    package<T extends PackageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PackageDefaultArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PackageImage model
+   */
+  interface PackageImageFieldRefs {
+    readonly id: FieldRef<"PackageImage", 'String'>
+    readonly packageId: FieldRef<"PackageImage", 'String'>
+    readonly url: FieldRef<"PackageImage", 'String'>
+    readonly createdAt: FieldRef<"PackageImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PackageImage findUnique
+   */
+  export type PackageImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageImage to fetch.
+     */
+    where: PackageImageWhereUniqueInput
+  }
+
+  /**
+   * PackageImage findUniqueOrThrow
+   */
+  export type PackageImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageImage to fetch.
+     */
+    where: PackageImageWhereUniqueInput
+  }
+
+  /**
+   * PackageImage findFirst
+   */
+  export type PackageImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageImage to fetch.
+     */
+    where?: PackageImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageImages to fetch.
+     */
+    orderBy?: PackageImageOrderByWithRelationInput | PackageImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PackageImages.
+     */
+    cursor?: PackageImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PackageImages.
+     */
+    distinct?: PackageImageScalarFieldEnum | PackageImageScalarFieldEnum[]
+  }
+
+  /**
+   * PackageImage findFirstOrThrow
+   */
+  export type PackageImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageImage to fetch.
+     */
+    where?: PackageImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageImages to fetch.
+     */
+    orderBy?: PackageImageOrderByWithRelationInput | PackageImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PackageImages.
+     */
+    cursor?: PackageImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PackageImages.
+     */
+    distinct?: PackageImageScalarFieldEnum | PackageImageScalarFieldEnum[]
+  }
+
+  /**
+   * PackageImage findMany
+   */
+  export type PackageImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter, which PackageImages to fetch.
+     */
+    where?: PackageImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PackageImages to fetch.
+     */
+    orderBy?: PackageImageOrderByWithRelationInput | PackageImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PackageImages.
+     */
+    cursor?: PackageImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PackageImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PackageImages.
+     */
+    skip?: number
+    distinct?: PackageImageScalarFieldEnum | PackageImageScalarFieldEnum[]
+  }
+
+  /**
+   * PackageImage create
+   */
+  export type PackageImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PackageImage.
+     */
+    data: XOR<PackageImageCreateInput, PackageImageUncheckedCreateInput>
+  }
+
+  /**
+   * PackageImage createMany
+   */
+  export type PackageImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PackageImages.
+     */
+    data: PackageImageCreateManyInput | PackageImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PackageImage createManyAndReturn
+   */
+  export type PackageImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many PackageImages.
+     */
+    data: PackageImageCreateManyInput | PackageImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PackageImage update
+   */
+  export type PackageImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PackageImage.
+     */
+    data: XOR<PackageImageUpdateInput, PackageImageUncheckedUpdateInput>
+    /**
+     * Choose, which PackageImage to update.
+     */
+    where: PackageImageWhereUniqueInput
+  }
+
+  /**
+   * PackageImage updateMany
+   */
+  export type PackageImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PackageImages.
+     */
+    data: XOR<PackageImageUpdateManyMutationInput, PackageImageUncheckedUpdateManyInput>
+    /**
+     * Filter which PackageImages to update
+     */
+    where?: PackageImageWhereInput
+    /**
+     * Limit how many PackageImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PackageImage updateManyAndReturn
+   */
+  export type PackageImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * The data used to update PackageImages.
+     */
+    data: XOR<PackageImageUpdateManyMutationInput, PackageImageUncheckedUpdateManyInput>
+    /**
+     * Filter which PackageImages to update
+     */
+    where?: PackageImageWhereInput
+    /**
+     * Limit how many PackageImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PackageImage upsert
+   */
+  export type PackageImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PackageImage to update in case it exists.
+     */
+    where: PackageImageWhereUniqueInput
+    /**
+     * In case the PackageImage found by the `where` argument doesn't exist, create a new PackageImage with this data.
+     */
+    create: XOR<PackageImageCreateInput, PackageImageUncheckedCreateInput>
+    /**
+     * In case the PackageImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PackageImageUpdateInput, PackageImageUncheckedUpdateInput>
+  }
+
+  /**
+   * PackageImage delete
+   */
+  export type PackageImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
+    /**
+     * Filter which PackageImage to delete.
+     */
+    where: PackageImageWhereUniqueInput
+  }
+
+  /**
+   * PackageImage deleteMany
+   */
+  export type PackageImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PackageImages to delete
+     */
+    where?: PackageImageWhereInput
+    /**
+     * Limit how many PackageImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PackageImage without action
+   */
+  export type PackageImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PackageImage
+     */
+    select?: PackageImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PackageImage
+     */
+    omit?: PackageImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageImageInclude<ExtArgs> | null
   }
 
 
@@ -13576,6 +17771,7 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     basePrice: 'basePrice',
+    occasions: 'occasions',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13676,9 +17872,14 @@ export namespace Prisma {
   export const MessageScalarFieldEnum: {
     id: 'id',
     bookingId: 'bookingId',
+    contextServiceId: 'contextServiceId',
+    contextPackageId: 'contextPackageId',
+    contextVendorId: 'contextVendorId',
     senderId: 'senderId',
     receiverId: 'receiverId',
     content: 'content',
+    imageUrl: 'imageUrl',
+    readAt: 'readAt',
     createdAt: 'createdAt'
   };
 
@@ -13695,6 +17896,26 @@ export namespace Prisma {
   };
 
   export type AvailabilityScalarFieldEnum = (typeof AvailabilityScalarFieldEnum)[keyof typeof AvailabilityScalarFieldEnum]
+
+
+  export const ServiceImageScalarFieldEnum: {
+    id: 'id',
+    serviceId: 'serviceId',
+    url: 'url',
+    createdAt: 'createdAt'
+  };
+
+  export type ServiceImageScalarFieldEnum = (typeof ServiceImageScalarFieldEnum)[keyof typeof ServiceImageScalarFieldEnum]
+
+
+  export const PackageImageScalarFieldEnum: {
+    id: 'id',
+    packageId: 'packageId',
+    url: 'url',
+    createdAt: 'createdAt'
+  };
+
+  export type PackageImageScalarFieldEnum = (typeof PackageImageScalarFieldEnum)[keyof typeof PackageImageScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13722,7 +17943,7 @@ export namespace Prisma {
 
 
   /**
-   * Field references 
+   * Field references
    */
 
 
@@ -13796,7 +18017,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    vendorProfile?: XOR<VendorProfileNullableRelationFilter, VendorProfileWhereInput> | null
+    vendorProfile?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
     events?: EventListRelationFilter
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
@@ -13831,7 +18052,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    vendorProfile?: XOR<VendorProfileNullableRelationFilter, VendorProfileWhereInput> | null
+    vendorProfile?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
     events?: EventListRelationFilter
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
@@ -13882,12 +18103,13 @@ export namespace Prisma {
     rating?: FloatFilter<"VendorProfile"> | number
     createdAt?: DateTimeFilter<"VendorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"VendorProfile"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     services?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
     quotes?: QuoteListRelationFilter
     availability?: AvailabilityListRelationFilter
     reviews?: ReviewListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }
 
   export type VendorProfileOrderByWithRelationInput = {
@@ -13910,6 +18132,7 @@ export namespace Prisma {
     quotes?: QuoteOrderByRelationAggregateInput
     availability?: AvailabilityOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    messagesAsContext?: MessageOrderByRelationAggregateInput
   }
 
   export type VendorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -13929,12 +18152,13 @@ export namespace Prisma {
     rating?: FloatFilter<"VendorProfile"> | number
     createdAt?: DateTimeFilter<"VendorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"VendorProfile"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     services?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
     quotes?: QuoteListRelationFilter
     availability?: AvailabilityListRelationFilter
     reviews?: ReviewListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }, "id" | "userId">
 
   export type VendorProfileOrderByWithAggregationInput = {
@@ -13986,11 +18210,14 @@ export namespace Prisma {
     name?: StringFilter<"Service"> | string
     description?: StringNullableFilter<"Service"> | string | null
     basePrice?: FloatFilter<"Service"> | number
+    occasions?: StringNullableFilter<"Service"> | string | null
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
     packages?: PackageListRelationFilter
+    images?: ServiceImageListRelationFilter
     bookings?: BookingListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }
 
   export type ServiceOrderByWithRelationInput = {
@@ -13999,11 +18226,14 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     basePrice?: SortOrder
+    occasions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     vendor?: VendorProfileOrderByWithRelationInput
     packages?: PackageOrderByRelationAggregateInput
+    images?: ServiceImageOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
+    messagesAsContext?: MessageOrderByRelationAggregateInput
   }
 
   export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -14015,11 +18245,14 @@ export namespace Prisma {
     name?: StringFilter<"Service"> | string
     description?: StringNullableFilter<"Service"> | string | null
     basePrice?: FloatFilter<"Service"> | number
+    occasions?: StringNullableFilter<"Service"> | string | null
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
     packages?: PackageListRelationFilter
+    images?: ServiceImageListRelationFilter
     bookings?: BookingListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
@@ -14028,6 +18261,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     basePrice?: SortOrder
+    occasions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ServiceCountOrderByAggregateInput
@@ -14046,6 +18280,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Service"> | string
     description?: StringNullableWithAggregatesFilter<"Service"> | string | null
     basePrice?: FloatWithAggregatesFilter<"Service"> | number
+    occasions?: StringNullableWithAggregatesFilter<"Service"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
   }
@@ -14062,8 +18297,10 @@ export namespace Prisma {
     features?: StringNullableFilter<"Package"> | string | null
     createdAt?: DateTimeFilter<"Package"> | Date | string
     updatedAt?: DateTimeFilter<"Package"> | Date | string
-    service?: XOR<ServiceRelationFilter, ServiceWhereInput>
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    images?: PackageImageListRelationFilter
     bookings?: BookingListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }
 
   export type PackageOrderByWithRelationInput = {
@@ -14076,7 +18313,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     service?: ServiceOrderByWithRelationInput
+    images?: PackageImageOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
+    messagesAsContext?: MessageOrderByRelationAggregateInput
   }
 
   export type PackageWhereUniqueInput = Prisma.AtLeast<{
@@ -14091,8 +18330,10 @@ export namespace Prisma {
     features?: StringNullableFilter<"Package"> | string | null
     createdAt?: DateTimeFilter<"Package"> | Date | string
     updatedAt?: DateTimeFilter<"Package"> | Date | string
-    service?: XOR<ServiceRelationFilter, ServiceWhereInput>
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    images?: PackageImageListRelationFilter
     bookings?: BookingListRelationFilter
+    messagesAsContext?: MessageListRelationFilter
   }, "id">
 
   export type PackageOrderByWithAggregationInput = {
@@ -14138,7 +18379,7 @@ export namespace Prisma {
     budget?: FloatFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
-    organizer?: XOR<UserRelationFilter, UserWhereInput>
+    organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
     bookings?: BookingListRelationFilter
   }
 
@@ -14169,7 +18410,7 @@ export namespace Prisma {
     budget?: FloatFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
-    organizer?: XOR<UserRelationFilter, UserWhereInput>
+    organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
     bookings?: BookingListRelationFilter
   }, "id">
 
@@ -14221,14 +18462,14 @@ export namespace Prisma {
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    event?: XOR<EventRelationFilter, EventWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
-    organizer?: XOR<UserRelationFilter, UserWhereInput>
-    package?: XOR<PackageNullableRelationFilter, PackageWhereInput> | null
-    service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
+    organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    package?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
-    review?: XOR<ReviewNullableRelationFilter, ReviewWhereInput> | null
+    review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
     messages?: MessageListRelationFilter
   }
 
@@ -14272,14 +18513,14 @@ export namespace Prisma {
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    event?: XOR<EventRelationFilter, EventWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
-    organizer?: XOR<UserRelationFilter, UserWhereInput>
-    package?: XOR<PackageNullableRelationFilter, PackageWhereInput> | null
-    service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
+    organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    package?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
-    review?: XOR<ReviewNullableRelationFilter, ReviewWhereInput> | null
+    review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
     messages?: MessageListRelationFilter
   }, "id">
 
@@ -14334,8 +18575,8 @@ export namespace Prisma {
     status?: StringFilter<"Quote"> | string
     createdAt?: DateTimeFilter<"Quote"> | Date | string
     updatedAt?: DateTimeFilter<"Quote"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
   }
 
   export type QuoteOrderByWithRelationInput = {
@@ -14365,8 +18606,8 @@ export namespace Prisma {
     status?: StringFilter<"Quote"> | string
     createdAt?: DateTimeFilter<"Quote"> | Date | string
     updatedAt?: DateTimeFilter<"Quote"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
   }, "id">
 
   export type QuoteOrderByWithAggregationInput = {
@@ -14413,7 +18654,7 @@ export namespace Prisma {
     transactionId?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
   }
 
   export type PaymentOrderByWithRelationInput = {
@@ -14440,7 +18681,7 @@ export namespace Prisma {
     transactionId?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
   }, "id">
 
   export type PaymentOrderByWithAggregationInput = {
@@ -14485,9 +18726,9 @@ export namespace Prisma {
     comment?: StringNullableFilter<"Review"> | string | null
     createdAt?: DateTimeFilter<"Review"> | Date | string
     updatedAt?: DateTimeFilter<"Review"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
-    author?: XOR<UserRelationFilter, UserWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ReviewOrderByWithRelationInput = {
@@ -14516,9 +18757,9 @@ export namespace Prisma {
     comment?: StringNullableFilter<"Review"> | string | null
     createdAt?: DateTimeFilter<"Review"> | Date | string
     updatedAt?: DateTimeFilter<"Review"> | Date | string
-    booking?: XOR<BookingRelationFilter, BookingWhereInput>
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
-    author?: XOR<UserRelationFilter, UserWhereInput>
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "bookingId">
 
   export type ReviewOrderByWithAggregationInput = {
@@ -14557,25 +18798,41 @@ export namespace Prisma {
     NOT?: MessageWhereInput | MessageWhereInput[]
     id?: StringFilter<"Message"> | string
     bookingId?: StringNullableFilter<"Message"> | string | null
+    contextServiceId?: StringNullableFilter<"Message"> | string | null
+    contextPackageId?: StringNullableFilter<"Message"> | string | null
+    contextVendorId?: StringNullableFilter<"Message"> | string | null
     senderId?: StringFilter<"Message"> | string
     receiverId?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    imageUrl?: StringNullableFilter<"Message"> | string | null
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
-    booking?: XOR<BookingNullableRelationFilter, BookingWhereInput> | null
-    sender?: XOR<UserRelationFilter, UserWhereInput>
-    receiver?: XOR<UserRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    contextService?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    contextPackage?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    contextVendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
   }
 
   export type MessageOrderByWithRelationInput = {
     id?: SortOrder
     bookingId?: SortOrderInput | SortOrder
+    contextServiceId?: SortOrderInput | SortOrder
+    contextPackageId?: SortOrderInput | SortOrder
+    contextVendorId?: SortOrderInput | SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     booking?: BookingOrderByWithRelationInput
     sender?: UserOrderByWithRelationInput
     receiver?: UserOrderByWithRelationInput
+    contextService?: ServiceOrderByWithRelationInput
+    contextPackage?: PackageOrderByWithRelationInput
+    contextVendor?: VendorProfileOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -14584,21 +18841,34 @@ export namespace Prisma {
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
     bookingId?: StringNullableFilter<"Message"> | string | null
+    contextServiceId?: StringNullableFilter<"Message"> | string | null
+    contextPackageId?: StringNullableFilter<"Message"> | string | null
+    contextVendorId?: StringNullableFilter<"Message"> | string | null
     senderId?: StringFilter<"Message"> | string
     receiverId?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    imageUrl?: StringNullableFilter<"Message"> | string | null
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
-    booking?: XOR<BookingNullableRelationFilter, BookingWhereInput> | null
-    sender?: XOR<UserRelationFilter, UserWhereInput>
-    receiver?: XOR<UserRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    contextService?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    contextPackage?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    contextVendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
   }, "id">
 
   export type MessageOrderByWithAggregationInput = {
     id?: SortOrder
     bookingId?: SortOrderInput | SortOrder
+    contextServiceId?: SortOrderInput | SortOrder
+    contextPackageId?: SortOrderInput | SortOrder
+    contextVendorId?: SortOrderInput | SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -14611,9 +18881,14 @@ export namespace Prisma {
     NOT?: MessageScalarWhereWithAggregatesInput | MessageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Message"> | string
     bookingId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    contextServiceId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    contextPackageId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    contextVendorId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     senderId?: StringWithAggregatesFilter<"Message"> | string
     receiverId?: StringWithAggregatesFilter<"Message"> | string
     content?: StringWithAggregatesFilter<"Message"> | string
+    imageUrl?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    readAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
 
@@ -14627,7 +18902,7 @@ export namespace Prisma {
     status?: StringFilter<"Availability"> | string
     createdAt?: DateTimeFilter<"Availability"> | Date | string
     updatedAt?: DateTimeFilter<"Availability"> | Date | string
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
   }
 
   export type AvailabilityOrderByWithRelationInput = {
@@ -14651,7 +18926,7 @@ export namespace Prisma {
     status?: StringFilter<"Availability"> | string
     createdAt?: DateTimeFilter<"Availability"> | Date | string
     updatedAt?: DateTimeFilter<"Availability"> | Date | string
-    vendor?: XOR<VendorProfileRelationFilter, VendorProfileWhereInput>
+    vendor?: XOR<VendorProfileScalarRelationFilter, VendorProfileWhereInput>
   }, "id" | "vendorId_date">
 
   export type AvailabilityOrderByWithAggregationInput = {
@@ -14676,6 +18951,106 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Availability"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Availability"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Availability"> | Date | string
+  }
+
+  export type ServiceImageWhereInput = {
+    AND?: ServiceImageWhereInput | ServiceImageWhereInput[]
+    OR?: ServiceImageWhereInput[]
+    NOT?: ServiceImageWhereInput | ServiceImageWhereInput[]
+    id?: StringFilter<"ServiceImage"> | string
+    serviceId?: StringFilter<"ServiceImage"> | string
+    url?: StringFilter<"ServiceImage"> | string
+    createdAt?: DateTimeFilter<"ServiceImage"> | Date | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+  }
+
+  export type ServiceImageOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    service?: ServiceOrderByWithRelationInput
+  }
+
+  export type ServiceImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceImageWhereInput | ServiceImageWhereInput[]
+    OR?: ServiceImageWhereInput[]
+    NOT?: ServiceImageWhereInput | ServiceImageWhereInput[]
+    serviceId?: StringFilter<"ServiceImage"> | string
+    url?: StringFilter<"ServiceImage"> | string
+    createdAt?: DateTimeFilter<"ServiceImage"> | Date | string
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+  }, "id">
+
+  export type ServiceImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    _count?: ServiceImageCountOrderByAggregateInput
+    _max?: ServiceImageMaxOrderByAggregateInput
+    _min?: ServiceImageMinOrderByAggregateInput
+  }
+
+  export type ServiceImageScalarWhereWithAggregatesInput = {
+    AND?: ServiceImageScalarWhereWithAggregatesInput | ServiceImageScalarWhereWithAggregatesInput[]
+    OR?: ServiceImageScalarWhereWithAggregatesInput[]
+    NOT?: ServiceImageScalarWhereWithAggregatesInput | ServiceImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceImage"> | string
+    serviceId?: StringWithAggregatesFilter<"ServiceImage"> | string
+    url?: StringWithAggregatesFilter<"ServiceImage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceImage"> | Date | string
+  }
+
+  export type PackageImageWhereInput = {
+    AND?: PackageImageWhereInput | PackageImageWhereInput[]
+    OR?: PackageImageWhereInput[]
+    NOT?: PackageImageWhereInput | PackageImageWhereInput[]
+    id?: StringFilter<"PackageImage"> | string
+    packageId?: StringFilter<"PackageImage"> | string
+    url?: StringFilter<"PackageImage"> | string
+    createdAt?: DateTimeFilter<"PackageImage"> | Date | string
+    package?: XOR<PackageScalarRelationFilter, PackageWhereInput>
+  }
+
+  export type PackageImageOrderByWithRelationInput = {
+    id?: SortOrder
+    packageId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    package?: PackageOrderByWithRelationInput
+  }
+
+  export type PackageImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PackageImageWhereInput | PackageImageWhereInput[]
+    OR?: PackageImageWhereInput[]
+    NOT?: PackageImageWhereInput | PackageImageWhereInput[]
+    packageId?: StringFilter<"PackageImage"> | string
+    url?: StringFilter<"PackageImage"> | string
+    createdAt?: DateTimeFilter<"PackageImage"> | Date | string
+    package?: XOR<PackageScalarRelationFilter, PackageWhereInput>
+  }, "id">
+
+  export type PackageImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    packageId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    _count?: PackageImageCountOrderByAggregateInput
+    _max?: PackageImageMaxOrderByAggregateInput
+    _min?: PackageImageMinOrderByAggregateInput
+  }
+
+  export type PackageImageScalarWhereWithAggregatesInput = {
+    AND?: PackageImageScalarWhereWithAggregatesInput | PackageImageScalarWhereWithAggregatesInput[]
+    OR?: PackageImageScalarWhereWithAggregatesInput[]
+    NOT?: PackageImageScalarWhereWithAggregatesInput | PackageImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PackageImage"> | string
+    packageId?: StringWithAggregatesFilter<"PackageImage"> | string
+    url?: StringWithAggregatesFilter<"PackageImage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PackageImage"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -14791,6 +19166,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateInput = {
@@ -14812,6 +19188,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUpdateInput = {
@@ -14833,6 +19210,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateInput = {
@@ -14854,6 +19232,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileCreateManyInput = {
@@ -14908,11 +19287,14 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorProfileCreateNestedOneWithoutServicesInput
     packages?: PackageCreateNestedManyWithoutServiceInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
@@ -14921,10 +19303,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceUpdateInput = {
@@ -14932,11 +19317,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
     packages?: PackageUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
@@ -14945,10 +19333,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
@@ -14957,6 +19348,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14966,6 +19358,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14976,6 +19369,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14989,7 +19383,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     service: ServiceCreateNestedOneWithoutPackagesInput
+    images?: PackageImageCreateNestedManyWithoutPackageInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageUncheckedCreateInput = {
@@ -15001,7 +19397,9 @@ export namespace Prisma {
     features?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageUpdateInput = {
@@ -15013,7 +19411,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
+    images?: PackageImageUpdateManyWithoutPackageNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
   }
 
   export type PackageUncheckedUpdateInput = {
@@ -15025,7 +19425,9 @@ export namespace Prisma {
     features?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
   }
 
   export type PackageCreateManyInput = {
@@ -15498,60 +19900,92 @@ export namespace Prisma {
   export type MessageCreateInput = {
     id?: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
 
   export type MessageUncheckedCreateInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
   export type MessageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
   export type MessageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15617,6 +20051,102 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ServiceImageCreateInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+    service: ServiceCreateNestedOneWithoutImagesInput
+  }
+
+  export type ServiceImageUncheckedCreateInput = {
+    id?: string
+    serviceId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type ServiceImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceImageCreateManyInput = {
+    id?: string
+    serviceId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageCreateInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+    package: PackageCreateNestedOneWithoutImagesInput
+  }
+
+  export type PackageImageUncheckedCreateInput = {
+    id?: string
+    packageId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type PackageImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    package?: PackageUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type PackageImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageCreateManyInput = {
+    id?: string
+    packageId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type PackageImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    packageId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15658,7 +20188,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type VendorProfileNullableRelationFilter = {
+  export type VendorProfileNullableScalarRelationFilter = {
     is?: VendorProfileWhereInput | null
     isNot?: VendorProfileWhereInput | null
   }
@@ -15799,7 +20329,7 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type UserRelationFilter = {
+  export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
@@ -15906,7 +20436,7 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type VendorProfileRelationFilter = {
+  export type VendorProfileScalarRelationFilter = {
     is?: VendorProfileWhereInput
     isNot?: VendorProfileWhereInput
   }
@@ -15917,7 +20447,17 @@ export namespace Prisma {
     none?: PackageWhereInput
   }
 
+  export type ServiceImageListRelationFilter = {
+    every?: ServiceImageWhereInput
+    some?: ServiceImageWhereInput
+    none?: ServiceImageWhereInput
+  }
+
   export type PackageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15927,6 +20467,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     basePrice?: SortOrder
+    occasions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15941,6 +20482,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     basePrice?: SortOrder
+    occasions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15951,6 +20493,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     basePrice?: SortOrder
+    occasions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15959,9 +20502,19 @@ export namespace Prisma {
     basePrice?: SortOrder
   }
 
-  export type ServiceRelationFilter = {
+  export type ServiceScalarRelationFilter = {
     is?: ServiceWhereInput
     isNot?: ServiceWhereInput
+  }
+
+  export type PackageImageListRelationFilter = {
+    every?: PackageImageWhereInput
+    some?: PackageImageWhereInput
+    none?: PackageImageWhereInput
+  }
+
+  export type PackageImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PackageCountOrderByAggregateInput = {
@@ -16049,17 +20602,17 @@ export namespace Prisma {
     budget?: SortOrder
   }
 
-  export type EventRelationFilter = {
+  export type EventScalarRelationFilter = {
     is?: EventWhereInput
     isNot?: EventWhereInput
   }
 
-  export type PackageNullableRelationFilter = {
+  export type PackageNullableScalarRelationFilter = {
     is?: PackageWhereInput | null
     isNot?: PackageWhereInput | null
   }
 
-  export type ServiceNullableRelationFilter = {
+  export type ServiceNullableScalarRelationFilter = {
     is?: ServiceWhereInput | null
     isNot?: ServiceWhereInput | null
   }
@@ -16070,7 +20623,7 @@ export namespace Prisma {
     none?: PaymentWhereInput
   }
 
-  export type ReviewNullableRelationFilter = {
+  export type ReviewNullableScalarRelationFilter = {
     is?: ReviewWhereInput | null
     isNot?: ReviewWhereInput | null
   }
@@ -16143,7 +20696,7 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type BookingRelationFilter = {
+  export type BookingScalarRelationFilter = {
     is?: BookingWhereInput
     isNot?: BookingWhereInput
   }
@@ -16315,7 +20868,7 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type BookingNullableRelationFilter = {
+  export type BookingNullableScalarRelationFilter = {
     is?: BookingWhereInput | null
     isNot?: BookingWhereInput | null
   }
@@ -16323,27 +20876,42 @@ export namespace Prisma {
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    contextServiceId?: SortOrder
+    contextPackageId?: SortOrder
+    contextVendorId?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    readAt?: SortOrder
     createdAt?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    contextServiceId?: SortOrder
+    contextPackageId?: SortOrder
+    contextVendorId?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    readAt?: SortOrder
     createdAt?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    contextServiceId?: SortOrder
+    contextPackageId?: SortOrder
+    contextVendorId?: SortOrder
     senderId?: SortOrder
     receiverId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    readAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -16377,6 +20945,53 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ServiceImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PackageScalarRelationFilter = {
+    is?: PackageWhereInput
+    isNot?: PackageWhereInput
+  }
+
+  export type PackageImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    packageId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PackageImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    packageId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PackageImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    packageId?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type VendorProfileCreateNestedOneWithoutUserInput = {
@@ -16674,6 +21289,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type MessageCreateNestedManyWithoutContextVendorInput = {
+    create?: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput> | MessageCreateWithoutContextVendorInput[] | MessageUncheckedCreateWithoutContextVendorInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextVendorInput | MessageCreateOrConnectWithoutContextVendorInput[]
+    createMany?: MessageCreateManyContextVendorInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
   export type ServiceUncheckedCreateNestedManyWithoutVendorInput = {
     create?: XOR<ServiceCreateWithoutVendorInput, ServiceUncheckedCreateWithoutVendorInput> | ServiceCreateWithoutVendorInput[] | ServiceUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutVendorInput | ServiceCreateOrConnectWithoutVendorInput[]
@@ -16707,6 +21329,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutVendorInput | ReviewCreateOrConnectWithoutVendorInput[]
     createMany?: ReviewCreateManyVendorInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutContextVendorInput = {
+    create?: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput> | MessageCreateWithoutContextVendorInput[] | MessageUncheckedCreateWithoutContextVendorInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextVendorInput | MessageCreateOrConnectWithoutContextVendorInput[]
+    createMany?: MessageCreateManyContextVendorInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -16795,6 +21424,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type MessageUpdateManyWithoutContextVendorNestedInput = {
+    create?: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput> | MessageCreateWithoutContextVendorInput[] | MessageUncheckedCreateWithoutContextVendorInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextVendorInput | MessageCreateOrConnectWithoutContextVendorInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextVendorInput | MessageUpsertWithWhereUniqueWithoutContextVendorInput[]
+    createMany?: MessageCreateManyContextVendorInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextVendorInput | MessageUpdateWithWhereUniqueWithoutContextVendorInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextVendorInput | MessageUpdateManyWithWhereWithoutContextVendorInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type ServiceUncheckedUpdateManyWithoutVendorNestedInput = {
     create?: XOR<ServiceCreateWithoutVendorInput, ServiceUncheckedCreateWithoutVendorInput> | ServiceCreateWithoutVendorInput[] | ServiceUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutVendorInput | ServiceCreateOrConnectWithoutVendorInput[]
@@ -16865,6 +21508,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type MessageUncheckedUpdateManyWithoutContextVendorNestedInput = {
+    create?: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput> | MessageCreateWithoutContextVendorInput[] | MessageUncheckedCreateWithoutContextVendorInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextVendorInput | MessageCreateOrConnectWithoutContextVendorInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextVendorInput | MessageUpsertWithWhereUniqueWithoutContextVendorInput[]
+    createMany?: MessageCreateManyContextVendorInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextVendorInput | MessageUpdateWithWhereUniqueWithoutContextVendorInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextVendorInput | MessageUpdateManyWithWhereWithoutContextVendorInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type VendorProfileCreateNestedOneWithoutServicesInput = {
     create?: XOR<VendorProfileCreateWithoutServicesInput, VendorProfileUncheckedCreateWithoutServicesInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutServicesInput
@@ -16878,11 +21535,25 @@ export namespace Prisma {
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
   }
 
+  export type ServiceImageCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput> | ServiceImageCreateWithoutServiceInput[] | ServiceImageUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceImageCreateOrConnectWithoutServiceInput | ServiceImageCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceImageCreateManyServiceInputEnvelope
+    connect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+  }
+
   export type BookingCreateNestedManyWithoutServiceInput = {
     create?: XOR<BookingCreateWithoutServiceInput, BookingUncheckedCreateWithoutServiceInput> | BookingCreateWithoutServiceInput[] | BookingUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutServiceInput | BookingCreateOrConnectWithoutServiceInput[]
     createMany?: BookingCreateManyServiceInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type MessageCreateNestedManyWithoutContextServiceInput = {
+    create?: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput> | MessageCreateWithoutContextServiceInput[] | MessageUncheckedCreateWithoutContextServiceInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextServiceInput | MessageCreateOrConnectWithoutContextServiceInput[]
+    createMany?: MessageCreateManyContextServiceInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type PackageUncheckedCreateNestedManyWithoutServiceInput = {
@@ -16892,11 +21563,25 @@ export namespace Prisma {
     connect?: PackageWhereUniqueInput | PackageWhereUniqueInput[]
   }
 
+  export type ServiceImageUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput> | ServiceImageCreateWithoutServiceInput[] | ServiceImageUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceImageCreateOrConnectWithoutServiceInput | ServiceImageCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceImageCreateManyServiceInputEnvelope
+    connect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+  }
+
   export type BookingUncheckedCreateNestedManyWithoutServiceInput = {
     create?: XOR<BookingCreateWithoutServiceInput, BookingUncheckedCreateWithoutServiceInput> | BookingCreateWithoutServiceInput[] | BookingUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutServiceInput | BookingCreateOrConnectWithoutServiceInput[]
     createMany?: BookingCreateManyServiceInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutContextServiceInput = {
+    create?: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput> | MessageCreateWithoutContextServiceInput[] | MessageUncheckedCreateWithoutContextServiceInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextServiceInput | MessageCreateOrConnectWithoutContextServiceInput[]
+    createMany?: MessageCreateManyContextServiceInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type VendorProfileUpdateOneRequiredWithoutServicesNestedInput = {
@@ -16921,6 +21606,20 @@ export namespace Prisma {
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
+  export type ServiceImageUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput> | ServiceImageCreateWithoutServiceInput[] | ServiceImageUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceImageCreateOrConnectWithoutServiceInput | ServiceImageCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceImageUpsertWithWhereUniqueWithoutServiceInput | ServiceImageUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceImageCreateManyServiceInputEnvelope
+    set?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    disconnect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    delete?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    connect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    update?: ServiceImageUpdateWithWhereUniqueWithoutServiceInput | ServiceImageUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceImageUpdateManyWithWhereWithoutServiceInput | ServiceImageUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceImageScalarWhereInput | ServiceImageScalarWhereInput[]
+  }
+
   export type BookingUpdateManyWithoutServiceNestedInput = {
     create?: XOR<BookingCreateWithoutServiceInput, BookingUncheckedCreateWithoutServiceInput> | BookingCreateWithoutServiceInput[] | BookingUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutServiceInput | BookingCreateOrConnectWithoutServiceInput[]
@@ -16933,6 +21632,20 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutServiceInput | BookingUpdateWithWhereUniqueWithoutServiceInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutServiceInput | BookingUpdateManyWithWhereWithoutServiceInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type MessageUpdateManyWithoutContextServiceNestedInput = {
+    create?: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput> | MessageCreateWithoutContextServiceInput[] | MessageUncheckedCreateWithoutContextServiceInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextServiceInput | MessageCreateOrConnectWithoutContextServiceInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextServiceInput | MessageUpsertWithWhereUniqueWithoutContextServiceInput[]
+    createMany?: MessageCreateManyContextServiceInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextServiceInput | MessageUpdateWithWhereUniqueWithoutContextServiceInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextServiceInput | MessageUpdateManyWithWhereWithoutContextServiceInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type PackageUncheckedUpdateManyWithoutServiceNestedInput = {
@@ -16949,6 +21662,20 @@ export namespace Prisma {
     deleteMany?: PackageScalarWhereInput | PackageScalarWhereInput[]
   }
 
+  export type ServiceImageUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput> | ServiceImageCreateWithoutServiceInput[] | ServiceImageUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceImageCreateOrConnectWithoutServiceInput | ServiceImageCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceImageUpsertWithWhereUniqueWithoutServiceInput | ServiceImageUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceImageCreateManyServiceInputEnvelope
+    set?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    disconnect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    delete?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    connect?: ServiceImageWhereUniqueInput | ServiceImageWhereUniqueInput[]
+    update?: ServiceImageUpdateWithWhereUniqueWithoutServiceInput | ServiceImageUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceImageUpdateManyWithWhereWithoutServiceInput | ServiceImageUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceImageScalarWhereInput | ServiceImageScalarWhereInput[]
+  }
+
   export type BookingUncheckedUpdateManyWithoutServiceNestedInput = {
     create?: XOR<BookingCreateWithoutServiceInput, BookingUncheckedCreateWithoutServiceInput> | BookingCreateWithoutServiceInput[] | BookingUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutServiceInput | BookingCreateOrConnectWithoutServiceInput[]
@@ -16963,10 +21690,31 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type MessageUncheckedUpdateManyWithoutContextServiceNestedInput = {
+    create?: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput> | MessageCreateWithoutContextServiceInput[] | MessageUncheckedCreateWithoutContextServiceInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextServiceInput | MessageCreateOrConnectWithoutContextServiceInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextServiceInput | MessageUpsertWithWhereUniqueWithoutContextServiceInput[]
+    createMany?: MessageCreateManyContextServiceInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextServiceInput | MessageUpdateWithWhereUniqueWithoutContextServiceInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextServiceInput | MessageUpdateManyWithWhereWithoutContextServiceInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type ServiceCreateNestedOneWithoutPackagesInput = {
     create?: XOR<ServiceCreateWithoutPackagesInput, ServiceUncheckedCreateWithoutPackagesInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutPackagesInput
     connect?: ServiceWhereUniqueInput
+  }
+
+  export type PackageImageCreateNestedManyWithoutPackageInput = {
+    create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
+    createMany?: PackageImageCreateManyPackageInputEnvelope
+    connect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
   }
 
   export type BookingCreateNestedManyWithoutPackageInput = {
@@ -16976,11 +21724,32 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
+  export type MessageCreateNestedManyWithoutContextPackageInput = {
+    create?: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput> | MessageCreateWithoutContextPackageInput[] | MessageUncheckedCreateWithoutContextPackageInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextPackageInput | MessageCreateOrConnectWithoutContextPackageInput[]
+    createMany?: MessageCreateManyContextPackageInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type PackageImageUncheckedCreateNestedManyWithoutPackageInput = {
+    create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
+    createMany?: PackageImageCreateManyPackageInputEnvelope
+    connect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+  }
+
   export type BookingUncheckedCreateNestedManyWithoutPackageInput = {
     create?: XOR<BookingCreateWithoutPackageInput, BookingUncheckedCreateWithoutPackageInput> | BookingCreateWithoutPackageInput[] | BookingUncheckedCreateWithoutPackageInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutPackageInput | BookingCreateOrConnectWithoutPackageInput[]
     createMany?: BookingCreateManyPackageInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutContextPackageInput = {
+    create?: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput> | MessageCreateWithoutContextPackageInput[] | MessageUncheckedCreateWithoutContextPackageInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextPackageInput | MessageCreateOrConnectWithoutContextPackageInput[]
+    createMany?: MessageCreateManyContextPackageInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type ServiceUpdateOneRequiredWithoutPackagesNestedInput = {
@@ -16989,6 +21758,20 @@ export namespace Prisma {
     upsert?: ServiceUpsertWithoutPackagesInput
     connect?: ServiceWhereUniqueInput
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutPackagesInput, ServiceUpdateWithoutPackagesInput>, ServiceUncheckedUpdateWithoutPackagesInput>
+  }
+
+  export type PackageImageUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
+    upsert?: PackageImageUpsertWithWhereUniqueWithoutPackageInput | PackageImageUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: PackageImageCreateManyPackageInputEnvelope
+    set?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    disconnect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    delete?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    connect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    update?: PackageImageUpdateWithWhereUniqueWithoutPackageInput | PackageImageUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: PackageImageUpdateManyWithWhereWithoutPackageInput | PackageImageUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: PackageImageScalarWhereInput | PackageImageScalarWhereInput[]
   }
 
   export type BookingUpdateManyWithoutPackageNestedInput = {
@@ -17005,6 +21788,34 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type MessageUpdateManyWithoutContextPackageNestedInput = {
+    create?: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput> | MessageCreateWithoutContextPackageInput[] | MessageUncheckedCreateWithoutContextPackageInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextPackageInput | MessageCreateOrConnectWithoutContextPackageInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextPackageInput | MessageUpsertWithWhereUniqueWithoutContextPackageInput[]
+    createMany?: MessageCreateManyContextPackageInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextPackageInput | MessageUpdateWithWhereUniqueWithoutContextPackageInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextPackageInput | MessageUpdateManyWithWhereWithoutContextPackageInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type PackageImageUncheckedUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
+    upsert?: PackageImageUpsertWithWhereUniqueWithoutPackageInput | PackageImageUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: PackageImageCreateManyPackageInputEnvelope
+    set?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    disconnect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    delete?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    connect?: PackageImageWhereUniqueInput | PackageImageWhereUniqueInput[]
+    update?: PackageImageUpdateWithWhereUniqueWithoutPackageInput | PackageImageUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: PackageImageUpdateManyWithWhereWithoutPackageInput | PackageImageUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: PackageImageScalarWhereInput | PackageImageScalarWhereInput[]
+  }
+
   export type BookingUncheckedUpdateManyWithoutPackageNestedInput = {
     create?: XOR<BookingCreateWithoutPackageInput, BookingUncheckedCreateWithoutPackageInput> | BookingCreateWithoutPackageInput[] | BookingUncheckedCreateWithoutPackageInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutPackageInput | BookingCreateOrConnectWithoutPackageInput[]
@@ -17017,6 +21828,20 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutPackageInput | BookingUpdateWithWhereUniqueWithoutPackageInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutPackageInput | BookingUpdateManyWithWhereWithoutPackageInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutContextPackageNestedInput = {
+    create?: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput> | MessageCreateWithoutContextPackageInput[] | MessageUncheckedCreateWithoutContextPackageInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutContextPackageInput | MessageCreateOrConnectWithoutContextPackageInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutContextPackageInput | MessageUpsertWithWhereUniqueWithoutContextPackageInput[]
+    createMany?: MessageCreateManyContextPackageInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutContextPackageInput | MessageUpdateWithWhereUniqueWithoutContextPackageInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutContextPackageInput | MessageUpdateManyWithWhereWithoutContextPackageInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutEventsInput = {
@@ -17421,6 +22246,24 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ServiceCreateNestedOneWithoutMessagesAsContextInput = {
+    create?: XOR<ServiceCreateWithoutMessagesAsContextInput, ServiceUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutMessagesAsContextInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type PackageCreateNestedOneWithoutMessagesAsContextInput = {
+    create?: XOR<PackageCreateWithoutMessagesAsContextInput, PackageUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutMessagesAsContextInput
+    connect?: PackageWhereUniqueInput
+  }
+
+  export type VendorProfileCreateNestedOneWithoutMessagesAsContextInput = {
+    create?: XOR<VendorProfileCreateWithoutMessagesAsContextInput, VendorProfileUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: VendorProfileCreateOrConnectWithoutMessagesAsContextInput
+    connect?: VendorProfileWhereUniqueInput
+  }
+
   export type BookingUpdateOneWithoutMessagesNestedInput = {
     create?: XOR<BookingCreateWithoutMessagesInput, BookingUncheckedCreateWithoutMessagesInput>
     connectOrCreate?: BookingCreateOrConnectWithoutMessagesInput
@@ -17447,6 +22290,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedMessagesInput, UserUpdateWithoutReceivedMessagesInput>, UserUncheckedUpdateWithoutReceivedMessagesInput>
   }
 
+  export type ServiceUpdateOneWithoutMessagesAsContextNestedInput = {
+    create?: XOR<ServiceCreateWithoutMessagesAsContextInput, ServiceUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutMessagesAsContextInput
+    upsert?: ServiceUpsertWithoutMessagesAsContextInput
+    disconnect?: ServiceWhereInput | boolean
+    delete?: ServiceWhereInput | boolean
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutMessagesAsContextInput, ServiceUpdateWithoutMessagesAsContextInput>, ServiceUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
+  export type PackageUpdateOneWithoutMessagesAsContextNestedInput = {
+    create?: XOR<PackageCreateWithoutMessagesAsContextInput, PackageUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutMessagesAsContextInput
+    upsert?: PackageUpsertWithoutMessagesAsContextInput
+    disconnect?: PackageWhereInput | boolean
+    delete?: PackageWhereInput | boolean
+    connect?: PackageWhereUniqueInput
+    update?: XOR<XOR<PackageUpdateToOneWithWhereWithoutMessagesAsContextInput, PackageUpdateWithoutMessagesAsContextInput>, PackageUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
+  export type VendorProfileUpdateOneWithoutMessagesAsContextNestedInput = {
+    create?: XOR<VendorProfileCreateWithoutMessagesAsContextInput, VendorProfileUncheckedCreateWithoutMessagesAsContextInput>
+    connectOrCreate?: VendorProfileCreateOrConnectWithoutMessagesAsContextInput
+    upsert?: VendorProfileUpsertWithoutMessagesAsContextInput
+    disconnect?: VendorProfileWhereInput | boolean
+    delete?: VendorProfileWhereInput | boolean
+    connect?: VendorProfileWhereUniqueInput
+    update?: XOR<XOR<VendorProfileUpdateToOneWithWhereWithoutMessagesAsContextInput, VendorProfileUpdateWithoutMessagesAsContextInput>, VendorProfileUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
   export type VendorProfileCreateNestedOneWithoutAvailabilityInput = {
     create?: XOR<VendorProfileCreateWithoutAvailabilityInput, VendorProfileUncheckedCreateWithoutAvailabilityInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutAvailabilityInput
@@ -17459,6 +22332,34 @@ export namespace Prisma {
     upsert?: VendorProfileUpsertWithoutAvailabilityInput
     connect?: VendorProfileWhereUniqueInput
     update?: XOR<XOR<VendorProfileUpdateToOneWithWhereWithoutAvailabilityInput, VendorProfileUpdateWithoutAvailabilityInput>, VendorProfileUncheckedUpdateWithoutAvailabilityInput>
+  }
+
+  export type ServiceCreateNestedOneWithoutImagesInput = {
+    create?: XOR<ServiceCreateWithoutImagesInput, ServiceUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutImagesInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type ServiceUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<ServiceCreateWithoutImagesInput, ServiceUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutImagesInput
+    upsert?: ServiceUpsertWithoutImagesInput
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutImagesInput, ServiceUpdateWithoutImagesInput>, ServiceUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type PackageCreateNestedOneWithoutImagesInput = {
+    create?: XOR<PackageCreateWithoutImagesInput, PackageUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutImagesInput
+    connect?: PackageWhereUniqueInput
+  }
+
+  export type PackageUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<PackageCreateWithoutImagesInput, PackageUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutImagesInput
+    upsert?: PackageUpsertWithoutImagesInput
+    connect?: PackageWhereUniqueInput
+    update?: XOR<XOR<PackageUpdateToOneWithWhereWithoutImagesInput, PackageUpdateWithoutImagesInput>, PackageUncheckedUpdateWithoutImagesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17656,6 +22557,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutUserInput = {
@@ -17676,6 +22578,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutUserInput = {
@@ -17796,16 +22699,26 @@ export namespace Prisma {
   export type MessageCreateWithoutSenderInput = {
     id?: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
     booking?: BookingCreateNestedOneWithoutMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
 
   export type MessageUncheckedCreateWithoutSenderInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -17822,16 +22735,26 @@ export namespace Prisma {
   export type MessageCreateWithoutReceiverInput = {
     id?: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
 
   export type MessageUncheckedCreateWithoutReceiverInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -17874,6 +22797,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutUserInput = {
@@ -17894,6 +22818,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type EventUpsertWithWhereUniqueWithoutOrganizerInput = {
@@ -18013,9 +22938,14 @@ export namespace Prisma {
     NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
     id?: StringFilter<"Message"> | string
     bookingId?: StringNullableFilter<"Message"> | string | null
+    contextServiceId?: StringNullableFilter<"Message"> | string | null
+    contextPackageId?: StringNullableFilter<"Message"> | string | null
+    contextVendorId?: StringNullableFilter<"Message"> | string | null
     senderId?: StringFilter<"Message"> | string
     receiverId?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    imageUrl?: StringNullableFilter<"Message"> | string | null
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     createdAt?: DateTimeFilter<"Message"> | Date | string
   }
 
@@ -18075,10 +23005,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     packages?: PackageCreateNestedManyWithoutServiceInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutVendorInput = {
@@ -18086,10 +23019,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutVendorInput = {
@@ -18236,6 +23172,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MessageCreateWithoutContextVendorInput = {
+    id?: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    booking?: BookingCreateNestedOneWithoutMessagesInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+    receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+  }
+
+  export type MessageUncheckedCreateWithoutContextVendorInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutContextVendorInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput>
+  }
+
+  export type MessageCreateManyContextVendorInputEnvelope = {
+    data: MessageCreateManyContextVendorInput | MessageCreateManyContextVendorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutVendorProfileInput = {
     update: XOR<UserUpdateWithoutVendorProfileInput, UserUncheckedUpdateWithoutVendorProfileInput>
     create: XOR<UserCreateWithoutVendorProfileInput, UserUncheckedCreateWithoutVendorProfileInput>
@@ -18302,6 +23274,7 @@ export namespace Prisma {
     name?: StringFilter<"Service"> | string
     description?: StringNullableFilter<"Service"> | string | null
     basePrice?: FloatFilter<"Service"> | number
+    occasions?: StringNullableFilter<"Service"> | string | null
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
   }
@@ -18397,6 +23370,22 @@ export namespace Prisma {
     data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutVendorInput>
   }
 
+  export type MessageUpsertWithWhereUniqueWithoutContextVendorInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutContextVendorInput, MessageUncheckedUpdateWithoutContextVendorInput>
+    create: XOR<MessageCreateWithoutContextVendorInput, MessageUncheckedCreateWithoutContextVendorInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutContextVendorInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutContextVendorInput, MessageUncheckedUpdateWithoutContextVendorInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutContextVendorInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextVendorInput>
+  }
+
   export type VendorProfileCreateWithoutServicesInput = {
     id?: string
     businessName: string
@@ -18415,6 +23404,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutServicesInput = {
@@ -18435,6 +23425,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutServicesInput = {
@@ -18450,7 +23441,9 @@ export namespace Prisma {
     features?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: PackageImageCreateNestedManyWithoutPackageInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageUncheckedCreateWithoutServiceInput = {
@@ -18461,7 +23454,9 @@ export namespace Prisma {
     features?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageCreateOrConnectWithoutServiceInput = {
@@ -18471,6 +23466,28 @@ export namespace Prisma {
 
   export type PackageCreateManyServiceInputEnvelope = {
     data: PackageCreateManyServiceInput | PackageCreateManyServiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceImageCreateWithoutServiceInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceImageUncheckedCreateWithoutServiceInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceImageCreateOrConnectWithoutServiceInput = {
+    where: ServiceImageWhereUniqueInput
+    create: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceImageCreateManyServiceInputEnvelope = {
+    data: ServiceImageCreateManyServiceInput | ServiceImageCreateManyServiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -18520,6 +23537,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MessageCreateWithoutContextServiceInput = {
+    id?: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    booking?: BookingCreateNestedOneWithoutMessagesInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+    receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
+  }
+
+  export type MessageUncheckedCreateWithoutContextServiceInput = {
+    id?: string
+    bookingId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutContextServiceInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput>
+  }
+
+  export type MessageCreateManyContextServiceInputEnvelope = {
+    data: MessageCreateManyContextServiceInput | MessageCreateManyContextServiceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type VendorProfileUpsertWithoutServicesInput = {
     update: XOR<VendorProfileUpdateWithoutServicesInput, VendorProfileUncheckedUpdateWithoutServicesInput>
     create: XOR<VendorProfileCreateWithoutServicesInput, VendorProfileUncheckedCreateWithoutServicesInput>
@@ -18549,6 +23602,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutServicesInput = {
@@ -18569,6 +23623,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type PackageUpsertWithWhereUniqueWithoutServiceInput = {
@@ -18601,6 +23656,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Package"> | Date | string
   }
 
+  export type ServiceImageUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ServiceImageWhereUniqueInput
+    update: XOR<ServiceImageUpdateWithoutServiceInput, ServiceImageUncheckedUpdateWithoutServiceInput>
+    create: XOR<ServiceImageCreateWithoutServiceInput, ServiceImageUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceImageUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ServiceImageWhereUniqueInput
+    data: XOR<ServiceImageUpdateWithoutServiceInput, ServiceImageUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type ServiceImageUpdateManyWithWhereWithoutServiceInput = {
+    where: ServiceImageScalarWhereInput
+    data: XOR<ServiceImageUpdateManyMutationInput, ServiceImageUncheckedUpdateManyWithoutServiceInput>
+  }
+
+  export type ServiceImageScalarWhereInput = {
+    AND?: ServiceImageScalarWhereInput | ServiceImageScalarWhereInput[]
+    OR?: ServiceImageScalarWhereInput[]
+    NOT?: ServiceImageScalarWhereInput | ServiceImageScalarWhereInput[]
+    id?: StringFilter<"ServiceImage"> | string
+    serviceId?: StringFilter<"ServiceImage"> | string
+    url?: StringFilter<"ServiceImage"> | string
+    createdAt?: DateTimeFilter<"ServiceImage"> | Date | string
+  }
+
   export type BookingUpsertWithWhereUniqueWithoutServiceInput = {
     where: BookingWhereUniqueInput
     update: XOR<BookingUpdateWithoutServiceInput, BookingUncheckedUpdateWithoutServiceInput>
@@ -18617,15 +23698,34 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutServiceInput>
   }
 
+  export type MessageUpsertWithWhereUniqueWithoutContextServiceInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutContextServiceInput, MessageUncheckedUpdateWithoutContextServiceInput>
+    create: XOR<MessageCreateWithoutContextServiceInput, MessageUncheckedCreateWithoutContextServiceInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutContextServiceInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutContextServiceInput, MessageUncheckedUpdateWithoutContextServiceInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutContextServiceInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextServiceInput>
+  }
+
   export type ServiceCreateWithoutPackagesInput = {
     id?: string
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorProfileCreateNestedOneWithoutServicesInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutPackagesInput = {
@@ -18634,14 +23734,39 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutPackagesInput = {
     where: ServiceWhereUniqueInput
     create: XOR<ServiceCreateWithoutPackagesInput, ServiceUncheckedCreateWithoutPackagesInput>
+  }
+
+  export type PackageImageCreateWithoutPackageInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type PackageImageUncheckedCreateWithoutPackageInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type PackageImageCreateOrConnectWithoutPackageInput = {
+    where: PackageImageWhereUniqueInput
+    create: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput>
+  }
+
+  export type PackageImageCreateManyPackageInputEnvelope = {
+    data: PackageImageCreateManyPackageInput | PackageImageCreateManyPackageInput[]
+    skipDuplicates?: boolean
   }
 
   export type BookingCreateWithoutPackageInput = {
@@ -18690,6 +23815,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MessageCreateWithoutContextPackageInput = {
+    id?: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    booking?: BookingCreateNestedOneWithoutMessagesInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+    receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
+  }
+
+  export type MessageUncheckedCreateWithoutContextPackageInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutContextPackageInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput>
+  }
+
+  export type MessageCreateManyContextPackageInputEnvelope = {
+    data: MessageCreateManyContextPackageInput | MessageCreateManyContextPackageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ServiceUpsertWithoutPackagesInput = {
     update: XOR<ServiceUpdateWithoutPackagesInput, ServiceUncheckedUpdateWithoutPackagesInput>
     create: XOR<ServiceCreateWithoutPackagesInput, ServiceUncheckedCreateWithoutPackagesInput>
@@ -18706,10 +23867,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutPackagesInput = {
@@ -18718,9 +23882,38 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+  }
+
+  export type PackageImageUpsertWithWhereUniqueWithoutPackageInput = {
+    where: PackageImageWhereUniqueInput
+    update: XOR<PackageImageUpdateWithoutPackageInput, PackageImageUncheckedUpdateWithoutPackageInput>
+    create: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput>
+  }
+
+  export type PackageImageUpdateWithWhereUniqueWithoutPackageInput = {
+    where: PackageImageWhereUniqueInput
+    data: XOR<PackageImageUpdateWithoutPackageInput, PackageImageUncheckedUpdateWithoutPackageInput>
+  }
+
+  export type PackageImageUpdateManyWithWhereWithoutPackageInput = {
+    where: PackageImageScalarWhereInput
+    data: XOR<PackageImageUpdateManyMutationInput, PackageImageUncheckedUpdateManyWithoutPackageInput>
+  }
+
+  export type PackageImageScalarWhereInput = {
+    AND?: PackageImageScalarWhereInput | PackageImageScalarWhereInput[]
+    OR?: PackageImageScalarWhereInput[]
+    NOT?: PackageImageScalarWhereInput | PackageImageScalarWhereInput[]
+    id?: StringFilter<"PackageImage"> | string
+    packageId?: StringFilter<"PackageImage"> | string
+    url?: StringFilter<"PackageImage"> | string
+    createdAt?: DateTimeFilter<"PackageImage"> | Date | string
   }
 
   export type BookingUpsertWithWhereUniqueWithoutPackageInput = {
@@ -18737,6 +23930,22 @@ export namespace Prisma {
   export type BookingUpdateManyWithWhereWithoutPackageInput = {
     where: BookingScalarWhereInput
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutPackageInput>
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutContextPackageInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutContextPackageInput, MessageUncheckedUpdateWithoutContextPackageInput>
+    create: XOR<MessageCreateWithoutContextPackageInput, MessageUncheckedCreateWithoutContextPackageInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutContextPackageInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutContextPackageInput, MessageUncheckedUpdateWithoutContextPackageInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutContextPackageInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextPackageInput>
   }
 
   export type UserCreateWithoutEventsInput = {
@@ -18924,6 +24133,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutBookingsInput = {
@@ -18944,6 +24154,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutBookingsInput = {
@@ -18995,6 +24206,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     service: ServiceCreateNestedOneWithoutPackagesInput
+    images?: PackageImageCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageUncheckedCreateWithoutBookingsInput = {
@@ -19006,6 +24219,8 @@ export namespace Prisma {
     features?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
   }
 
   export type PackageCreateOrConnectWithoutBookingsInput = {
@@ -19018,10 +24233,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vendor: VendorProfileCreateNestedOneWithoutServicesInput
     packages?: PackageCreateNestedManyWithoutServiceInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutBookingsInput = {
@@ -19030,9 +24248,12 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutBookingsInput = {
@@ -19130,16 +24351,26 @@ export namespace Prisma {
   export type MessageCreateWithoutBookingInput = {
     id?: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
 
   export type MessageUncheckedCreateWithoutBookingInput = {
     id?: string
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -19217,6 +24448,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutBookingsInput = {
@@ -19237,6 +24469,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type UserUpsertWithoutBookingsInput = {
@@ -19300,6 +24533,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
+    images?: PackageImageUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutBookingsInput = {
@@ -19311,6 +24546,8 @@ export namespace Prisma {
     features?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
   }
 
   export type ServiceUpsertWithoutBookingsInput = {
@@ -19329,10 +24566,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
     packages?: PackageUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutBookingsInput = {
@@ -19341,9 +24581,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
   }
 
   export type QuoteUpsertWithWhereUniqueWithoutBookingInput = {
@@ -19498,6 +24741,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutQuotesInput = {
@@ -19518,6 +24762,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutQuotesInput = {
@@ -19601,6 +24846,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutQuotesInput = {
@@ -19621,6 +24867,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type BookingCreateWithoutPaymentsInput = {
@@ -19770,6 +25017,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutVendorInput
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutReviewsInput = {
@@ -19790,6 +25038,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutVendorInput
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutReviewsInput = {
@@ -19908,6 +25157,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutVendorNestedInput
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutReviewsInput = {
@@ -19928,6 +25178,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutVendorNestedInput
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -20082,6 +25333,117 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutReceivedMessagesInput, UserUncheckedCreateWithoutReceivedMessagesInput>
   }
 
+  export type ServiceCreateWithoutMessagesAsContextInput = {
+    id?: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorProfileCreateNestedOneWithoutServicesInput
+    packages?: PackageCreateNestedManyWithoutServiceInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutMessagesAsContextInput = {
+    id?: string
+    vendorId: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutMessagesAsContextInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutMessagesAsContextInput, ServiceUncheckedCreateWithoutMessagesAsContextInput>
+  }
+
+  export type PackageCreateWithoutMessagesAsContextInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: ServiceCreateNestedOneWithoutPackagesInput
+    images?: PackageImageCreateNestedManyWithoutPackageInput
+    bookings?: BookingCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageUncheckedCreateWithoutMessagesAsContextInput = {
+    id?: string
+    serviceId: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type PackageCreateOrConnectWithoutMessagesAsContextInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutMessagesAsContextInput, PackageUncheckedCreateWithoutMessagesAsContextInput>
+  }
+
+  export type VendorProfileCreateWithoutMessagesAsContextInput = {
+    id?: string
+    businessName: string
+    description?: string | null
+    category: string
+    location: string
+    occasions?: string | null
+    phoneNumber?: string | null
+    website?: string | null
+    imageUrl?: string | null
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutVendorProfileInput
+    services?: ServiceCreateNestedManyWithoutVendorInput
+    bookings?: BookingCreateNestedManyWithoutVendorInput
+    quotes?: QuoteCreateNestedManyWithoutVendorInput
+    availability?: AvailabilityCreateNestedManyWithoutVendorInput
+    reviews?: ReviewCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorProfileUncheckedCreateWithoutMessagesAsContextInput = {
+    id?: string
+    userId: string
+    businessName: string
+    description?: string | null
+    category: string
+    location: string
+    occasions?: string | null
+    phoneNumber?: string | null
+    website?: string | null
+    imageUrl?: string | null
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    services?: ServiceUncheckedCreateNestedManyWithoutVendorInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutVendorInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
+    availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type VendorProfileCreateOrConnectWithoutMessagesAsContextInput = {
+    where: VendorProfileWhereUniqueInput
+    create: XOR<VendorProfileCreateWithoutMessagesAsContextInput, VendorProfileUncheckedCreateWithoutMessagesAsContextInput>
+  }
+
   export type BookingUpsertWithoutMessagesInput = {
     update: XOR<BookingUpdateWithoutMessagesInput, BookingUncheckedUpdateWithoutMessagesInput>
     create: XOR<BookingCreateWithoutMessagesInput, BookingUncheckedCreateWithoutMessagesInput>
@@ -20211,6 +25573,135 @@ export namespace Prisma {
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
   }
 
+  export type ServiceUpsertWithoutMessagesAsContextInput = {
+    update: XOR<ServiceUpdateWithoutMessagesAsContextInput, ServiceUncheckedUpdateWithoutMessagesAsContextInput>
+    create: XOR<ServiceCreateWithoutMessagesAsContextInput, ServiceUncheckedCreateWithoutMessagesAsContextInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutMessagesAsContextInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutMessagesAsContextInput, ServiceUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
+  export type ServiceUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
+    packages?: PackageUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type PackageUpsertWithoutMessagesAsContextInput = {
+    update: XOR<PackageUpdateWithoutMessagesAsContextInput, PackageUncheckedUpdateWithoutMessagesAsContextInput>
+    create: XOR<PackageCreateWithoutMessagesAsContextInput, PackageUncheckedCreateWithoutMessagesAsContextInput>
+    where?: PackageWhereInput
+  }
+
+  export type PackageUpdateToOneWithWhereWithoutMessagesAsContextInput = {
+    where?: PackageWhereInput
+    data: XOR<PackageUpdateWithoutMessagesAsContextInput, PackageUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
+  export type PackageUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
+    images?: PackageImageUpdateManyWithoutPackageNestedInput
+    bookings?: BookingUpdateManyWithoutPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type VendorProfileUpsertWithoutMessagesAsContextInput = {
+    update: XOR<VendorProfileUpdateWithoutMessagesAsContextInput, VendorProfileUncheckedUpdateWithoutMessagesAsContextInput>
+    create: XOR<VendorProfileCreateWithoutMessagesAsContextInput, VendorProfileUncheckedCreateWithoutMessagesAsContextInput>
+    where?: VendorProfileWhereInput
+  }
+
+  export type VendorProfileUpdateToOneWithWhereWithoutMessagesAsContextInput = {
+    where?: VendorProfileWhereInput
+    data: XOR<VendorProfileUpdateWithoutMessagesAsContextInput, VendorProfileUncheckedUpdateWithoutMessagesAsContextInput>
+  }
+
+  export type VendorProfileUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVendorProfileNestedInput
+    services?: ServiceUpdateManyWithoutVendorNestedInput
+    bookings?: BookingUpdateManyWithoutVendorNestedInput
+    quotes?: QuoteUpdateManyWithoutVendorNestedInput
+    availability?: AvailabilityUpdateManyWithoutVendorNestedInput
+    reviews?: ReviewUpdateManyWithoutVendorNestedInput
+  }
+
+  export type VendorProfileUncheckedUpdateWithoutMessagesAsContextInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ServiceUncheckedUpdateManyWithoutVendorNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutVendorNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
+    availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
   export type VendorProfileCreateWithoutAvailabilityInput = {
     id?: string
     businessName: string
@@ -20229,6 +25720,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutVendorInput
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutAvailabilityInput = {
@@ -20249,6 +25741,7 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutVendorInput
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutAvailabilityInput = {
@@ -20285,6 +25778,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutVendorNestedInput
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutAvailabilityInput = {
@@ -20305,6 +25799,147 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutVendorNestedInput
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+  }
+
+  export type ServiceCreateWithoutImagesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorProfileCreateNestedOneWithoutServicesInput
+    packages?: PackageCreateNestedManyWithoutServiceInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutImagesInput = {
+    id?: string
+    vendorId: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutImagesInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutImagesInput, ServiceUncheckedCreateWithoutImagesInput>
+  }
+
+  export type ServiceUpsertWithoutImagesInput = {
+    update: XOR<ServiceUpdateWithoutImagesInput, ServiceUncheckedUpdateWithoutImagesInput>
+    create: XOR<ServiceCreateWithoutImagesInput, ServiceUncheckedCreateWithoutImagesInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutImagesInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutImagesInput, ServiceUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type ServiceUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
+    packages?: PackageUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+  }
+
+  export type PackageCreateWithoutImagesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: ServiceCreateNestedOneWithoutPackagesInput
+    bookings?: BookingCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+  }
+
+  export type PackageUncheckedCreateWithoutImagesInput = {
+    id?: string
+    serviceId: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+  }
+
+  export type PackageCreateOrConnectWithoutImagesInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutImagesInput, PackageUncheckedCreateWithoutImagesInput>
+  }
+
+  export type PackageUpsertWithoutImagesInput = {
+    update: XOR<PackageUpdateWithoutImagesInput, PackageUncheckedUpdateWithoutImagesInput>
+    create: XOR<PackageCreateWithoutImagesInput, PackageUncheckedCreateWithoutImagesInput>
+    where?: PackageWhereInput
+  }
+
+  export type PackageUpdateToOneWithWhereWithoutImagesInput = {
+    where?: PackageWhereInput
+    data: XOR<PackageUpdateWithoutImagesInput, PackageUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type PackageUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
+    bookings?: BookingUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
   }
 
   export type EventCreateManyOrganizerInput = {
@@ -20345,16 +25980,26 @@ export namespace Prisma {
   export type MessageCreateManySenderInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
   export type MessageCreateManyReceiverInput = {
     id?: string
     bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -20476,48 +26121,78 @@ export namespace Prisma {
   export type MessageUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -20526,6 +26201,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     basePrice: number
+    occasions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20573,15 +26249,31 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type MessageCreateManyContextVendorInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type ServiceUpdateWithoutVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     packages?: PackageUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutVendorInput = {
@@ -20589,10 +26281,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateManyWithoutVendorInput = {
@@ -20600,6 +26295,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20741,6 +26437,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MessageUpdateWithoutContextVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneWithoutMessagesNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutContextVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutContextVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PackageCreateManyServiceInput = {
     id?: string
     name: string
@@ -20749,6 +26484,12 @@ export namespace Prisma {
     features?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ServiceImageCreateManyServiceInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
   }
 
   export type BookingCreateManyServiceInput = {
@@ -20765,6 +26506,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type MessageCreateManyContextServiceInput = {
+    id?: string
+    bookingId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type PackageUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -20773,7 +26527,9 @@ export namespace Prisma {
     features?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUpdateManyWithoutPackageNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutServiceInput = {
@@ -20784,7 +26540,9 @@ export namespace Prisma {
     features?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
   }
 
   export type PackageUncheckedUpdateManyWithoutServiceInput = {
@@ -20795,6 +26553,24 @@ export namespace Prisma {
     features?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceImageUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceImageUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceImageUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUpdateWithoutServiceInput = {
@@ -20847,6 +26623,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MessageUpdateWithoutContextServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneWithoutMessagesNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutContextServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutContextServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageCreateManyPackageInput = {
+    id?: string
+    url: string
+    createdAt?: Date | string
+  }
+
   export type BookingCreateManyPackageInput = {
     id?: string
     eventId: string
@@ -20859,6 +26680,37 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type MessageCreateManyContextPackageInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type PackageImageUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageUncheckedUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PackageImageUncheckedUpdateManyWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUpdateWithoutPackageInput = {
@@ -20909,6 +26761,45 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUpdateWithoutContextPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneWithoutMessagesNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutContextPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutContextPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyEventInput = {
@@ -20998,9 +26889,14 @@ export namespace Prisma {
 
   export type MessageCreateManyBookingInput = {
     id?: string
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
     senderId: string
     receiverId: string
     content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -21070,100 +26966,43 @@ export namespace Prisma {
   export type MessageUpdateWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     receiverId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
-
-  /**
-   * Aliases for legacy arg types
-   */
-    /**
-     * @deprecated Use UserCountOutputTypeDefaultArgs instead
-     */
-    export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use VendorProfileCountOutputTypeDefaultArgs instead
-     */
-    export type VendorProfileCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VendorProfileCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ServiceCountOutputTypeDefaultArgs instead
-     */
-    export type ServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ServiceCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use PackageCountOutputTypeDefaultArgs instead
-     */
-    export type PackageCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PackageCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use EventCountOutputTypeDefaultArgs instead
-     */
-    export type EventCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EventCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use BookingCountOutputTypeDefaultArgs instead
-     */
-    export type BookingCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BookingCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use UserDefaultArgs instead
-     */
-    export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use VendorProfileDefaultArgs instead
-     */
-    export type VendorProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VendorProfileDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ServiceDefaultArgs instead
-     */
-    export type ServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ServiceDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use PackageDefaultArgs instead
-     */
-    export type PackageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PackageDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use EventDefaultArgs instead
-     */
-    export type EventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EventDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use BookingDefaultArgs instead
-     */
-    export type BookingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BookingDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use QuoteDefaultArgs instead
-     */
-    export type QuoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = QuoteDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use PaymentDefaultArgs instead
-     */
-    export type PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ReviewDefaultArgs instead
-     */
-    export type ReviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use MessageDefaultArgs instead
-     */
-    export type MessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MessageDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use AvailabilityDefaultArgs instead
-     */
-    export type AvailabilityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AvailabilityDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

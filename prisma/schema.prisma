@@ -56,6 +56,7 @@ model VendorProfile {
   quotes        Quote[]
   availability  Availability[]
   reviews       Review[]  @relation("VendorReviews")
+  messagesAsContext Message[] @relation("MessageContextVendor")
 }
 
 model Service {
@@ -73,6 +74,7 @@ model Service {
   packages      Package[]
   images        ServiceImage[]
   bookings      Booking[]
+  messagesAsContext Message[] @relation("MessageContextService")
 }
 
 model Package {
@@ -89,6 +91,7 @@ model Package {
   // Relationships
   images        PackageImage[]
   bookings      Booking[]
+  messagesAsContext Message[] @relation("MessageContextPackage")
 }
 
 model Event {
@@ -181,15 +184,24 @@ model Review {
 }
 
 model Message {
-  id            String    @id @default(cuid())
-  bookingId     String?
-  booking       Booking?  @relation(fields: [bookingId], references: [id])
-  senderId      String
-  sender        User      @relation("SentMessages", fields: [senderId], references: [id])
-  receiverId    String
-  receiver      User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  content       String
-  createdAt     DateTime  @default(now())
+  id                 String         @id @default(cuid())
+  bookingId          String?
+  booking            Booking?       @relation(fields: [bookingId], references: [id])
+  contextServiceId   String?
+  contextPackageId   String?
+  contextVendorId    String?
+  senderId           String
+  sender             User           @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId         String
+  receiver           User           @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  content            String
+  imageUrl           String?
+  readAt             DateTime?
+  createdAt          DateTime       @default(now())
+
+  contextService     Service?       @relation("MessageContextService", fields: [contextServiceId], references: [id], onDelete: SetNull)
+  contextPackage     Package?       @relation("MessageContextPackage", fields: [contextPackageId], references: [id], onDelete: SetNull)
+  contextVendor      VendorProfile? @relation("MessageContextVendor",  fields: [contextVendorId],  references: [id], onDelete: SetNull)
 }
 
 model Availability {
