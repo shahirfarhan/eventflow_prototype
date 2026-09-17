@@ -27,12 +27,13 @@ export default async function VendorsPage({
   }
   if (q && q.trim().length > 0) {
     where.OR = [
-      { businessName: { contains: q } },
-      { category: { contains: q } },
+      { businessName: { contains: q, mode: "insensitive"} },
+      { category: { contains: q, mode: "insensitive" } },
+      { occasions: { contains: q, mode: "insensitive" } },
     ];
   }
   if (location && location.trim().length > 0) {
-    where.location = { contains: location };
+    where.location = { contains: location, mode: "insensitive" };
   }
   if ((minPrice && !isNaN(Number(minPrice))) || (maxPrice && !isNaN(Number(maxPrice)))) {
     const priceFilter: any = {};

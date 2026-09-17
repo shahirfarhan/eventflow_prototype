@@ -72,21 +72,21 @@ export default function BookingDatePicker({
     blocked.has(d.toISOString().slice(0, 10))
 
   return (
-    <div className="space-y-2">
-      <Label>Event Date</Label>
+    <div className="space-y-3">
+      <Label className="text-sm font-medium">Event Date</Label>
 
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full justify-start text-left font-normal"
+            className="w-full justify-start text-left font-normal h-11"
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
 
             {date ? (
               format(date, 'PPP')
             ) : (
-              <span>Select a date</span>
+              <span className="text-muted-foreground">Select a date</span>
             )}
           </Button>
         </PopoverTrigger>

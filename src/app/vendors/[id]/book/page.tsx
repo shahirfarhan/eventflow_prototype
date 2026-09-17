@@ -30,6 +30,21 @@ export default async function BookingPage({
     prisma.event.findMany({
       where: { organizerId: session.user.id },
       orderBy: { date: 'asc' },
+      select: {
+        id: true,
+        title: true,
+        date: true,
+        startTime: true,
+        endTime: true,
+        location: true,
+        headcount: true,
+        budgetMin: true,
+        budgetMax: true,
+        minAge: true,
+        maxAge: true,
+        venueType: true,
+        venueAccess: true,
+      },
     }),
   ]);
 

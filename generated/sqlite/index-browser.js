@@ -170,9 +170,19 @@ exports.Prisma.EventScalarFieldEnum = {
   organizerId: 'organizerId',
   title: 'title',
   date: 'date',
+  startTime: 'startTime',
+  endTime: 'endTime',
   location: 'location',
   type: 'type',
   budget: 'budget',
+  budgetMin: 'budgetMin',
+  budgetMax: 'budgetMax',
+  headcount: 'headcount',
+  minAge: 'minAge',
+  maxAge: 'maxAge',
+  venueType: 'venueType',
+  venueAccess: 'venueAccess',
+  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -187,6 +197,20 @@ exports.Prisma.BookingScalarFieldEnum = {
   status: 'status',
   date: 'date',
   price: 'price',
+  location: 'location',
+  guests: 'guests',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  minAge: 'minAge',
+  maxAge: 'maxAge',
+  venueType: 'venueType',
+  venueAccess: 'venueAccess',
+  budgetMin: 'budgetMin',
+  budgetMax: 'budgetMax',
+  specialRequests: 'specialRequests',
+  vendorProvidedAt: 'vendorProvidedAt',
+  organizerConfirmedAt: 'organizerConfirmedAt',
+  organizerDisputedAt: 'organizerDisputedAt',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -229,6 +253,7 @@ exports.Prisma.ReviewScalarFieldEnum = {
 exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   bookingId: 'bookingId',
+  quotationId: 'quotationId',
   contextServiceId: 'contextServiceId',
   contextPackageId: 'contextPackageId',
   contextVendorId: 'contextVendorId',
@@ -263,6 +288,39 @@ exports.Prisma.PackageImageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  bookingId: 'bookingId',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ChatQuotationScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  bookingId: 'bookingId',
+  vendorId: 'vendorId',
+  serviceId: 'serviceId',
+  packageId: 'packageId',
+  price: 'price',
+  currency: 'currency',
+  date: 'date',
+  time: 'time',
+  location: 'location',
+  notes: 'notes',
+  validUntil: 'validUntil',
+  status: 'status',
+  acceptedAt: 'acceptedAt',
+  rejectedAt: 'rejectedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -287,7 +345,9 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   Availability: 'Availability',
   ServiceImage: 'ServiceImage',
-  PackageImage: 'PackageImage'
+  PackageImage: 'PackageImage',
+  Notification: 'Notification',
+  ChatQuotation: 'ChatQuotation'
 };
 
 /**

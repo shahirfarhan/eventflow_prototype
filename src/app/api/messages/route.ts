@@ -10,12 +10,24 @@ type InternalThread = {
   peerEmail: string;
   bookingId: string | null;
   eventTitle: string | null;
+
   vendorBusinessName: string | null;
+
   serviceName: string | null;
   packageName: string | null;
+
   contextServiceId: string | null;
+  contextServiceName: string | null;
+  contextServiceDescription: string | null;
+  contextServicePrice: number | null;
+  contextServiceVendorId: string | null;
+  contextServiceVendorBusinessName: string | null;
+  contextServiceVendorLocation: string | null;
+  contextServiceOccasions: string | null;
+
   contextPackageId: string | null;
   contextVendorId: string | null;
+
   lastMessage: string;
   lastMessageAt: Date;
   unreadCount: number;
@@ -66,7 +78,23 @@ export async function GET() {
             package: { select: { id: true, name: true } },
           },
         },
-        contextService: { select: { id: true, name: true } },
+        contextService: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            basePrice: true,
+            vendorId: true,
+            vendor: {
+              select: {
+                id: true,
+                businessName: true,
+                location: true,
+              },
+            },
+            occasions: true,
+          },
+        },
         contextPackage: { select: { id: true, name: true } },
         contextVendor: { select: { id: true, businessName: true } },
       },
@@ -93,16 +121,34 @@ export async function GET() {
           peerId,
           peerName: peer?.name ?? null,
           peerEmail: peer?.email ?? "",
+
           bookingId: m.bookingId ?? null,
           eventTitle: m.booking?.event?.title ?? null,
+
           vendorBusinessName: bookingVendorName ?? ctxVendorName ?? null,
+
           serviceName: bookingServiceName ?? ctxServiceName ?? null,
           packageName: bookingPackageName ?? ctxPackageName ?? null,
+
           contextServiceId: m.contextServiceId ?? null,
+
+          contextServiceName: m.contextService?.name ?? null,
+          contextServiceDescription: m.contextService?.description ?? null,
+          contextServicePrice: m.contextService?.basePrice ?? null,
+          contextServiceVendorId: m.contextService?.vendorId ?? null,
+          contextServiceVendorBusinessName:
+            m.contextService?.vendor?.businessName ?? null,
+          contextServiceVendorLocation:
+            m.contextService?.vendor?.location ?? null,
+          contextServiceOccasions:
+            m.contextService?.occasions ?? null,
+
           contextPackageId: m.contextPackageId ?? null,
           contextVendorId: m.contextVendorId ?? null,
+
           lastMessage: m.content,
           lastMessageAt: m.createdAt,
+
           unreadCount:
             m.receiverId === userId && !m.readAt ? 1 : 0,
         };
@@ -120,15 +166,31 @@ export async function GET() {
       id: t.id,
       peerId: t.peerId,
       peerName: peerDisplayName(role, t),
+
       bookingId: t.bookingId,
       eventTitle: t.eventTitle,
+
       serviceName: t.serviceName ?? t.packageName ?? null,
       vendorBusinessName: t.vendorBusinessName,
+
       contextServiceId: t.contextServiceId,
+      contextServiceName: t.contextServiceName,
+      contextServiceDescription: t.contextServiceDescription,
+      contextServicePrice: t.contextServicePrice,
+      contextServiceVendorId: t.contextServiceVendorId,
+      contextServiceVendorBusinessName:
+        t.contextServiceVendorBusinessName,
+      contextServiceVendorLocation:
+        t.contextServiceVendorLocation,
+      contextServiceOccasions:
+        t.contextServiceOccasions,
+
       contextPackageId: t.contextPackageId,
       contextVendorId: t.contextVendorId,
+
       lastMessage: t.lastMessage,
       lastMessageAt: t.lastMessageAt.toISOString(),
+
       unread: t.unreadCount > 0,
       unreadCount: t.unreadCount,
     }));

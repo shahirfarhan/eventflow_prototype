@@ -76,6 +76,18 @@ export async function GET(
         receiver: {
           select: { id: true, name: true, email: true },
         },
+        quotation: {
+          include: {
+            service: { select: { id: true, name: true } },
+            package: { select: { id: true, name: true } },
+            vendor: { select: { id: true, businessName: true } },
+            booking: {
+              include: {
+                event: { select: { title: true } },
+              },
+            },
+          },
+        },
       },
     });
 

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
-import { Check, X, CreditCard, Ban, CalendarCheck, MessageSquare, MapPin, Users, AlertTriangle } from 'lucide-react'
+import { Check, X, CreditCard, Ban, CalendarCheck, MessageSquare, MapPin, Users, AlertTriangle, Clock, Banknote, Home, Sun, LockKeyhole, Building2 } from 'lucide-react'
 import BookingChatDialog from './booking-chat-dialog'
 import Link from 'next/link'
 
@@ -18,6 +18,14 @@ interface Booking {
   date: string
   location: string | null
   guests: number | null
+  startTime: string | null
+  endTime: string | null
+  minAge: number | null
+  maxAge: number | null
+  venueType: string | null
+  venueAccess: string | null
+  budgetMin: number | null
+  budgetMax: number | null
   specialRequests: string | null
   vendorProvidedAt: string | null
   organizerDisputedAt: string | null
@@ -46,16 +54,27 @@ interface Booking {
 interface BookingsListProps {
   bookings: Booking[]
   userRole: string
-  events: {id: string, title:string}[]
+  events: { id: string, title: string }[]
 }
 
 export default function BookingsList({ bookings, userRole, events }: BookingsListProps) {
   const router = useRouter()
   const [processingId, setProcessingId] = useState<string | null>(null)
   const [selectedEventId, setSelectedEventId] = useState<string>("all")
+  const [selectedStatus, setSelectedStatus] = useState<string>("all")
 
-  const filtered = selectedEventId === "all" ? bookings : bookings.filter(b => b.event.id === selectedEventId)
-  
+  const statusOptions = Array.from(new Set(bookings.map((booking) => booking.status))).sort()
+
+  const filtered = bookings.filter((booking) => {
+    const matchesEvent =
+      selectedEventId === "all" || booking.event.id === selectedEventId
+
+    const matchesStatus =
+      selectedStatus === "all" || booking.status === selectedStatus
+
+    return matchesEvent && matchesStatus
+  })
+
   const handleStatusUpdate = async (id: string, newStatus: string) => {
     if (!confirm(`Are you sure you want to mark this booking as ${newStatus}?`)) return
 
@@ -201,6 +220,35 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
               </Button>
             ))}
           </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <AlertTriangle className="h-4 w-4 text-primary" />
+              Filter by Status
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant={selectedStatus === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedStatus("all")}
+                className="rounded-full px-4"
+              >
+                All Statuses
+              </Button>
+
+              {statusOptions.map((status) => (
+                <Button
+                  key={status}
+                  variant={selectedStatus === status ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedStatus(status)}
+                  className="rounded-full px-4"
+                >
+                  {status}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -247,28 +295,100 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="pt-0">
-                <div className="grid gap-2 text-sm text-muted-foreground">
+              <CardContent className="pt-2 pb-5">
+                <div className="grid gap-3.5 items-start text-sm text-muted-foreground">
                   {booking.location && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>{booking.location}</span>
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <span className="text-gray-700">{booking.location}</span>
                     </div>
                   )}
                   {typeof booking.guests === 'number' && (
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4" />
-                      <span>{booking.guests} pax</span>
+                    <div className="flex items-center gap-3">
+                      <Users className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <span className="text-gray-700"><span className="font-medium">{booking.guests}</span> pax</span>
                     </div>
                   )}
+                  {(booking.startTime || booking.endTime) && (
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <span className="text-gray-700 font-medium tabular-nums">
+                        {booking.startTime || '?'}
+                        {booking.endTime ? ` – ${booking.endTime}` : booking.startTime ? '+' : ''}
+                      </span>
+                    </div>
+                  )}
+                  {(booking.venueType || booking.venueAccess) && (
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <MapPin className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <div className="flex flex-wrap gap-2">
+                        {booking.venueType === 'INDOOR' && (
+                          <span className="inline-flex h-6 items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-3 text-xs font-semibold">
+                            <Home className="h-3 w-3" /> Indoor
+                          </span>
+                        )}
+                        {booking.venueType === 'OUTDOOR' && (
+                          <span className="inline-flex h-6 items-center gap-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200/60 px-3 text-xs font-semibold">
+                            <Sun className="h-3 w-3" /> Outdoor
+                          </span>
+                        )}
+                        {booking.venueAccess === 'PRIVATE' && (
+                          <span className="inline-flex h-6 items-center gap-1 rounded-full bg-violet-50 text-violet-700 border border-violet-200/60 px-3 text-xs font-semibold">
+                            <LockKeyhole className="h-3 w-3" /> Private
+                          </span>
+                        )}
+                        {booking.venueAccess === 'PUBLIC' && (
+                          <span className="inline-flex h-6 items-center gap-1 rounded-full bg-sky-50 text-sky-700 border border-sky-200/60 px-3 text-xs font-semibold">
+                            <Building2 className="h-3 w-3" /> Public
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {(booking.budgetMin !== null && booking.budgetMin !== undefined) ||
+                  (booking.budgetMax !== null && booking.budgetMax !== undefined) ? (
+                    <div className="flex items-center gap-3">
+                      <Banknote className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <span className="text-gray-700 font-medium tabular-nums">
+                        {booking.budgetMin !== null &&
+                        booking.budgetMin !== undefined &&
+                        booking.budgetMax !== null &&
+                        booking.budgetMax !== undefined
+                          ? `RM ${booking.budgetMin.toLocaleString()} – RM ${booking.budgetMax.toLocaleString()}`
+                          : booking.budgetMin !== null && booking.budgetMin !== undefined
+                            ? `RM ≥ ${booking.budgetMin.toLocaleString()}`
+                            : `RM ≤ ${booking.budgetMax!.toLocaleString()}`}
+                      </span>
+                    </div>
+                  ) : null}
+                  {(booking.minAge !== null && booking.minAge !== undefined) ||
+                  (booking.maxAge !== null && booking.maxAge !== undefined) ? (
+                    <div className="flex items-center gap-3">
+                      <Users className="h-4 w-4 shrink-0 text-muted-foreground/80" />
+                      <span className="text-gray-700 font-medium tabular-nums">
+                        {booking.minAge !== null &&
+                        booking.minAge !== undefined &&
+                        booking.maxAge !== null &&
+                        booking.maxAge !== undefined
+                          ? `Ages ${booking.minAge} – ${booking.maxAge}`
+                          : booking.minAge !== null && booking.minAge !== undefined
+                            ? `Ages ${booking.minAge}+`
+                            : `Ages ≤ ${booking.maxAge}`}
+                      </span>
+                    </div>
+                  ) : null}
                   {booking.specialRequests && (
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 mt-0.5" />
-                      <span className="whitespace-pre-wrap">{booking.specialRequests}</span>
+                    <div className="flex items-start gap-3 pt-1 border-t border-border/60 mt-0.5">
+                      <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0 text-amber-600/90" />
+                      <div className="flex flex-col gap-1 min-w-0">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-amber-700/80">Special Requests</span>
+                        <span className="whitespace-pre-wrap text-gray-700 leading-relaxed">{booking.specialRequests}</span>
+                      </div>
                     </div>
                   )}
                   {booking.organizerDisputedAt && (
-                    <div className="text-red-700 font-medium">
+                    <div className="inline-flex items-center gap-2 rounded-lg bg-red-50 border border-red-200/70 px-3 py-2 text-red-700 font-semibold w-fit">
+                      <AlertTriangle className="h-4 w-4" />
                       Disputed
                     </div>
                   )}
@@ -325,16 +445,16 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
 
                 {userRole === 'VENDOR' && booking.status === 'PENDING' && (
                   <>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
+                    <Button
+                      size="sm"
+                      variant="outline"
                       className="text-red-600 hover:text-red-700"
                       onClick={() => handleStatusUpdate(booking.id, 'REJECTED')}
                       disabled={!!processingId}
                     >
                       <X className="mr-2 h-4 w-4" /> Reject
                     </Button>
-                    <Button 
+                    <Button
                       size="sm"
                       onClick={() => handleStatusUpdate(booking.id, 'ACCEPTED')}
                       disabled={!!processingId}
@@ -345,8 +465,8 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 )}
 
                 {userRole === 'ORGANIZER' && booking.status === 'ACCEPTED' && (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     className="bg-green-600 hover:bg-green-700 text-white"
                     onClick={() => handleStatusUpdate(booking.id, 'PAID')}
                     disabled={!!processingId}
@@ -356,8 +476,8 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 )}
 
                 {userRole === 'ORGANIZER' && booking.status === 'PENDING' && (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant="outline"
                     className="text-red-600 hover:text-red-700"
                     onClick={() => handleStatusUpdate(booking.id, 'CANCELLED')}
@@ -368,8 +488,8 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 )}
 
                 {userRole === 'VENDOR' && booking.status === 'PAID' && (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant="outline"
                     onClick={() => handleStatusUpdate(booking.id, 'COMPLETED')}
                     disabled={!!processingId}

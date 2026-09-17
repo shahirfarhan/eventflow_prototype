@@ -7,6 +7,7 @@ import { Star, MapPin } from "lucide-react";
 import { auth } from "@/auth";
 import { Plus } from "lucide-react"
 import SurveyPopup from "@/components/survey-popup";
+import AudienceToggle from "@/components/audience-toggle";
 
 export default async function Home() {
   const allCategories = await prisma.vendorProfile.findMany({
@@ -45,78 +46,159 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* <SurveyPopup /> */}
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-          {/* <div className="absolute inset-0 bg-black/50"></div> */}
+        <section className="w-full py-8 pb-8  md:py-16 lg:py-24 xl:py-32">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  What Are We Celebrating Today?
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  All your vendors and bookings. Now in one app.
-                </p>
-              </div>
-              <div>
-                {session?.user?.role == "ORGANIZER" ? (
-                  <Link href="/dashboard/events">
-                    {/* <Button variant="outline" size="lg">Create Event</Button> */}
-                    <Button>
-                      <Plus className="mr-2 h-4 w-4" /> Create Event
-                    </Button>
-                  </Link> 
-                ): ""}
-              </div>
-              
-              
-              <div className="space-x-4">
-                {!session?.user ? (
-                  <>
-                    <Link href="/register">
-                      <Button size="lg">Get Started</Button>
+            <div className="grid grid-cols-2 gap-8 items-center">
+
+              {/* LEFT SIDE */}
+              <div className="flex flex-col items-start space-y-4 text-left">
+                
+                <div className="space-y-2">
+                  <h1 className="text-5xl font-bold tracking-tighter sm:text-5xl md:text-8xl lg:text-6xl/none">
+                    What Are We <br/> Planning Today?
+                  </h1>
+
+                  <p className="max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                    All your vendors and bookings. Now in one app.
+                  </p>
+                </div>
+
+                {/* CREATE EVENT */}
+                <div>
+                  {session?.user?.role === "ORGANIZER" ? (
+                    <Link href="/dashboard/events/new">
+                      <Button>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create Event
+                      </Button>
                     </Link>
-                    <Link href="/login">
-                      <Button variant="outline" size="lg">Log In</Button>
-                    </Link> 
-                  </>
-                ) : (
-                  <>
-                    {/* <Link href="/vendors">
-                      <Button size="lg">Vendors</Button>
-                    </Link> */}
-                  </>
-                )}
+                  ) : null}
+                </div>
+
+                {/* SEARCH */}
+                <form
+                  action="/vendors"
+                  method="GET"
+                  className="w-full max-w-xl mt-6 flex gap-2"
+                >
+                  <Input
+                    type="search"
+                    name="q"
+                    placeholder="Search vendors by name or category..."
+                    className="flex-1"
+                  />
+
+                  <Button type="submit">
+                    Search Vendors
+                  </Button>
+                </form>
+
               </div>
-              <form action="/vendors" method="GET" className="w-full max-w-xl mt-6 flex gap-2">
-                <Input
-                  type="search"
-                  name="q"
-                  placeholder="Search vendors by name or category..."
-                  className="flex-1"
-                />
-                <Button type="submit">Search Vendors</Button>
-              </form>
-            </div>
-          </div>
-        </section>
-        <section className="w-full pt-4 pb-4 md:pt-6 md:pb-24 lg:pt-8 lg:pb-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-2xl font-bold mb-6">Explore Categories</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {categories.map((cat) => (
-                <Link key={cat} href={`/vendors?category=${encodeURIComponent(cat!)}`}>
-                  <div className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer h-full">
-                    <div className="text-lg font-semibold">{cat}</div>
-                    <div className="text-sm text-gray-500 mt-1">
-                      {shortDesc[cat!] || 'Discover providers'}
+
+              {/* RIGHT SIDE */}
+              <div className="w-full flex justify-center items-center">
+                <div className="grid grid-cols-2 gap-4 w-fit">
+
+                  {/* LEFT COLUMN */}
+                  <div className="w-[180px] flex flex-col gap-4">
+                    
+                    {/* Vendor 1 */}
+                    <div className="w-[160px] h-[160px] bg-white rounded-2xl overflow-hidden border shadow-sm">
+                      <img
+                        src="/vendor_profile_photography.jpg"
+                        alt="Vendor"
+                        className="w-full aspect-[3/5] object-cover"
+                      />
+
+                      <div className="p-3">
+                        <p className="font-semibold text-lg">Flashpoint Studio</p>
+                        <p className="text-sm text-gray-500">Kuala Lumpur</p>
+
+                        <div className="flex items-center gap-1 mt-2">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-sm font-semibold">4.9</span>
+                          <span className="text-sm text-gray-500">(214)</span>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Vendor 2 */}
+                    <div className="w-[160px] bg-white rounded-2xl overflow-hidden border shadow-sm">
+                      <img
+                        src="/vendor_profile_food.jpg"
+                        alt="Vendor"
+                        className="w-full aspect-[4/3] object-cover"
+                      />
+
+                      <div className="p-4">
+                        <p className="font-semibold text-lg">Kanan Kitchen</p>
+                        <p className="text-sm text-gray-500">Petaling Jaya</p>
+
+                        <div className="flex items-center gap-1 mt-2">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-sm font-semibold">4.8</span>
+                          <span className="text-sm text-gray-500">(97)</span>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-                </Link>
-              ))}
+
+                  {/* RIGHT COLUMN */}
+                  <div className="w-[180px] flex flex-col items-center gap-4 pt-14">
+
+                    {/* Vendor 3 */}
+                    <div className="w-[160px] h-[300px] bg-white rounded-2xl overflow-hidden border shadow-sm">
+                      <img
+                        src="/vendor_profile_venues.jpg"
+                        alt="Vendor"
+                        className="w-full aspect-[4/3] object-cover"
+                      />
+
+                      <div className="p-4">
+                        <p className="font-semibold text-lg">Vasanta Hall</p>
+                        <p className="text-sm text-gray-500">KLCC, Kuala Lumpur</p>
+
+                        <div className="flex items-center gap-1 mt-2">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-sm font-semibold">4.6</span>
+                          <span className="text-sm text-gray-500">(58)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Vendor 4 */}
+                    <div className="w-[160px] bg-white rounded-2xl overflow-hidden border shadow-sm">
+                      <img
+                        src="/vendor_profile_attire.jpg"
+                        alt="Vendor"
+                        className="w-full aspect-[4/5] object-cover"
+                      />
+
+                      <div className="p-4">
+                        <p className="font-semibold text-lg">Arabelle Bridal</p>
+                        <p className="text-sm text-gray-500">Shah Alam, Selangor</p>
+
+                        <div className="flex items-center gap-1 mt-2">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-sm font-semibold">5.0</span>
+                          <span className="text-sm text-gray-500">(142)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+
+        <AudienceToggle />
+
+        <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
@@ -191,7 +273,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-2xl font-bold mb-6">Featured Vendors</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -258,3 +340,7 @@ export default async function Home() {
     </div>
   );
 }
+
+
+
+

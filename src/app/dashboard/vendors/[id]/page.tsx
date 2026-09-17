@@ -4,9 +4,10 @@ import { notFound, redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, ArrowLeft } from "lucide-react";
+import { MapPin, ArrowLeft, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import BookingDialog from "./booking-dialog";
+import BookingChatDialog, { type ChatContextService } from "@/app/dashboard/bookings/booking-chat-dialog";
 
 export default async function VendorDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
@@ -20,6 +21,7 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
   const vendor = await prisma.vendorProfile.findUnique({
     where: { id },
     include: {
+      user: { select: { id: true, name: true, email: true } },
       services: {
         include: {
           images: true,
@@ -33,14 +35,31 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
     },
   });
 
-  if (!vendor) {
+  if (!vendor || !vendor.user) {
     notFound();
   }
+  const vendorUserId = vendor.user.id;
+  const vendorDisplayName = vendor.user.name || vendor.businessName;
 
   // Fetch organizer's events to allow selecting which event to book for
   const events = await prisma.event.findMany({
     where: { organizerId: session.user.id },
     orderBy: { date: 'asc' },
+    select: {
+      id: true,
+      title: true,
+      date: true,
+      startTime: true,
+      endTime: true,
+      location: true,
+      headcount: true,
+      budgetMin: true,
+      budgetMax: true,
+      minAge: true,
+      maxAge: true,
+      venueType: true,
+      venueAccess: true,
+    },
   });
 
   return (
@@ -79,7 +98,18 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
           <div>
             <h2 className="text-2xl font-bold mb-4">Services</h2>
             <div className="grid gap-4">
-              {vendor.services.map((service) => (
+              {vendor.services.map((service) => {
+                const chatCtx: ChatContextService = {
+                  id: service.id,
+                  name: service.name,
+                  description: service.description,
+                  basePrice: service.basePrice,
+                  vendorId: vendor.id,
+                  vendorBusinessName: vendor.businessName,
+                  vendorLocation: vendor.location,
+                  occasions: service.occasions,
+                };
+                return (
                 <Card key={service.id}>
                   <CardHeader>
                     <div className="flex justify-between items-start">
@@ -89,17 +119,51 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
                           Starting at <span className="font-semibold text-primary">RM {service.basePrice}</span>
                         </CardDescription>
                       </div>
-                      <BookingDialog 
-                        vendorId={vendor.id}
-                        service={service} 
-                        events={events}
-                      />
+                      <div className="flex flex-col sm:flex-row gap-2 sm:items-start">
+                        <BookingChatDialog
+                          peerId={vendorUserId}
+                          directPeerName={vendorDisplayName}
+                          contextService={chatCtx}
+                          title={`Vendor — ${vendorDisplayName}`}
+                          description={`Vendor: ${vendor.businessName} • Enquiry: ${service.name}`}
+                          trigger={
+                            <Button size="sm" variant="outline">
+                              <MessageSquare className="mr-2 h-4 w-4" />
+                              Contact Vendor
+                            </Button>
+                          }
+                        />
+                        <BookingDialog
+                          vendorId={vendor.id}
+                          service={service}
+                          events={events}
+                        />
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-gray-500">
                       {service.description || "No description provided."}
                     </p>
+
+                    {service.occasions && (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {service.occasions
+                          .split(",")
+                          .map((s) => s.trim())
+                          .filter(Boolean)
+                          .slice(0, 6)
+                          .map((occ) => (
+                            <Badge
+                              key={occ}
+                              variant="secondary"
+                              className="text-[11px] px-2.5 py-0.5"
+                            >
+                              {occ}
+                            </Badge>
+                          ))}
+                      </div>
+                    )}
 
                     {service.images?.length > 0 && (
                       <div className="mt-4">
@@ -151,7 +215,7 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
                     )}
                   </CardContent>
                 </Card>
-              ))}
+              )})}
             </div>
           </div>
         </div>
@@ -162,8 +226,19 @@ export default async function VendorDetailsPage({ params }: { params: Promise<{ 
               <CardTitle>Contact</CardTitle>
             </CardHeader>
             <CardContent>
-               <Button className="w-full mb-2" variant="outline">Message Vendor</Button>
-               <p className="text-xs text-center text-gray-400">Response time: Usually within 24h</p>
+              <BookingChatDialog
+                peerId={vendorUserId}
+                directPeerName={vendorDisplayName}
+                contextVendorBusinessName={vendor.businessName}
+                title={`Vendor — ${vendorDisplayName}`}
+                description={`Vendor: ${vendor.businessName}`}
+                trigger={
+                  <Button className="w-full mb-2" variant="outline">
+                    <MessageSquare className="mr-2 h-4 w-4" /> Message Vendor
+                  </Button>
+                }
+              />
+              <p className="text-xs text-center text-gray-400">Response time: Usually within 24h</p>
             </CardContent>
           </Card>
         </div>

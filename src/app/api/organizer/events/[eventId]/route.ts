@@ -9,6 +9,16 @@ const eventSchema = z.object({
   location: z.string().min(2),
   type: z.string().min(2),
   budget: z.coerce.number().min(0),
+
+  startTime: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Invalid start time"),
+
+  endTime: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Invalid end time")
+    .optional()
+    .or(z.literal("")),
 });
 
 export async function PUT(
@@ -44,6 +54,8 @@ export async function PUT(
         location: data.location,
         type: data.type,
         budget: data.budget,
+        startTime: data.startTime,
+        endTime: data.endTime || null,
       },
     });
 

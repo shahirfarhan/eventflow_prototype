@@ -2,9 +2,9 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import EventsList from "./events-list";
-import EventDialog from "./event-dialog";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default async function OrganizerEventsPage() {
   const session = await auth();
@@ -27,13 +27,12 @@ export default async function OrganizerEventsPage() {
             Manage your upcoming events and plan details.
           </p>
         </div>
-        <EventDialog 
-          trigger={
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> Create Event
-            </Button>
-          }
-        />
+        <Button asChild>
+          <Link href="/dashboard/events/new">
+            <Plus className="mr-2 h-4 w-4" /> Create Event
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
 
       <EventsList events={events} />

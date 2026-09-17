@@ -34,7 +34,7 @@ export function UserDropdown({ name }: UserDropdownProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-red-500 cursor-pointer focus:text-red-500"
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={() => signOut({ callbackUrl: '/' })}
         >
           <LogOut className="mr-2 h-4 w-4" />
           Log out

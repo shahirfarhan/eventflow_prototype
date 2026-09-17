@@ -1,14 +1,17 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { ImagePlus, Paperclip, Loader2, X, Tag, MapPin, Sparkles } from 'lucide-react'
+import { ImagePlus, Paperclip, Loader2, X, Tag, MapPin, Sparkles, ReceiptText, FileText, Calendar, Clock, CheckCircle2, XCircle, AlertCircle, Send } from 'lucide-react'
 
 type Msg = {
   id: string
@@ -20,6 +23,31 @@ type Msg = {
   contextPackageId?: string | null
   contextVendorId?: string | null
   sender?: { id: string; name: string | null; email: string }
+  quotation?: null | ChatQuotationPayload
+}
+
+type ChatQuotationPayload = {
+  id: string
+  price: number
+  currency: string
+  date: string | null
+  time: string | null
+  location: string | null
+  notes: string | null
+  validUntil: string | null
+  status: string
+  acceptedAt: string | null
+  rejectedAt: string | null
+  senderId: string
+  receiverId: string
+  bookingId: string | null
+  vendorId: string | null
+  serviceId: string | null
+  packageId: string | null
+  service?: { id: string; name: string } | null
+  package?: { id: string; name: string } | null
+  vendor?: { id: string; businessName: string } | null
+  booking?: { event?: { title: string } } | null
 }
 
 export type ChatContextService = {
@@ -45,6 +73,8 @@ export default function BookingChatDialog({
   contextService,
   contextServiceName,
   contextVendorBusinessName,
+  vendorBusinessName,
+  vendorUserId,
 }: {
   bookingId?: string
   trigger?: React.ReactNode
@@ -57,7 +87,10 @@ export default function BookingChatDialog({
   contextService?: ChatContextService
   contextServiceName?: string
   contextVendorBusinessName?: string
+  vendorBusinessName?: string
+  vendorUserId?: string
 }) {
+  const { data: session } = useSession()
   const [internalOpen, setInternalOpen] = useState(false)
   const isControlled = typeof open === 'boolean'
   const effectiveOpen = isControlled ? open! : internalOpen
@@ -73,6 +106,19 @@ export default function BookingChatDialog({
   const [pendingPreview, setPendingPreview] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
 
+  // Quotation editor state (vendor only)
+  const [quotationEditorOpen, setQuotationEditorOpen] = useState(false)
+  const [quotationSubmitting, setQuotationSubmitting] = useState(false)
+  const [qPrice, setQPrice] = useState<string>('')
+  const [qDate, setQDate] = useState<string>('')
+  const [qTime, setQTime] = useState<string>('')
+  const [qLocation, setQLocation] = useState<string>('')
+  const [qNotes, setQNotes] = useState<string>('')
+  const [qServiceId, setQServiceId] = useState<string>('')
+  const [qValidUntil, setQValidUntil] = useState<string>('')
+  const [qActionLoading, setQActionLoading] = useState<string | null>(null)
+  const [qPax, setQPax] = useState("1");
+
   const mode: 'booking' | 'direct' = bookingId ? 'booking' : 'direct'
 
   const setOpen = (next: boolean) => {
@@ -85,6 +131,7 @@ export default function BookingChatDialog({
         return null
       })
       setContent('')
+      setQuotationEditorOpen(false)
     }
   }
 
@@ -140,6 +187,12 @@ export default function BookingChatDialog({
       markedOpenRef.current = true
       load()
       markRead()
+      // Populate quotation defaults first open
+      if (contextService) {
+        setQServiceId(contextService.id)
+        if (typeof contextService.basePrice === 'number') setQPrice(String(contextService.basePrice))
+        if (contextService.vendorLocation) setQLocation(contextService.vendorLocation)
+      }
     }
   }, [effectiveOpen, messagesUrl, bookingId, peerId])
 
@@ -153,6 +206,13 @@ export default function BookingChatDialog({
     if (!scrollRef.current) return
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages, loading, effectiveOpen])
+
+  const currentUserId = session?.user?.id ?? null
+  const currentRole = session?.user?.role ?? null
+  const vendorCanSendQuotation =
+    currentRole === 'VENDOR' && !!peerId && mode === 'booking'
+      ? !!bookingId
+      : !!peerId // Also allow in direct mode; server validates + sends attached chat message on direct/booking threads
 
   const handlePickFile = () => fileInputRef.current?.click()
 
@@ -229,8 +289,88 @@ export default function BookingChatDialog({
     }
   }
 
+  const sendQuotation = async () => {
+    if (!peerId) {
+      toast.error('No recipient specified for quotation')
+      return
+    }
+    const priceNum = parseFloat(qPrice)
+    if (!priceNum || priceNum <= 0) {
+      toast.error('Please enter a valid price')
+      return
+    }
+    const serviceIdValue = qServiceId || contextService?.id || undefined
+    const payload: any = {
+      receiverId: peerId,
+      price: priceNum,
+      currency: 'MYR',
+      serviceId: serviceIdValue,
+      vendorId: contextService?.vendorId ?? undefined,
+      packageId: undefined,
+      bookingId: bookingId ?? undefined,
+      notes: qNotes.trim() || undefined,
+      location: qLocation.trim() || undefined,
+      time: qTime || undefined,
+      dateIso: qDate ? new Date(`${qDate}T00:00:00`).toISOString() : undefined,
+      validUntilIso: qValidUntil ? new Date(`${qValidUntil}T23:59:59`).toISOString() : undefined,
+      attachThreadBookingId: bookingId,
+    }
+    setQuotationSubmitting(true)
+    try {
+      const res = await fetch('/api/quotations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) {
+        const text = await res.text().catch(() => '')
+        throw new Error(text || 'Failed to send quotation')
+      }
+      toast.success('Price quotation sent')
+      setQuotationEditorOpen(false)
+      setQPrice('')
+      setQDate('')
+      setQTime('')
+      setQLocation('')
+      setQNotes('')
+      setQValidUntil('')
+      setQServiceId('')
+      await load()
+    } catch (e: any) {
+      toast.error(e?.message || 'Failed to send quotation')
+    } finally {
+      setQuotationSubmitting(false)
+    }
+  }
+
+  const updateQuotationStatus = async (
+    quotationId: string,
+    nextStatus: 'ACCEPTED' | 'REJECTED'
+  ) => {
+    setQActionLoading(quotationId)
+    try {
+      const res = await fetch(`/api/quotations/${quotationId}/status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: nextStatus }),
+      })
+      if (!res.ok) {
+        const text = await res.text().catch(() => '')
+        throw new Error(text || 'Failed to respond to quotation')
+      }
+      toast.success(nextStatus === 'ACCEPTED' ? 'Quotation accepted' : 'Quotation rejected')
+      await load()
+    } catch (e: any) {
+      toast.error(e?.message || 'Something went wrong')
+    } finally {
+      setQActionLoading(null)
+    }
+  }
+
   const sorted = useMemo(() => {
-    return [...messages].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    return [...messages].sort(
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    )
   }, [messages])
 
   const threadContext = (() => {
@@ -259,10 +399,144 @@ export default function BookingChatDialog({
     return null
   })()
 
+  function QuotationStatusBadge({ status }: { status: string }) {
+    if (status === 'ACCEPTED')
+      return (
+        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border-0">
+          <CheckCircle2 className="mr-1 h-3 w-3" /> Accepted
+        </Badge>
+      )
+    if (status === 'REJECTED')
+      return (
+        <Badge className="bg-red-100 text-red-700 hover:bg-red-100 border-0">
+          <XCircle className="mr-1 h-3 w-3" /> Declined
+        </Badge>
+      )
+    return (
+      <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-0">
+        <AlertCircle className="mr-1 h-3 w-3" /> Pending response
+      </Badge>
+    )
+  }
+
+  function QuotationBubble({ q }: { q: NonNullable<Msg['quotation']> }) {
+    const isPending = q.status === 'PENDING'
+    const plannerSide = currentRole === 'ORGANIZER' && currentUserId && q.receiverId === currentUserId
+    const showActions = isPending && plannerSide
+
+    return (
+      <Card className="mt-2 border-emerald-200 bg-emerald-50/50 max-w-[360px] w-full">
+        <CardContent className="p-3 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+              <ReceiptText className="h-3.5 w-3.5" /> Price Quotation
+            </div>
+            <QuotationStatusBadge status={q.status} />
+          </div>
+          <div className="h-px w-full bg-emerald-200/70" />
+          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 text-sm">
+            <Tag className="h-4 w-4 text-muted-foreground mt-0.5" />
+            <div className="font-medium leading-tight">
+              {q.service?.name ?? q.package?.name ?? 'Quoted service'}
+            </div>
+            <FileText className="h-4 w-4 text-muted-foreground mt-0.5" />
+            <div className="font-semibold text-emerald-700 text-base leading-tight">
+              {q.currency} {q.price.toLocaleString()}
+            </div>
+            {(q.date || q.booking?.event?.title) && (
+              <>
+                <Calendar className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div className="text-sm">
+                  {q.date
+                    ? new Date(q.date).toLocaleDateString(undefined, {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                    : q.booking?.event?.title ?? 'No date set'}
+                  {q.booking?.event?.title && q.date ? ` • ${q.booking.event.title}` : ''}
+                </div>
+              </>
+            )}
+            {q.time && (
+              <>
+                <Clock className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div className="text-sm">{q.time}</div>
+              </>
+            )}
+            {q.location && (
+              <>
+                <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div className="text-sm">{q.location}</div>
+              </>
+            )}
+            {q.notes && (
+              <>
+                <FileText className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div className="text-sm whitespace-pre-wrap">{q.notes}</div>
+              </>
+            )}
+            {q.validUntil && (
+              <>
+                <AlertCircle className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div className="text-xs text-muted-foreground">
+                  Valid until{' '}
+                  {new Date(q.validUntil).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+          {showActions && (
+            <>
+              <div className="h-px w-full bg-emerald-200/70" />
+              <div className="flex gap-2 justify-end pt-0.5">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="border-red-200 text-red-700 hover:bg-red-50"
+                  disabled={qActionLoading === q.id}
+                  onClick={() => updateQuotationStatus(q.id, 'REJECTED')}
+                >
+                  {qActionLoading === q.id ? (
+                    <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <XCircle className="mr-2 h-3.5 w-3.5" />
+                  )}
+                  Decline
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  className="bg-emerald-600 hover:bg-emerald-700"
+                  disabled={qActionLoading === q.id}
+                  onClick={() => updateQuotationStatus(q.id, 'ACCEPTED')}
+                >
+                  {qActionLoading === q.id ? (
+                    <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <CheckCircle2 className="mr-2 h-3.5 w-3.5" />
+                  )}
+                  Accept Quotation
+                </Button>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Dialog open={effectiveOpen} onOpenChange={setOpen}>
       {!isControlled && trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[680px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
@@ -305,7 +579,11 @@ export default function BookingChatDialog({
                         .filter(Boolean)
                         .slice(0, 4)
                         .map((occ) => (
-                          <Badge key={occ} variant="secondary" className="text-[10px] px-2 py-0">
+                          <Badge
+                            key={occ}
+                            variant="secondary"
+                            className="text-[10px] px-2 py-0"
+                          >
                             {occ}
                           </Badge>
                         ))}
@@ -333,8 +611,10 @@ export default function BookingChatDialog({
             sorted.map((m) => (
               <div key={m.id} className="text-sm">
                 <div className="text-xs text-muted-foreground">
-                  {m.sender?.name || m.sender?.email || 'User'} • {new Date(m.createdAt).toLocaleString()}
+                  {m.sender?.name || m.sender?.email || 'User'} •{' '}
+                  {new Date(m.createdAt).toLocaleString()}
                 </div>
+                {m.quotation && <QuotationBubble q={m.quotation} />}
                 {m.imageUrl && (
                   <div className="mt-2">
                     <a
@@ -351,7 +631,7 @@ export default function BookingChatDialog({
                     </a>
                   </div>
                 )}
-                {m.content && m.content !== '📎' && (
+                {m.content && m.content !== '📎' && !(m.quotation && m.content.startsWith('📄 Price quotation:')) && (
                   <div className="mt-1 whitespace-pre-wrap">{m.content}</div>
                 )}
               </div>
@@ -363,7 +643,11 @@ export default function BookingChatDialog({
           <div className="flex-1 w-full space-y-2">
             {pendingPreview && (
               <div className="relative inline-flex items-start gap-2 p-2 border rounded-md bg-muted/40 max-w-[260px]">
-                <img src={pendingPreview} alt="" className="h-20 w-20 object-cover rounded border bg-white" />
+                <img
+                  src={pendingPreview}
+                  alt=""
+                  className="h-20 w-20 object-cover rounded border bg-white"
+                />
                 <div className="flex-1 min-w-0">
                   <div className="text-xs truncate text-muted-foreground">
                     {pendingFile?.name || 'Attached image'}
@@ -409,20 +693,189 @@ export default function BookingChatDialog({
             />
           </div>
 
-          <div className="flex gap-2 justify-end w-full sm:w-auto">
-            <Button type="button" variant="outline" onClick={handlePickFile} disabled={sending || uploading}>
+          <div className="flex flex-wrap gap-2 justify-end w-full sm:w-auto">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handlePickFile}
+              disabled={sending || uploading}
+              title="Attach image"
+            >
               <Paperclip className="mr-2 h-4 w-4" />
               Attach
             </Button>
-            <Button type="button" variant="outline" onClick={load} disabled={loading || sending}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={load}
+              disabled={loading || sending}
+              title="Refresh messages"
+            >
               Refresh
             </Button>
+            {vendorCanSendQuotation && currentRole === 'VENDOR' && (
+              <Popover open={quotationEditorOpen} onOpenChange={setQuotationEditorOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+                    disabled={sending || quotationSubmitting}
+                  >
+                    <ReceiptText className="mr-2 h-4 w-4" />
+                    Send Quotation
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[420px] p-4 space-y-4">
+                  <div className="space-y-1">
+                    <div className="font-semibold inline-flex items-center gap-1.5 text-emerald-700">
+                      <ReceiptText className="h-4 w-4" /> Create price quotation
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      The planner will receive the quotation inline in this chat thread with Accept/Decline buttons.
+                    </p>
+                  </div>
+                  <div className="h-px w-full bg-border" />
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="q-price">Price</Label>
+                        <Input
+                          id="q-price"
+                          type="number"
+                          value={qPrice}
+                          onChange={(e) => setQPrice(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="q-pax">No. of Pax</Label>
+                        <Input
+                          id="q-pax"
+                          type="number"
+                          min={1}
+                          value={qPax}
+                          onChange={(e) => setQPax(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="q-date">Date</Label>
+                        <Input
+                          id="q-date"
+                          type="date"
+                          value={qDate}
+                          onChange={(e) => setQDate(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="q-time">Time</Label>
+                        <Input
+                          id="q-time"
+                          type="time"
+                          value={qTime}
+                          onChange={(e) => setQTime(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="q-location">Location</Label>
+                      <Input
+                        id="q-location"
+                        type="text"
+                        placeholder="e.g. Kuala Lumpur Convention Centre"
+                        value={qLocation}
+                        onChange={(e) => setQLocation(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="q-valid-until">Valid until</Label>
+                      <Input
+                        id="q-valid-until"
+                        type="date"
+                        value={qValidUntil}
+                        onChange={(e) => setQValidUntil(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="q-service-id">Service ID (optional)</Label>
+                      <Input
+                        id="q-service-id"
+                        type="text"
+                        placeholder={contextService?.id || 'e.g. svc_abc'}
+                        value={qServiceId}
+                        onChange={(e) => setQServiceId(e.target.value)}
+                      />
+                      {contextService?.name && (
+                        <p className="text-[11px] text-muted-foreground">
+                          Defaulting to <span className="font-medium">{contextService.name}</span> from enquiry context.
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="q-notes">Notes / Line items</Label>
+                      <Textarea
+                        id="q-notes"
+                        rows={3}
+                        placeholder="Optional description, add-ons, cancellation policy, etc."
+                        value={qNotes}
+                        onChange={(e) => setQNotes(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="h-px w-full bg-border" />
+                  <div className="flex justify-end gap-2 pt-0.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setQuotationEditorOpen(false)}
+                      disabled={quotationSubmitting}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="button"
+                      className="bg-emerald-600 hover:bg-emerald-700"
+                      disabled={quotationSubmitting || !peerId || !parseFloat(qPrice)}
+                      onClick={sendQuotation}
+                    >
+                      {quotationSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          <Send className="mr-2 h-4 w-4" />
+                          Send Quotation
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            )}
             <Button
               type="button"
               onClick={send}
               disabled={sending || (!content.trim() && !pendingFile)}
             >
-              {sending ? (uploading ? 'Uploading…' : 'Sending…') : (
+              {sending ? (
+                uploading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Uploading…
+                  </>
+                ) : (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending…
+                  </>
+                )
+              ) : (
                 <>
                   <ImagePlus className="mr-2 h-4 w-4" />
                   Send

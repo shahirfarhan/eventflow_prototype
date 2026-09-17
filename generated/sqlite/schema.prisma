@@ -25,12 +25,15 @@ model User {
   updatedAt    DateTime @updatedAt
 
   // Relationships
-  vendorProfile    VendorProfile?
-  events           Event[]
-  bookings         Booking[]      @relation("OrganizerBookings") // Bookings made by this user (if organizer)
-  reviews          Review[]       @relation("WrittenReviews")
-  sentMessages     Message[]      @relation("SentMessages")
-  receivedMessages Message[]      @relation("ReceivedMessages")
+  vendorProfile      VendorProfile?
+  events             Event[]
+  bookings           Booking[]       @relation("OrganizerBookings") // Bookings made by this user (if organizer)
+  reviews            Review[]        @relation("WrittenReviews")
+  sentMessages       Message[]       @relation("SentMessages")
+  receivedMessages   Message[]       @relation("ReceivedMessages")
+  notifications      Notification[]
+  sentQuotations     ChatQuotation[] @relation("SentQuotations")
+  receivedQuotations ChatQuotation[] @relation("ReceivedQuotations")
 }
 
 model VendorProfile {
@@ -54,8 +57,9 @@ model VendorProfile {
   bookings          Booking[] // Bookings received by this vendor
   quotes            Quote[]
   availability      Availability[]
-  reviews           Review[]       @relation("VendorReviews")
-  messagesAsContext Message[]      @relation("MessageContextVendor")
+  reviews           Review[]        @relation("VendorReviews")
+  messagesAsContext Message[]       @relation("MessageContextVendor")
+  chatQuotations    ChatQuotation[] @relation("QuotationVendor")
 }
 
 model Service {
@@ -73,7 +77,8 @@ model Service {
   packages          Package[]
   images            ServiceImage[]
   bookings          Booking[]
-  messagesAsContext Message[]      @relation("MessageContextService")
+  messagesAsContext Message[]       @relation("MessageContextService")
+  chatQuotations    ChatQuotation[] @relation("QuotationService")
 }
 
 model Package {
@@ -90,7 +95,8 @@ model Package {
   // Relationships
   images            PackageImage[]
   bookings          Booking[]
-  messagesAsContext Message[]      @relation("MessageContextPackage")
+  messagesAsContext Message[]       @relation("MessageContextPackage")
+  chatQuotations    ChatQuotation[] @relation("QuotationPackage")
 }
 
 model Event {
@@ -99,9 +105,19 @@ model Event {
   organizer   User     @relation(fields: [organizerId], references: [id], onDelete: Cascade)
   title       String
   date        DateTime
+  startTime   String?
+  endTime     String?
   location    String
   type        String
   budget      Float
+  budgetMin   Float?
+  budgetMax   Float?
+  headcount   Int?
+  minAge      Int?
+  maxAge      Int?
+  venueType   String?
+  venueAccess String?
+  notes       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -122,18 +138,34 @@ model Booking {
   serviceId   String?
   service     Service?      @relation(fields: [serviceId], references: [id])
 
-  status    String   @default("PENDING") // PENDING, QUOTED, ACCEPTED, REJECTED, CONFIRMED, COMPLETED, CANCELLED
-  date      DateTime
-  price     Float // Final agreed price
-  notes     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status               String    @default("PENDING") // PENDING, QUOTED, ACCEPTED, REJECTED, CONFIRMED, COMPLETED, CANCELLED
+  date                 DateTime
+  price                Float // Final agreed price
+  location             String?
+  guests               Int?
+  startTime            String?
+  endTime              String?
+  minAge               Int?
+  maxAge               Int?
+  venueType            String?
+  venueAccess          String?
+  budgetMin            Float?
+  budgetMax            Float?
+  specialRequests      String?
+  vendorProvidedAt     DateTime?
+  organizerConfirmedAt DateTime?
+  organizerDisputedAt  DateTime?
+  notes                String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   // Relationships
-  quotes   Quote[]
-  payments Payment[]
-  review   Review?
-  messages Message[]
+  quotes         Quote[]
+  payments       Payment[]
+  review         Review?
+  messages       Message[]
+  notifications  Notification[]
+  chatQuotations ChatQuotation[] @relation("QuotationBooking")
 }
 
 model Quote {
@@ -180,6 +212,7 @@ model Message {
   id               String    @id @default(cuid())
   bookingId        String?
   booking          Booking?  @relation(fields: [bookingId], references: [id])
+  quotationId      String?
   contextServiceId String?
   contextPackageId String?
   contextVendorId  String?
@@ -192,9 +225,15 @@ model Message {
   readAt           DateTime?
   createdAt        DateTime  @default(now())
 
+  quotation      ChatQuotation? @relation("QuotationMessages", fields: [quotationId], references: [id], onDelete: SetNull)
   contextService Service?       @relation("MessageContextService", fields: [contextServiceId], references: [id], onDelete: SetNull)
   contextPackage Package?       @relation("MessageContextPackage", fields: [contextPackageId], references: [id], onDelete: SetNull)
   contextVendor  VendorProfile? @relation("MessageContextVendor", fields: [contextVendorId], references: [id], onDelete: SetNull)
+
+  @@index([senderId, receiverId, createdAt])
+  @@index([receiverId, senderId, createdAt])
+  @@index([receiverId, readAt])
+  @@index([quotationId])
 }
 
 model Availability {
@@ -223,4 +262,63 @@ model PackageImage {
   package   Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
   url       String
   createdAt DateTime @default(now())
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    String
+  title   String
+  message String
+
+  bookingId String?
+  booking   Booking? @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([userId, readAt])
+  @@index([bookingId])
+}
+
+model ChatQuotation {
+  id         String         @id @default(cuid())
+  senderId   String
+  sender     User           @relation("SentQuotations", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User           @relation("ReceivedQuotations", fields: [receiverId], references: [id], onDelete: Cascade)
+  bookingId  String?
+  booking    Booking?       @relation("QuotationBooking", fields: [bookingId], references: [id], onDelete: SetNull)
+  vendorId   String?
+  vendor     VendorProfile? @relation("QuotationVendor", fields: [vendorId], references: [id], onDelete: SetNull)
+  serviceId  String?
+  service    Service?       @relation("QuotationService", fields: [serviceId], references: [id], onDelete: SetNull)
+  packageId  String?
+  package    Package?       @relation("QuotationPackage", fields: [packageId], references: [id], onDelete: SetNull)
+  price      Float
+  currency   String         @default("MYR")
+  date       DateTime?
+  time       String?
+  location   String?
+  notes      String?
+  validUntil DateTime?
+  status     String         @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  acceptedAt DateTime?
+  rejectedAt DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  messages Message[] @relation("QuotationMessages")
+
+  @@index([senderId, createdAt])
+  @@index([receiverId, createdAt])
+  @@index([receiverId, status])
+  @@index([bookingId])
+  @@index([vendorId])
+  @@index([serviceId])
+  @@index([packageId])
 }

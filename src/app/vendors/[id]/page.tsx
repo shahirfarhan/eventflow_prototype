@@ -6,6 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { MapPin, ArrowLeft, Globe, Phone, Star, Calendar, Mail, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { MessageCircle } from "lucide-react";
+import { MessagesDropdown } from "@/components/messages-dropdown";
+import VendorServices from "@/components/vendor-services";
 
 export default async function PublicVendorDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -15,6 +18,7 @@ export default async function PublicVendorDetailsPage({ params }: { params: Prom
     include: {
       user: {
         select: {
+          id: true,
           email: true,
         },
       },
@@ -111,87 +115,17 @@ export default async function PublicVendorDetailsPage({ params }: { params: Prom
 
           <div>
             <h2 className="text-2xl font-bold mb-4">Services</h2>
-            <div className="grid gap-4">
-              {vendor.services.map((service) => (
-                <Card key={service.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle>{service.name}</CardTitle>
-                        <CardDescription className="mt-1">
-                          Starting at <span className="font-semibold text-primary">RM {service.basePrice.toLocaleString()}</span>
-                        </CardDescription>
-                      </div>
-                      {/* Public page action */}
-                      
-                      <Button asChild>
-                        <Link href={`/vendors/${vendor.id}/book?serviceId=${service.id}`}>
-                          Book Now
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-500">
-                      {service.description || "No description provided."}
-                    </p>
-
-                    {service.images?.length > 0 && (
-                      <div className="mt-4">
-                        <div className="text-sm font-medium mb-2">Sample Images</div>
-                        <div className="flex flex-wrap gap-2">
-                          {service.images.map((img: any) => (
-                            <img
-                              key={img.id}
-                              src={img.url}
-                              alt={service.name}
-                              className="h-20 w-20 object-cover rounded-md border"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {service.packages?.length > 0 && (
-                      <div className="mt-5 space-y-2">
-                        <div className="text-sm font-medium">Packages</div>
-                        <div className="space-y-3">
-                          {service.packages.map((pkg: any) => (
-                            <div key={pkg.id} className="rounded-md border p-3">
-                              <div className="flex items-start justify-between gap-4">
-                                <div>
-                                  <div className="font-medium">{pkg.name}</div>
-                                  <div className="text-sm text-primary font-semibold">
-                                    RM {pkg.price.toLocaleString()}
-                                  </div>
-                                  {pkg.description && (
-                                    <div className="text-xs text-muted-foreground mt-1">
-                                      {pkg.description}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                              {pkg.images?.length > 0 && (
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {pkg.images.map((img: any) => (
-                                    <img
-                                      key={img.id}
-                                      src={img.url}
-                                      alt={pkg.name}
-                                      className="h-16 w-16 object-cover rounded-md border"
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <VendorServices
+              vendor={{
+                id: vendor.id,
+                businessName: vendor.businessName,
+                location: vendor.location,
+                user: {
+                  id: vendor.user.id,
+                },
+                services: vendor.services,
+              }}
+            />
           </div>
 
           <div>

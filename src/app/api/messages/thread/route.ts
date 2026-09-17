@@ -71,6 +71,13 @@ export async function GET(req: Request) {
         receiver: {
           select: { id: true, name: true, email: true },
         },
+        quotation: {
+          include: {
+            service: { select: { id: true, name: true } },
+            package: { select: { id: true, name: true } },
+            vendor: { select: { id: true, businessName: true } },
+          },
+        },
       },
       orderBy: { createdAt: "asc" },
     });
@@ -103,7 +110,7 @@ const createSchema = z.object({
     imageUrlSchema,
     z.literal("").transform(() => undefined as string | undefined),
     z.undefined(),
-  ]),
+  ]).nullable().optional(),
   contextServiceId: z.string().min(1).optional(),
   contextPackageId: z.string().min(1).optional(),
   contextVendorId: z.string().min(1).optional(),

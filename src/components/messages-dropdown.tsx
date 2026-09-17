@@ -19,10 +19,27 @@ type Thread = {
   peerId: string;
   peerName: string;
   bookingId: string | null;
+
   eventTitle: string | null;
   serviceName: string | null;
+
+  vendorBusinessName: string | null;
+
+  contextServiceId: string | null;
+  contextServiceName: string | null;
+  contextServiceDescription: string | null;
+  contextServicePrice: number | null;
+  contextServiceVendorId: string | null;
+  contextServiceVendorBusinessName: string | null;
+  contextServiceVendorLocation: string | null;
+  contextServiceOccasions: string | null;
+
+  contextPackageId: string | null;
+  contextVendorId: string | null;
+
   lastMessage: string;
   lastMessageAt: string;
+
   unread: boolean;
   unreadCount: number;
 };
@@ -58,6 +75,7 @@ export function MessagesDropdown() {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
   const [activePeerId, setActivePeerId] = useState<string | null>(null);
+  const [activeThread, setActiveThread] = useState<Thread | null>(null);
 
   const load = async (signal?: AbortSignal) => {
     setLoading(true);
@@ -91,9 +109,10 @@ export function MessagesDropdown() {
   );
 
   const onOpenThread = async (t: Thread) => {
-    if (!t.bookingId) return;
-    setActiveBookingId(t.bookingId);
-    setActivePeerId(t.peerId);
+  setActiveThread(t);
+
+  // Only mark booking messages as read through the booking endpoint
+  if (t.bookingId) {
     try {
       await fetch("/api/messages", {
         method: "POST",
@@ -106,9 +125,11 @@ export function MessagesDropdown() {
     } catch {
       /* ignore */
     }
-    void load();
-    setOpen(false);
-  };
+  }
+
+  void load();
+  setOpen(false);
+};
 
   return (
     <>
@@ -158,7 +179,6 @@ export function MessagesDropdown() {
                   key={t.id}
                   type="button"
                   onClick={() => onOpenThread(t)}
-                  disabled={!t.bookingId}
                   className={cn(
                     "w-full flex items-start gap-3 p-4 hover:bg-muted cursor-pointer transition-colors text-left border-b last:border-b-0",
                     t.unread && "bg-muted/50"
@@ -196,32 +216,46 @@ export function MessagesDropdown() {
         </PopoverContent>
       </Popover>
 
-      {activeBookingId && (
+      {activeThread && (
         <BookingChatDialog
-          bookingId={activeBookingId}
-          open={Boolean(activeBookingId)}
+          bookingId={activeThread.bookingId ?? undefined}
+          open={Boolean(activeThread)}
           onOpenChange={(next) => {
             if (!next) {
-              setActiveBookingId(null);
-              setActivePeerId(null);
+              setActiveThread(null);
               void load();
             }
           }}
-          peerId={activePeerId ?? undefined}
+          peerId={activeThread.peerId}
           trigger={<span />}
-          title={
-            threads.find((t) => t.bookingId === activeBookingId)
-              ? chatTitleFor(
-                  threads.find((t) => t.bookingId === activeBookingId)!
-                )
-              : `Booking ${activeBookingId.substring(0, 6)}…`
-          }
-          description={
-            threads.find((t) => t.bookingId === activeBookingId)
-              ? chatDescriptionFor(
-                  threads.find((t) => t.bookingId === activeBookingId)!
-                )
+          title={chatTitleFor(activeThread)}
+          description={chatDescriptionFor(activeThread)}
+          contextService={
+            activeThread.contextServiceId
+              ? {
+                  id: activeThread.contextServiceId,
+                  name: activeThread.contextServiceName ?? "Service",
+                  description: activeThread.contextServiceDescription,
+                  basePrice: activeThread.contextServicePrice,
+                  vendorId:
+                    activeThread.contextServiceVendorId ??
+                    activeThread.contextVendorId ??
+                    "",
+                  vendorBusinessName:
+                    activeThread.contextServiceVendorBusinessName ??
+                    activeThread.vendorBusinessName ??
+                    activeThread.peerName,
+                  vendorLocation:
+                    activeThread.contextServiceVendorLocation,
+                  occasions:
+                    activeThread.contextServiceOccasions,
+                }
               : undefined
+          }
+          contextVendorBusinessName={
+            activeThread.contextServiceVendorBusinessName ??
+            activeThread.vendorBusinessName ??
+            activeThread.peerName
           }
         />
       )}

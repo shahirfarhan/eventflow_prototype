@@ -10,6 +10,7 @@ import EventDialog from './event-dialog'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { CalendarCheck } from 'lucide-react'
+import Link from "next/link"
 
 interface Event {
   id: string
@@ -83,14 +84,12 @@ export default function EventsList({ events }: EventsListProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <EventDialog 
-                   event={event}
-                   trigger={
-                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                       <Pencil className="mr-2 h-4 w-4" /> Edit
-                     </DropdownMenuItem>
-                   }
-                />
+                <DropdownMenuItem asChild>
+                  <Link href={`/dashboard/events/${event.id}/edit`}>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </Link>
+                </DropdownMenuItem>
                 
                <DropdownMenuItem onClick={() => router.push('/dashboard/bookings')}>
                 <CalendarCheck className="mr-2 h-4 w-4" /> Bookings
@@ -125,17 +124,19 @@ export default function EventsList({ events }: EventsListProps) {
       ))}
       
       {/* Add new card */}
-      <Card className="relative flex flex-col items-center justify-center border-dashed cursor-pointer hover:bg-gray-50 transition-colors min-h-[200px]">
-         <EventDialog 
-            trigger={
-              <Button variant="ghost" className="absolute inset-0 h-full w-full flex flex-col gap-2">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-2xl font-light text-primary">+</span>
-                </div>
-                <span>Create New Event</span>
-              </Button>
-            }
-         />
+      <Card className="relative flex min-h-[200px] flex-col items-center justify-center border-dashed transition-colors hover:bg-gray-50">
+        <Button
+          asChild
+          variant="ghost"
+          className="absolute inset-0 h-full w-full flex-col gap-2"
+        >
+          <Link href="/dashboard/events/new">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+              <span className="text-2xl font-light text-primary">+</span>
+            </div>
+            <span>Create New Event</span>
+          </Link>
+        </Button>
       </Card>
     </div>
   )

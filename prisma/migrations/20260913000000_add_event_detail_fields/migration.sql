@@ -1,0 +1,39 @@
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "budgetMin" DOUBLE PRECISION;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "budgetMax" DOUBLE PRECISION;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "headcount" INTEGER;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "minAge" INTEGER;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "maxAge" INTEGER;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "startTime" VARCHAR(8);
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "endTime" VARCHAR(8);
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "venueType" VARCHAR(32);
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "venueAccess" VARCHAR(32);
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE "Event" ADD COLUMN "notes" TEXT;
+EXCEPTION WHEN duplicate_column THEN NULL; END $$;

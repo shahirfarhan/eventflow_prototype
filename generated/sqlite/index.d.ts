@@ -78,6 +78,16 @@ export type ServiceImage = $Result.DefaultSelection<Prisma.$ServiceImagePayload>
  * 
  */
 export type PackageImage = $Result.DefaultSelection<Prisma.$PackageImagePayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model ChatQuotation
+ * 
+ */
+export type ChatQuotation = $Result.DefaultSelection<Prisma.$ChatQuotationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -326,6 +336,26 @@ export class PrismaClient<
     * ```
     */
   get packageImage(): Prisma.PackageImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.chatQuotation`: Exposes CRUD operations for the **ChatQuotation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChatQuotations
+    * const chatQuotations = await prisma.chatQuotation.findMany()
+    * ```
+    */
+  get chatQuotation(): Prisma.ChatQuotationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -778,7 +808,9 @@ export namespace Prisma {
     Message: 'Message',
     Availability: 'Availability',
     ServiceImage: 'ServiceImage',
-    PackageImage: 'PackageImage'
+    PackageImage: 'PackageImage',
+    Notification: 'Notification',
+    ChatQuotation: 'ChatQuotation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -797,7 +829,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "vendorProfile" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability" | "serviceImage" | "packageImage"
+      modelProps: "user" | "vendorProfile" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability" | "serviceImage" | "packageImage" | "notification" | "chatQuotation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1763,6 +1795,154 @@ export namespace Prisma {
           }
         }
       }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ChatQuotation: {
+        payload: Prisma.$ChatQuotationPayload<ExtArgs>
+        fields: Prisma.ChatQuotationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChatQuotationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChatQuotationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          findFirst: {
+            args: Prisma.ChatQuotationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChatQuotationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          findMany: {
+            args: Prisma.ChatQuotationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>[]
+          }
+          create: {
+            args: Prisma.ChatQuotationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          createMany: {
+            args: Prisma.ChatQuotationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChatQuotationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>[]
+          }
+          delete: {
+            args: Prisma.ChatQuotationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          update: {
+            args: Prisma.ChatQuotationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChatQuotationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChatQuotationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChatQuotationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChatQuotationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatQuotationPayload>
+          }
+          aggregate: {
+            args: Prisma.ChatQuotationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChatQuotation>
+          }
+          groupBy: {
+            args: Prisma.ChatQuotationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChatQuotationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChatQuotationCountArgs<ExtArgs>
+            result: $Utils.Optional<ChatQuotationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1872,6 +2052,8 @@ export namespace Prisma {
     availability?: AvailabilityOmit
     serviceImage?: ServiceImageOmit
     packageImage?: PackageImageOmit
+    notification?: NotificationOmit
+    chatQuotation?: ChatQuotationOmit
   }
 
   /* Types for Logging */
@@ -1957,6 +2139,9 @@ export namespace Prisma {
     reviews: number
     sentMessages: number
     receivedMessages: number
+    notifications: number
+    sentQuotations: number
+    receivedQuotations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1965,6 +2150,9 @@ export namespace Prisma {
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
     sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
     receivedMessages?: boolean | UserCountOutputTypeCountReceivedMessagesArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    sentQuotations?: boolean | UserCountOutputTypeCountSentQuotationsArgs
+    receivedQuotations?: boolean | UserCountOutputTypeCountReceivedQuotationsArgs
   }
 
   // Custom InputTypes
@@ -2013,6 +2201,27 @@ export namespace Prisma {
     where?: MessageWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSentQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReceivedQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+  }
+
 
   /**
    * Count Type VendorProfileCountOutputType
@@ -2025,6 +2234,7 @@ export namespace Prisma {
     availability: number
     reviews: number
     messagesAsContext: number
+    chatQuotations: number
   }
 
   export type VendorProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2034,6 +2244,7 @@ export namespace Prisma {
     availability?: boolean | VendorProfileCountOutputTypeCountAvailabilityArgs
     reviews?: boolean | VendorProfileCountOutputTypeCountReviewsArgs
     messagesAsContext?: boolean | VendorProfileCountOutputTypeCountMessagesAsContextArgs
+    chatQuotations?: boolean | VendorProfileCountOutputTypeCountChatQuotationsArgs
   }
 
   // Custom InputTypes
@@ -2089,6 +2300,13 @@ export namespace Prisma {
     where?: MessageWhereInput
   }
 
+  /**
+   * VendorProfileCountOutputType without action
+   */
+  export type VendorProfileCountOutputTypeCountChatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+  }
+
 
   /**
    * Count Type ServiceCountOutputType
@@ -2099,6 +2317,7 @@ export namespace Prisma {
     images: number
     bookings: number
     messagesAsContext: number
+    chatQuotations: number
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2106,6 +2325,7 @@ export namespace Prisma {
     images?: boolean | ServiceCountOutputTypeCountImagesArgs
     bookings?: boolean | ServiceCountOutputTypeCountBookingsArgs
     messagesAsContext?: boolean | ServiceCountOutputTypeCountMessagesAsContextArgs
+    chatQuotations?: boolean | ServiceCountOutputTypeCountChatQuotationsArgs
   }
 
   // Custom InputTypes
@@ -2147,6 +2367,13 @@ export namespace Prisma {
     where?: MessageWhereInput
   }
 
+  /**
+   * ServiceCountOutputType without action
+   */
+  export type ServiceCountOutputTypeCountChatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+  }
+
 
   /**
    * Count Type PackageCountOutputType
@@ -2156,12 +2383,14 @@ export namespace Prisma {
     images: number
     bookings: number
     messagesAsContext: number
+    chatQuotations: number
   }
 
   export type PackageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | PackageCountOutputTypeCountImagesArgs
     bookings?: boolean | PackageCountOutputTypeCountBookingsArgs
     messagesAsContext?: boolean | PackageCountOutputTypeCountMessagesAsContextArgs
+    chatQuotations?: boolean | PackageCountOutputTypeCountChatQuotationsArgs
   }
 
   // Custom InputTypes
@@ -2194,6 +2423,13 @@ export namespace Prisma {
    */
   export type PackageCountOutputTypeCountMessagesAsContextArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * PackageCountOutputType without action
+   */
+  export type PackageCountOutputTypeCountChatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
   }
 
 
@@ -2236,12 +2472,16 @@ export namespace Prisma {
     quotes: number
     payments: number
     messages: number
+    notifications: number
+    chatQuotations: number
   }
 
   export type BookingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quotes?: boolean | BookingCountOutputTypeCountQuotesArgs
     payments?: boolean | BookingCountOutputTypeCountPaymentsArgs
     messages?: boolean | BookingCountOutputTypeCountMessagesArgs
+    notifications?: boolean | BookingCountOutputTypeCountNotificationsArgs
+    chatQuotations?: boolean | BookingCountOutputTypeCountChatQuotationsArgs
   }
 
   // Custom InputTypes
@@ -2273,6 +2513,51 @@ export namespace Prisma {
    * BookingCountOutputType without action
    */
   export type BookingCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
+  }
+
+  /**
+   * BookingCountOutputType without action
+   */
+  export type BookingCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * BookingCountOutputType without action
+   */
+  export type BookingCountOutputTypeCountChatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+  }
+
+
+  /**
+   * Count Type ChatQuotationCountOutputType
+   */
+
+  export type ChatQuotationCountOutputType = {
+    messages: number
+  }
+
+  export type ChatQuotationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | ChatQuotationCountOutputTypeCountMessagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ChatQuotationCountOutputType without action
+   */
+  export type ChatQuotationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotationCountOutputType
+     */
+    select?: ChatQuotationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ChatQuotationCountOutputType without action
+   */
+  export type ChatQuotationCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
   }
 
@@ -2467,6 +2752,9 @@ export namespace Prisma {
     reviews?: boolean | User$reviewsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | User$receivedMessagesArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    sentQuotations?: boolean | User$sentQuotationsArgs<ExtArgs>
+    receivedQuotations?: boolean | User$receivedQuotationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2508,6 +2796,9 @@ export namespace Prisma {
     reviews?: boolean | User$reviewsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | User$receivedMessagesArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    sentQuotations?: boolean | User$sentQuotationsArgs<ExtArgs>
+    receivedQuotations?: boolean | User$receivedQuotationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2522,6 +2813,9 @@ export namespace Prisma {
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       sentMessages: Prisma.$MessagePayload<ExtArgs>[]
       receivedMessages: Prisma.$MessagePayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      sentQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
+      receivedQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2931,6 +3225,9 @@ export namespace Prisma {
     reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivedMessages<T extends User$receivedMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sentQuotations<T extends User$sentQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    receivedQuotations<T extends User$receivedQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3492,6 +3789,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.sentQuotations
+   */
+  export type User$sentQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
+   * User.receivedQuotations
+   */
+  export type User$receivedQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3779,6 +4148,7 @@ export namespace Prisma {
     availability?: boolean | VendorProfile$availabilityArgs<ExtArgs>
     reviews?: boolean | VendorProfile$reviewsArgs<ExtArgs>
     messagesAsContext?: boolean | VendorProfile$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | VendorProfile$chatQuotationsArgs<ExtArgs>
     _count?: boolean | VendorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vendorProfile"]>
 
@@ -3841,6 +4211,7 @@ export namespace Prisma {
     availability?: boolean | VendorProfile$availabilityArgs<ExtArgs>
     reviews?: boolean | VendorProfile$reviewsArgs<ExtArgs>
     messagesAsContext?: boolean | VendorProfile$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | VendorProfile$chatQuotationsArgs<ExtArgs>
     _count?: boolean | VendorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VendorProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3860,6 +4231,7 @@ export namespace Prisma {
       availability: Prisma.$AvailabilityPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
+      chatQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4276,6 +4648,7 @@ export namespace Prisma {
     availability<T extends VendorProfile$availabilityArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$availabilityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends VendorProfile$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messagesAsContext<T extends VendorProfile$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatQuotations<T extends VendorProfile$chatQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, VendorProfile$chatQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4856,6 +5229,30 @@ export namespace Prisma {
   }
 
   /**
+   * VendorProfile.chatQuotations
+   */
+  export type VendorProfile$chatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
    * VendorProfile without action
    */
   export type VendorProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5101,6 +5498,7 @@ export namespace Prisma {
     images?: boolean | Service$imagesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     messagesAsContext?: boolean | Service$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | Service$chatQuotationsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
@@ -5146,6 +5544,7 @@ export namespace Prisma {
     images?: boolean | Service$imagesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     messagesAsContext?: boolean | Service$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | Service$chatQuotationsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5163,6 +5562,7 @@ export namespace Prisma {
       images: Prisma.$ServiceImagePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
+      chatQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5572,6 +5972,7 @@ export namespace Prisma {
     images<T extends Service$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Service$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messagesAsContext<T extends Service$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, Service$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatQuotations<T extends Service$chatQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, Service$chatQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6099,6 +6500,30 @@ export namespace Prisma {
   }
 
   /**
+   * Service.chatQuotations
+   */
+  export type Service$chatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
    * Service without action
    */
   export type ServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6343,6 +6768,7 @@ export namespace Prisma {
     images?: boolean | Package$imagesArgs<ExtArgs>
     bookings?: boolean | Package$bookingsArgs<ExtArgs>
     messagesAsContext?: boolean | Package$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | Package$chatQuotationsArgs<ExtArgs>
     _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["package"]>
 
@@ -6387,6 +6813,7 @@ export namespace Prisma {
     images?: boolean | Package$imagesArgs<ExtArgs>
     bookings?: boolean | Package$bookingsArgs<ExtArgs>
     messagesAsContext?: boolean | Package$messagesAsContextArgs<ExtArgs>
+    chatQuotations?: boolean | Package$chatQuotationsArgs<ExtArgs>
     _count?: boolean | PackageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PackageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6403,6 +6830,7 @@ export namespace Prisma {
       images: Prisma.$PackageImagePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       messagesAsContext: Prisma.$MessagePayload<ExtArgs>[]
+      chatQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6811,6 +7239,7 @@ export namespace Prisma {
     images<T extends Package$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Package$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PackageImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Package$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Package$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messagesAsContext<T extends Package$messagesAsContextArgs<ExtArgs> = {}>(args?: Subset<T, Package$messagesAsContextArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatQuotations<T extends Package$chatQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, Package$chatQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7314,6 +7743,30 @@ export namespace Prisma {
   }
 
   /**
+   * Package.chatQuotations
+   */
+  export type Package$chatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
    * Package without action
    */
   export type PackageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7346,10 +7799,20 @@ export namespace Prisma {
 
   export type EventAvgAggregateOutputType = {
     budget: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    headcount: number | null
+    minAge: number | null
+    maxAge: number | null
   }
 
   export type EventSumAggregateOutputType = {
     budget: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    headcount: number | null
+    minAge: number | null
+    maxAge: number | null
   }
 
   export type EventMinAggregateOutputType = {
@@ -7357,9 +7820,19 @@ export namespace Prisma {
     organizerId: string | null
     title: string | null
     date: Date | null
+    startTime: string | null
+    endTime: string | null
     location: string | null
     type: string | null
     budget: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    headcount: number | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7369,9 +7842,19 @@ export namespace Prisma {
     organizerId: string | null
     title: string | null
     date: Date | null
+    startTime: string | null
+    endTime: string | null
     location: string | null
     type: string | null
     budget: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    headcount: number | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7381,9 +7864,19 @@ export namespace Prisma {
     organizerId: number
     title: number
     date: number
+    startTime: number
+    endTime: number
     location: number
     type: number
     budget: number
+    budgetMin: number
+    budgetMax: number
+    headcount: number
+    minAge: number
+    maxAge: number
+    venueType: number
+    venueAccess: number
+    notes: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7392,10 +7885,20 @@ export namespace Prisma {
 
   export type EventAvgAggregateInputType = {
     budget?: true
+    budgetMin?: true
+    budgetMax?: true
+    headcount?: true
+    minAge?: true
+    maxAge?: true
   }
 
   export type EventSumAggregateInputType = {
     budget?: true
+    budgetMin?: true
+    budgetMax?: true
+    headcount?: true
+    minAge?: true
+    maxAge?: true
   }
 
   export type EventMinAggregateInputType = {
@@ -7403,9 +7906,19 @@ export namespace Prisma {
     organizerId?: true
     title?: true
     date?: true
+    startTime?: true
+    endTime?: true
     location?: true
     type?: true
     budget?: true
+    budgetMin?: true
+    budgetMax?: true
+    headcount?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    notes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7415,9 +7928,19 @@ export namespace Prisma {
     organizerId?: true
     title?: true
     date?: true
+    startTime?: true
+    endTime?: true
     location?: true
     type?: true
     budget?: true
+    budgetMin?: true
+    budgetMax?: true
+    headcount?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    notes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7427,9 +7950,19 @@ export namespace Prisma {
     organizerId?: true
     title?: true
     date?: true
+    startTime?: true
+    endTime?: true
     location?: true
     type?: true
     budget?: true
+    budgetMin?: true
+    budgetMax?: true
+    headcount?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    notes?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7526,9 +8059,19 @@ export namespace Prisma {
     organizerId: string
     title: string
     date: Date
+    startTime: string | null
+    endTime: string | null
     location: string
     type: string
     budget: number
+    budgetMin: number | null
+    budgetMax: number | null
+    headcount: number | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    notes: string | null
     createdAt: Date
     updatedAt: Date
     _count: EventCountAggregateOutputType | null
@@ -7557,9 +8100,19 @@ export namespace Prisma {
     organizerId?: boolean
     title?: boolean
     date?: boolean
+    startTime?: boolean
+    endTime?: boolean
     location?: boolean
     type?: boolean
     budget?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    headcount?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizer?: boolean | UserDefaultArgs<ExtArgs>
@@ -7572,9 +8125,19 @@ export namespace Prisma {
     organizerId?: boolean
     title?: boolean
     date?: boolean
+    startTime?: boolean
+    endTime?: boolean
     location?: boolean
     type?: boolean
     budget?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    headcount?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizer?: boolean | UserDefaultArgs<ExtArgs>
@@ -7585,9 +8148,19 @@ export namespace Prisma {
     organizerId?: boolean
     title?: boolean
     date?: boolean
+    startTime?: boolean
+    endTime?: boolean
     location?: boolean
     type?: boolean
     budget?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    headcount?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organizer?: boolean | UserDefaultArgs<ExtArgs>
@@ -7598,14 +8171,24 @@ export namespace Prisma {
     organizerId?: boolean
     title?: boolean
     date?: boolean
+    startTime?: boolean
+    endTime?: boolean
     location?: boolean
     type?: boolean
     budget?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    headcount?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizerId" | "title" | "date" | "location" | "type" | "budget" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizerId" | "title" | "date" | "startTime" | "endTime" | "location" | "type" | "budget" | "budgetMin" | "budgetMax" | "headcount" | "minAge" | "maxAge" | "venueType" | "venueAccess" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organizer?: boolean | UserDefaultArgs<ExtArgs>
     bookings?: boolean | Event$bookingsArgs<ExtArgs>
@@ -7629,9 +8212,19 @@ export namespace Prisma {
       organizerId: string
       title: string
       date: Date
+      startTime: string | null
+      endTime: string | null
       location: string
       type: string
       budget: number
+      budgetMin: number | null
+      budgetMax: number | null
+      headcount: number | null
+      minAge: number | null
+      maxAge: number | null
+      venueType: string | null
+      venueAccess: string | null
+      notes: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["event"]>
@@ -8063,9 +8656,19 @@ export namespace Prisma {
     readonly organizerId: FieldRef<"Event", 'String'>
     readonly title: FieldRef<"Event", 'String'>
     readonly date: FieldRef<"Event", 'DateTime'>
+    readonly startTime: FieldRef<"Event", 'String'>
+    readonly endTime: FieldRef<"Event", 'String'>
     readonly location: FieldRef<"Event", 'String'>
     readonly type: FieldRef<"Event", 'String'>
     readonly budget: FieldRef<"Event", 'Float'>
+    readonly budgetMin: FieldRef<"Event", 'Float'>
+    readonly budgetMax: FieldRef<"Event", 'Float'>
+    readonly headcount: FieldRef<"Event", 'Int'>
+    readonly minAge: FieldRef<"Event", 'Int'>
+    readonly maxAge: FieldRef<"Event", 'Int'>
+    readonly venueType: FieldRef<"Event", 'String'>
+    readonly venueAccess: FieldRef<"Event", 'String'>
+    readonly notes: FieldRef<"Event", 'String'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
     readonly updatedAt: FieldRef<"Event", 'DateTime'>
   }
@@ -8518,10 +9121,20 @@ export namespace Prisma {
 
   export type BookingAvgAggregateOutputType = {
     price: number | null
+    guests: number | null
+    minAge: number | null
+    maxAge: number | null
+    budgetMin: number | null
+    budgetMax: number | null
   }
 
   export type BookingSumAggregateOutputType = {
     price: number | null
+    guests: number | null
+    minAge: number | null
+    maxAge: number | null
+    budgetMin: number | null
+    budgetMax: number | null
   }
 
   export type BookingMinAggregateOutputType = {
@@ -8534,6 +9147,20 @@ export namespace Prisma {
     status: string | null
     date: Date | null
     price: number | null
+    location: string | null
+    guests: number | null
+    startTime: string | null
+    endTime: string | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    budgetMin: number | null
+    budgetMax: number | null
+    specialRequests: string | null
+    vendorProvidedAt: Date | null
+    organizerConfirmedAt: Date | null
+    organizerDisputedAt: Date | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8549,6 +9176,20 @@ export namespace Prisma {
     status: string | null
     date: Date | null
     price: number | null
+    location: string | null
+    guests: number | null
+    startTime: string | null
+    endTime: string | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    budgetMin: number | null
+    budgetMax: number | null
+    specialRequests: string | null
+    vendorProvidedAt: Date | null
+    organizerConfirmedAt: Date | null
+    organizerDisputedAt: Date | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8564,6 +9205,20 @@ export namespace Prisma {
     status: number
     date: number
     price: number
+    location: number
+    guests: number
+    startTime: number
+    endTime: number
+    minAge: number
+    maxAge: number
+    venueType: number
+    venueAccess: number
+    budgetMin: number
+    budgetMax: number
+    specialRequests: number
+    vendorProvidedAt: number
+    organizerConfirmedAt: number
+    organizerDisputedAt: number
     notes: number
     createdAt: number
     updatedAt: number
@@ -8573,10 +9228,20 @@ export namespace Prisma {
 
   export type BookingAvgAggregateInputType = {
     price?: true
+    guests?: true
+    minAge?: true
+    maxAge?: true
+    budgetMin?: true
+    budgetMax?: true
   }
 
   export type BookingSumAggregateInputType = {
     price?: true
+    guests?: true
+    minAge?: true
+    maxAge?: true
+    budgetMin?: true
+    budgetMax?: true
   }
 
   export type BookingMinAggregateInputType = {
@@ -8589,6 +9254,20 @@ export namespace Prisma {
     status?: true
     date?: true
     price?: true
+    location?: true
+    guests?: true
+    startTime?: true
+    endTime?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    budgetMin?: true
+    budgetMax?: true
+    specialRequests?: true
+    vendorProvidedAt?: true
+    organizerConfirmedAt?: true
+    organizerDisputedAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -8604,6 +9283,20 @@ export namespace Prisma {
     status?: true
     date?: true
     price?: true
+    location?: true
+    guests?: true
+    startTime?: true
+    endTime?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    budgetMin?: true
+    budgetMax?: true
+    specialRequests?: true
+    vendorProvidedAt?: true
+    organizerConfirmedAt?: true
+    organizerDisputedAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -8619,6 +9312,20 @@ export namespace Prisma {
     status?: true
     date?: true
     price?: true
+    location?: true
+    guests?: true
+    startTime?: true
+    endTime?: true
+    minAge?: true
+    maxAge?: true
+    venueType?: true
+    venueAccess?: true
+    budgetMin?: true
+    budgetMax?: true
+    specialRequests?: true
+    vendorProvidedAt?: true
+    organizerConfirmedAt?: true
+    organizerDisputedAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -8721,6 +9428,20 @@ export namespace Prisma {
     status: string
     date: Date
     price: number
+    location: string | null
+    guests: number | null
+    startTime: string | null
+    endTime: string | null
+    minAge: number | null
+    maxAge: number | null
+    venueType: string | null
+    venueAccess: string | null
+    budgetMin: number | null
+    budgetMax: number | null
+    specialRequests: string | null
+    vendorProvidedAt: Date | null
+    organizerConfirmedAt: Date | null
+    organizerDisputedAt: Date | null
     notes: string | null
     createdAt: Date
     updatedAt: Date
@@ -8755,6 +9476,20 @@ export namespace Prisma {
     status?: boolean
     date?: boolean
     price?: boolean
+    location?: boolean
+    guests?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    specialRequests?: boolean
+    vendorProvidedAt?: boolean
+    organizerConfirmedAt?: boolean
+    organizerDisputedAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8767,6 +9502,8 @@ export namespace Prisma {
     payments?: boolean | Booking$paymentsArgs<ExtArgs>
     review?: boolean | Booking$reviewArgs<ExtArgs>
     messages?: boolean | Booking$messagesArgs<ExtArgs>
+    notifications?: boolean | Booking$notificationsArgs<ExtArgs>
+    chatQuotations?: boolean | Booking$chatQuotationsArgs<ExtArgs>
     _count?: boolean | BookingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
@@ -8780,6 +9517,20 @@ export namespace Prisma {
     status?: boolean
     date?: boolean
     price?: boolean
+    location?: boolean
+    guests?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    specialRequests?: boolean
+    vendorProvidedAt?: boolean
+    organizerConfirmedAt?: boolean
+    organizerDisputedAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8800,6 +9551,20 @@ export namespace Prisma {
     status?: boolean
     date?: boolean
     price?: boolean
+    location?: boolean
+    guests?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    specialRequests?: boolean
+    vendorProvidedAt?: boolean
+    organizerConfirmedAt?: boolean
+    organizerDisputedAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8820,12 +9585,26 @@ export namespace Prisma {
     status?: boolean
     date?: boolean
     price?: boolean
+    location?: boolean
+    guests?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    minAge?: boolean
+    maxAge?: boolean
+    venueType?: boolean
+    venueAccess?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    specialRequests?: boolean
+    vendorProvidedAt?: boolean
+    organizerConfirmedAt?: boolean
+    organizerDisputedAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "vendorId" | "organizerId" | "packageId" | "serviceId" | "status" | "date" | "price" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "vendorId" | "organizerId" | "packageId" | "serviceId" | "status" | "date" | "price" | "location" | "guests" | "startTime" | "endTime" | "minAge" | "maxAge" | "venueType" | "venueAccess" | "budgetMin" | "budgetMax" | "specialRequests" | "vendorProvidedAt" | "organizerConfirmedAt" | "organizerDisputedAt" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
     vendor?: boolean | VendorProfileDefaultArgs<ExtArgs>
@@ -8836,6 +9615,8 @@ export namespace Prisma {
     payments?: boolean | Booking$paymentsArgs<ExtArgs>
     review?: boolean | Booking$reviewArgs<ExtArgs>
     messages?: boolean | Booking$messagesArgs<ExtArgs>
+    notifications?: boolean | Booking$notificationsArgs<ExtArgs>
+    chatQuotations?: boolean | Booking$chatQuotationsArgs<ExtArgs>
     _count?: boolean | BookingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8865,6 +9646,8 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       review: Prisma.$ReviewPayload<ExtArgs> | null
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      chatQuotations: Prisma.$ChatQuotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8876,6 +9659,20 @@ export namespace Prisma {
       status: string
       date: Date
       price: number
+      location: string | null
+      guests: number | null
+      startTime: string | null
+      endTime: string | null
+      minAge: number | null
+      maxAge: number | null
+      venueType: string | null
+      venueAccess: string | null
+      budgetMin: number | null
+      budgetMax: number | null
+      specialRequests: string | null
+      vendorProvidedAt: Date | null
+      organizerConfirmedAt: Date | null
+      organizerDisputedAt: Date | null
       notes: string | null
       createdAt: Date
       updatedAt: Date
@@ -9282,6 +10079,8 @@ export namespace Prisma {
     payments<T extends Booking$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     review<T extends Booking$reviewArgs<ExtArgs> = {}>(args?: Subset<T, Booking$reviewArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     messages<T extends Booking$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Booking$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatQuotations<T extends Booking$chatQuotationsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$chatQuotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9320,6 +10119,20 @@ export namespace Prisma {
     readonly status: FieldRef<"Booking", 'String'>
     readonly date: FieldRef<"Booking", 'DateTime'>
     readonly price: FieldRef<"Booking", 'Float'>
+    readonly location: FieldRef<"Booking", 'String'>
+    readonly guests: FieldRef<"Booking", 'Int'>
+    readonly startTime: FieldRef<"Booking", 'String'>
+    readonly endTime: FieldRef<"Booking", 'String'>
+    readonly minAge: FieldRef<"Booking", 'Int'>
+    readonly maxAge: FieldRef<"Booking", 'Int'>
+    readonly venueType: FieldRef<"Booking", 'String'>
+    readonly venueAccess: FieldRef<"Booking", 'String'>
+    readonly budgetMin: FieldRef<"Booking", 'Float'>
+    readonly budgetMax: FieldRef<"Booking", 'Float'>
+    readonly specialRequests: FieldRef<"Booking", 'String'>
+    readonly vendorProvidedAt: FieldRef<"Booking", 'DateTime'>
+    readonly organizerConfirmedAt: FieldRef<"Booking", 'DateTime'>
+    readonly organizerDisputedAt: FieldRef<"Booking", 'DateTime'>
     readonly notes: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly updatedAt: FieldRef<"Booking", 'DateTime'>
@@ -9843,6 +10656,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * Booking.notifications
+   */
+  export type Booking$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Booking.chatQuotations
+   */
+  export type Booking$chatQuotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    cursor?: ChatQuotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
   }
 
   /**
@@ -13301,6 +14162,7 @@ export namespace Prisma {
   export type MessageMinAggregateOutputType = {
     id: string | null
     bookingId: string | null
+    quotationId: string | null
     contextServiceId: string | null
     contextPackageId: string | null
     contextVendorId: string | null
@@ -13315,6 +14177,7 @@ export namespace Prisma {
   export type MessageMaxAggregateOutputType = {
     id: string | null
     bookingId: string | null
+    quotationId: string | null
     contextServiceId: string | null
     contextPackageId: string | null
     contextVendorId: string | null
@@ -13329,6 +14192,7 @@ export namespace Prisma {
   export type MessageCountAggregateOutputType = {
     id: number
     bookingId: number
+    quotationId: number
     contextServiceId: number
     contextPackageId: number
     contextVendorId: number
@@ -13345,6 +14209,7 @@ export namespace Prisma {
   export type MessageMinAggregateInputType = {
     id?: true
     bookingId?: true
+    quotationId?: true
     contextServiceId?: true
     contextPackageId?: true
     contextVendorId?: true
@@ -13359,6 +14224,7 @@ export namespace Prisma {
   export type MessageMaxAggregateInputType = {
     id?: true
     bookingId?: true
+    quotationId?: true
     contextServiceId?: true
     contextPackageId?: true
     contextVendorId?: true
@@ -13373,6 +14239,7 @@ export namespace Prisma {
   export type MessageCountAggregateInputType = {
     id?: true
     bookingId?: true
+    quotationId?: true
     contextServiceId?: true
     contextPackageId?: true
     contextVendorId?: true
@@ -13460,6 +14327,7 @@ export namespace Prisma {
   export type MessageGroupByOutputType = {
     id: string
     bookingId: string | null
+    quotationId: string | null
     contextServiceId: string | null
     contextPackageId: string | null
     contextVendorId: string | null
@@ -13491,6 +14359,7 @@ export namespace Prisma {
   export type MessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     bookingId?: boolean
+    quotationId?: boolean
     contextServiceId?: boolean
     contextPackageId?: boolean
     contextVendorId?: boolean
@@ -13503,6 +14372,7 @@ export namespace Prisma {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13511,6 +14381,7 @@ export namespace Prisma {
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     bookingId?: boolean
+    quotationId?: boolean
     contextServiceId?: boolean
     contextPackageId?: boolean
     contextVendorId?: boolean
@@ -13523,6 +14394,7 @@ export namespace Prisma {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13531,6 +14403,7 @@ export namespace Prisma {
   export type MessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     bookingId?: boolean
+    quotationId?: boolean
     contextServiceId?: boolean
     contextPackageId?: boolean
     contextVendorId?: boolean
@@ -13543,6 +14416,7 @@ export namespace Prisma {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13551,6 +14425,7 @@ export namespace Prisma {
   export type MessageSelectScalar = {
     id?: boolean
     bookingId?: boolean
+    quotationId?: boolean
     contextServiceId?: boolean
     contextPackageId?: boolean
     contextVendorId?: boolean
@@ -13562,11 +14437,12 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "contextServiceId" | "contextPackageId" | "contextVendorId" | "senderId" | "receiverId" | "content" | "imageUrl" | "readAt" | "createdAt", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "quotationId" | "contextServiceId" | "contextPackageId" | "contextVendorId" | "senderId" | "receiverId" | "content" | "imageUrl" | "readAt" | "createdAt", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13575,6 +14451,7 @@ export namespace Prisma {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13583,6 +14460,7 @@ export namespace Prisma {
     booking?: boolean | Message$bookingArgs<ExtArgs>
     sender?: boolean | UserDefaultArgs<ExtArgs>
     receiver?: boolean | UserDefaultArgs<ExtArgs>
+    quotation?: boolean | Message$quotationArgs<ExtArgs>
     contextService?: boolean | Message$contextServiceArgs<ExtArgs>
     contextPackage?: boolean | Message$contextPackageArgs<ExtArgs>
     contextVendor?: boolean | Message$contextVendorArgs<ExtArgs>
@@ -13594,6 +14472,7 @@ export namespace Prisma {
       booking: Prisma.$BookingPayload<ExtArgs> | null
       sender: Prisma.$UserPayload<ExtArgs>
       receiver: Prisma.$UserPayload<ExtArgs>
+      quotation: Prisma.$ChatQuotationPayload<ExtArgs> | null
       contextService: Prisma.$ServicePayload<ExtArgs> | null
       contextPackage: Prisma.$PackagePayload<ExtArgs> | null
       contextVendor: Prisma.$VendorProfilePayload<ExtArgs> | null
@@ -13601,6 +14480,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       bookingId: string | null
+      quotationId: string | null
       contextServiceId: string | null
       contextPackageId: string | null
       contextVendorId: string | null
@@ -14007,6 +14887,7 @@ export namespace Prisma {
     booking<T extends Message$bookingArgs<ExtArgs> = {}>(args?: Subset<T, Message$bookingArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    quotation<T extends Message$quotationArgs<ExtArgs> = {}>(args?: Subset<T, Message$quotationArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contextService<T extends Message$contextServiceArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextServiceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contextPackage<T extends Message$contextPackageArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextPackageArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contextVendor<T extends Message$contextVendorArgs<ExtArgs> = {}>(args?: Subset<T, Message$contextVendorArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -14041,6 +14922,7 @@ export namespace Prisma {
   interface MessageFieldRefs {
     readonly id: FieldRef<"Message", 'String'>
     readonly bookingId: FieldRef<"Message", 'String'>
+    readonly quotationId: FieldRef<"Message", 'String'>
     readonly contextServiceId: FieldRef<"Message", 'String'>
     readonly contextPackageId: FieldRef<"Message", 'String'>
     readonly contextVendorId: FieldRef<"Message", 'String'>
@@ -14460,6 +15342,25 @@ export namespace Prisma {
      */
     include?: BookingInclude<ExtArgs> | null
     where?: BookingWhereInput
+  }
+
+  /**
+   * Message.quotation
+   */
+  export type Message$quotationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    where?: ChatQuotationWhereInput
   }
 
   /**
@@ -17694,6 +18595,2546 @@ export namespace Prisma {
 
 
   /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    title: string | null
+    message: string | null
+    bookingId: string | null
+    readAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    title: string | null
+    message: string | null
+    bookingId: string | null
+    readAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    title: number
+    message: number
+    bookingId: number
+    readAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    message?: true
+    bookingId?: true
+    readAt?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    message?: true
+    bookingId?: true
+    readAt?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    message?: true
+    bookingId?: true
+    readAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    userId: string
+    type: string
+    title: string
+    message: string
+    bookingId: string | null
+    readAt: Date | null
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    bookingId?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    bookingId?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    bookingId?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    message?: boolean
+    bookingId?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "title" | "message" | "bookingId" | "readAt" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | Notification$bookingArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      booking: Prisma.$BookingPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: string
+      title: string
+      message: string
+      bookingId: string | null
+      readAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    booking<T extends Notification$bookingArgs<ExtArgs> = {}>(args?: Subset<T, Notification$bookingArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly userId: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'String'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly message: FieldRef<"Notification", 'String'>
+    readonly bookingId: FieldRef<"Notification", 'String'>
+    readonly readAt: FieldRef<"Notification", 'DateTime'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification.booking
+   */
+  export type Notification$bookingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ChatQuotation
+   */
+
+  export type AggregateChatQuotation = {
+    _count: ChatQuotationCountAggregateOutputType | null
+    _avg: ChatQuotationAvgAggregateOutputType | null
+    _sum: ChatQuotationSumAggregateOutputType | null
+    _min: ChatQuotationMinAggregateOutputType | null
+    _max: ChatQuotationMaxAggregateOutputType | null
+  }
+
+  export type ChatQuotationAvgAggregateOutputType = {
+    price: number | null
+  }
+
+  export type ChatQuotationSumAggregateOutputType = {
+    price: number | null
+  }
+
+  export type ChatQuotationMinAggregateOutputType = {
+    id: string | null
+    senderId: string | null
+    receiverId: string | null
+    bookingId: string | null
+    vendorId: string | null
+    serviceId: string | null
+    packageId: string | null
+    price: number | null
+    currency: string | null
+    date: Date | null
+    time: string | null
+    location: string | null
+    notes: string | null
+    validUntil: Date | null
+    status: string | null
+    acceptedAt: Date | null
+    rejectedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ChatQuotationMaxAggregateOutputType = {
+    id: string | null
+    senderId: string | null
+    receiverId: string | null
+    bookingId: string | null
+    vendorId: string | null
+    serviceId: string | null
+    packageId: string | null
+    price: number | null
+    currency: string | null
+    date: Date | null
+    time: string | null
+    location: string | null
+    notes: string | null
+    validUntil: Date | null
+    status: string | null
+    acceptedAt: Date | null
+    rejectedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ChatQuotationCountAggregateOutputType = {
+    id: number
+    senderId: number
+    receiverId: number
+    bookingId: number
+    vendorId: number
+    serviceId: number
+    packageId: number
+    price: number
+    currency: number
+    date: number
+    time: number
+    location: number
+    notes: number
+    validUntil: number
+    status: number
+    acceptedAt: number
+    rejectedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ChatQuotationAvgAggregateInputType = {
+    price?: true
+  }
+
+  export type ChatQuotationSumAggregateInputType = {
+    price?: true
+  }
+
+  export type ChatQuotationMinAggregateInputType = {
+    id?: true
+    senderId?: true
+    receiverId?: true
+    bookingId?: true
+    vendorId?: true
+    serviceId?: true
+    packageId?: true
+    price?: true
+    currency?: true
+    date?: true
+    time?: true
+    location?: true
+    notes?: true
+    validUntil?: true
+    status?: true
+    acceptedAt?: true
+    rejectedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ChatQuotationMaxAggregateInputType = {
+    id?: true
+    senderId?: true
+    receiverId?: true
+    bookingId?: true
+    vendorId?: true
+    serviceId?: true
+    packageId?: true
+    price?: true
+    currency?: true
+    date?: true
+    time?: true
+    location?: true
+    notes?: true
+    validUntil?: true
+    status?: true
+    acceptedAt?: true
+    rejectedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ChatQuotationCountAggregateInputType = {
+    id?: true
+    senderId?: true
+    receiverId?: true
+    bookingId?: true
+    vendorId?: true
+    serviceId?: true
+    packageId?: true
+    price?: true
+    currency?: true
+    date?: true
+    time?: true
+    location?: true
+    notes?: true
+    validUntil?: true
+    status?: true
+    acceptedAt?: true
+    rejectedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ChatQuotationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatQuotation to aggregate.
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatQuotations to fetch.
+     */
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChatQuotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatQuotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatQuotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChatQuotations
+    **/
+    _count?: true | ChatQuotationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChatQuotationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChatQuotationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChatQuotationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChatQuotationMaxAggregateInputType
+  }
+
+  export type GetChatQuotationAggregateType<T extends ChatQuotationAggregateArgs> = {
+        [P in keyof T & keyof AggregateChatQuotation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChatQuotation[P]>
+      : GetScalarType<T[P], AggregateChatQuotation[P]>
+  }
+
+
+
+
+  export type ChatQuotationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatQuotationWhereInput
+    orderBy?: ChatQuotationOrderByWithAggregationInput | ChatQuotationOrderByWithAggregationInput[]
+    by: ChatQuotationScalarFieldEnum[] | ChatQuotationScalarFieldEnum
+    having?: ChatQuotationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChatQuotationCountAggregateInputType | true
+    _avg?: ChatQuotationAvgAggregateInputType
+    _sum?: ChatQuotationSumAggregateInputType
+    _min?: ChatQuotationMinAggregateInputType
+    _max?: ChatQuotationMaxAggregateInputType
+  }
+
+  export type ChatQuotationGroupByOutputType = {
+    id: string
+    senderId: string
+    receiverId: string
+    bookingId: string | null
+    vendorId: string | null
+    serviceId: string | null
+    packageId: string | null
+    price: number
+    currency: string
+    date: Date | null
+    time: string | null
+    location: string | null
+    notes: string | null
+    validUntil: Date | null
+    status: string
+    acceptedAt: Date | null
+    rejectedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ChatQuotationCountAggregateOutputType | null
+    _avg: ChatQuotationAvgAggregateOutputType | null
+    _sum: ChatQuotationSumAggregateOutputType | null
+    _min: ChatQuotationMinAggregateOutputType | null
+    _max: ChatQuotationMaxAggregateOutputType | null
+  }
+
+  type GetChatQuotationGroupByPayload<T extends ChatQuotationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChatQuotationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChatQuotationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChatQuotationGroupByOutputType[P]>
+            : GetScalarType<T[P], ChatQuotationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChatQuotationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    serviceId?: boolean
+    packageId?: boolean
+    price?: boolean
+    currency?: boolean
+    date?: boolean
+    time?: boolean
+    location?: boolean
+    notes?: boolean
+    validUntil?: boolean
+    status?: boolean
+    acceptedAt?: boolean
+    rejectedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+    messages?: boolean | ChatQuotation$messagesArgs<ExtArgs>
+    _count?: boolean | ChatQuotationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatQuotation"]>
+
+  export type ChatQuotationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    serviceId?: boolean
+    packageId?: boolean
+    price?: boolean
+    currency?: boolean
+    date?: boolean
+    time?: boolean
+    location?: boolean
+    notes?: boolean
+    validUntil?: boolean
+    status?: boolean
+    acceptedAt?: boolean
+    rejectedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+  }, ExtArgs["result"]["chatQuotation"]>
+
+  export type ChatQuotationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    serviceId?: boolean
+    packageId?: boolean
+    price?: boolean
+    currency?: boolean
+    date?: boolean
+    time?: boolean
+    location?: boolean
+    notes?: boolean
+    validUntil?: boolean
+    status?: boolean
+    acceptedAt?: boolean
+    rejectedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+  }, ExtArgs["result"]["chatQuotation"]>
+
+  export type ChatQuotationSelectScalar = {
+    id?: boolean
+    senderId?: boolean
+    receiverId?: boolean
+    bookingId?: boolean
+    vendorId?: boolean
+    serviceId?: boolean
+    packageId?: boolean
+    price?: boolean
+    currency?: boolean
+    date?: boolean
+    time?: boolean
+    location?: boolean
+    notes?: boolean
+    validUntil?: boolean
+    status?: boolean
+    acceptedAt?: boolean
+    rejectedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ChatQuotationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderId" | "receiverId" | "bookingId" | "vendorId" | "serviceId" | "packageId" | "price" | "currency" | "date" | "time" | "location" | "notes" | "validUntil" | "status" | "acceptedAt" | "rejectedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["chatQuotation"]>
+  export type ChatQuotationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+    messages?: boolean | ChatQuotation$messagesArgs<ExtArgs>
+    _count?: boolean | ChatQuotationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ChatQuotationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+  }
+  export type ChatQuotationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+    booking?: boolean | ChatQuotation$bookingArgs<ExtArgs>
+    vendor?: boolean | ChatQuotation$vendorArgs<ExtArgs>
+    service?: boolean | ChatQuotation$serviceArgs<ExtArgs>
+    package?: boolean | ChatQuotation$packageArgs<ExtArgs>
+  }
+
+  export type $ChatQuotationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChatQuotation"
+    objects: {
+      sender: Prisma.$UserPayload<ExtArgs>
+      receiver: Prisma.$UserPayload<ExtArgs>
+      booking: Prisma.$BookingPayload<ExtArgs> | null
+      vendor: Prisma.$VendorProfilePayload<ExtArgs> | null
+      service: Prisma.$ServicePayload<ExtArgs> | null
+      package: Prisma.$PackagePayload<ExtArgs> | null
+      messages: Prisma.$MessagePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      senderId: string
+      receiverId: string
+      bookingId: string | null
+      vendorId: string | null
+      serviceId: string | null
+      packageId: string | null
+      price: number
+      currency: string
+      date: Date | null
+      time: string | null
+      location: string | null
+      notes: string | null
+      validUntil: Date | null
+      status: string
+      acceptedAt: Date | null
+      rejectedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["chatQuotation"]>
+    composites: {}
+  }
+
+  type ChatQuotationGetPayload<S extends boolean | null | undefined | ChatQuotationDefaultArgs> = $Result.GetResult<Prisma.$ChatQuotationPayload, S>
+
+  type ChatQuotationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChatQuotationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChatQuotationCountAggregateInputType | true
+    }
+
+  export interface ChatQuotationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChatQuotation'], meta: { name: 'ChatQuotation' } }
+    /**
+     * Find zero or one ChatQuotation that matches the filter.
+     * @param {ChatQuotationFindUniqueArgs} args - Arguments to find a ChatQuotation
+     * @example
+     * // Get one ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChatQuotationFindUniqueArgs>(args: SelectSubset<T, ChatQuotationFindUniqueArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChatQuotation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChatQuotationFindUniqueOrThrowArgs} args - Arguments to find a ChatQuotation
+     * @example
+     * // Get one ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChatQuotationFindUniqueOrThrowArgs>(args: SelectSubset<T, ChatQuotationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatQuotation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationFindFirstArgs} args - Arguments to find a ChatQuotation
+     * @example
+     * // Get one ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChatQuotationFindFirstArgs>(args?: SelectSubset<T, ChatQuotationFindFirstArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatQuotation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationFindFirstOrThrowArgs} args - Arguments to find a ChatQuotation
+     * @example
+     * // Get one ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChatQuotationFindFirstOrThrowArgs>(args?: SelectSubset<T, ChatQuotationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChatQuotations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChatQuotations
+     * const chatQuotations = await prisma.chatQuotation.findMany()
+     * 
+     * // Get first 10 ChatQuotations
+     * const chatQuotations = await prisma.chatQuotation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chatQuotationWithIdOnly = await prisma.chatQuotation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChatQuotationFindManyArgs>(args?: SelectSubset<T, ChatQuotationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChatQuotation.
+     * @param {ChatQuotationCreateArgs} args - Arguments to create a ChatQuotation.
+     * @example
+     * // Create one ChatQuotation
+     * const ChatQuotation = await prisma.chatQuotation.create({
+     *   data: {
+     *     // ... data to create a ChatQuotation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChatQuotationCreateArgs>(args: SelectSubset<T, ChatQuotationCreateArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChatQuotations.
+     * @param {ChatQuotationCreateManyArgs} args - Arguments to create many ChatQuotations.
+     * @example
+     * // Create many ChatQuotations
+     * const chatQuotation = await prisma.chatQuotation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChatQuotationCreateManyArgs>(args?: SelectSubset<T, ChatQuotationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChatQuotations and returns the data saved in the database.
+     * @param {ChatQuotationCreateManyAndReturnArgs} args - Arguments to create many ChatQuotations.
+     * @example
+     * // Create many ChatQuotations
+     * const chatQuotation = await prisma.chatQuotation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChatQuotations and only return the `id`
+     * const chatQuotationWithIdOnly = await prisma.chatQuotation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChatQuotationCreateManyAndReturnArgs>(args?: SelectSubset<T, ChatQuotationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChatQuotation.
+     * @param {ChatQuotationDeleteArgs} args - Arguments to delete one ChatQuotation.
+     * @example
+     * // Delete one ChatQuotation
+     * const ChatQuotation = await prisma.chatQuotation.delete({
+     *   where: {
+     *     // ... filter to delete one ChatQuotation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChatQuotationDeleteArgs>(args: SelectSubset<T, ChatQuotationDeleteArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChatQuotation.
+     * @param {ChatQuotationUpdateArgs} args - Arguments to update one ChatQuotation.
+     * @example
+     * // Update one ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChatQuotationUpdateArgs>(args: SelectSubset<T, ChatQuotationUpdateArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChatQuotations.
+     * @param {ChatQuotationDeleteManyArgs} args - Arguments to filter ChatQuotations to delete.
+     * @example
+     * // Delete a few ChatQuotations
+     * const { count } = await prisma.chatQuotation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChatQuotationDeleteManyArgs>(args?: SelectSubset<T, ChatQuotationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatQuotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChatQuotations
+     * const chatQuotation = await prisma.chatQuotation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChatQuotationUpdateManyArgs>(args: SelectSubset<T, ChatQuotationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatQuotations and returns the data updated in the database.
+     * @param {ChatQuotationUpdateManyAndReturnArgs} args - Arguments to update many ChatQuotations.
+     * @example
+     * // Update many ChatQuotations
+     * const chatQuotation = await prisma.chatQuotation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChatQuotations and only return the `id`
+     * const chatQuotationWithIdOnly = await prisma.chatQuotation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChatQuotationUpdateManyAndReturnArgs>(args: SelectSubset<T, ChatQuotationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChatQuotation.
+     * @param {ChatQuotationUpsertArgs} args - Arguments to update or create a ChatQuotation.
+     * @example
+     * // Update or create a ChatQuotation
+     * const chatQuotation = await prisma.chatQuotation.upsert({
+     *   create: {
+     *     // ... data to create a ChatQuotation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChatQuotation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChatQuotationUpsertArgs>(args: SelectSubset<T, ChatQuotationUpsertArgs<ExtArgs>>): Prisma__ChatQuotationClient<$Result.GetResult<Prisma.$ChatQuotationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChatQuotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationCountArgs} args - Arguments to filter ChatQuotations to count.
+     * @example
+     * // Count the number of ChatQuotations
+     * const count = await prisma.chatQuotation.count({
+     *   where: {
+     *     // ... the filter for the ChatQuotations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChatQuotationCountArgs>(
+      args?: Subset<T, ChatQuotationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChatQuotationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChatQuotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChatQuotationAggregateArgs>(args: Subset<T, ChatQuotationAggregateArgs>): Prisma.PrismaPromise<GetChatQuotationAggregateType<T>>
+
+    /**
+     * Group by ChatQuotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatQuotationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChatQuotationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChatQuotationGroupByArgs['orderBy'] }
+        : { orderBy?: ChatQuotationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChatQuotationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChatQuotationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChatQuotation model
+   */
+  readonly fields: ChatQuotationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChatQuotation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChatQuotationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    booking<T extends ChatQuotation$bookingArgs<ExtArgs> = {}>(args?: Subset<T, ChatQuotation$bookingArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends ChatQuotation$vendorArgs<ExtArgs> = {}>(args?: Subset<T, ChatQuotation$vendorArgs<ExtArgs>>): Prisma__VendorProfileClient<$Result.GetResult<Prisma.$VendorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    service<T extends ChatQuotation$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ChatQuotation$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    package<T extends ChatQuotation$packageArgs<ExtArgs> = {}>(args?: Subset<T, ChatQuotation$packageArgs<ExtArgs>>): Prisma__PackageClient<$Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    messages<T extends ChatQuotation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, ChatQuotation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChatQuotation model
+   */
+  interface ChatQuotationFieldRefs {
+    readonly id: FieldRef<"ChatQuotation", 'String'>
+    readonly senderId: FieldRef<"ChatQuotation", 'String'>
+    readonly receiverId: FieldRef<"ChatQuotation", 'String'>
+    readonly bookingId: FieldRef<"ChatQuotation", 'String'>
+    readonly vendorId: FieldRef<"ChatQuotation", 'String'>
+    readonly serviceId: FieldRef<"ChatQuotation", 'String'>
+    readonly packageId: FieldRef<"ChatQuotation", 'String'>
+    readonly price: FieldRef<"ChatQuotation", 'Float'>
+    readonly currency: FieldRef<"ChatQuotation", 'String'>
+    readonly date: FieldRef<"ChatQuotation", 'DateTime'>
+    readonly time: FieldRef<"ChatQuotation", 'String'>
+    readonly location: FieldRef<"ChatQuotation", 'String'>
+    readonly notes: FieldRef<"ChatQuotation", 'String'>
+    readonly validUntil: FieldRef<"ChatQuotation", 'DateTime'>
+    readonly status: FieldRef<"ChatQuotation", 'String'>
+    readonly acceptedAt: FieldRef<"ChatQuotation", 'DateTime'>
+    readonly rejectedAt: FieldRef<"ChatQuotation", 'DateTime'>
+    readonly createdAt: FieldRef<"ChatQuotation", 'DateTime'>
+    readonly updatedAt: FieldRef<"ChatQuotation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChatQuotation findUnique
+   */
+  export type ChatQuotationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatQuotation to fetch.
+     */
+    where: ChatQuotationWhereUniqueInput
+  }
+
+  /**
+   * ChatQuotation findUniqueOrThrow
+   */
+  export type ChatQuotationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatQuotation to fetch.
+     */
+    where: ChatQuotationWhereUniqueInput
+  }
+
+  /**
+   * ChatQuotation findFirst
+   */
+  export type ChatQuotationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatQuotation to fetch.
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatQuotations to fetch.
+     */
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatQuotations.
+     */
+    cursor?: ChatQuotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatQuotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatQuotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatQuotations.
+     */
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
+   * ChatQuotation findFirstOrThrow
+   */
+  export type ChatQuotationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatQuotation to fetch.
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatQuotations to fetch.
+     */
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatQuotations.
+     */
+    cursor?: ChatQuotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatQuotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatQuotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatQuotations.
+     */
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
+   * ChatQuotation findMany
+   */
+  export type ChatQuotationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatQuotations to fetch.
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatQuotations to fetch.
+     */
+    orderBy?: ChatQuotationOrderByWithRelationInput | ChatQuotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChatQuotations.
+     */
+    cursor?: ChatQuotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatQuotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatQuotations.
+     */
+    skip?: number
+    distinct?: ChatQuotationScalarFieldEnum | ChatQuotationScalarFieldEnum[]
+  }
+
+  /**
+   * ChatQuotation create
+   */
+  export type ChatQuotationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChatQuotation.
+     */
+    data: XOR<ChatQuotationCreateInput, ChatQuotationUncheckedCreateInput>
+  }
+
+  /**
+   * ChatQuotation createMany
+   */
+  export type ChatQuotationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChatQuotations.
+     */
+    data: ChatQuotationCreateManyInput | ChatQuotationCreateManyInput[]
+  }
+
+  /**
+   * ChatQuotation createManyAndReturn
+   */
+  export type ChatQuotationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChatQuotations.
+     */
+    data: ChatQuotationCreateManyInput | ChatQuotationCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatQuotation update
+   */
+  export type ChatQuotationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChatQuotation.
+     */
+    data: XOR<ChatQuotationUpdateInput, ChatQuotationUncheckedUpdateInput>
+    /**
+     * Choose, which ChatQuotation to update.
+     */
+    where: ChatQuotationWhereUniqueInput
+  }
+
+  /**
+   * ChatQuotation updateMany
+   */
+  export type ChatQuotationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChatQuotations.
+     */
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatQuotations to update
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * Limit how many ChatQuotations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatQuotation updateManyAndReturn
+   */
+  export type ChatQuotationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * The data used to update ChatQuotations.
+     */
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatQuotations to update
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * Limit how many ChatQuotations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatQuotation upsert
+   */
+  export type ChatQuotationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChatQuotation to update in case it exists.
+     */
+    where: ChatQuotationWhereUniqueInput
+    /**
+     * In case the ChatQuotation found by the `where` argument doesn't exist, create a new ChatQuotation with this data.
+     */
+    create: XOR<ChatQuotationCreateInput, ChatQuotationUncheckedCreateInput>
+    /**
+     * In case the ChatQuotation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChatQuotationUpdateInput, ChatQuotationUncheckedUpdateInput>
+  }
+
+  /**
+   * ChatQuotation delete
+   */
+  export type ChatQuotationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+    /**
+     * Filter which ChatQuotation to delete.
+     */
+    where: ChatQuotationWhereUniqueInput
+  }
+
+  /**
+   * ChatQuotation deleteMany
+   */
+  export type ChatQuotationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatQuotations to delete
+     */
+    where?: ChatQuotationWhereInput
+    /**
+     * Limit how many ChatQuotations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatQuotation.booking
+   */
+  export type ChatQuotation$bookingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+  }
+
+  /**
+   * ChatQuotation.vendor
+   */
+  export type ChatQuotation$vendorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VendorProfile
+     */
+    select?: VendorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VendorProfile
+     */
+    omit?: VendorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VendorProfileInclude<ExtArgs> | null
+    where?: VendorProfileWhereInput
+  }
+
+  /**
+   * ChatQuotation.service
+   */
+  export type ChatQuotation$serviceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+  }
+
+  /**
+   * ChatQuotation.package
+   */
+  export type ChatQuotation$packageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Package
+     */
+    select?: PackageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Package
+     */
+    omit?: PackageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PackageInclude<ExtArgs> | null
+    where?: PackageWhereInput
+  }
+
+  /**
+   * ChatQuotation.messages
+   */
+  export type ChatQuotation$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * ChatQuotation without action
+   */
+  export type ChatQuotationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatQuotation
+     */
+    select?: ChatQuotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatQuotation
+     */
+    omit?: ChatQuotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatQuotationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -17769,9 +21210,19 @@ export namespace Prisma {
     organizerId: 'organizerId',
     title: 'title',
     date: 'date',
+    startTime: 'startTime',
+    endTime: 'endTime',
     location: 'location',
     type: 'type',
     budget: 'budget',
+    budgetMin: 'budgetMin',
+    budgetMax: 'budgetMax',
+    headcount: 'headcount',
+    minAge: 'minAge',
+    maxAge: 'maxAge',
+    venueType: 'venueType',
+    venueAccess: 'venueAccess',
+    notes: 'notes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -17789,6 +21240,20 @@ export namespace Prisma {
     status: 'status',
     date: 'date',
     price: 'price',
+    location: 'location',
+    guests: 'guests',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    minAge: 'minAge',
+    maxAge: 'maxAge',
+    venueType: 'venueType',
+    venueAccess: 'venueAccess',
+    budgetMin: 'budgetMin',
+    budgetMax: 'budgetMax',
+    specialRequests: 'specialRequests',
+    vendorProvidedAt: 'vendorProvidedAt',
+    organizerConfirmedAt: 'organizerConfirmedAt',
+    organizerDisputedAt: 'organizerDisputedAt',
     notes: 'notes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -17843,6 +21308,7 @@ export namespace Prisma {
   export const MessageScalarFieldEnum: {
     id: 'id',
     bookingId: 'bookingId',
+    quotationId: 'quotationId',
     contextServiceId: 'contextServiceId',
     contextPackageId: 'contextPackageId',
     contextVendorId: 'contextVendorId',
@@ -17887,6 +21353,45 @@ export namespace Prisma {
   };
 
   export type PackageImageScalarFieldEnum = (typeof PackageImageScalarFieldEnum)[keyof typeof PackageImageScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    title: 'title',
+    message: 'message',
+    bookingId: 'bookingId',
+    readAt: 'readAt',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const ChatQuotationScalarFieldEnum: {
+    id: 'id',
+    senderId: 'senderId',
+    receiverId: 'receiverId',
+    bookingId: 'bookingId',
+    vendorId: 'vendorId',
+    serviceId: 'serviceId',
+    packageId: 'packageId',
+    price: 'price',
+    currency: 'currency',
+    date: 'date',
+    time: 'time',
+    location: 'location',
+    notes: 'notes',
+    validUntil: 'validUntil',
+    status: 'status',
+    acceptedAt: 'acceptedAt',
+    rejectedAt: 'rejectedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ChatQuotationScalarFieldEnum = (typeof ChatQuotationScalarFieldEnum)[keyof typeof ChatQuotationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17958,6 +21463,9 @@ export namespace Prisma {
     reviews?: ReviewListRelationFilter
     sentMessages?: MessageListRelationFilter
     receivedMessages?: MessageListRelationFilter
+    notifications?: NotificationListRelationFilter
+    sentQuotations?: ChatQuotationListRelationFilter
+    receivedQuotations?: ChatQuotationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -17974,6 +21482,9 @@ export namespace Prisma {
     reviews?: ReviewOrderByRelationAggregateInput
     sentMessages?: MessageOrderByRelationAggregateInput
     receivedMessages?: MessageOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    sentQuotations?: ChatQuotationOrderByRelationAggregateInput
+    receivedQuotations?: ChatQuotationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -17993,6 +21504,9 @@ export namespace Prisma {
     reviews?: ReviewListRelationFilter
     sentMessages?: MessageListRelationFilter
     receivedMessages?: MessageListRelationFilter
+    notifications?: NotificationListRelationFilter
+    sentQuotations?: ChatQuotationListRelationFilter
+    receivedQuotations?: ChatQuotationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -18045,6 +21559,7 @@ export namespace Prisma {
     availability?: AvailabilityListRelationFilter
     reviews?: ReviewListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }
 
   export type VendorProfileOrderByWithRelationInput = {
@@ -18068,6 +21583,7 @@ export namespace Prisma {
     availability?: AvailabilityOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     messagesAsContext?: MessageOrderByRelationAggregateInput
+    chatQuotations?: ChatQuotationOrderByRelationAggregateInput
   }
 
   export type VendorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -18094,6 +21610,7 @@ export namespace Prisma {
     availability?: AvailabilityListRelationFilter
     reviews?: ReviewListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }, "id" | "userId">
 
   export type VendorProfileOrderByWithAggregationInput = {
@@ -18153,6 +21670,7 @@ export namespace Prisma {
     images?: ServiceImageListRelationFilter
     bookings?: BookingListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }
 
   export type ServiceOrderByWithRelationInput = {
@@ -18169,6 +21687,7 @@ export namespace Prisma {
     images?: ServiceImageOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
     messagesAsContext?: MessageOrderByRelationAggregateInput
+    chatQuotations?: ChatQuotationOrderByRelationAggregateInput
   }
 
   export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -18188,6 +21707,7 @@ export namespace Prisma {
     images?: ServiceImageListRelationFilter
     bookings?: BookingListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
@@ -18236,6 +21756,7 @@ export namespace Prisma {
     images?: PackageImageListRelationFilter
     bookings?: BookingListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }
 
   export type PackageOrderByWithRelationInput = {
@@ -18251,6 +21772,7 @@ export namespace Prisma {
     images?: PackageImageOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
     messagesAsContext?: MessageOrderByRelationAggregateInput
+    chatQuotations?: ChatQuotationOrderByRelationAggregateInput
   }
 
   export type PackageWhereUniqueInput = Prisma.AtLeast<{
@@ -18269,6 +21791,7 @@ export namespace Prisma {
     images?: PackageImageListRelationFilter
     bookings?: BookingListRelationFilter
     messagesAsContext?: MessageListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }, "id">
 
   export type PackageOrderByWithAggregationInput = {
@@ -18309,9 +21832,19 @@ export namespace Prisma {
     organizerId?: StringFilter<"Event"> | string
     title?: StringFilter<"Event"> | string
     date?: DateTimeFilter<"Event"> | Date | string
+    startTime?: StringNullableFilter<"Event"> | string | null
+    endTime?: StringNullableFilter<"Event"> | string | null
     location?: StringFilter<"Event"> | string
     type?: StringFilter<"Event"> | string
     budget?: FloatFilter<"Event"> | number
+    budgetMin?: FloatNullableFilter<"Event"> | number | null
+    budgetMax?: FloatNullableFilter<"Event"> | number | null
+    headcount?: IntNullableFilter<"Event"> | number | null
+    minAge?: IntNullableFilter<"Event"> | number | null
+    maxAge?: IntNullableFilter<"Event"> | number | null
+    venueType?: StringNullableFilter<"Event"> | string | null
+    venueAccess?: StringNullableFilter<"Event"> | string | null
+    notes?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
     organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -18323,9 +21856,19 @@ export namespace Prisma {
     organizerId?: SortOrder
     title?: SortOrder
     date?: SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
     location?: SortOrder
     type?: SortOrder
     budget?: SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    headcount?: SortOrderInput | SortOrder
+    minAge?: SortOrderInput | SortOrder
+    maxAge?: SortOrderInput | SortOrder
+    venueType?: SortOrderInput | SortOrder
+    venueAccess?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organizer?: UserOrderByWithRelationInput
@@ -18340,9 +21883,19 @@ export namespace Prisma {
     organizerId?: StringFilter<"Event"> | string
     title?: StringFilter<"Event"> | string
     date?: DateTimeFilter<"Event"> | Date | string
+    startTime?: StringNullableFilter<"Event"> | string | null
+    endTime?: StringNullableFilter<"Event"> | string | null
     location?: StringFilter<"Event"> | string
     type?: StringFilter<"Event"> | string
     budget?: FloatFilter<"Event"> | number
+    budgetMin?: FloatNullableFilter<"Event"> | number | null
+    budgetMax?: FloatNullableFilter<"Event"> | number | null
+    headcount?: IntNullableFilter<"Event"> | number | null
+    minAge?: IntNullableFilter<"Event"> | number | null
+    maxAge?: IntNullableFilter<"Event"> | number | null
+    venueType?: StringNullableFilter<"Event"> | string | null
+    venueAccess?: StringNullableFilter<"Event"> | string | null
+    notes?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
     organizer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -18354,9 +21907,19 @@ export namespace Prisma {
     organizerId?: SortOrder
     title?: SortOrder
     date?: SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
     location?: SortOrder
     type?: SortOrder
     budget?: SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    headcount?: SortOrderInput | SortOrder
+    minAge?: SortOrderInput | SortOrder
+    maxAge?: SortOrderInput | SortOrder
+    venueType?: SortOrderInput | SortOrder
+    venueAccess?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EventCountOrderByAggregateInput
@@ -18374,9 +21937,19 @@ export namespace Prisma {
     organizerId?: StringWithAggregatesFilter<"Event"> | string
     title?: StringWithAggregatesFilter<"Event"> | string
     date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    startTime?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    endTime?: StringNullableWithAggregatesFilter<"Event"> | string | null
     location?: StringWithAggregatesFilter<"Event"> | string
     type?: StringWithAggregatesFilter<"Event"> | string
     budget?: FloatWithAggregatesFilter<"Event"> | number
+    budgetMin?: FloatNullableWithAggregatesFilter<"Event"> | number | null
+    budgetMax?: FloatNullableWithAggregatesFilter<"Event"> | number | null
+    headcount?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    minAge?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    maxAge?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    venueType?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    venueAccess?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Event"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
@@ -18394,6 +21967,20 @@ export namespace Prisma {
     status?: StringFilter<"Booking"> | string
     date?: DateTimeFilter<"Booking"> | Date | string
     price?: FloatFilter<"Booking"> | number
+    location?: StringNullableFilter<"Booking"> | string | null
+    guests?: IntNullableFilter<"Booking"> | number | null
+    startTime?: StringNullableFilter<"Booking"> | string | null
+    endTime?: StringNullableFilter<"Booking"> | string | null
+    minAge?: IntNullableFilter<"Booking"> | number | null
+    maxAge?: IntNullableFilter<"Booking"> | number | null
+    venueType?: StringNullableFilter<"Booking"> | string | null
+    venueAccess?: StringNullableFilter<"Booking"> | string | null
+    budgetMin?: FloatNullableFilter<"Booking"> | number | null
+    budgetMax?: FloatNullableFilter<"Booking"> | number | null
+    specialRequests?: StringNullableFilter<"Booking"> | string | null
+    vendorProvidedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerConfirmedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerDisputedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
@@ -18406,6 +21993,8 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
     messages?: MessageListRelationFilter
+    notifications?: NotificationListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }
 
   export type BookingOrderByWithRelationInput = {
@@ -18418,6 +22007,20 @@ export namespace Prisma {
     status?: SortOrder
     date?: SortOrder
     price?: SortOrder
+    location?: SortOrderInput | SortOrder
+    guests?: SortOrderInput | SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    minAge?: SortOrderInput | SortOrder
+    maxAge?: SortOrderInput | SortOrder
+    venueType?: SortOrderInput | SortOrder
+    venueAccess?: SortOrderInput | SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    specialRequests?: SortOrderInput | SortOrder
+    vendorProvidedAt?: SortOrderInput | SortOrder
+    organizerConfirmedAt?: SortOrderInput | SortOrder
+    organizerDisputedAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18430,6 +22033,8 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     review?: ReviewOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    chatQuotations?: ChatQuotationOrderByRelationAggregateInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -18445,6 +22050,20 @@ export namespace Prisma {
     status?: StringFilter<"Booking"> | string
     date?: DateTimeFilter<"Booking"> | Date | string
     price?: FloatFilter<"Booking"> | number
+    location?: StringNullableFilter<"Booking"> | string | null
+    guests?: IntNullableFilter<"Booking"> | number | null
+    startTime?: StringNullableFilter<"Booking"> | string | null
+    endTime?: StringNullableFilter<"Booking"> | string | null
+    minAge?: IntNullableFilter<"Booking"> | number | null
+    maxAge?: IntNullableFilter<"Booking"> | number | null
+    venueType?: StringNullableFilter<"Booking"> | string | null
+    venueAccess?: StringNullableFilter<"Booking"> | string | null
+    budgetMin?: FloatNullableFilter<"Booking"> | number | null
+    budgetMax?: FloatNullableFilter<"Booking"> | number | null
+    specialRequests?: StringNullableFilter<"Booking"> | string | null
+    vendorProvidedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerConfirmedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerDisputedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
@@ -18457,6 +22076,8 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
     messages?: MessageListRelationFilter
+    notifications?: NotificationListRelationFilter
+    chatQuotations?: ChatQuotationListRelationFilter
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
@@ -18469,6 +22090,20 @@ export namespace Prisma {
     status?: SortOrder
     date?: SortOrder
     price?: SortOrder
+    location?: SortOrderInput | SortOrder
+    guests?: SortOrderInput | SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    minAge?: SortOrderInput | SortOrder
+    maxAge?: SortOrderInput | SortOrder
+    venueType?: SortOrderInput | SortOrder
+    venueAccess?: SortOrderInput | SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    specialRequests?: SortOrderInput | SortOrder
+    vendorProvidedAt?: SortOrderInput | SortOrder
+    organizerConfirmedAt?: SortOrderInput | SortOrder
+    organizerDisputedAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18492,6 +22127,20 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Booking"> | string
     date?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     price?: FloatWithAggregatesFilter<"Booking"> | number
+    location?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    guests?: IntNullableWithAggregatesFilter<"Booking"> | number | null
+    startTime?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    endTime?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    minAge?: IntNullableWithAggregatesFilter<"Booking"> | number | null
+    maxAge?: IntNullableWithAggregatesFilter<"Booking"> | number | null
+    venueType?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    venueAccess?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    budgetMin?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
+    budgetMax?: FloatNullableWithAggregatesFilter<"Booking"> | number | null
+    specialRequests?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    vendorProvidedAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
+    organizerConfirmedAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
+    organizerDisputedAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
@@ -18733,6 +22382,7 @@ export namespace Prisma {
     NOT?: MessageWhereInput | MessageWhereInput[]
     id?: StringFilter<"Message"> | string
     bookingId?: StringNullableFilter<"Message"> | string | null
+    quotationId?: StringNullableFilter<"Message"> | string | null
     contextServiceId?: StringNullableFilter<"Message"> | string | null
     contextPackageId?: StringNullableFilter<"Message"> | string | null
     contextVendorId?: StringNullableFilter<"Message"> | string | null
@@ -18745,6 +22395,7 @@ export namespace Prisma {
     booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    quotation?: XOR<ChatQuotationNullableScalarRelationFilter, ChatQuotationWhereInput> | null
     contextService?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     contextPackage?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
     contextVendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
@@ -18753,6 +22404,7 @@ export namespace Prisma {
   export type MessageOrderByWithRelationInput = {
     id?: SortOrder
     bookingId?: SortOrderInput | SortOrder
+    quotationId?: SortOrderInput | SortOrder
     contextServiceId?: SortOrderInput | SortOrder
     contextPackageId?: SortOrderInput | SortOrder
     contextVendorId?: SortOrderInput | SortOrder
@@ -18765,6 +22417,7 @@ export namespace Prisma {
     booking?: BookingOrderByWithRelationInput
     sender?: UserOrderByWithRelationInput
     receiver?: UserOrderByWithRelationInput
+    quotation?: ChatQuotationOrderByWithRelationInput
     contextService?: ServiceOrderByWithRelationInput
     contextPackage?: PackageOrderByWithRelationInput
     contextVendor?: VendorProfileOrderByWithRelationInput
@@ -18776,6 +22429,7 @@ export namespace Prisma {
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
     bookingId?: StringNullableFilter<"Message"> | string | null
+    quotationId?: StringNullableFilter<"Message"> | string | null
     contextServiceId?: StringNullableFilter<"Message"> | string | null
     contextPackageId?: StringNullableFilter<"Message"> | string | null
     contextVendorId?: StringNullableFilter<"Message"> | string | null
@@ -18788,6 +22442,7 @@ export namespace Prisma {
     booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    quotation?: XOR<ChatQuotationNullableScalarRelationFilter, ChatQuotationWhereInput> | null
     contextService?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
     contextPackage?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
     contextVendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
@@ -18796,6 +22451,7 @@ export namespace Prisma {
   export type MessageOrderByWithAggregationInput = {
     id?: SortOrder
     bookingId?: SortOrderInput | SortOrder
+    quotationId?: SortOrderInput | SortOrder
     contextServiceId?: SortOrderInput | SortOrder
     contextPackageId?: SortOrderInput | SortOrder
     contextVendorId?: SortOrderInput | SortOrder
@@ -18816,6 +22472,7 @@ export namespace Prisma {
     NOT?: MessageScalarWhereWithAggregatesInput | MessageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Message"> | string
     bookingId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    quotationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     contextServiceId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     contextPackageId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     contextVendorId?: StringNullableWithAggregatesFilter<"Message"> | string | null
@@ -18988,6 +22645,224 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PackageImage"> | Date | string
   }
 
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    userId?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    bookingId?: StringNullableFilter<"Notification"> | string | null
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    bookingId?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    booking?: BookingOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    userId?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    bookingId?: StringNullableFilter<"Notification"> | string | null
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    bookingId?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    userId?: StringWithAggregatesFilter<"Notification"> | string
+    type?: StringWithAggregatesFilter<"Notification"> | string
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    message?: StringWithAggregatesFilter<"Notification"> | string
+    bookingId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    readAt?: DateTimeNullableWithAggregatesFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
+  export type ChatQuotationWhereInput = {
+    AND?: ChatQuotationWhereInput | ChatQuotationWhereInput[]
+    OR?: ChatQuotationWhereInput[]
+    NOT?: ChatQuotationWhereInput | ChatQuotationWhereInput[]
+    id?: StringFilter<"ChatQuotation"> | string
+    senderId?: StringFilter<"ChatQuotation"> | string
+    receiverId?: StringFilter<"ChatQuotation"> | string
+    bookingId?: StringNullableFilter<"ChatQuotation"> | string | null
+    vendorId?: StringNullableFilter<"ChatQuotation"> | string | null
+    serviceId?: StringNullableFilter<"ChatQuotation"> | string | null
+    packageId?: StringNullableFilter<"ChatQuotation"> | string | null
+    price?: FloatFilter<"ChatQuotation"> | number
+    currency?: StringFilter<"ChatQuotation"> | string
+    date?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    time?: StringNullableFilter<"ChatQuotation"> | string | null
+    location?: StringNullableFilter<"ChatQuotation"> | string | null
+    notes?: StringNullableFilter<"ChatQuotation"> | string | null
+    validUntil?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    status?: StringFilter<"ChatQuotation"> | string
+    acceptedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    rejectedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    createdAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+    updatedAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+    vendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    package?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    messages?: MessageListRelationFilter
+  }
+
+  export type ChatQuotationOrderByWithRelationInput = {
+    id?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    bookingId?: SortOrderInput | SortOrder
+    vendorId?: SortOrderInput | SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    packageId?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    date?: SortOrderInput | SortOrder
+    time?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    validUntil?: SortOrderInput | SortOrder
+    status?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    rejectedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sender?: UserOrderByWithRelationInput
+    receiver?: UserOrderByWithRelationInput
+    booking?: BookingOrderByWithRelationInput
+    vendor?: VendorProfileOrderByWithRelationInput
+    service?: ServiceOrderByWithRelationInput
+    package?: PackageOrderByWithRelationInput
+    messages?: MessageOrderByRelationAggregateInput
+  }
+
+  export type ChatQuotationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChatQuotationWhereInput | ChatQuotationWhereInput[]
+    OR?: ChatQuotationWhereInput[]
+    NOT?: ChatQuotationWhereInput | ChatQuotationWhereInput[]
+    senderId?: StringFilter<"ChatQuotation"> | string
+    receiverId?: StringFilter<"ChatQuotation"> | string
+    bookingId?: StringNullableFilter<"ChatQuotation"> | string | null
+    vendorId?: StringNullableFilter<"ChatQuotation"> | string | null
+    serviceId?: StringNullableFilter<"ChatQuotation"> | string | null
+    packageId?: StringNullableFilter<"ChatQuotation"> | string | null
+    price?: FloatFilter<"ChatQuotation"> | number
+    currency?: StringFilter<"ChatQuotation"> | string
+    date?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    time?: StringNullableFilter<"ChatQuotation"> | string | null
+    location?: StringNullableFilter<"ChatQuotation"> | string | null
+    notes?: StringNullableFilter<"ChatQuotation"> | string | null
+    validUntil?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    status?: StringFilter<"ChatQuotation"> | string
+    acceptedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    rejectedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    createdAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+    updatedAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    booking?: XOR<BookingNullableScalarRelationFilter, BookingWhereInput> | null
+    vendor?: XOR<VendorProfileNullableScalarRelationFilter, VendorProfileWhereInput> | null
+    service?: XOR<ServiceNullableScalarRelationFilter, ServiceWhereInput> | null
+    package?: XOR<PackageNullableScalarRelationFilter, PackageWhereInput> | null
+    messages?: MessageListRelationFilter
+  }, "id">
+
+  export type ChatQuotationOrderByWithAggregationInput = {
+    id?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    bookingId?: SortOrderInput | SortOrder
+    vendorId?: SortOrderInput | SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    packageId?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    date?: SortOrderInput | SortOrder
+    time?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    validUntil?: SortOrderInput | SortOrder
+    status?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    rejectedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ChatQuotationCountOrderByAggregateInput
+    _avg?: ChatQuotationAvgOrderByAggregateInput
+    _max?: ChatQuotationMaxOrderByAggregateInput
+    _min?: ChatQuotationMinOrderByAggregateInput
+    _sum?: ChatQuotationSumOrderByAggregateInput
+  }
+
+  export type ChatQuotationScalarWhereWithAggregatesInput = {
+    AND?: ChatQuotationScalarWhereWithAggregatesInput | ChatQuotationScalarWhereWithAggregatesInput[]
+    OR?: ChatQuotationScalarWhereWithAggregatesInput[]
+    NOT?: ChatQuotationScalarWhereWithAggregatesInput | ChatQuotationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ChatQuotation"> | string
+    senderId?: StringWithAggregatesFilter<"ChatQuotation"> | string
+    receiverId?: StringWithAggregatesFilter<"ChatQuotation"> | string
+    bookingId?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    vendorId?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    serviceId?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    packageId?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    price?: FloatWithAggregatesFilter<"ChatQuotation"> | number
+    currency?: StringWithAggregatesFilter<"ChatQuotation"> | string
+    date?: DateTimeNullableWithAggregatesFilter<"ChatQuotation"> | Date | string | null
+    time?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    location?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"ChatQuotation"> | string | null
+    validUntil?: DateTimeNullableWithAggregatesFilter<"ChatQuotation"> | Date | string | null
+    status?: StringWithAggregatesFilter<"ChatQuotation"> | string
+    acceptedAt?: DateTimeNullableWithAggregatesFilter<"ChatQuotation"> | Date | string | null
+    rejectedAt?: DateTimeNullableWithAggregatesFilter<"ChatQuotation"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ChatQuotation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ChatQuotation"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -19002,6 +22877,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -19018,6 +22896,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUpdateInput = {
@@ -19034,6 +22915,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -19050,6 +22934,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -19102,6 +22989,7 @@ export namespace Prisma {
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateInput = {
@@ -19124,6 +23012,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUpdateInput = {
@@ -19146,6 +23035,7 @@ export namespace Prisma {
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateInput = {
@@ -19168,6 +23058,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileCreateManyInput = {
@@ -19230,6 +23121,7 @@ export namespace Prisma {
     images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
@@ -19245,6 +23137,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUpdateInput = {
@@ -19260,6 +23153,7 @@ export namespace Prisma {
     images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
@@ -19275,6 +23169,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
@@ -19321,6 +23216,7 @@ export namespace Prisma {
     images?: PackageImageCreateNestedManyWithoutPackageInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUncheckedCreateInput = {
@@ -19335,6 +23231,7 @@ export namespace Prisma {
     images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUpdateInput = {
@@ -19349,6 +23246,7 @@ export namespace Prisma {
     images?: PackageImageUpdateManyWithoutPackageNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateInput = {
@@ -19363,6 +23261,7 @@ export namespace Prisma {
     images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageCreateManyInput = {
@@ -19401,9 +23300,19 @@ export namespace Prisma {
     id?: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organizer: UserCreateNestedOneWithoutEventsInput
@@ -19415,9 +23324,19 @@ export namespace Prisma {
     organizerId: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bookings?: BookingUncheckedCreateNestedManyWithoutEventInput
@@ -19427,9 +23346,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organizer?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -19441,9 +23370,19 @@ export namespace Prisma {
     organizerId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUncheckedUpdateManyWithoutEventNestedInput
@@ -19454,9 +23393,19 @@ export namespace Prisma {
     organizerId: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19465,9 +23414,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19477,9 +23436,19 @@ export namespace Prisma {
     organizerId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19489,6 +23458,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19501,6 +23484,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateInput = {
@@ -19513,6 +23498,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19520,6 +23519,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUpdateInput = {
@@ -19527,6 +23528,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19539,6 +23554,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
@@ -19551,6 +23568,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19558,6 +23589,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingCreateManyInput = {
@@ -19570,6 +23603,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19580,6 +23627,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19595,6 +23656,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19841,6 +23916,7 @@ export namespace Prisma {
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
@@ -19849,6 +23925,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -19869,6 +23946,7 @@ export namespace Prisma {
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
@@ -19877,6 +23955,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19891,6 +23970,7 @@ export namespace Prisma {
   export type MessageCreateManyInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -19913,6 +23993,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20082,6 +24163,233 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NotificationCreateInput = {
+    id?: string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+    booking?: BookingCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: string
+    title: string
+    message: string
+    bookingId?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+    booking?: BookingUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    userId: string
+    type: string
+    title: string
+    message: string
+    bookingId?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationCreateInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationCreateManyInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChatQuotationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -20150,6 +24458,18 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
+  export type ChatQuotationListRelationFilter = {
+    every?: ChatQuotationWhereInput
+    some?: ChatQuotationWhereInput
+    none?: ChatQuotationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20168,6 +24488,14 @@ export namespace Prisma {
   }
 
   export type MessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChatQuotationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20489,20 +24817,57 @@ export namespace Prisma {
     price?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EventCountOrderByAggregateInput = {
     id?: SortOrder
     organizerId?: SortOrder
     title?: SortOrder
     date?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
     location?: SortOrder
     type?: SortOrder
     budget?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    headcount?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type EventAvgOrderByAggregateInput = {
     budget?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    headcount?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
   }
 
   export type EventMaxOrderByAggregateInput = {
@@ -20510,9 +24875,19 @@ export namespace Prisma {
     organizerId?: SortOrder
     title?: SortOrder
     date?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
     location?: SortOrder
     type?: SortOrder
     budget?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    headcount?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -20522,15 +24897,73 @@ export namespace Prisma {
     organizerId?: SortOrder
     title?: SortOrder
     date?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
     location?: SortOrder
     type?: SortOrder
     budget?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    headcount?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type EventSumOrderByAggregateInput = {
     budget?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    headcount?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type EventScalarRelationFilter = {
@@ -20573,6 +25006,20 @@ export namespace Prisma {
     status?: SortOrder
     date?: SortOrder
     price?: SortOrder
+    location?: SortOrder
+    guests?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    specialRequests?: SortOrder
+    vendorProvidedAt?: SortOrder
+    organizerConfirmedAt?: SortOrder
+    organizerDisputedAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20580,6 +25027,11 @@ export namespace Prisma {
 
   export type BookingAvgOrderByAggregateInput = {
     price?: SortOrder
+    guests?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
   }
 
   export type BookingMaxOrderByAggregateInput = {
@@ -20592,6 +25044,20 @@ export namespace Prisma {
     status?: SortOrder
     date?: SortOrder
     price?: SortOrder
+    location?: SortOrder
+    guests?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    specialRequests?: SortOrder
+    vendorProvidedAt?: SortOrder
+    organizerConfirmedAt?: SortOrder
+    organizerDisputedAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20607,6 +25073,20 @@ export namespace Prisma {
     status?: SortOrder
     date?: SortOrder
     price?: SortOrder
+    location?: SortOrder
+    guests?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    venueType?: SortOrder
+    venueAccess?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    specialRequests?: SortOrder
+    vendorProvidedAt?: SortOrder
+    organizerConfirmedAt?: SortOrder
+    organizerDisputedAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20614,9 +25094,14 @@ export namespace Prisma {
 
   export type BookingSumOrderByAggregateInput = {
     price?: SortOrder
+    guests?: SortOrder
+    minAge?: SortOrder
+    maxAge?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
     notIn?: Date[] | string[] | null
@@ -20624,7 +25109,10 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type BookingScalarRelationFilter = {
@@ -20674,20 +25162,6 @@ export namespace Prisma {
 
   export type QuoteSumOrderByAggregateInput = {
     amount?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PaymentCountOrderByAggregateInput = {
@@ -20804,9 +25278,15 @@ export namespace Prisma {
     isNot?: BookingWhereInput | null
   }
 
+  export type ChatQuotationNullableScalarRelationFilter = {
+    is?: ChatQuotationWhereInput | null
+    isNot?: ChatQuotationWhereInput | null
+  }
+
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    quotationId?: SortOrder
     contextServiceId?: SortOrder
     contextPackageId?: SortOrder
     contextVendorId?: SortOrder
@@ -20821,6 +25301,7 @@ export namespace Prisma {
   export type MessageMaxOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    quotationId?: SortOrder
     contextServiceId?: SortOrder
     contextPackageId?: SortOrder
     contextVendorId?: SortOrder
@@ -20835,6 +25316,7 @@ export namespace Prisma {
   export type MessageMinOrderByAggregateInput = {
     id?: SortOrder
     bookingId?: SortOrder
+    quotationId?: SortOrder
     contextServiceId?: SortOrder
     contextPackageId?: SortOrder
     contextVendorId?: SortOrder
@@ -20925,6 +25407,113 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    bookingId?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    bookingId?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    bookingId?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ChatQuotationCountOrderByAggregateInput = {
+    id?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    bookingId?: SortOrder
+    vendorId?: SortOrder
+    serviceId?: SortOrder
+    packageId?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    location?: SortOrder
+    notes?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    acceptedAt?: SortOrder
+    rejectedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ChatQuotationAvgOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type ChatQuotationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    bookingId?: SortOrder
+    vendorId?: SortOrder
+    serviceId?: SortOrder
+    packageId?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    location?: SortOrder
+    notes?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    acceptedAt?: SortOrder
+    rejectedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ChatQuotationMinOrderByAggregateInput = {
+    id?: SortOrder
+    senderId?: SortOrder
+    receiverId?: SortOrder
+    bookingId?: SortOrder
+    vendorId?: SortOrder
+    serviceId?: SortOrder
+    packageId?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    location?: SortOrder
+    notes?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    acceptedAt?: SortOrder
+    rejectedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ChatQuotationSumOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
   export type VendorProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<VendorProfileCreateWithoutUserInput, VendorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutUserInput
@@ -20966,6 +25555,27 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationCreateNestedManyWithoutSenderInput = {
+    create?: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput> | ChatQuotationCreateWithoutSenderInput[] | ChatQuotationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutSenderInput | ChatQuotationCreateOrConnectWithoutSenderInput[]
+    createMany?: ChatQuotationCreateManySenderInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput> | ChatQuotationCreateWithoutReceiverInput[] | ChatQuotationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutReceiverInput | ChatQuotationCreateOrConnectWithoutReceiverInput[]
+    createMany?: ChatQuotationCreateManyReceiverInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
   export type VendorProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<VendorProfileCreateWithoutUserInput, VendorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutUserInput
@@ -21005,6 +25615,27 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutReceiverInput | MessageCreateOrConnectWithoutReceiverInput[]
     createMany?: MessageCreateManyReceiverInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutSenderInput = {
+    create?: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput> | ChatQuotationCreateWithoutSenderInput[] | ChatQuotationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutSenderInput | ChatQuotationCreateOrConnectWithoutSenderInput[]
+    createMany?: ChatQuotationCreateManySenderInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput> | ChatQuotationCreateWithoutReceiverInput[] | ChatQuotationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutReceiverInput | ChatQuotationCreateOrConnectWithoutReceiverInput[]
+    createMany?: ChatQuotationCreateManyReceiverInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -21099,6 +25730,48 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput> | ChatQuotationCreateWithoutSenderInput[] | ChatQuotationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutSenderInput | ChatQuotationCreateOrConnectWithoutSenderInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutSenderInput | ChatQuotationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: ChatQuotationCreateManySenderInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutSenderInput | ChatQuotationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutSenderInput | ChatQuotationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput> | ChatQuotationCreateWithoutReceiverInput[] | ChatQuotationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutReceiverInput | ChatQuotationCreateOrConnectWithoutReceiverInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutReceiverInput | ChatQuotationUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: ChatQuotationCreateManyReceiverInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutReceiverInput | ChatQuotationUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutReceiverInput | ChatQuotationUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type VendorProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<VendorProfileCreateWithoutUserInput, VendorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutUserInput
@@ -21179,6 +25852,48 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput> | ChatQuotationCreateWithoutSenderInput[] | ChatQuotationUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutSenderInput | ChatQuotationCreateOrConnectWithoutSenderInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutSenderInput | ChatQuotationUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: ChatQuotationCreateManySenderInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutSenderInput | ChatQuotationUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutSenderInput | ChatQuotationUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput> | ChatQuotationCreateWithoutReceiverInput[] | ChatQuotationUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutReceiverInput | ChatQuotationCreateOrConnectWithoutReceiverInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutReceiverInput | ChatQuotationUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: ChatQuotationCreateManyReceiverInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutReceiverInput | ChatQuotationUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutReceiverInput | ChatQuotationUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutVendorProfileInput = {
     create?: XOR<UserCreateWithoutVendorProfileInput, UserUncheckedCreateWithoutVendorProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutVendorProfileInput
@@ -21227,6 +25942,13 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type ChatQuotationCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput> | ChatQuotationCreateWithoutVendorInput[] | ChatQuotationUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutVendorInput | ChatQuotationCreateOrConnectWithoutVendorInput[]
+    createMany?: ChatQuotationCreateManyVendorInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
   export type ServiceUncheckedCreateNestedManyWithoutVendorInput = {
     create?: XOR<ServiceCreateWithoutVendorInput, ServiceUncheckedCreateWithoutVendorInput> | ServiceCreateWithoutVendorInput[] | ServiceUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutVendorInput | ServiceCreateOrConnectWithoutVendorInput[]
@@ -21267,6 +25989,13 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutContextVendorInput | MessageCreateOrConnectWithoutContextVendorInput[]
     createMany?: MessageCreateManyContextVendorInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput> | ChatQuotationCreateWithoutVendorInput[] | ChatQuotationUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutVendorInput | ChatQuotationCreateOrConnectWithoutVendorInput[]
+    createMany?: ChatQuotationCreateManyVendorInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -21369,6 +26098,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput> | ChatQuotationCreateWithoutVendorInput[] | ChatQuotationUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutVendorInput | ChatQuotationCreateOrConnectWithoutVendorInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutVendorInput | ChatQuotationUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ChatQuotationCreateManyVendorInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutVendorInput | ChatQuotationUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutVendorInput | ChatQuotationUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type ServiceUncheckedUpdateManyWithoutVendorNestedInput = {
     create?: XOR<ServiceCreateWithoutVendorInput, ServiceUncheckedCreateWithoutVendorInput> | ServiceCreateWithoutVendorInput[] | ServiceUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutVendorInput | ServiceCreateOrConnectWithoutVendorInput[]
@@ -21453,6 +26196,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput> | ChatQuotationCreateWithoutVendorInput[] | ChatQuotationUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutVendorInput | ChatQuotationCreateOrConnectWithoutVendorInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutVendorInput | ChatQuotationUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ChatQuotationCreateManyVendorInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutVendorInput | ChatQuotationUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutVendorInput | ChatQuotationUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type VendorProfileCreateNestedOneWithoutServicesInput = {
     create?: XOR<VendorProfileCreateWithoutServicesInput, VendorProfileUncheckedCreateWithoutServicesInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutServicesInput
@@ -21487,6 +26244,13 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type ChatQuotationCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput> | ChatQuotationCreateWithoutServiceInput[] | ChatQuotationUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutServiceInput | ChatQuotationCreateOrConnectWithoutServiceInput[]
+    createMany?: ChatQuotationCreateManyServiceInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
   export type PackageUncheckedCreateNestedManyWithoutServiceInput = {
     create?: XOR<PackageCreateWithoutServiceInput, PackageUncheckedCreateWithoutServiceInput> | PackageCreateWithoutServiceInput[] | PackageUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: PackageCreateOrConnectWithoutServiceInput | PackageCreateOrConnectWithoutServiceInput[]
@@ -21513,6 +26277,13 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutContextServiceInput | MessageCreateOrConnectWithoutContextServiceInput[]
     createMany?: MessageCreateManyContextServiceInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput> | ChatQuotationCreateWithoutServiceInput[] | ChatQuotationUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutServiceInput | ChatQuotationCreateOrConnectWithoutServiceInput[]
+    createMany?: ChatQuotationCreateManyServiceInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
   }
 
   export type VendorProfileUpdateOneRequiredWithoutServicesNestedInput = {
@@ -21579,6 +26350,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput> | ChatQuotationCreateWithoutServiceInput[] | ChatQuotationUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutServiceInput | ChatQuotationCreateOrConnectWithoutServiceInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutServiceInput | ChatQuotationUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ChatQuotationCreateManyServiceInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutServiceInput | ChatQuotationUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutServiceInput | ChatQuotationUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type PackageUncheckedUpdateManyWithoutServiceNestedInput = {
     create?: XOR<PackageCreateWithoutServiceInput, PackageUncheckedCreateWithoutServiceInput> | PackageCreateWithoutServiceInput[] | PackageUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: PackageCreateOrConnectWithoutServiceInput | PackageCreateOrConnectWithoutServiceInput[]
@@ -21635,6 +26420,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput> | ChatQuotationCreateWithoutServiceInput[] | ChatQuotationUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutServiceInput | ChatQuotationCreateOrConnectWithoutServiceInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutServiceInput | ChatQuotationUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ChatQuotationCreateManyServiceInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutServiceInput | ChatQuotationUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutServiceInput | ChatQuotationUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type ServiceCreateNestedOneWithoutPackagesInput = {
     create?: XOR<ServiceCreateWithoutPackagesInput, ServiceUncheckedCreateWithoutPackagesInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutPackagesInput
@@ -21662,6 +26461,13 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type ChatQuotationCreateNestedManyWithoutPackageInput = {
+    create?: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput> | ChatQuotationCreateWithoutPackageInput[] | ChatQuotationUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutPackageInput | ChatQuotationCreateOrConnectWithoutPackageInput[]
+    createMany?: ChatQuotationCreateManyPackageInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
   export type PackageImageUncheckedCreateNestedManyWithoutPackageInput = {
     create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
     connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
@@ -21681,6 +26487,13 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutContextPackageInput | MessageCreateOrConnectWithoutContextPackageInput[]
     createMany?: MessageCreateManyContextPackageInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutPackageInput = {
+    create?: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput> | ChatQuotationCreateWithoutPackageInput[] | ChatQuotationUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutPackageInput | ChatQuotationCreateOrConnectWithoutPackageInput[]
+    createMany?: ChatQuotationCreateManyPackageInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
   }
 
   export type ServiceUpdateOneRequiredWithoutPackagesNestedInput = {
@@ -21733,6 +26546,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput> | ChatQuotationCreateWithoutPackageInput[] | ChatQuotationUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutPackageInput | ChatQuotationCreateOrConnectWithoutPackageInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutPackageInput | ChatQuotationUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: ChatQuotationCreateManyPackageInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutPackageInput | ChatQuotationUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutPackageInput | ChatQuotationUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type PackageImageUncheckedUpdateManyWithoutPackageNestedInput = {
     create?: XOR<PackageImageCreateWithoutPackageInput, PackageImageUncheckedCreateWithoutPackageInput> | PackageImageCreateWithoutPackageInput[] | PackageImageUncheckedCreateWithoutPackageInput[]
     connectOrCreate?: PackageImageCreateOrConnectWithoutPackageInput | PackageImageCreateOrConnectWithoutPackageInput[]
@@ -21775,6 +26602,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput> | ChatQuotationCreateWithoutPackageInput[] | ChatQuotationUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutPackageInput | ChatQuotationCreateOrConnectWithoutPackageInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutPackageInput | ChatQuotationUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: ChatQuotationCreateManyPackageInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutPackageInput | ChatQuotationUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutPackageInput | ChatQuotationUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutEventsInput = {
     create?: XOR<UserCreateWithoutEventsInput, UserUncheckedCreateWithoutEventsInput>
     connectOrCreate?: UserCreateOrConnectWithoutEventsInput
@@ -21793,6 +26634,22 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutEventInput | BookingCreateOrConnectWithoutEventInput[]
     createMany?: BookingCreateManyEventInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutEventsNestedInput = {
@@ -21888,6 +26745,20 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type NotificationCreateNestedManyWithoutBookingInput = {
+    create?: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput> | NotificationCreateWithoutBookingInput[] | NotificationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutBookingInput | NotificationCreateOrConnectWithoutBookingInput[]
+    createMany?: NotificationCreateManyBookingInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationCreateNestedManyWithoutBookingInput = {
+    create?: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput> | ChatQuotationCreateWithoutBookingInput[] | ChatQuotationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutBookingInput | ChatQuotationCreateOrConnectWithoutBookingInput[]
+    createMany?: ChatQuotationCreateManyBookingInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
   export type QuoteUncheckedCreateNestedManyWithoutBookingInput = {
     create?: XOR<QuoteCreateWithoutBookingInput, QuoteUncheckedCreateWithoutBookingInput> | QuoteCreateWithoutBookingInput[] | QuoteUncheckedCreateWithoutBookingInput[]
     connectOrCreate?: QuoteCreateOrConnectWithoutBookingInput | QuoteCreateOrConnectWithoutBookingInput[]
@@ -21913,6 +26784,24 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutBookingInput | MessageCreateOrConnectWithoutBookingInput[]
     createMany?: MessageCreateManyBookingInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutBookingInput = {
+    create?: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput> | NotificationCreateWithoutBookingInput[] | NotificationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutBookingInput | NotificationCreateOrConnectWithoutBookingInput[]
+    createMany?: NotificationCreateManyBookingInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ChatQuotationUncheckedCreateNestedManyWithoutBookingInput = {
+    create?: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput> | ChatQuotationCreateWithoutBookingInput[] | ChatQuotationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutBookingInput | ChatQuotationCreateOrConnectWithoutBookingInput[]
+    createMany?: ChatQuotationCreateManyBookingInputEnvelope
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type EventUpdateOneRequiredWithoutBookingsNestedInput = {
@@ -22011,6 +26900,34 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type NotificationUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput> | NotificationCreateWithoutBookingInput[] | NotificationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutBookingInput | NotificationCreateOrConnectWithoutBookingInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutBookingInput | NotificationUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: NotificationCreateManyBookingInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutBookingInput | NotificationUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutBookingInput | NotificationUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput> | ChatQuotationCreateWithoutBookingInput[] | ChatQuotationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutBookingInput | ChatQuotationCreateOrConnectWithoutBookingInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutBookingInput | ChatQuotationUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: ChatQuotationCreateManyBookingInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutBookingInput | ChatQuotationUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutBookingInput | ChatQuotationUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type QuoteUncheckedUpdateManyWithoutBookingNestedInput = {
     create?: XOR<QuoteCreateWithoutBookingInput, QuoteUncheckedCreateWithoutBookingInput> | QuoteCreateWithoutBookingInput[] | QuoteUncheckedCreateWithoutBookingInput[]
     connectOrCreate?: QuoteCreateOrConnectWithoutBookingInput | QuoteCreateOrConnectWithoutBookingInput[]
@@ -22063,6 +26980,34 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type NotificationUncheckedUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput> | NotificationCreateWithoutBookingInput[] | NotificationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutBookingInput | NotificationCreateOrConnectWithoutBookingInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutBookingInput | NotificationUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: NotificationCreateManyBookingInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutBookingInput | NotificationUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutBookingInput | NotificationUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput> | ChatQuotationCreateWithoutBookingInput[] | ChatQuotationUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutBookingInput | ChatQuotationCreateOrConnectWithoutBookingInput[]
+    upsert?: ChatQuotationUpsertWithWhereUniqueWithoutBookingInput | ChatQuotationUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: ChatQuotationCreateManyBookingInputEnvelope
+    set?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    disconnect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    delete?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    connect?: ChatQuotationWhereUniqueInput | ChatQuotationWhereUniqueInput[]
+    update?: ChatQuotationUpdateWithWhereUniqueWithoutBookingInput | ChatQuotationUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: ChatQuotationUpdateManyWithWhereWithoutBookingInput | ChatQuotationUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+  }
+
   export type BookingCreateNestedOneWithoutQuotesInput = {
     create?: XOR<BookingCreateWithoutQuotesInput, BookingUncheckedCreateWithoutQuotesInput>
     connectOrCreate?: BookingCreateOrConnectWithoutQuotesInput
@@ -22073,10 +27018,6 @@ export namespace Prisma {
     create?: XOR<VendorProfileCreateWithoutQuotesInput, VendorProfileUncheckedCreateWithoutQuotesInput>
     connectOrCreate?: VendorProfileCreateOrConnectWithoutQuotesInput
     connect?: VendorProfileWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type BookingUpdateOneRequiredWithoutQuotesNestedInput = {
@@ -22177,6 +27118,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ChatQuotationCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<ChatQuotationCreateWithoutMessagesInput, ChatQuotationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutMessagesInput
+    connect?: ChatQuotationWhereUniqueInput
+  }
+
   export type ServiceCreateNestedOneWithoutMessagesAsContextInput = {
     create?: XOR<ServiceCreateWithoutMessagesAsContextInput, ServiceUncheckedCreateWithoutMessagesAsContextInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutMessagesAsContextInput
@@ -22219,6 +27166,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutReceivedMessagesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedMessagesInput, UserUpdateWithoutReceivedMessagesInput>, UserUncheckedUpdateWithoutReceivedMessagesInput>
+  }
+
+  export type ChatQuotationUpdateOneWithoutMessagesNestedInput = {
+    create?: XOR<ChatQuotationCreateWithoutMessagesInput, ChatQuotationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: ChatQuotationCreateOrConnectWithoutMessagesInput
+    upsert?: ChatQuotationUpsertWithoutMessagesInput
+    disconnect?: ChatQuotationWhereInput | boolean
+    delete?: ChatQuotationWhereInput | boolean
+    connect?: ChatQuotationWhereUniqueInput
+    update?: XOR<XOR<ChatQuotationUpdateToOneWithWhereWithoutMessagesInput, ChatQuotationUpdateWithoutMessagesInput>, ChatQuotationUncheckedUpdateWithoutMessagesInput>
   }
 
   export type ServiceUpdateOneWithoutMessagesAsContextNestedInput = {
@@ -22291,6 +27248,170 @@ export namespace Prisma {
     upsert?: PackageUpsertWithoutImagesInput
     connect?: PackageWhereUniqueInput
     update?: XOR<XOR<PackageUpdateToOneWithWhereWithoutImagesInput, PackageUpdateWithoutImagesInput>, PackageUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookingCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<BookingCreateWithoutNotificationsInput, BookingUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutNotificationsInput
+    connect?: BookingWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type BookingUpdateOneWithoutNotificationsNestedInput = {
+    create?: XOR<BookingCreateWithoutNotificationsInput, BookingUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutNotificationsInput
+    upsert?: BookingUpsertWithoutNotificationsInput
+    disconnect?: BookingWhereInput | boolean
+    delete?: BookingWhereInput | boolean
+    connect?: BookingWhereUniqueInput
+    update?: XOR<XOR<BookingUpdateToOneWithWhereWithoutNotificationsInput, BookingUpdateWithoutNotificationsInput>, BookingUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSentQuotationsInput = {
+    create?: XOR<UserCreateWithoutSentQuotationsInput, UserUncheckedCreateWithoutSentQuotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentQuotationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReceivedQuotationsInput = {
+    create?: XOR<UserCreateWithoutReceivedQuotationsInput, UserUncheckedCreateWithoutReceivedQuotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedQuotationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookingCreateNestedOneWithoutChatQuotationsInput = {
+    create?: XOR<BookingCreateWithoutChatQuotationsInput, BookingUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutChatQuotationsInput
+    connect?: BookingWhereUniqueInput
+  }
+
+  export type VendorProfileCreateNestedOneWithoutChatQuotationsInput = {
+    create?: XOR<VendorProfileCreateWithoutChatQuotationsInput, VendorProfileUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: VendorProfileCreateOrConnectWithoutChatQuotationsInput
+    connect?: VendorProfileWhereUniqueInput
+  }
+
+  export type ServiceCreateNestedOneWithoutChatQuotationsInput = {
+    create?: XOR<ServiceCreateWithoutChatQuotationsInput, ServiceUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutChatQuotationsInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type PackageCreateNestedOneWithoutChatQuotationsInput = {
+    create?: XOR<PackageCreateWithoutChatQuotationsInput, PackageUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutChatQuotationsInput
+    connect?: PackageWhereUniqueInput
+  }
+
+  export type MessageCreateNestedManyWithoutQuotationInput = {
+    create?: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput> | MessageCreateWithoutQuotationInput[] | MessageUncheckedCreateWithoutQuotationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutQuotationInput | MessageCreateOrConnectWithoutQuotationInput[]
+    createMany?: MessageCreateManyQuotationInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutQuotationInput = {
+    create?: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput> | MessageCreateWithoutQuotationInput[] | MessageUncheckedCreateWithoutQuotationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutQuotationInput | MessageCreateOrConnectWithoutQuotationInput[]
+    createMany?: MessageCreateManyQuotationInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutSentQuotationsNestedInput = {
+    create?: XOR<UserCreateWithoutSentQuotationsInput, UserUncheckedCreateWithoutSentQuotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentQuotationsInput
+    upsert?: UserUpsertWithoutSentQuotationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentQuotationsInput, UserUpdateWithoutSentQuotationsInput>, UserUncheckedUpdateWithoutSentQuotationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput = {
+    create?: XOR<UserCreateWithoutReceivedQuotationsInput, UserUncheckedCreateWithoutReceivedQuotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedQuotationsInput
+    upsert?: UserUpsertWithoutReceivedQuotationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedQuotationsInput, UserUpdateWithoutReceivedQuotationsInput>, UserUncheckedUpdateWithoutReceivedQuotationsInput>
+  }
+
+  export type BookingUpdateOneWithoutChatQuotationsNestedInput = {
+    create?: XOR<BookingCreateWithoutChatQuotationsInput, BookingUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutChatQuotationsInput
+    upsert?: BookingUpsertWithoutChatQuotationsInput
+    disconnect?: BookingWhereInput | boolean
+    delete?: BookingWhereInput | boolean
+    connect?: BookingWhereUniqueInput
+    update?: XOR<XOR<BookingUpdateToOneWithWhereWithoutChatQuotationsInput, BookingUpdateWithoutChatQuotationsInput>, BookingUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type VendorProfileUpdateOneWithoutChatQuotationsNestedInput = {
+    create?: XOR<VendorProfileCreateWithoutChatQuotationsInput, VendorProfileUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: VendorProfileCreateOrConnectWithoutChatQuotationsInput
+    upsert?: VendorProfileUpsertWithoutChatQuotationsInput
+    disconnect?: VendorProfileWhereInput | boolean
+    delete?: VendorProfileWhereInput | boolean
+    connect?: VendorProfileWhereUniqueInput
+    update?: XOR<XOR<VendorProfileUpdateToOneWithWhereWithoutChatQuotationsInput, VendorProfileUpdateWithoutChatQuotationsInput>, VendorProfileUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type ServiceUpdateOneWithoutChatQuotationsNestedInput = {
+    create?: XOR<ServiceCreateWithoutChatQuotationsInput, ServiceUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutChatQuotationsInput
+    upsert?: ServiceUpsertWithoutChatQuotationsInput
+    disconnect?: ServiceWhereInput | boolean
+    delete?: ServiceWhereInput | boolean
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutChatQuotationsInput, ServiceUpdateWithoutChatQuotationsInput>, ServiceUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type PackageUpdateOneWithoutChatQuotationsNestedInput = {
+    create?: XOR<PackageCreateWithoutChatQuotationsInput, PackageUncheckedCreateWithoutChatQuotationsInput>
+    connectOrCreate?: PackageCreateOrConnectWithoutChatQuotationsInput
+    upsert?: PackageUpsertWithoutChatQuotationsInput
+    disconnect?: PackageWhereInput | boolean
+    delete?: PackageWhereInput | boolean
+    connect?: PackageWhereUniqueInput
+    update?: XOR<XOR<PackageUpdateToOneWithWhereWithoutChatQuotationsInput, PackageUpdateWithoutChatQuotationsInput>, PackageUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type MessageUpdateManyWithoutQuotationNestedInput = {
+    create?: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput> | MessageCreateWithoutQuotationInput[] | MessageUncheckedCreateWithoutQuotationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutQuotationInput | MessageCreateOrConnectWithoutQuotationInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutQuotationInput | MessageUpsertWithWhereUniqueWithoutQuotationInput[]
+    createMany?: MessageCreateManyQuotationInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutQuotationInput | MessageUpdateWithWhereUniqueWithoutQuotationInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutQuotationInput | MessageUpdateManyWithWhereWithoutQuotationInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutQuotationNestedInput = {
+    create?: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput> | MessageCreateWithoutQuotationInput[] | MessageUncheckedCreateWithoutQuotationInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutQuotationInput | MessageCreateOrConnectWithoutQuotationInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutQuotationInput | MessageUpsertWithWhereUniqueWithoutQuotationInput[]
+    createMany?: MessageCreateManyQuotationInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutQuotationInput | MessageUpdateWithWhereUniqueWithoutQuotationInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutQuotationInput | MessageUpdateManyWithWhereWithoutQuotationInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -22429,6 +27550,49 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -22489,6 +27653,7 @@ export namespace Prisma {
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutUserInput = {
@@ -22510,6 +27675,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutUserInput = {
@@ -22521,9 +27687,19 @@ export namespace Prisma {
     id?: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bookings?: BookingCreateNestedManyWithoutEventInput
@@ -22533,9 +27709,19 @@ export namespace Prisma {
     id?: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     bookings?: BookingUncheckedCreateNestedManyWithoutEventInput
@@ -22555,6 +27741,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22566,6 +27766,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutOrganizerInput = {
@@ -22577,6 +27779,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22584,6 +27800,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutOrganizerInput = {
@@ -22632,6 +27850,7 @@ export namespace Prisma {
     createdAt?: Date | string
     booking?: BookingCreateNestedOneWithoutMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
@@ -22640,6 +27859,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateWithoutSenderInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -22667,6 +27887,7 @@ export namespace Prisma {
     createdAt?: Date | string
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
@@ -22675,6 +27896,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateWithoutReceiverInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -22692,6 +27914,141 @@ export namespace Prisma {
 
   export type MessageCreateManyReceiverInputEnvelope = {
     data: MessageCreateManyReceiverInput | MessageCreateManyReceiverInput[]
+  }
+
+  export type NotificationCreateWithoutUserInput = {
+    id?: string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    booking?: BookingCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: string
+    title: string
+    message: string
+    bookingId?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+  }
+
+  export type ChatQuotationCreateWithoutSenderInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutSenderInput = {
+    id?: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutSenderInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput>
+  }
+
+  export type ChatQuotationCreateManySenderInputEnvelope = {
+    data: ChatQuotationCreateManySenderInput | ChatQuotationCreateManySenderInput[]
+  }
+
+  export type ChatQuotationCreateWithoutReceiverInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutReceiverInput = {
+    id?: string
+    senderId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutReceiverInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type ChatQuotationCreateManyReceiverInputEnvelope = {
+    data: ChatQuotationCreateManyReceiverInput | ChatQuotationCreateManyReceiverInput[]
   }
 
   export type VendorProfileUpsertWithoutUserInput = {
@@ -22724,6 +28081,7 @@ export namespace Prisma {
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutUserInput = {
@@ -22745,6 +28103,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type EventUpsertWithWhereUniqueWithoutOrganizerInput = {
@@ -22771,9 +28130,19 @@ export namespace Prisma {
     organizerId?: StringFilter<"Event"> | string
     title?: StringFilter<"Event"> | string
     date?: DateTimeFilter<"Event"> | Date | string
+    startTime?: StringNullableFilter<"Event"> | string | null
+    endTime?: StringNullableFilter<"Event"> | string | null
     location?: StringFilter<"Event"> | string
     type?: StringFilter<"Event"> | string
     budget?: FloatFilter<"Event"> | number
+    budgetMin?: FloatNullableFilter<"Event"> | number | null
+    budgetMax?: FloatNullableFilter<"Event"> | number | null
+    headcount?: IntNullableFilter<"Event"> | number | null
+    minAge?: IntNullableFilter<"Event"> | number | null
+    maxAge?: IntNullableFilter<"Event"> | number | null
+    venueType?: StringNullableFilter<"Event"> | string | null
+    venueAccess?: StringNullableFilter<"Event"> | string | null
+    notes?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
   }
@@ -22807,6 +28176,20 @@ export namespace Prisma {
     status?: StringFilter<"Booking"> | string
     date?: DateTimeFilter<"Booking"> | Date | string
     price?: FloatFilter<"Booking"> | number
+    location?: StringNullableFilter<"Booking"> | string | null
+    guests?: IntNullableFilter<"Booking"> | number | null
+    startTime?: StringNullableFilter<"Booking"> | string | null
+    endTime?: StringNullableFilter<"Booking"> | string | null
+    minAge?: IntNullableFilter<"Booking"> | number | null
+    maxAge?: IntNullableFilter<"Booking"> | number | null
+    venueType?: StringNullableFilter<"Booking"> | string | null
+    venueAccess?: StringNullableFilter<"Booking"> | string | null
+    budgetMin?: FloatNullableFilter<"Booking"> | number | null
+    budgetMax?: FloatNullableFilter<"Booking"> | number | null
+    specialRequests?: StringNullableFilter<"Booking"> | string | null
+    vendorProvidedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerConfirmedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
+    organizerDisputedAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
@@ -22864,6 +28247,7 @@ export namespace Prisma {
     NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
     id?: StringFilter<"Message"> | string
     bookingId?: StringNullableFilter<"Message"> | string | null
+    quotationId?: StringNullableFilter<"Message"> | string | null
     contextServiceId?: StringNullableFilter<"Message"> | string | null
     contextPackageId?: StringNullableFilter<"Message"> | string | null
     contextVendorId?: StringNullableFilter<"Message"> | string | null
@@ -22891,6 +28275,93 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutReceiverInput>
   }
 
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    userId?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    bookingId?: StringNullableFilter<"Notification"> | string | null
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+  }
+
+  export type ChatQuotationUpsertWithWhereUniqueWithoutSenderInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutSenderInput, ChatQuotationUncheckedUpdateWithoutSenderInput>
+    create: XOR<ChatQuotationCreateWithoutSenderInput, ChatQuotationUncheckedCreateWithoutSenderInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutSenderInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutSenderInput, ChatQuotationUncheckedUpdateWithoutSenderInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutSenderInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutSenderInput>
+  }
+
+  export type ChatQuotationScalarWhereInput = {
+    AND?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+    OR?: ChatQuotationScalarWhereInput[]
+    NOT?: ChatQuotationScalarWhereInput | ChatQuotationScalarWhereInput[]
+    id?: StringFilter<"ChatQuotation"> | string
+    senderId?: StringFilter<"ChatQuotation"> | string
+    receiverId?: StringFilter<"ChatQuotation"> | string
+    bookingId?: StringNullableFilter<"ChatQuotation"> | string | null
+    vendorId?: StringNullableFilter<"ChatQuotation"> | string | null
+    serviceId?: StringNullableFilter<"ChatQuotation"> | string | null
+    packageId?: StringNullableFilter<"ChatQuotation"> | string | null
+    price?: FloatFilter<"ChatQuotation"> | number
+    currency?: StringFilter<"ChatQuotation"> | string
+    date?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    time?: StringNullableFilter<"ChatQuotation"> | string | null
+    location?: StringNullableFilter<"ChatQuotation"> | string | null
+    notes?: StringNullableFilter<"ChatQuotation"> | string | null
+    validUntil?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    status?: StringFilter<"ChatQuotation"> | string
+    acceptedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    rejectedAt?: DateTimeNullableFilter<"ChatQuotation"> | Date | string | null
+    createdAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+    updatedAt?: DateTimeFilter<"ChatQuotation"> | Date | string
+  }
+
+  export type ChatQuotationUpsertWithWhereUniqueWithoutReceiverInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutReceiverInput, ChatQuotationUncheckedUpdateWithoutReceiverInput>
+    create: XOR<ChatQuotationCreateWithoutReceiverInput, ChatQuotationUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutReceiverInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutReceiverInput, ChatQuotationUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutReceiverInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutReceiverInput>
+  }
+
   export type UserCreateWithoutVendorProfileInput = {
     id?: string
     email: string
@@ -22904,6 +28375,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutVendorProfileInput = {
@@ -22919,6 +28393,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutVendorProfileInput = {
@@ -22938,6 +28415,7 @@ export namespace Prisma {
     images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutVendorInput = {
@@ -22952,6 +28430,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutVendorInput = {
@@ -22968,6 +28447,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22979,6 +28472,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutVendorInput = {
@@ -22990,6 +28485,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22997,6 +28506,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutVendorInput = {
@@ -23102,6 +28613,7 @@ export namespace Prisma {
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
   }
@@ -23109,6 +28621,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateWithoutContextVendorInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     senderId: string
@@ -23126,6 +28639,59 @@ export namespace Prisma {
 
   export type MessageCreateManyContextVendorInputEnvelope = {
     data: MessageCreateManyContextVendorInput | MessageCreateManyContextVendorInput[]
+  }
+
+  export type ChatQuotationCreateWithoutVendorInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutVendorInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutVendorInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput>
+  }
+
+  export type ChatQuotationCreateManyVendorInputEnvelope = {
+    data: ChatQuotationCreateManyVendorInput | ChatQuotationCreateManyVendorInput[]
   }
 
   export type UserUpsertWithoutVendorProfileInput = {
@@ -23152,6 +28718,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVendorProfileInput = {
@@ -23167,6 +28736,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type ServiceUpsertWithWhereUniqueWithoutVendorInput = {
@@ -23306,6 +28878,22 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextVendorInput>
   }
 
+  export type ChatQuotationUpsertWithWhereUniqueWithoutVendorInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutVendorInput, ChatQuotationUncheckedUpdateWithoutVendorInput>
+    create: XOR<ChatQuotationCreateWithoutVendorInput, ChatQuotationUncheckedCreateWithoutVendorInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutVendorInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutVendorInput, ChatQuotationUncheckedUpdateWithoutVendorInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutVendorInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutVendorInput>
+  }
+
   export type VendorProfileCreateWithoutServicesInput = {
     id?: string
     businessName: string
@@ -23325,6 +28913,7 @@ export namespace Prisma {
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutServicesInput = {
@@ -23346,6 +28935,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutServicesInput = {
@@ -23364,6 +28954,7 @@ export namespace Prisma {
     images?: PackageImageCreateNestedManyWithoutPackageInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUncheckedCreateWithoutServiceInput = {
@@ -23377,6 +28968,7 @@ export namespace Prisma {
     images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type PackageCreateOrConnectWithoutServiceInput = {
@@ -23414,6 +29006,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23425,6 +29031,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutServiceInput = {
@@ -23436,6 +29044,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23443,6 +29065,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutServiceInput = {
@@ -23463,6 +29087,7 @@ export namespace Prisma {
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
@@ -23470,6 +29095,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateWithoutContextServiceInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
     senderId: string
@@ -23487,6 +29113,59 @@ export namespace Prisma {
 
   export type MessageCreateManyContextServiceInputEnvelope = {
     data: MessageCreateManyContextServiceInput | MessageCreateManyContextServiceInput[]
+  }
+
+  export type ChatQuotationCreateWithoutServiceInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutServiceInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutServiceInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ChatQuotationCreateManyServiceInputEnvelope = {
+    data: ChatQuotationCreateManyServiceInput | ChatQuotationCreateManyServiceInput[]
   }
 
   export type VendorProfileUpsertWithoutServicesInput = {
@@ -23519,6 +29198,7 @@ export namespace Prisma {
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutServicesInput = {
@@ -23540,6 +29220,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type PackageUpsertWithWhereUniqueWithoutServiceInput = {
@@ -23630,6 +29311,22 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextServiceInput>
   }
 
+  export type ChatQuotationUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutServiceInput, ChatQuotationUncheckedUpdateWithoutServiceInput>
+    create: XOR<ChatQuotationCreateWithoutServiceInput, ChatQuotationUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutServiceInput, ChatQuotationUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutServiceInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutServiceInput>
+  }
+
   export type ServiceCreateWithoutPackagesInput = {
     id?: string
     name: string
@@ -23642,6 +29339,7 @@ export namespace Prisma {
     images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutPackagesInput = {
@@ -23656,6 +29354,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutPackagesInput = {
@@ -23689,6 +29388,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23700,6 +29413,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutPackageInput = {
@@ -23711,6 +29426,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23718,6 +29447,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutPackageInput = {
@@ -23738,6 +29469,7 @@ export namespace Prisma {
     booking?: BookingCreateNestedOneWithoutMessagesInput
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
   }
@@ -23745,6 +29477,7 @@ export namespace Prisma {
   export type MessageUncheckedCreateWithoutContextPackageInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextVendorId?: string | null
     senderId: string
@@ -23762,6 +29495,59 @@ export namespace Prisma {
 
   export type MessageCreateManyContextPackageInputEnvelope = {
     data: MessageCreateManyContextPackageInput | MessageCreateManyContextPackageInput[]
+  }
+
+  export type ChatQuotationCreateWithoutPackageInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutPackageInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutPackageInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput>
+  }
+
+  export type ChatQuotationCreateManyPackageInputEnvelope = {
+    data: ChatQuotationCreateManyPackageInput | ChatQuotationCreateManyPackageInput[]
   }
 
   export type ServiceUpsertWithoutPackagesInput = {
@@ -23787,6 +29573,7 @@ export namespace Prisma {
     images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutPackagesInput = {
@@ -23801,6 +29588,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type PackageImageUpsertWithWhereUniqueWithoutPackageInput = {
@@ -23861,6 +29649,22 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutContextPackageInput>
   }
 
+  export type ChatQuotationUpsertWithWhereUniqueWithoutPackageInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutPackageInput, ChatQuotationUncheckedUpdateWithoutPackageInput>
+    create: XOR<ChatQuotationCreateWithoutPackageInput, ChatQuotationUncheckedCreateWithoutPackageInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutPackageInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutPackageInput, ChatQuotationUncheckedUpdateWithoutPackageInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutPackageInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutPackageInput>
+  }
+
   export type UserCreateWithoutEventsInput = {
     id?: string
     email: string
@@ -23874,6 +29678,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutEventsInput = {
@@ -23889,6 +29696,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutEventsInput = {
@@ -23901,6 +29711,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23912,6 +29736,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutEventInput = {
@@ -23923,6 +29749,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23930,6 +29770,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutEventInput = {
@@ -23965,6 +29807,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEventsInput = {
@@ -23980,6 +29825,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type BookingUpsertWithWhereUniqueWithoutEventInput = {
@@ -24002,9 +29850,19 @@ export namespace Prisma {
     id?: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organizer: UserCreateNestedOneWithoutEventsInput
@@ -24015,9 +29873,19 @@ export namespace Prisma {
     organizerId: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24046,6 +29914,7 @@ export namespace Prisma {
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutBookingsInput = {
@@ -24067,6 +29936,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutBookingsInput = {
@@ -24087,6 +29957,9 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutBookingsInput = {
@@ -24102,6 +29975,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutBookingsInput = {
@@ -24120,6 +29996,7 @@ export namespace Prisma {
     service: ServiceCreateNestedOneWithoutPackagesInput
     images?: PackageImageCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUncheckedCreateWithoutBookingsInput = {
@@ -24133,6 +30010,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type PackageCreateOrConnectWithoutBookingsInput = {
@@ -24152,6 +30030,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutServiceInput
     images?: ServiceImageCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutBookingsInput = {
@@ -24166,6 +30045,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
     images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutBookingsInput = {
@@ -24266,6 +30146,7 @@ export namespace Prisma {
     createdAt?: Date | string
     sender: UserCreateNestedOneWithoutSentMessagesInput
     receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    quotation?: ChatQuotationCreateNestedOneWithoutMessagesInput
     contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
     contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
     contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
@@ -24273,6 +30154,7 @@ export namespace Prisma {
 
   export type MessageUncheckedCreateWithoutBookingInput = {
     id?: string
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -24293,6 +30175,88 @@ export namespace Prisma {
     data: MessageCreateManyBookingInput | MessageCreateManyBookingInput[]
   }
 
+  export type NotificationCreateWithoutBookingInput = {
+    id?: string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutBookingInput = {
+    id?: string
+    userId: string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutBookingInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput>
+  }
+
+  export type NotificationCreateManyBookingInputEnvelope = {
+    data: NotificationCreateManyBookingInput | NotificationCreateManyBookingInput[]
+  }
+
+  export type ChatQuotationCreateWithoutBookingInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+    messages?: MessageCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutBookingInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutQuotationInput
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutBookingInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput>
+  }
+
+  export type ChatQuotationCreateManyBookingInputEnvelope = {
+    data: ChatQuotationCreateManyBookingInput | ChatQuotationCreateManyBookingInput[]
+  }
+
   export type EventUpsertWithoutBookingsInput = {
     update: XOR<EventUpdateWithoutBookingsInput, EventUncheckedUpdateWithoutBookingsInput>
     create: XOR<EventCreateWithoutBookingsInput, EventUncheckedCreateWithoutBookingsInput>
@@ -24308,9 +30272,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organizer?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -24321,9 +30295,19 @@ export namespace Prisma {
     organizerId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24358,6 +30342,7 @@ export namespace Prisma {
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutBookingsInput = {
@@ -24379,6 +30364,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUpsertWithoutBookingsInput = {
@@ -24405,6 +30391,9 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -24420,6 +30409,9 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type PackageUpsertWithoutBookingsInput = {
@@ -24444,6 +30436,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
     images?: PackageImageUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutBookingsInput = {
@@ -24457,6 +30450,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type ServiceUpsertWithoutBookingsInput = {
@@ -24482,6 +30476,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutServiceNestedInput
     images?: ServiceImageUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutBookingsInput = {
@@ -24496,6 +30491,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
     images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type QuoteUpsertWithWhereUniqueWithoutBookingInput = {
@@ -24591,11 +30587,57 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutBookingInput>
   }
 
+  export type NotificationUpsertWithWhereUniqueWithoutBookingInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutBookingInput, NotificationUncheckedUpdateWithoutBookingInput>
+    create: XOR<NotificationCreateWithoutBookingInput, NotificationUncheckedCreateWithoutBookingInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutBookingInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutBookingInput, NotificationUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutBookingInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutBookingInput>
+  }
+
+  export type ChatQuotationUpsertWithWhereUniqueWithoutBookingInput = {
+    where: ChatQuotationWhereUniqueInput
+    update: XOR<ChatQuotationUpdateWithoutBookingInput, ChatQuotationUncheckedUpdateWithoutBookingInput>
+    create: XOR<ChatQuotationCreateWithoutBookingInput, ChatQuotationUncheckedCreateWithoutBookingInput>
+  }
+
+  export type ChatQuotationUpdateWithWhereUniqueWithoutBookingInput = {
+    where: ChatQuotationWhereUniqueInput
+    data: XOR<ChatQuotationUpdateWithoutBookingInput, ChatQuotationUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type ChatQuotationUpdateManyWithWhereWithoutBookingInput = {
+    where: ChatQuotationScalarWhereInput
+    data: XOR<ChatQuotationUpdateManyMutationInput, ChatQuotationUncheckedUpdateManyWithoutBookingInput>
+  }
+
   export type BookingCreateWithoutQuotesInput = {
     id?: string
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24607,6 +30649,8 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutQuotesInput = {
@@ -24619,12 +30663,28 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutQuotesInput = {
@@ -24651,6 +30711,7 @@ export namespace Prisma {
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutQuotesInput = {
@@ -24672,6 +30733,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutQuotesInput = {
@@ -24695,6 +30757,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24706,6 +30782,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutQuotesInput = {
@@ -24718,12 +30796,28 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type VendorProfileUpsertWithoutQuotesInput = {
@@ -24756,6 +30850,7 @@ export namespace Prisma {
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutQuotesInput = {
@@ -24777,6 +30872,7 @@ export namespace Prisma {
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type BookingCreateWithoutPaymentsInput = {
@@ -24784,6 +30880,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24795,6 +30905,8 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutPaymentsInput = {
@@ -24807,12 +30919,28 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quotes?: QuoteUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutPaymentsInput = {
@@ -24836,6 +30964,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24847,6 +30989,8 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutPaymentsInput = {
@@ -24859,12 +31003,28 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quotes?: QuoteUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingCreateWithoutReviewInput = {
@@ -24872,6 +31032,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24883,6 +31057,8 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutBookingInput
     payments?: PaymentCreateNestedManyWithoutBookingInput
     messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutReviewInput = {
@@ -24895,12 +31071,28 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quotes?: QuoteUncheckedCreateNestedManyWithoutBookingInput
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutReviewInput = {
@@ -24927,6 +31119,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutReviewsInput = {
@@ -24948,6 +31141,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutReviewsInput = {
@@ -24968,6 +31162,9 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutOrganizerInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -24983,6 +31180,9 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -25006,6 +31206,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25017,6 +31231,8 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutBookingNestedInput
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutReviewInput = {
@@ -25029,12 +31245,28 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quotes?: QuoteUncheckedUpdateManyWithoutBookingNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type VendorProfileUpsertWithoutReviewsInput = {
@@ -25067,6 +31299,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutReviewsInput = {
@@ -25088,6 +31321,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -25114,6 +31348,9 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutOrganizerNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -25129,6 +31366,9 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type BookingCreateWithoutMessagesInput = {
@@ -25136,6 +31376,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25147,6 +31401,8 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutBookingInput
     payments?: PaymentCreateNestedManyWithoutBookingInput
     review?: ReviewCreateNestedOneWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutMessagesInput = {
@@ -25159,12 +31415,28 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quotes?: QuoteUncheckedCreateNestedManyWithoutBookingInput
     payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutMessagesInput = {
@@ -25185,6 +31457,9 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutOrganizerInput
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -25200,6 +31475,9 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -25220,6 +31498,9 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutOrganizerInput
     reviews?: ReviewCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutReceivedMessagesInput = {
@@ -25235,11 +31516,63 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutReceivedMessagesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutReceivedMessagesInput, UserUncheckedCreateWithoutReceivedMessagesInput>
+  }
+
+  export type ChatQuotationCreateWithoutMessagesInput = {
+    id?: string
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sender: UserCreateNestedOneWithoutSentQuotationsInput
+    receiver: UserCreateNestedOneWithoutReceivedQuotationsInput
+    booking?: BookingCreateNestedOneWithoutChatQuotationsInput
+    vendor?: VendorProfileCreateNestedOneWithoutChatQuotationsInput
+    service?: ServiceCreateNestedOneWithoutChatQuotationsInput
+    package?: PackageCreateNestedOneWithoutChatQuotationsInput
+  }
+
+  export type ChatQuotationUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChatQuotationCreateOrConnectWithoutMessagesInput = {
+    where: ChatQuotationWhereUniqueInput
+    create: XOR<ChatQuotationCreateWithoutMessagesInput, ChatQuotationUncheckedCreateWithoutMessagesInput>
   }
 
   export type ServiceCreateWithoutMessagesAsContextInput = {
@@ -25254,6 +31587,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutServiceInput
     images?: ServiceImageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutMessagesAsContextInput = {
@@ -25268,6 +31602,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
     images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutMessagesAsContextInput = {
@@ -25286,6 +31621,7 @@ export namespace Prisma {
     service: ServiceCreateNestedOneWithoutPackagesInput
     images?: PackageImageCreateNestedManyWithoutPackageInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUncheckedCreateWithoutMessagesAsContextInput = {
@@ -25299,6 +31635,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type PackageCreateOrConnectWithoutMessagesAsContextInput = {
@@ -25325,6 +31662,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     availability?: AvailabilityCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutMessagesAsContextInput = {
@@ -25346,6 +31684,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutMessagesAsContextInput = {
@@ -25369,6 +31708,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25380,6 +31733,8 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutBookingNestedInput
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutMessagesInput = {
@@ -25392,12 +31747,28 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quotes?: QuoteUncheckedUpdateManyWithoutBookingNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type UserUpsertWithoutSentMessagesInput = {
@@ -25424,6 +31795,9 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutOrganizerNestedInput
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -25439,6 +31813,9 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUpsertWithoutReceivedMessagesInput = {
@@ -25465,6 +31842,9 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutOrganizerNestedInput
     reviews?: ReviewUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -25480,6 +31860,64 @@ export namespace Prisma {
     bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type ChatQuotationUpsertWithoutMessagesInput = {
+    update: XOR<ChatQuotationUpdateWithoutMessagesInput, ChatQuotationUncheckedUpdateWithoutMessagesInput>
+    create: XOR<ChatQuotationCreateWithoutMessagesInput, ChatQuotationUncheckedCreateWithoutMessagesInput>
+    where?: ChatQuotationWhereInput
+  }
+
+  export type ChatQuotationUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: ChatQuotationWhereInput
+    data: XOR<ChatQuotationUpdateWithoutMessagesInput, ChatQuotationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type ChatQuotationUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceUpsertWithoutMessagesAsContextInput = {
@@ -25505,6 +31943,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutServiceNestedInput
     images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutMessagesAsContextInput = {
@@ -25519,6 +31958,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
     images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type PackageUpsertWithoutMessagesAsContextInput = {
@@ -25543,6 +31983,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
     images?: PackageImageUpdateManyWithoutPackageNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutMessagesAsContextInput = {
@@ -25556,6 +31997,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type VendorProfileUpsertWithoutMessagesAsContextInput = {
@@ -25588,6 +32030,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutMessagesAsContextInput = {
@@ -25609,6 +32052,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileCreateWithoutAvailabilityInput = {
@@ -25630,6 +32074,7 @@ export namespace Prisma {
     quotes?: QuoteCreateNestedManyWithoutVendorInput
     reviews?: ReviewCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileUncheckedCreateWithoutAvailabilityInput = {
@@ -25651,6 +32096,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type VendorProfileCreateOrConnectWithoutAvailabilityInput = {
@@ -25688,6 +32134,7 @@ export namespace Prisma {
     quotes?: QuoteUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutVendorNestedInput
   }
 
   export type VendorProfileUncheckedUpdateWithoutAvailabilityInput = {
@@ -25709,6 +32156,7 @@ export namespace Prisma {
     quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type ServiceCreateWithoutImagesInput = {
@@ -25723,6 +32171,7 @@ export namespace Prisma {
     packages?: PackageCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutImagesInput = {
@@ -25737,6 +32186,7 @@ export namespace Prisma {
     packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutImagesInput = {
@@ -25767,6 +32217,7 @@ export namespace Prisma {
     packages?: PackageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutImagesInput = {
@@ -25781,6 +32232,7 @@ export namespace Prisma {
     packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type PackageCreateWithoutImagesInput = {
@@ -25794,6 +32246,7 @@ export namespace Prisma {
     service: ServiceCreateNestedOneWithoutPackagesInput
     bookings?: BookingCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutPackageInput
   }
 
   export type PackageUncheckedCreateWithoutImagesInput = {
@@ -25807,6 +32260,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
     messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type PackageCreateOrConnectWithoutImagesInput = {
@@ -25836,6 +32290,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutImagesInput = {
@@ -25849,15 +32304,899 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type UserCreateWithoutNotificationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileCreateNestedOneWithoutUserInput
+    events?: EventCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileUncheckedCreateNestedOneWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type BookingCreateWithoutNotificationsInput = {
+    id?: string
+    status?: string
+    date: Date | string
+    price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    event: EventCreateNestedOneWithoutBookingsInput
+    vendor: VendorProfileCreateNestedOneWithoutBookingsInput
+    organizer: UserCreateNestedOneWithoutBookingsInput
+    package?: PackageCreateNestedOneWithoutBookingsInput
+    service?: ServiceCreateNestedOneWithoutBookingsInput
+    quotes?: QuoteCreateNestedManyWithoutBookingInput
+    payments?: PaymentCreateNestedManyWithoutBookingInput
+    review?: ReviewCreateNestedOneWithoutBookingInput
+    messages?: MessageCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    eventId: string
+    vendorId: string
+    organizerId: string
+    packageId?: string | null
+    serviceId?: string | null
+    status?: string
+    date: Date | string
+    price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: QuoteUncheckedCreateNestedManyWithoutBookingInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
+    review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    chatQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingCreateOrConnectWithoutNotificationsInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutNotificationsInput, BookingUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUpdateOneWithoutUserNestedInput
+    events?: EventUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUncheckedUpdateOneWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type BookingUpsertWithoutNotificationsInput = {
+    update: XOR<BookingUpdateWithoutNotificationsInput, BookingUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<BookingCreateWithoutNotificationsInput, BookingUncheckedCreateWithoutNotificationsInput>
+    where?: BookingWhereInput
+  }
+
+  export type BookingUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: BookingWhereInput
+    data: XOR<BookingUpdateWithoutNotificationsInput, BookingUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type BookingUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: EventUpdateOneRequiredWithoutBookingsNestedInput
+    vendor?: VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
+    organizer?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    package?: PackageUpdateOneWithoutBookingsNestedInput
+    service?: ServiceUpdateOneWithoutBookingsNestedInput
+    quotes?: QuoteUpdateManyWithoutBookingNestedInput
+    payments?: PaymentUpdateManyWithoutBookingNestedInput
+    review?: ReviewUpdateOneWithoutBookingNestedInput
+    messages?: MessageUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    organizerId?: StringFieldUpdateOperationsInput | string
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: QuoteUncheckedUpdateManyWithoutBookingNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
+    review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
+  }
+
+  export type UserCreateWithoutSentQuotationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileCreateNestedOneWithoutUserInput
+    events?: EventCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    receivedQuotations?: ChatQuotationCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutSentQuotationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileUncheckedCreateNestedOneWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    receivedQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutSentQuotationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSentQuotationsInput, UserUncheckedCreateWithoutSentQuotationsInput>
+  }
+
+  export type UserCreateWithoutReceivedQuotationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileCreateNestedOneWithoutUserInput
+    events?: EventCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationCreateNestedManyWithoutSenderInput
+  }
+
+  export type UserUncheckedCreateWithoutReceivedQuotationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendorProfile?: VendorProfileUncheckedCreateNestedOneWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutOrganizerInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutOrganizerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutAuthorInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutReceiverInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sentQuotations?: ChatQuotationUncheckedCreateNestedManyWithoutSenderInput
+  }
+
+  export type UserCreateOrConnectWithoutReceivedQuotationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceivedQuotationsInput, UserUncheckedCreateWithoutReceivedQuotationsInput>
+  }
+
+  export type BookingCreateWithoutChatQuotationsInput = {
+    id?: string
+    status?: string
+    date: Date | string
+    price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    event: EventCreateNestedOneWithoutBookingsInput
+    vendor: VendorProfileCreateNestedOneWithoutBookingsInput
+    organizer: UserCreateNestedOneWithoutBookingsInput
+    package?: PackageCreateNestedOneWithoutBookingsInput
+    service?: ServiceCreateNestedOneWithoutBookingsInput
+    quotes?: QuoteCreateNestedManyWithoutBookingInput
+    payments?: PaymentCreateNestedManyWithoutBookingInput
+    review?: ReviewCreateNestedOneWithoutBookingInput
+    messages?: MessageCreateNestedManyWithoutBookingInput
+    notifications?: NotificationCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingUncheckedCreateWithoutChatQuotationsInput = {
+    id?: string
+    eventId: string
+    vendorId: string
+    organizerId: string
+    packageId?: string | null
+    serviceId?: string | null
+    status?: string
+    date: Date | string
+    price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: QuoteUncheckedCreateNestedManyWithoutBookingInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutBookingInput
+    review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    messages?: MessageUncheckedCreateNestedManyWithoutBookingInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingCreateOrConnectWithoutChatQuotationsInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutChatQuotationsInput, BookingUncheckedCreateWithoutChatQuotationsInput>
+  }
+
+  export type VendorProfileCreateWithoutChatQuotationsInput = {
+    id?: string
+    businessName: string
+    description?: string | null
+    category: string
+    location: string
+    occasions?: string | null
+    phoneNumber?: string | null
+    website?: string | null
+    imageUrl?: string | null
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutVendorProfileInput
+    services?: ServiceCreateNestedManyWithoutVendorInput
+    bookings?: BookingCreateNestedManyWithoutVendorInput
+    quotes?: QuoteCreateNestedManyWithoutVendorInput
+    availability?: AvailabilityCreateNestedManyWithoutVendorInput
+    reviews?: ReviewCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextVendorInput
+  }
+
+  export type VendorProfileUncheckedCreateWithoutChatQuotationsInput = {
+    id?: string
+    userId: string
+    businessName: string
+    description?: string | null
+    category: string
+    location: string
+    occasions?: string | null
+    phoneNumber?: string | null
+    website?: string | null
+    imageUrl?: string | null
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    services?: ServiceUncheckedCreateNestedManyWithoutVendorInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutVendorInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutVendorInput
+    availability?: AvailabilityUncheckedCreateNestedManyWithoutVendorInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutVendorInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextVendorInput
+  }
+
+  export type VendorProfileCreateOrConnectWithoutChatQuotationsInput = {
+    where: VendorProfileWhereUniqueInput
+    create: XOR<VendorProfileCreateWithoutChatQuotationsInput, VendorProfileUncheckedCreateWithoutChatQuotationsInput>
+  }
+
+  export type ServiceCreateWithoutChatQuotationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: VendorProfileCreateNestedOneWithoutServicesInput
+    packages?: PackageCreateNestedManyWithoutServiceInput
+    images?: ServiceImageCreateNestedManyWithoutServiceInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutChatQuotationsInput = {
+    id?: string
+    vendorId: string
+    name: string
+    description?: string | null
+    basePrice: number
+    occasions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    packages?: PackageUncheckedCreateNestedManyWithoutServiceInput
+    images?: ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutChatQuotationsInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutChatQuotationsInput, ServiceUncheckedCreateWithoutChatQuotationsInput>
+  }
+
+  export type PackageCreateWithoutChatQuotationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: ServiceCreateNestedOneWithoutPackagesInput
+    images?: PackageImageCreateNestedManyWithoutPackageInput
+    bookings?: BookingCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageCreateNestedManyWithoutContextPackageInput
+  }
+
+  export type PackageUncheckedCreateWithoutChatQuotationsInput = {
+    id?: string
+    serviceId: string
+    name: string
+    description?: string | null
+    price: number
+    features?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: PackageImageUncheckedCreateNestedManyWithoutPackageInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutPackageInput
+    messagesAsContext?: MessageUncheckedCreateNestedManyWithoutContextPackageInput
+  }
+
+  export type PackageCreateOrConnectWithoutChatQuotationsInput = {
+    where: PackageWhereUniqueInput
+    create: XOR<PackageCreateWithoutChatQuotationsInput, PackageUncheckedCreateWithoutChatQuotationsInput>
+  }
+
+  export type MessageCreateWithoutQuotationInput = {
+    id?: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    booking?: BookingCreateNestedOneWithoutMessagesInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+    receiver: UserCreateNestedOneWithoutReceivedMessagesInput
+    contextService?: ServiceCreateNestedOneWithoutMessagesAsContextInput
+    contextPackage?: PackageCreateNestedOneWithoutMessagesAsContextInput
+    contextVendor?: VendorProfileCreateNestedOneWithoutMessagesAsContextInput
+  }
+
+  export type MessageUncheckedCreateWithoutQuotationInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutQuotationInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput>
+  }
+
+  export type MessageCreateManyQuotationInputEnvelope = {
+    data: MessageCreateManyQuotationInput | MessageCreateManyQuotationInput[]
+  }
+
+  export type UserUpsertWithoutSentQuotationsInput = {
+    update: XOR<UserUpdateWithoutSentQuotationsInput, UserUncheckedUpdateWithoutSentQuotationsInput>
+    create: XOR<UserCreateWithoutSentQuotationsInput, UserUncheckedCreateWithoutSentQuotationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSentQuotationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSentQuotationsInput, UserUncheckedUpdateWithoutSentQuotationsInput>
+  }
+
+  export type UserUpdateWithoutSentQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUpdateOneWithoutUserNestedInput
+    events?: EventUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    receivedQuotations?: ChatQuotationUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSentQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUncheckedUpdateOneWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    receivedQuotations?: ChatQuotationUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUpsertWithoutReceivedQuotationsInput = {
+    update: XOR<UserUpdateWithoutReceivedQuotationsInput, UserUncheckedUpdateWithoutReceivedQuotationsInput>
+    create: XOR<UserCreateWithoutReceivedQuotationsInput, UserUncheckedCreateWithoutReceivedQuotationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReceivedQuotationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReceivedQuotationsInput, UserUncheckedUpdateWithoutReceivedQuotationsInput>
+  }
+
+  export type UserUpdateWithoutReceivedQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUpdateOneWithoutUserNestedInput
+    events?: EventUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUpdateManyWithoutSenderNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReceivedQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendorProfile?: VendorProfileUncheckedUpdateOneWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutOrganizerNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutOrganizerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutAuthorNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutReceiverNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sentQuotations?: ChatQuotationUncheckedUpdateManyWithoutSenderNestedInput
+  }
+
+  export type BookingUpsertWithoutChatQuotationsInput = {
+    update: XOR<BookingUpdateWithoutChatQuotationsInput, BookingUncheckedUpdateWithoutChatQuotationsInput>
+    create: XOR<BookingCreateWithoutChatQuotationsInput, BookingUncheckedCreateWithoutChatQuotationsInput>
+    where?: BookingWhereInput
+  }
+
+  export type BookingUpdateToOneWithWhereWithoutChatQuotationsInput = {
+    where?: BookingWhereInput
+    data: XOR<BookingUpdateWithoutChatQuotationsInput, BookingUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type BookingUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: EventUpdateOneRequiredWithoutBookingsNestedInput
+    vendor?: VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
+    organizer?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    package?: PackageUpdateOneWithoutBookingsNestedInput
+    service?: ServiceUpdateOneWithoutBookingsNestedInput
+    quotes?: QuoteUpdateManyWithoutBookingNestedInput
+    payments?: PaymentUpdateManyWithoutBookingNestedInput
+    review?: ReviewUpdateOneWithoutBookingNestedInput
+    messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    organizerId?: StringFieldUpdateOperationsInput | string
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: QuoteUncheckedUpdateManyWithoutBookingNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
+    review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+  }
+
+  export type VendorProfileUpsertWithoutChatQuotationsInput = {
+    update: XOR<VendorProfileUpdateWithoutChatQuotationsInput, VendorProfileUncheckedUpdateWithoutChatQuotationsInput>
+    create: XOR<VendorProfileCreateWithoutChatQuotationsInput, VendorProfileUncheckedCreateWithoutChatQuotationsInput>
+    where?: VendorProfileWhereInput
+  }
+
+  export type VendorProfileUpdateToOneWithWhereWithoutChatQuotationsInput = {
+    where?: VendorProfileWhereInput
+    data: XOR<VendorProfileUpdateWithoutChatQuotationsInput, VendorProfileUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type VendorProfileUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVendorProfileNestedInput
+    services?: ServiceUpdateManyWithoutVendorNestedInput
+    bookings?: BookingUpdateManyWithoutVendorNestedInput
+    quotes?: QuoteUpdateManyWithoutVendorNestedInput
+    availability?: AvailabilityUpdateManyWithoutVendorNestedInput
+    reviews?: ReviewUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextVendorNestedInput
+  }
+
+  export type VendorProfileUncheckedUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ServiceUncheckedUpdateManyWithoutVendorNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutVendorNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutVendorNestedInput
+    availability?: AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutVendorNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+  }
+
+  export type ServiceUpsertWithoutChatQuotationsInput = {
+    update: XOR<ServiceUpdateWithoutChatQuotationsInput, ServiceUncheckedUpdateWithoutChatQuotationsInput>
+    create: XOR<ServiceCreateWithoutChatQuotationsInput, ServiceUncheckedCreateWithoutChatQuotationsInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutChatQuotationsInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutChatQuotationsInput, ServiceUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type ServiceUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: VendorProfileUpdateOneRequiredWithoutServicesNestedInput
+    packages?: PackageUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: FloatFieldUpdateOperationsInput | number
+    occasions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    packages?: PackageUncheckedUpdateManyWithoutServiceNestedInput
+    images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+  }
+
+  export type PackageUpsertWithoutChatQuotationsInput = {
+    update: XOR<PackageUpdateWithoutChatQuotationsInput, PackageUncheckedUpdateWithoutChatQuotationsInput>
+    create: XOR<PackageCreateWithoutChatQuotationsInput, PackageUncheckedCreateWithoutChatQuotationsInput>
+    where?: PackageWhereInput
+  }
+
+  export type PackageUpdateToOneWithWhereWithoutChatQuotationsInput = {
+    where?: PackageWhereInput
+    data: XOR<PackageUpdateWithoutChatQuotationsInput, PackageUncheckedUpdateWithoutChatQuotationsInput>
+  }
+
+  export type PackageUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneRequiredWithoutPackagesNestedInput
+    images?: PackageImageUpdateManyWithoutPackageNestedInput
+    bookings?: BookingUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+  }
+
+  export type PackageUncheckedUpdateWithoutChatQuotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    features?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
+    messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutQuotationInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutQuotationInput, MessageUncheckedUpdateWithoutQuotationInput>
+    create: XOR<MessageCreateWithoutQuotationInput, MessageUncheckedCreateWithoutQuotationInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutQuotationInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutQuotationInput, MessageUncheckedUpdateWithoutQuotationInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutQuotationInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutQuotationInput>
   }
 
   export type EventCreateManyOrganizerInput = {
     id?: string
     title: string
     date: Date | string
+    startTime?: string | null
+    endTime?: string | null
     location: string
     type: string
     budget: number
+    budgetMin?: number | null
+    budgetMax?: number | null
+    headcount?: number | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25871,6 +33210,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25889,6 +33242,7 @@ export namespace Prisma {
   export type MessageCreateManySenderInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -25902,6 +33256,7 @@ export namespace Prisma {
   export type MessageCreateManyReceiverInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -25912,13 +33267,75 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type NotificationCreateManyUserInput = {
+    id?: string
+    type: string
+    title: string
+    message: string
+    bookingId?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManySenderInput = {
+    id?: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManyReceiverInput = {
+    id?: string
+    senderId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type EventUpdateWithoutOrganizerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUpdateManyWithoutEventNestedInput
@@ -25928,9 +33345,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUncheckedUpdateManyWithoutEventNestedInput
@@ -25940,9 +33367,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
     location?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    headcount?: NullableIntFieldUpdateOperationsInput | number | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25952,6 +33389,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25963,6 +33414,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutOrganizerInput = {
@@ -25974,6 +33427,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25981,6 +33448,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutOrganizerInput = {
@@ -25992,6 +33461,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26035,6 +33518,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
@@ -26043,6 +33527,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26056,6 +33541,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26074,6 +33560,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
@@ -26082,6 +33569,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26095,6 +33583,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyWithoutReceiverInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26103,6 +33592,166 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceCreateManyVendorInput = {
@@ -26124,6 +33773,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26161,6 +33824,7 @@ export namespace Prisma {
   export type MessageCreateManyContextVendorInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     senderId: string
@@ -26169,6 +33833,27 @@ export namespace Prisma {
     imageUrl?: string | null
     readAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManyVendorInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ServiceUpdateWithoutVendorInput = {
@@ -26183,6 +33868,7 @@ export namespace Prisma {
     images?: ServiceImageUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutVendorInput = {
@@ -26197,6 +33883,7 @@ export namespace Prisma {
     images?: ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextServiceNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateManyWithoutVendorInput = {
@@ -26214,6 +33901,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26225,6 +33926,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutVendorInput = {
@@ -26236,6 +33939,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26243,6 +33960,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutVendorInput = {
@@ -26254,6 +33973,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26355,6 +34088,7 @@ export namespace Prisma {
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
   }
@@ -26362,6 +34096,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateWithoutContextVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26375,6 +34110,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyWithoutContextVendorInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26383,6 +34119,71 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutVendorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PackageCreateManyServiceInput = {
@@ -26410,6 +34211,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26418,6 +34233,7 @@ export namespace Prisma {
   export type MessageCreateManyContextServiceInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
     senderId: string
@@ -26426,6 +34242,27 @@ export namespace Prisma {
     imageUrl?: string | null
     readAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManyServiceInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PackageUpdateWithoutServiceInput = {
@@ -26439,6 +34276,7 @@ export namespace Prisma {
     images?: PackageImageUpdateManyWithoutPackageNestedInput
     bookings?: BookingUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateWithoutServiceInput = {
@@ -26452,6 +34290,7 @@ export namespace Prisma {
     images?: PackageImageUncheckedUpdateManyWithoutPackageNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPackageNestedInput
     messagesAsContext?: MessageUncheckedUpdateManyWithoutContextPackageNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type PackageUncheckedUpdateManyWithoutServiceInput = {
@@ -26487,6 +34326,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26498,6 +34351,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutServiceInput = {
@@ -26509,6 +34364,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26516,6 +34385,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutServiceInput = {
@@ -26527,6 +34398,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26541,6 +34426,7 @@ export namespace Prisma {
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
@@ -26548,6 +34434,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateWithoutContextServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26561,6 +34448,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyWithoutContextServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26569,6 +34457,71 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PackageImageCreateManyPackageInput = {
@@ -26586,6 +34539,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26594,6 +34561,7 @@ export namespace Prisma {
   export type MessageCreateManyContextPackageInput = {
     id?: string
     bookingId?: string | null
+    quotationId?: string | null
     contextServiceId?: string | null
     contextVendorId?: string | null
     senderId: string
@@ -26602,6 +34570,27 @@ export namespace Prisma {
     imageUrl?: string | null
     readAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManyPackageInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    bookingId?: string | null
+    vendorId?: string | null
+    serviceId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PackageImageUpdateWithoutPackageInput = {
@@ -26627,6 +34616,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26638,6 +34641,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutPackageInput = {
@@ -26649,6 +34654,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26656,6 +34675,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutPackageInput = {
@@ -26667,6 +34688,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26681,6 +34716,7 @@ export namespace Prisma {
     booking?: BookingUpdateOneWithoutMessagesNestedInput
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
   }
@@ -26688,6 +34724,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateWithoutContextPackageInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26701,6 +34738,7 @@ export namespace Prisma {
   export type MessageUncheckedUpdateManyWithoutContextPackageInput = {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
@@ -26709,6 +34747,71 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    booking?: BookingUpdateOneWithoutChatQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutPackageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyEventInput = {
@@ -26720,6 +34823,20 @@ export namespace Prisma {
     status?: string
     date: Date | string
     price: number
+    location?: string | null
+    guests?: number | null
+    startTime?: string | null
+    endTime?: string | null
+    minAge?: number | null
+    maxAge?: number | null
+    venueType?: string | null
+    venueAccess?: string | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    specialRequests?: string | null
+    vendorProvidedAt?: Date | string | null
+    organizerConfirmedAt?: Date | string | null
+    organizerDisputedAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26730,6 +34847,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26741,6 +34872,8 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutBookingNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
     messages?: MessageUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutEventInput = {
@@ -26752,6 +34885,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26759,6 +34906,8 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
     messages?: MessageUncheckedUpdateManyWithoutBookingNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutBookingNestedInput
+    chatQuotations?: ChatQuotationUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutEventInput = {
@@ -26770,6 +34919,20 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: FloatFieldUpdateOperationsInput | number
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    guests?: NullableIntFieldUpdateOperationsInput | number | null
+    startTime?: NullableStringFieldUpdateOperationsInput | string | null
+    endTime?: NullableStringFieldUpdateOperationsInput | string | null
+    minAge?: NullableIntFieldUpdateOperationsInput | number | null
+    maxAge?: NullableIntFieldUpdateOperationsInput | number | null
+    venueType?: NullableStringFieldUpdateOperationsInput | string | null
+    venueAccess?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetMin?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableFloatFieldUpdateOperationsInput | number | null
+    specialRequests?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorProvidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizerDisputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26798,6 +34961,7 @@ export namespace Prisma {
 
   export type MessageCreateManyBookingInput = {
     id?: string
+    quotationId?: string | null
     contextServiceId?: string | null
     contextPackageId?: string | null
     contextVendorId?: string | null
@@ -26807,6 +34971,37 @@ export namespace Prisma {
     imageUrl?: string | null
     readAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyBookingInput = {
+    id?: string
+    userId: string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ChatQuotationCreateManyBookingInput = {
+    id?: string
+    senderId: string
+    receiverId: string
+    vendorId?: string | null
+    serviceId?: string | null
+    packageId?: string | null
+    price: number
+    currency?: string
+    date?: Date | string | null
+    time?: string | null
+    location?: string | null
+    notes?: string | null
+    validUntil?: Date | string | null
+    status?: string
+    acceptedAt?: Date | string | null
+    rejectedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuoteUpdateWithoutBookingInput = {
@@ -26880,6 +35075,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    quotation?: ChatQuotationUpdateOneWithoutMessagesNestedInput
     contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
     contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
     contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
@@ -26887,6 +35083,7 @@ export namespace Prisma {
 
   export type MessageUncheckedUpdateWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26900,6 +35097,158 @@ export namespace Prisma {
 
   export type MessageUncheckedUpdateManyWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quotationId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatQuotationUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneRequiredWithoutSentQuotationsNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedQuotationsNestedInput
+    vendor?: VendorProfileUpdateOneWithoutChatQuotationsNestedInput
+    service?: ServiceUpdateOneWithoutChatQuotationsNestedInput
+    package?: PackageUpdateOneWithoutChatQuotationsNestedInput
+    messages?: MessageUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutQuotationNestedInput
+  }
+
+  export type ChatQuotationUncheckedUpdateManyWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    packageId?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageCreateManyQuotationInput = {
+    id?: string
+    bookingId?: string | null
+    contextServiceId?: string | null
+    contextPackageId?: string | null
+    contextVendorId?: string | null
+    senderId: string
+    receiverId: string
+    content: string
+    imageUrl?: string | null
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type MessageUpdateWithoutQuotationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneWithoutMessagesNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceivedMessagesNestedInput
+    contextService?: ServiceUpdateOneWithoutMessagesAsContextNestedInput
+    contextPackage?: PackageUpdateOneWithoutMessagesAsContextNestedInput
+    contextVendor?: VendorProfileUpdateOneWithoutMessagesAsContextNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutQuotationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
+    contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    senderId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutQuotationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: NullableStringFieldUpdateOperationsInput | string | null
     contextServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     contextPackageId?: NullableStringFieldUpdateOperationsInput | string | null
     contextVendorId?: NullableStringFieldUpdateOperationsInput | string | null

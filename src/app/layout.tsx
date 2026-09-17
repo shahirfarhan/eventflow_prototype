@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EventFlow",
+  title: "Gaffers",
   description: "One-stop platform for event planning",
 };
 
