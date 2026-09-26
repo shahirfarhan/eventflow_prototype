@@ -6,32 +6,47 @@ import BookingsList from "./bookings-list";
 export default async function BookingsPage() {
   const session = await auth();
 
-  
-
   if (!session?.user) {
     redirect("/dashboard");
   }
 
   const role = session.user.role;
+
   let where: any = {};
 
   if (role === "ORGANIZER") {
     where = {
       event: {
-        organizerId: session.user.id
-      }
+        organizerId: session.user.id,
+      },
     };
   } else if (role === "VENDOR") {
     const vendorProfile = await prisma.vendorProfile.findUnique({
-      where: { userId: session.user.id }
+      where: {
+        userId: session.user.id,
+      },
     });
-    
+
     if (!vendorProfile) {
-      return <div>Vendor profile not found.</div>;
+      return (
+        <div className="min-h-screen bg-background">
+          <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+              <h2 className="text-lg font-semibold">
+                Vendor profile not found
+              </h2>
+
+              <p className="mt-1 text-sm text-muted-foreground">
+                Please complete your vendor profile before viewing bookings.
+              </p>
+            </div>
+          </main>
+        </div>
+      );
     }
 
     where = {
-      vendorId: vendorProfile.id
+      vendorId: vendorProfile.id,
     };
   }
 
@@ -52,28 +67,55 @@ export default async function BookingsPage() {
         select: {
           businessName: true,
           id: true,
-        }
-      }
+        },
+      },
     },
-    orderBy: { createdAt: 'desc' }
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   const events = Array.from(
-    new Map(bookings.map(b => [b.eventId, b.event])).values()
-  )
-
+    new Map(
+      bookings.map((booking) => [
+        booking.eventId,
+        booking.event,
+      ])
+    ).values()
+  );
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Bookings</h1>
-        <p className="text-muted-foreground">
-          Manage your booking requests and payments.
-        </p>
-      </div>
-     
+    <div className="min-h-screen bg-background">
+      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
-      <BookingsList bookings={bookings as any} userRole={role} events={events}/>
+        {/* Header */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-medium text-brand">
+              {role === "VENDOR" ? "Vendor Dashboard" : "Event Dashboard"}
+            </p>
+
+            <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Bookings
+            </h1>
+
+            <p className="mt-2 text-sm text-muted-foreground">
+              Manage your booking requests and payments.
+            </p>
+          </div>
+        </div>
+
+        {/* Booking List */}
+        <div className="mt-8">
+          <BookingsList
+            bookings={bookings as any}
+            userRole={role}
+            events={events}
+          />
+        </div>
+
+      </main>
     </div>
   );
 }
+

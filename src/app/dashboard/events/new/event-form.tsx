@@ -357,7 +357,6 @@ export default function EventForm({
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      defaultValue="10:00"
                       className="pl-10"
                     />
                   </div>

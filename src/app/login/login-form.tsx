@@ -34,8 +34,12 @@ export default function LoginForm() {
           )}
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" disabled={isPending}>
-            {isPending ? 'Logging in...' : 'Sign in'}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+          >
+            {isPending ? "Logging in..." : "Sign in"}
           </Button>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}

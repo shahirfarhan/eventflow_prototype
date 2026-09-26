@@ -195,9 +195,10 @@ export default function BookingForm({ vendor, selectedService, userEvents }: Boo
                           typeof window !== "undefined" ? window.location.pathname + window.location.search : "",
                       },
                     }}
+                    className="inline-flex items-center gap-1.5"
                   >
                     <Plus className="h-4 w-4" />
-                    New Event
+                    <span className="leading-none">New Event</span>
                     <ArrowUpRight className="h-3.5 w-3.5 opacity-70" />
                   </Link>
                 </Button>

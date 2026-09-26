@@ -127,11 +127,13 @@ export default function AudienceToggle() {
           </div>
         </div>
 
-        <Link href={active.cta.href}>
-          <Button size="lg" className="h-12 px-10 text-base font-semibold">
-            {active.cta.label}
-          </Button>
-        </Link>
+        <Button
+          size="lg"
+          className="h-12 px-10 text-base font-semibold"
+          render={<Link href={active.cta.href} />}
+        >
+          {active.cta.label}
+        </Button>
       </div>
     </section>
   )
