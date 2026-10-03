@@ -1,0 +1,3 @@
+module.exports=[18357,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function({children:a}){return(0,b.jsx)(b.Fragment,{children:a})},"metadata",0,{title:"Gaffers — Event Dashboard",description:"Plan your events and book vendors with Gaffers.",generator:"v0.app",icons:{icon:[{url:"/icon-light-32x32.png",media:"(prefers-color-scheme: light)"},{url:"/icon-dark-32x32.png",media:"(prefers-color-scheme: dark)"},{url:"/icon.svg",type:"image/svg+xml"}],apple:"/apple-icon.png"}},"viewport",0,{colorScheme:"light dark",themeColor:[{media:"(prefers-color-scheme: light)",color:"white"},{media:"(prefers-color-scheme: dark)",color:"black"}]}])},15843,function(a){a.n(a.i(18357))}];
+
+//# sourceMappingURL=src_app_dashboard_layout_tsx_072xwe9._.js.map
