@@ -9,7 +9,7 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
 
       // Define protected routes
-      const protectedRoutes = ['/dashboard', '/vendors']
+      const protectedRoutes = ['/dashboard']
       const isProtectedRoute = protectedRoutes.some(route =>
         nextUrl.pathname.startsWith(route)
       )
