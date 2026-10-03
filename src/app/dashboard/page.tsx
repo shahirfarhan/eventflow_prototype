@@ -256,6 +256,8 @@ export default async function DashboardPage({
   const { tab } = await searchParams
   const activeTab = tab ?? "overview"
 
+  
+
   // ============================================================
   // ADMIN DASHBOARD
   // ============================================================
@@ -414,7 +416,7 @@ export default async function DashboardPage({
           ====================================================== */}
 
           <div className="mt-8">
-            <DashboardNav />
+            <DashboardNav isVendor={role === "VENDOR"} />
           </div>
 
           {/* ======================================================

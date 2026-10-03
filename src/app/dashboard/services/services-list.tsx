@@ -14,13 +14,20 @@ import {
 import { MoreHorizontal, Pencil, Trash } from 'lucide-react'
 import ServiceDialog from './service-dialog'
 import { toast } from 'sonner'
+import Link from "next/link";
+import { Plus } from "lucide-react";
 
 interface Service {
-  id: string
-  name: string
-  description: string | null
-  basePrice: number
-  occasions: string | null
+  id: string;
+  name: string;
+  description: string | null;
+  basePrice: number;
+  occasions: string | null;
+  pricingModel: string;
+  locationsCovered: string[];
+  includedItems: string[];
+  minGuests: number | null;
+  maxGuests: number | null;
 }
 
 interface ServicesListProps {
@@ -63,7 +70,13 @@ export default function ServicesList({ services }: ServicesListProps) {
           Get started by creating a new service.
         </p>
         <div className="mt-6">
-          <ServiceDialog trigger={<Button>Add Service</Button>} />
+          <div className="mt-6">
+            <Button asChild>
+              <Link href="/dashboard/services/new">
+                Add Service
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     )
@@ -72,12 +85,21 @@ export default function ServicesList({ services }: ServicesListProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
       {services.map((service) => (
-        <Card key={service.id} className="h-full">
+        <Card key={service.id} className="flex h-full min-h-[280px] flex-col">
           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
             <div className="space-y-1">
               <CardTitle>{service.name}</CardTitle>
               <CardDescription className="font-semibold text-primary">
                 RM {service.basePrice.toLocaleString()}
+                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                  {service.pricingModel === "PER_HOUR"
+                    ? "/ hour"
+                    : service.pricingModel === "PER_PAX"
+                      ? "/ pax"
+                      : service.pricingModel === "PER_DAY"
+                        ? "/ day"
+                        : ""}
+                </span>
               </CardDescription>
             </div>
             <DropdownMenu
@@ -93,14 +115,11 @@ export default function ServicesList({ services }: ServicesListProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  onSelect={(e) => {
-                    e.preventDefault()
-                    setMenuOpenId(null)
-                    setEditingId(service.id)
-                  }}
-                >
-                  <Pencil className="mr-2 h-4 w-4" /> Edit
+                <DropdownMenuItem asChild>
+                  <Link href={`/dashboard/services/${service.id}/edit`}>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-600 focus:text-red-600"
@@ -157,21 +176,16 @@ export default function ServicesList({ services }: ServicesListProps) {
         </Card>
       ))}
 
-      {/* Add new card */}
-      <Card className="relative h-full flex flex-col items-center justify-center border-dashed cursor-pointer hover:bg-gray-50 transition-colors">
-        <ServiceDialog
-          trigger={
-            <Button
-              variant="ghost"
-              className="absolute inset-0 h-full w-full flex flex-col gap-2"
-            >
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-2xl font-light text-primary">+</span>
-              </div>
-              <span>Add New Service</span>
-            </Button>
-          }
-        />
+      {/* Add new service card */}
+      <Card className="flex h-full min-h-[280px] w-full flex-col items-center justify-center border-dashed transition-colors hover:bg-muted/50">
+        <Button asChild variant="ghost" className="flex h-full w-full flex-col gap-2">
+          <Link href="/dashboard/services/new">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+              <Plus className="h-6 w-6 text-primary" />
+            </div>
+            <span>Add New Service</span>
+          </Link>
+        </Button>
       </Card>
     </div>
   )

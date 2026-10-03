@@ -66,22 +66,30 @@ model VendorProfile {
 }
 
 model Service {
-  id            String    @id @default(cuid())
-  vendorId      String
-  vendor        VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-  name          String
-  description   String?
-  basePrice     Float
-  occasions     String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                String   @id @default(cuid())
+  vendorId          String
+  vendor            VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  name              String
+  description       String?
+  basePrice         Float
+  occasions         String?
+
+  pricingModel      String   @default("FIXED")
+  locationsCovered  String[] @default([])
+  includedItems     String[] @default([])
+  minGuests         Int?
+  maxGuests         Int?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // Relationships
-  packages      Package[]
-  images        ServiceImage[]
-  bookings      Booking[]
+  packages          Package[]
+  images            ServiceImage[]
+  bookings          Booking[]
   messagesAsContext Message[] @relation("MessageContextService")
-  chatQuotations ChatQuotation[] @relation("QuotationService")
+  chatQuotations    ChatQuotation[] @relation("QuotationService")
 }
 
 model Package {

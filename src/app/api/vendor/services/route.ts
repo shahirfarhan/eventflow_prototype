@@ -7,6 +7,13 @@ const serviceSchema = z.object({
   name: z.string().min(2),
   description: z.string().optional(),
   basePrice: z.number().min(0),
+  pricingModel: z.enum([
+    "FIXED",
+    "PER_HOUR",
+    "PER_PAX",
+    "PER_DAY",
+    "CUSTOM",
+  ]),
   occasions: z
     .string()
     .max(1000, "Occasions too long")
@@ -68,6 +75,7 @@ export async function POST(req: Request) {
         name: data.name,
         description: data.description,
         basePrice: data.basePrice,
+        pricingModel: data.pricingModel,
         occasions: data.occasions ?? null,
       },
     });

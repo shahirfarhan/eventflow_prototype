@@ -43,6 +43,11 @@ export default function BookingForm({ vendor, selectedService, userEvents }: Boo
     (event) => event.id === selectedEventId
   );
 
+  const totalAmount =
+  selectedService?.pricingModel === "PER_PAX" && guests !== ""
+    ? selectedService.basePrice * Number(guests)
+    : null;
+
   const applyEventToForm = (ev: any) => {
     if (!ev) return;
     if (ev.location !== undefined && ev.location !== null) setLocation(String(ev.location));
@@ -118,7 +123,7 @@ export default function BookingForm({ vendor, selectedService, userEvents }: Boo
       minAge: isNaN(aMin as number) ? null : aMin,
       maxAge: isNaN(aMax as number) ? null : aMax,
       notes: formData.get("notes"),
-      price: selectedService?.basePrice,
+      price: totalAmount ?? selectedService?.basePrice
     };
 
     try {
@@ -527,9 +532,42 @@ export default function BookingForm({ vendor, selectedService, userEvents }: Boo
                   <span className="text-muted-foreground">Service:</span>
                   <span className="font-medium text-right max-w-[60%]">{selectedService.name}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold pt-5 border-t">
-                  <span>Base Price:</span>
-                  <span className="text-primary">RM {selectedService.basePrice.toLocaleString()}</span>
+                <div className="pt-5 border-t space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      {selectedService.pricingModel === "PER_PAX"
+                        ? "Price per guest:"
+                        : "Base Price:"}
+                    </span>
+
+                    <span className="font-medium">
+                      RM {selectedService.basePrice.toLocaleString()}
+                    </span>
+                  </div>
+
+                  {selectedService.pricingModel === "PER_PAX" && (
+                    <>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">
+                          Estimated guests:
+                        </span>
+
+                        <span className="font-medium">
+                          {guests === "" ? "—" : Number(guests).toLocaleString()}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between text-lg font-bold pt-3 border-t">
+                        <span>Total Amount:</span>
+
+                        <span className="text-primary">
+                          {totalAmount !== null
+                            ? `RM ${totalAmount.toLocaleString()}`
+                            : "—"}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             )}

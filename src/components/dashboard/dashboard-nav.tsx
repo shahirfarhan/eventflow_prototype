@@ -7,6 +7,7 @@ import {
   LayoutGrid,
   Search,
   Ticket,
+  Briefcase
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -18,7 +19,7 @@ type NavItem = {
   href?: string
 }
 
-const navItems: NavItem[] = [
+const baseNavItems: NavItem[] = [
   {
     label: "Overview",
     icon: LayoutGrid,
@@ -42,10 +43,26 @@ const navItems: NavItem[] = [
   },
 ]
 
-export function DashboardNav() {
-  const searchParams = useSearchParams()
+const vendorNavItem: NavItem = {
+  label: "My Services",
+  icon: Briefcase,
+  tab: "services",
+  href: "/dashboard/services",
+}
 
+interface DashboardNavProps {
+  isVendor?: boolean
+  isOrganizer?: boolean
+}
+
+export function DashboardNav({ isVendor = false, isOrganizer = false }: DashboardNavProps) {
+  const searchParams = useSearchParams()
   const activeTab = searchParams.get("tab") ?? "overview"
+
+  const navItems = [
+    ...baseNavItems.filter((item) => item.tab !== "events" || isOrganizer),
+    ...(isVendor ? [vendorNavItem] : []),
+  ]
 
   return (
     <nav className="flex flex-wrap items-center gap-2 border-b border-border pb-4">
