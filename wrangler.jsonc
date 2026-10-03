@@ -1,21 +1,33 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "gaffers",
-  "main": ".open-next/worker.js",
-  "compatibility_date": "2026-10-01",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "gaffers"
-      
-    }
-  ],
-  "observability": {
-    "enabled": true
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "gaffers",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2026-10-01",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "gaffers"
+		}
+	],
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"AUTH_TRUST_HOST": "true",
+		"AUTH_URL": "https://gaffers.gaffers-app.workers.dev"
+	},
+	"hyperdrive": [
+		{
+			"binding": "HYPERDRIVE",
+			"id": "e35971a82f194c01bdb931156b07a3be"
+		}
+	]
 }
