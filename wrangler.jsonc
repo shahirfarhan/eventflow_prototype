@@ -12,6 +12,10 @@
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "gaffers"
+      
     }
-  ]
+  ],
+  "observability": {
+    "enabled": true
+  }
 }
