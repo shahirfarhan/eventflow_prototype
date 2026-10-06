@@ -251,12 +251,13 @@ export default function RegisterForm() {
         </CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+      <form onSubmit={handleSubmit(onSubmit, (errs) => console.log("Validation errors:", errs))}>
         <CardContent className="grid gap-6">
           {/* Role pill toggle */}
           <div className="grid gap-3">
             <Label className="text-sm font-medium">I am a...</Label>
-            <div className="inline-flex w-full rounded-full border border-border bg-muted/40 p-2">
+            <div className="inline-flex w-full rounded-full border border-border bg-muted/40 p-1">
               {roleOptions.map((opt) => {
                 const isActive = selectedRole === opt.value
                 const Icon = opt.icon
@@ -268,17 +269,19 @@ export default function RegisterForm() {
                       setValue('role', opt.value, { shouldValidate: false })
                       clearErrors(['category', 'description'])
                     }}
-                    className={`flex-1 px-5 py-4 rounded-full text-sm font-semibold transition-all duration-200 ${
+                    className={`flex-1 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                       isActive
                         ? 'bg-primary text-primary-foreground shadow-md'
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    <div className="flex flex-col items-center gap-1 justify-center">
-                      <Icon className="h-4 w-4" />
-                      <span>{opt.label}</span>
+                    <div className="flex flex-col items-center justify-center gap-0.5">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Icon className="h-4 w-4" />
+                        {opt.label}
+                      </span>
                       <span
-                        className={`text-xs font-normal opacity-80 ${
+                        className={`text-[11px] font-normal opacity-80 sm:text-xs ${
                           isActive ? 'text-primary-foreground/90' : ''
                         }`}
                       >
@@ -395,7 +398,7 @@ export default function RegisterForm() {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4 pt-6">
-          <Button className="w-full h-11 text-base" disabled={isLoading}>
+          <Button type="submit" className="w-full h-11 text-base" disabled={isLoading}>
             {isLoading ? 'Creating account...' : 'Create account'}
           </Button>
           <div className="text-center text-sm">

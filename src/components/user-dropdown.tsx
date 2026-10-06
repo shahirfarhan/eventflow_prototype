@@ -1,18 +1,16 @@
 'use client'
 
-import { useState } from 'react'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, LogOut } from 'lucide-react'
+import { ChevronDown, LayoutDashboard, LogOut } from 'lucide-react'
 
 interface UserDropdownProps {
   name: string
@@ -23,17 +21,21 @@ export function UserDropdown({ name }: UserDropdownProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          {name}
-          <ChevronDown className="h-4 w-4" />
+          <span className="max-w-[90px] truncate sm:max-w-none">{name}</span>
+          <ChevronDown className="h-4 w-4 shrink-0" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {/* <DropdownMenuItem>
-          <Link href="/dashboard">My Dashboard</Link>
-        </DropdownMenuItem> */}
-        <DropdownMenuSeparator />
+        {/* Mobile only: on sm+ the Dashboard link is in the navbar */}
+        <DropdownMenuItem asChild className="cursor-pointer sm:hidden">
+          <Link href="/dashboard">
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className="sm:hidden" />
         <DropdownMenuItem
-          className="text-red-500 cursor-pointer focus:text-red-500"
+          className="cursor-pointer text-red-500 focus:text-red-500"
           onClick={() => signOut({ callbackUrl: '/' })}
         >
           <LogOut className="mr-2 h-4 w-4" />

@@ -23,6 +23,7 @@
 	"vars": {
 		"AUTH_TRUST_HOST": "true",
 		"AUTH_URL": "https://gaffers.gaffers-app.workers.dev"
+        // "AUTH_URL": "https://gaffersapp.com"
 	},
 	"hyperdrive": [
 		{

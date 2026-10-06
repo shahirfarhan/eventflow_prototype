@@ -72,22 +72,22 @@ export default function AudienceToggle() {
         </span>
 
         {/* Pill toggle — bigger, consistent padding and click area */}
-        <div className="inline-flex rounded-full border border-border bg-white dark:bg-gray-900 p-1.5 mb-14 shadow-sm w-full sm:w-auto">
+        <div className="inline-flex rounded-full border border-border bg-white dark:bg-gray-900 p-1 mb-10 shadow-sm w-full sm:w-auto">
           {(Object.keys(content) as Audience[]).map((key) => (
             <button
               type="button"
               key={key}
               onClick={() => setTab(key)}
-              className={`flex-1 sm:flex-none sm:w-96 px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 ${
+              className={`flex-1 sm:flex-none sm:w-72 px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-all duration-200 ${
                 tab === key
-                  ? "bg-primary text-primary-foreground shadow-md scale-[1.01]"
+                  ? "bg-primary text-primary-foreground shadow-md"
                   : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               }`}
             >
-              <div className="flex flex-col items-center gap-1 justify-center">
+              <div className="flex flex-col items-center justify-center gap-0.5">
                 <span>{content[key].tabLabel}</span>
                 <span
-                  className={`text-xs sm:text-sm font-normal opacity-80 ${
+                  className={`text-[11px] sm:text-xs font-normal opacity-80 ${
                     tab === key ? "text-primary-foreground/90" : ""
                   }`}
                 >

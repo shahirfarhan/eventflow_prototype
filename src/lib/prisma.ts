@@ -22,7 +22,8 @@
 //   globalForPrisma.prisma = prisma;
 //---------
 
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../../generated/postgres/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
@@ -31,7 +32,25 @@ type HyperdriveEnv = { HYPERDRIVE?: { connectionString: string } };
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 const perRequest = new WeakMap<object, PrismaClient>();
 
+// function createClient(connectionString: string) {
+//   const adapter = new PrismaPg({ connectionString });
+//   return new PrismaClient({ adapter, log: ["error"] });
+// }
+
 function createClient(connectionString: string) {
+  // Only true when you explicitly set it in your local .env
+  const skipVerify = process.env.DB_SSL_NO_VERIFY === "true";
+
+  if (skipVerify) {
+    const url = new URL(connectionString);
+    url.searchParams.delete("sslmode");
+    const adapter = new PrismaPg({
+      connectionString: url.toString(),
+      ssl: { rejectUnauthorized: false },
+    });
+    return new PrismaClient({ adapter, log: ["error"] });
+  }
+
   const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter, log: ["error"] });
 }

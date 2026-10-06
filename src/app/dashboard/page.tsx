@@ -257,6 +257,7 @@ export default async function DashboardPage({
   const activeTab = tab ?? "overview"
 
   
+  
 
   // ============================================================
   // ADMIN DASHBOARD
@@ -646,16 +647,13 @@ export default async function DashboardPage({
 
   // Get organizer events for the My Events tab
   const events =
-    activeTab === "events"
-      ? await prisma.event.findMany({
-          where: {
-            organizerId: session.user.id,
-          },
-          orderBy: {
-            date: "asc",
-          },
-        })
-      : []
+  activeTab === "overview" || activeTab === "events" || activeTab === "bookings"
+    ? await prisma.event.findMany({
+        where: { organizerId: session.user.id },
+        orderBy: { date: "asc" },
+        include: { _count: { select: { bookings: true } } },
+      })
+    : []
 
   const bookings =
     activeTab === "bookings"
@@ -676,6 +674,10 @@ export default async function DashboardPage({
           },
         })
       : []
+
+      const startOfToday = new Date()
+      startOfToday.setHours(0, 0, 0, 0)
+      const upcoming = events.filter(e => e.date >= startOfToday).slice(0, 5)
 
   return (
     <div className="min-h-screen bg-background">
@@ -721,8 +723,10 @@ export default async function DashboardPage({
           {/* OVERVIEW */}
           {activeTab === "overview" && (
             <div className="space-y-8">
-              <Stats />
-              <UpcomingEvents />
+              <Stats
+                events={events}
+              />
+              <UpcomingEvents events={upcoming}/>
             </div>
           )}
 

@@ -1,5 +1,5 @@
 import { PrismaClient as SQLiteClient } from "../generated/sqlite";
-import { PrismaClient as PgClient } from "../generated/postgres";
+import { PrismaClient as PgClient } from "../generated/postgres/client";
 
 const sqlite = new SQLiteClient({
   datasources: { db: { url: process.env.SQLITE_URL } },
