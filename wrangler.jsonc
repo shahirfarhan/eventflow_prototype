@@ -22,13 +22,14 @@
 	},
 	"vars": {
 		"AUTH_TRUST_HOST": "true",
-		"AUTH_URL": "https://gaffers.gaffers-app.workers.dev"
-        // "AUTH_URL": "https://gaffersapp.com"
+		// "AUTH_URL": "https://gaffers.gaffers-app.workers.dev"
+        "AUTH_URL": "https://gaffersapp.com"
 	},
 	"hyperdrive": [
 		{
 			"binding": "HYPERDRIVE",
-			"id": "e35971a82f194c01bdb931156b07a3be"
+			"id": "e35971a82f194c01bdb931156b07a3be",
+			"localConnectionString": "postgres://user:password@localhost:5432/db"
 		}
 	]
 }
