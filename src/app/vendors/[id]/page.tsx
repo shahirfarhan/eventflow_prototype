@@ -23,6 +23,7 @@ import VendorServices from "@/components/vendor-services";
 import { SaveVendorButton } from "@/components/save-vendor-button";
 import { SocialLinksRow } from "@/components/social-links";
 import { websiteHref, websiteLabel } from "@/lib/social-links";
+import { VendorPhotoGrid } from "@/components/vendor-photo-grid";
 
 export default async function PublicVendorDetailsPage({
   params,
@@ -91,6 +92,11 @@ export default async function PublicVendorDetailsPage({
   const hasSocials = Object.values(socialLinks).some(Boolean);
   const isOwner = session?.user?.id === vendor.user.id;
 
+  // Main photo first, then the rest (max 8)
+  const photos = [vendor.imageUrl, ...vendor.galleryImages]
+    .filter((u): u is string => !!u)
+    .slice(0, 8);
+
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -113,13 +119,9 @@ export default async function PublicVendorDetailsPage({
             VENDOR HERO
         ====================================================== */}
 
-        {vendor.imageUrl && (
-          <div className="mb-8 overflow-hidden rounded-2xl border border-border">
-            <img
-              src={vendor.imageUrl}
-              alt={vendor.businessName}
-              className="h-64 w-full object-cover sm:h-80 lg:h-96"
-            />
+        {photos.length > 0 && (
+          <div style={{ marginBottom: 32 }}>
+            <VendorPhotoGrid photos={photos} name={vendor.businessName} />
           </div>
         )}
 
@@ -222,47 +224,6 @@ export default async function PublicVendorDetailsPage({
                 )}
               </CardContent>
             </Card>
-
-            {/* GALLERY */}
-
-            {vendor.galleryImages.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-2xl font-bold tracking-tight">
-                  Gallery
-                </h2>
-
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-                    gap: 12,
-                  }}
-                >
-                  {vendor.galleryImages.map((url, i) => (
-                    <a
-                      key={url}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="border border-border"
-                      style={{
-                        display: "block",
-                        aspectRatio: "1 / 1",
-                        borderRadius: 12,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <img
-                        src={url}
-                        alt={`${vendor.businessName} photo ${i + 1}`}
-                        loading="lazy"
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* SERVICES */}
 

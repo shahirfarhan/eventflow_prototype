@@ -8,6 +8,8 @@ import VendorFilters from "@/app/vendors/vendor-filters";
 import { auth } from "@/auth";
 import { buttonVariants } from "@/components/ui/button"
 import { SaveVendorButton } from "@/components/save-vendor-button";
+import { DashboardNav } from "@/components/dashboard/dashboard-nav";
+import LoadMoreGrid from "./load-more-grid";
 
 export const dynamic = "force-dynamic";
 
@@ -127,6 +129,17 @@ export default async function VendorsPage({
     },
   });
 
+  // Existing date availability logic (unchanged), applied up front so the
+  // "No vendors found" message and the Load more count use the real list
+  const shownVendors = vendors.filter((vendor) => {
+    if (date) {
+      const d = new Date(date);
+      const unavailable = ((vendor.id.length + d.getDate()) % 3) === 0;
+      if (unavailable) return false;
+    }
+    return true;
+  });
+
   // ============================================================
   // GET CATEGORIES
   // ============================================================
@@ -142,6 +155,27 @@ export default async function VendorsPage({
         ).map((s) => s.vendorId)
       : []
   );
+
+  // ============================================================
+  // BOTTOM TAB BAR (phones, signed-in planners and vendors)
+  // ============================================================
+
+  const role = session?.user?.role;
+  const showTabBar =
+    !!session?.user?.id && (role === "VENDOR" || role === "ORGANIZER" || role === "ADMIN");
+
+  const [pendingCount, unreadCount] = showTabBar
+    ? await Promise.all([
+        role === "VENDOR"
+          ? prisma.booking.count({
+              where: { vendor: { userId: session!.user!.id }, status: "PENDING" },
+            })
+          : Promise.resolve(0),
+        prisma.message.count({
+          where: { receiverId: session!.user!.id, readAt: null },
+        }),
+      ])
+    : [0, 0];
 
   const allVendors = await prisma.vendorProfile.findMany({
     select: {
@@ -160,7 +194,25 @@ export default async function VendorsPage({
   // ============================================================
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <section
+      className={
+        showTabBar
+          ? // Extra room at the bottom on phones so the tab bar doesn't cover the last card
+            "mx-auto max-w-7xl px-4 pb-28 pt-20 sm:px-6 md:pb-20 lg:px-8"
+          : "mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+      }
+    >
+      {showTabBar && (
+        <DashboardNav
+          mobileOnly
+          isVendor={role === "VENDOR"}
+          isOrganizer={role === "ORGANIZER"}
+          isAdmin={role === "ADMIN"}
+          pendingCount={pendingCount}
+          unreadCount={unreadCount}
+        />
+      )}
+
       {/* ========================================================
           PAGE HEADER
       ======================================================== */}
@@ -265,33 +317,21 @@ export default async function VendorsPage({
           VENDOR LIST
       ======================================================== */}
 
-      {vendors.length === 0 ? (
+      {shownVendors.length === 0 ? (
         <div className="py-20 text-center">
           <p className="text-muted-foreground">
             No vendors found.
           </p>
         </div>
       ) : (
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {vendors
-            .filter((vendor) => {
-              /*
-               * Existing date availability logic
-               * is preserved.
-               */
-              if (date) {
-                const d = new Date(date);
-
-                const unavailable =
-                  ((vendor.id.length + d.getDate()) % 3) === 0;
-
-                if (unavailable) {
-                  return false;
-                }
-              }
-
-              return true;
-            })
+        // Phones: 10 at a time with "Load more". Desktop: all of them.
+        // The key resets back to 10 whenever the search or filters change.
+        <LoadMoreGrid
+          key={JSON.stringify({ category, q, minPrice, maxPrice, location, date, guests, type })}
+          pageSize={10}
+          className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3"
+        >
+          {shownVendors
             .map((vendor) => {
               // ==================================================
               // MINIMUM SERVICE PRICE
@@ -407,7 +447,7 @@ export default async function VendorsPage({
                 </article>
               );
             })}
-        </div>
+        </LoadMoreGrid>
       )}
     </section>
   );

@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import BookingsList from "./bookings-list";
+import { DashboardHeader } from "@/components/dashboard/ui";
+import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 
 export default async function BookingsPage() {
   const session = await auth();
@@ -11,6 +13,8 @@ export default async function BookingsPage() {
   }
 
   const role = session.user.role;
+  const isVendor = role === "VENDOR";
+  const isAdmin = role === "ADMIN";
 
   let where: any = {};
 
@@ -20,7 +24,7 @@ export default async function BookingsPage() {
         organizerId: session.user.id,
       },
     };
-  } else if (role === "VENDOR") {
+  } else if (isVendor) {
     const vendorProfile = await prisma.vendorProfile.findUnique({
       where: {
         userId: session.user.id,
@@ -32,10 +36,7 @@ export default async function BookingsPage() {
         <div className="min-h-screen bg-background">
           <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
-              <h2 className="text-lg font-semibold">
-                Vendor profile not found
-              </h2>
-
+              <h2 className="text-lg font-semibold">Vendor profile not found</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Please complete your vendor profile before viewing bookings.
               </p>
@@ -67,6 +68,7 @@ export default async function BookingsPage() {
         select: {
           businessName: true,
           id: true,
+          userId: true, // so "Message vendor" can find your existing chat
         },
       },
     },
@@ -76,46 +78,34 @@ export default async function BookingsPage() {
   });
 
   const events = Array.from(
-    new Map(
-      bookings.map((booking) => [
-        booking.eventId,
-        booking.event,
-      ])
-    ).values()
+    new Map(bookings.map((booking) => [booking.eventId, booking.event])).values(),
   );
+
+  const pendingCount = bookings.filter((b) => b.status === "PENDING").length;
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl space-y-8 px-4 pb-28 pt-10 sm:px-6 md:pb-10 lg:px-8">
+        <DashboardHeader
+          title={isAdmin ? "All bookings" : "Bookings"}
+          description={
+            isAdmin
+              ? "Every booking between planners and vendors on Gaffers."
+              : isVendor
+                ? "Respond to requests and keep track of every event."
+                : "Track your requests, payments and vendors for every event."
+          }
+        />
 
-        {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-medium text-brand">
-              {role === "VENDOR" ? "Vendor Dashboard" : "Event Dashboard"}
-            </p>
+        <DashboardNav
+          isVendor={isVendor}
+          isOrganizer={role === "ORGANIZER"}
+          isAdmin={isAdmin}
+          pendingCount={isVendor ? pendingCount : 0}
+        />
 
-            <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Bookings
-            </h1>
-
-            <p className="mt-2 text-sm text-muted-foreground">
-              Manage your booking requests and payments.
-            </p>
-          </div>
-        </div>
-
-        {/* Booking List */}
-        <div className="mt-8">
-          <BookingsList
-            bookings={bookings as any}
-            userRole={role}
-            events={events}
-          />
-        </div>
-
+        <BookingsList bookings={bookings as any} userRole={role} events={events} />
       </main>
     </div>
   );
 }
-

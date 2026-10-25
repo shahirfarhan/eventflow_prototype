@@ -1,236 +1,16 @@
-// import { auth, signOut } from "@/auth";
-// import { prisma } from "@/lib/prisma";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-// import { redirect } from "next/navigation";
-// import Link from "next/link";
-// import { Calendar, DollarSign, Package } from "lucide-react";
-// import AdminDashboardPage from "./admin/page";
-
-// export default async function DashboardPage() {
-//   const session = await auth();
-
-//   if (!session?.user) {
-//     redirect("/login");
-//   }
-
-//   const getDaysUntilEvent = (eventDate: string | Date) => {
-//         const today = new Date()
-//         const event = new Date(eventDate)
-
-//         // Remove the time portion so we're comparing dates only
-//         today.setHours(0, 0, 0, 0)
-//         event.setHours(0, 0, 0, 0)
-
-//         const difference = event.getTime() - today.getTime()
-//         return Math.ceil(difference / (1000 * 60 * 60 * 24))
-//     }
-
-//   const role = session.user.role;
-
-//   if (role === 'ADMIN') {
-//     return <AdminDashboardPage />;
-//   }
-
-//   // Vendor Overview
-//   if (role === 'VENDOR') {
-//     const vendor = await prisma.vendorProfile.findUnique({
-//         where: { userId: session.user.id },
-//         include: { services: true }
-//     });
-
-//     if (!vendor) return <div>Complete your profile</div>;
-
-//     const bookings = await prisma.booking.count({
-//         where: { vendorId: vendor.id }
-//     });
-
-//     const revenue = await prisma.booking.aggregate({
-//         where: { vendorId: vendor.id, status: 'PAID' },
-//         _sum: { price: true }
-//     });
-
-//     return (
-//         <div className="space-y-8">
-//             <h1 className="text-3xl font-bold">Welcome back, {session.user.name}</h1>
-//             <div className="grid gap-4 md:grid-cols-3">
-//                 <Card>
-//                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//                         <CardTitle className="text-sm font-medium">Total Services</CardTitle>
-//                         <Package className="h-4 w-4 text-muted-foreground" />
-//                     </CardHeader>
-//                     <CardContent>
-//                         <div className="text-2xl font-bold">{vendor.services.length}</div>
-//                     </CardContent>
-//                 </Card>
-//                 <Card>
-//                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//                         <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-//                         <Calendar className="h-4 w-4 text-muted-foreground" />
-//                     </CardHeader>
-//                     <CardContent>
-//                         <div className="text-2xl font-bold">{bookings}</div>
-//                     </CardContent>
-//                 </Card>
-//                 <Card>
-//                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//                         <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-//                         <DollarSign className="h-4 w-4 text-muted-foreground" />
-//                     </CardHeader>
-//                     <CardContent>
-//                         <div className="text-2xl font-bold">RM{revenue._sum.price || 0}</div>
-//                     </CardContent>
-//                 </Card>
-//             </div>
-//              <div className="flex gap-4">
-//                 <Link href="/dashboard/bookings">
-//                     <Button>View Bookings</Button>
-//                 </Link>
-//                 <Link href="/dashboard/services">
-//                     <Button variant="outline">Manage Services</Button>
-//                 </Link>
-//             </div>
-//         </div>
-//     );
-//   }
-
-//   // Organizer Overview
-//   if (role === 'ORGANIZER') {
-//      const events = await prisma.event.findMany({
-//         where: { organizerId: session.user.id },
-//         orderBy: { date: 'asc' }
-//      });
-
-//      return (
-//         <div className="space-y-8">
-//              <h1 className="text-3xl font-bold">Welcome back, {session.user.name}</h1>
-             
-//              <Card>
-//                 <CardHeader>
-//                     <CardTitle>Upcoming Events</CardTitle>
-//                     <CardDescription>Your next {events.length} events</CardDescription>
-//                 </CardHeader>
-//                 <CardContent>
-//                     {events.length > 0 ? (
-//                         <div className="space-y-4">
-//                             {events.map(event => (
-//                                 <div key={event.id} className="flex justify-between items-center border-b pb-2 last:border-0">
-//                                     {/* <div>
-//                                         <p className="font-medium">{event.title}</p>
-//                                         <p className="text-sm text-muted-foreground">{new Date(event.date).toLocaleDateString()}</p>
-//                                     </div> */}
-//                                 <div>
-//                                     <div className="flex items-center gap-2">
-//                                         <p className="font-medium">{event.title}</p>
-//                                         <span className="text-xs font-normal text-muted-foreground">
-//                                             in {getDaysUntilEvent(event.date)} days
-//                                         </span>
-//                                     </div>
-
-//                                     <p className="text-sm text-muted-foreground">
-//                                         {new Date(event.date).toLocaleDateString()}
-//                                     </p>
-//                                 </div>
-//                                     <Button variant="ghost" size="sm" asChild>
-//                                         <Link href="/dashboard/events">View</Link>
-//                                     </Button>
-//                                 </div>
-//                             ))}
-//                         </div>
-//                     ) : (
-//                         <p className="text-sm text-muted-foreground">No upcoming events.</p>
-//                     )}
-//                 </CardContent>
-//              </Card>
-
-//              <div className="flex gap-4">
-//                 <Link href="/dashboard/events">
-//                     <Button>Manage Events</Button>
-//                 </Link>
-//                 <Link href="/dashboard/vendors">
-//                     <Button variant="outline">Find Vendors</Button>
-//                 </Link>
-//             </div>
-//         </div>
-//      );
-//   }
-
-//   return <div>Unknown role</div>;
-// }
-
-//-----------------------
-
-// import { CalendarPlus, Search } from "lucide-react"
-// import { DashboardNav } from "@/components/dashboard/dashboard-nav"
-// import { Stats } from "@/components/dashboard/stats"
-// import { UpcomingEvents } from "@/components/dashboard/upcoming-events"
-// import { redirect } from "next/navigation";
-// import { auth, signOut } from "@/auth";
-
-// export default async function Page() {
-//     const session = await auth();
-
-//     if (!session?.user) {
-//       redirect("/login");
-//     }
-//   return (
-//     <div className="min-h-screen bg-background">
-//       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-//         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-//           <div>
-//             <p className="text-sm font-medium text-brand">Overview</p>
-//             <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-//               Welcome back, {session.user.name}
-//             </h1>
-//             <p className="mt-2 text-sm text-muted-foreground">
-//               Here&apos;s what&apos;s happening with your events.
-//             </p>
-//           </div>
-//           <div className="flex flex-wrap gap-2">
-//             <button
-//               type="button"
-//               className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-//             >
-//               <CalendarPlus className="h-4 w-4" />
-//               Manage Events
-//             </button>
-//             <button
-//               type="button"
-//               className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
-//             >
-//               <Search className="h-4 w-4" />
-//               Find Vendors
-//             </button>
-//           </div>
-//         </div>
-
-//         <div className="mt-8">
-//           <DashboardNav />
-//         </div>
-
-//         <div className="mt-8 space-y-8">
-//           <Stats />
-//           <UpcomingEvents />
-//         </div>
-//       </main>
-//     </div>
-//   )
-// }
-
-//----------------------------
-
 import Link from "next/link"
 import {
-  CalendarPlus,
-  Search,
+  ArrowRight,
+  Bookmark,
   BriefcaseBusiness,
   CalendarDays,
-  DollarSign,
-  ArrowRight,
-  UserRound,
-  Bookmark,
+  CalendarPlus,
+  CheckCircle2,
   MapPin,
-  UserCog,
+  Plus,
+  Search,
+  UserRound,
+  Wallet,
 } from "lucide-react"
 import { redirect } from "next/navigation"
 
@@ -240,10 +20,63 @@ import { prisma } from "@/lib/prisma"
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { Stats } from "@/components/dashboard/stats"
 import { UpcomingEvents } from "@/components/dashboard/upcoming-events"
+import {
+  APP_TIME_ZONE,
+  DashboardHeader,
+  EmptyState,
+  Panel,
+  StatCard,
+  buttonPrimary,
+  formatRM,
+} from "@/components/dashboard/ui"
+import { SaveVendorButton } from "@/components/save-vendor-button"
+
 import AdminDashboardPage from "./admin/page"
 import EventsList from "./events/events-list"
 import BookingsList from "./bookings/bookings-list"
-import { SaveVendorButton } from "@/components/save-vendor-button"
+import {
+  AttentionCard,
+  MobileStats,
+  UpNextCard,
+  UpcomingBookingsTable,
+  type AttentionItem,
+} from "@/components/dashboard/vendor-overview"
+
+/* ================================================================
+   Helpers
+================================================================ */
+
+function greeting() {
+  const hour = Number(
+    new Intl.DateTimeFormat("en-GB", {
+      hour: "numeric",
+      hour12: false,
+      timeZone: APP_TIME_ZONE,
+    }).format(new Date()),
+  )
+  if (hour < 12) return "Good morning"
+  if (hour < 18) return "Good afternoon"
+  return "Good evening"
+}
+
+function todayLabel() {
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: APP_TIME_ZONE,
+  }).format(new Date())
+}
+
+function isSameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  )
+}
+
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`
 
 export default async function DashboardPage({
   searchParams,
@@ -259,15 +92,14 @@ export default async function DashboardPage({
   const role = session.user.role
   const { tab } = await searchParams
   const activeTab = tab ?? "overview"
-
-  
-  
+  const firstName = session.user.name ?? "there"
 
   // ============================================================
   // ADMIN DASHBOARD
   // ============================================================
 
   if (role === "ADMIN") {
+    // The admin page renders its own tabs (top on desktop, bottom bar on phones)
     return <AdminDashboardPage />
   }
 
@@ -277,12 +109,8 @@ export default async function DashboardPage({
 
   if (role === "VENDOR") {
     const vendor = await prisma.vendorProfile.findUnique({
-      where: {
-        userId: session.user.id,
-      },
-      include: {
-        services: true,
-      },
+      where: { userId: session.user.id },
+      include: { services: true },
     })
 
     // Vendor has not completed their profile
@@ -290,44 +118,25 @@ export default async function DashboardPage({
       return (
         <div className="min-h-screen bg-background">
           <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-sm font-medium text-brand">Vendor Dashboard</p>
+            <DashboardHeader
+              eyebrow={todayLabel()}
+              title={`${greeting()}, ${firstName}`}
+              description="Complete your vendor profile to start receiving bookings."
+            />
 
-                <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                  Welcome back, {session.user.name}
-                </h1>
-
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Complete your vendor profile to start receiving bookings.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-border bg-card p-8 shadow-sm">
-              <div className="mx-auto max-w-lg text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-muted">
-                  <UserRound className="h-7 w-7 text-muted-foreground" />
-                </div>
-
-                <h2 className="mt-5 text-xl font-semibold">
-                  Complete your vendor profile
-                </h2>
-
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Add your business information, services, pricing and photos
-                  so event planners can discover and book you.
-                </p>
-
-                <Link
-                  href="/dashboard/profile"
-                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-                >
-                  Complete Profile
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
+            <Panel className="mt-8">
+              <EmptyState
+                icon={<UserRound className="h-6 w-6" />}
+                title="Complete your vendor profile"
+                description="Add your business information, services, pricing and photos so event planners can discover and book you."
+                action={
+                  <Link href="/dashboard/profile" className={buttonPrimary}>
+                    Complete profile
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                }
+              />
+            </Panel>
           </main>
         </div>
       )
@@ -337,317 +146,198 @@ export default async function DashboardPage({
     // VENDOR DATA
     // ============================================================
 
-    const [bookings, totalBookings, revenue] = await Promise.all([
+    const now = new Date()
+    const startOfToday = new Date(now)
+    startOfToday.setHours(0, 0, 0, 0)
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+    const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+
+    const [upcoming, earned, awaiting, thisMonthCount, lastMonthCount] = await Promise.all([
+      // Only future, still-active bookings (no COMPLETED / REJECTED / CANCELLED)
       prisma.booking.findMany({
         where: {
           vendorId: vendor.id,
+          status: { in: ["PENDING", "ACCEPTED", "PAID"] },
+          date: { gte: startOfToday },
         },
-        include: {
-          organizer: true,
-          service: true,
-          event: true,
-        },
-        orderBy: {
-          event: {
-            date: "asc",
-          },
-        },
-        take: 5,
+        include: { organizer: true, service: true, event: true },
+        orderBy: { date: "asc" },
+        take: 20,
+      }),
+
+      // Money in: a booking stays paid after the vendor marks it COMPLETED
+      prisma.booking.aggregate({
+        where: { vendorId: vendor.id, status: { in: ["PAID", "COMPLETED"] } },
+        _sum: { price: true },
+        _count: { _all: true },
+      }),
+
+      // Accepted by the vendor, not yet paid by the planner
+      prisma.booking.aggregate({
+        where: { vendorId: vendor.id, status: "ACCEPTED" },
+        _sum: { price: true },
+        _count: { _all: true },
       }),
 
       prisma.booking.count({
         where: {
           vendorId: vendor.id,
+          status: { notIn: ["REJECTED", "CANCELLED"] },
+          date: { gte: startOfMonth, lt: startOfNextMonth },
         },
       }),
 
-      prisma.booking.aggregate({
+      prisma.booking.count({
         where: {
           vendorId: vendor.id,
-          status: "PAID",
-        },
-        _sum: {
-          price: true,
+          status: { notIn: ["REJECTED", "CANCELLED"] },
+          date: { gte: startOfLastMonth, lt: startOfMonth },
         },
       }),
     ])
 
-    const totalRevenue = revenue._sum.price ?? 0
+    const pending = upcoming.filter((b) => b.status === "PENDING")
+    const confirmed = upcoming.filter((b) => b.status === "ACCEPTED" || b.status === "PAID")
+    const unpaid = confirmed.filter((b) => b.status === "ACCEPTED")
+    const dueToday = confirmed.filter(
+      (b) => isSameDay(new Date(b.date), now) && !b.vendorProvidedAt,
+    )
+
+    // ---------- Needs your attention ----------
+    const attention: AttentionItem[] = []
+
+    if (pending.length > 0) {
+      attention.push({
+        href: "/dashboard/bookings",
+        icon: CalendarDays,
+        tone: "brand",
+        title: `${plural(pending.length, "new booking request")}`,
+        detail: pending
+          .slice(0, 2)
+          .map((b) => `${b.organizer?.name ?? "Planner"} · ${b.event?.title ?? b.service?.name ?? "Event"}`)
+          .join(", "),
+        chip: "Reply soon",
+      })
+    }
+
+    if (dueToday.length > 0) {
+      attention.push({
+        href: "/dashboard/bookings",
+        icon: CheckCircle2,
+        tone: "green",
+        title: `Mark ${plural(dueToday.length, "booking")} as provided`,
+        detail: "Happening today. Confirm once you've delivered the service",
+      })
+    }
+
+    if (unpaid.length > 0) {
+      const unpaidTotal = unpaid.reduce((sum, b) => sum + Number(b.price), 0)
+      attention.push({
+        href: "/dashboard/bookings",
+        icon: Wallet,
+        tone: "blue",
+        title: `${plural(unpaid.length, "booking")} awaiting payment`,
+        detail: `${formatRM(unpaidTotal)} accepted, not yet paid by the planner`,
+      })
+    }
+
+    if (vendor.services.length === 0) {
+      attention.push({
+        href: "/dashboard/services",
+        icon: BriefcaseBusiness,
+        tone: "neutral",
+        title: "Add your first service",
+        detail: "Planners can't book you until you list at least one service",
+      })
+    }
+
+    // ---------- Stats ----------
+    const monthDiff = thisMonthCount - lastMonthCount
+    const lastMonthName = startOfLastMonth.toLocaleDateString("en-GB", { month: "long" })
+    const earnedCount = earned._count._all
+    const awaitingCount = awaiting._count._all
+
+    // Unread messages, for the red count on the Inbox tab (phones)
+    const unreadCount = await prisma.message.count({
+      where: { receiverId: session.user.id, readAt: null },
+    })
 
     return (
       <div className="min-h-screen bg-background">
-        <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-
-          {/* ======================================================
-              HEADER
-          ====================================================== */}
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-medium text-brand">
-                Vendor Dashboard
-              </p>
-
-              <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                Welcome back, {session.user.name}
-              </h1>
-
-              <p className="mt-2 text-sm text-muted-foreground">
-                Here&apos;s what&apos;s happening with your business.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href="/dashboard/services"
-                className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-              >
-                <BriefcaseBusiness className="h-4 w-4" />
-                Manage Services
-              </Link>
-
-              <Link
-                href="/dashboard/bookings"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
-              >
-                <CalendarDays className="h-4 w-4" />
-                View Bookings
-              </Link>
-
-              <Link
-                href="/dashboard/profile"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
-              >
-                <UserCog className="h-4 w-4" />
-                Profile Settings
-              </Link>
-            </div>
+        <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-8">
+          {/* HEADER — phones */}
+          <div className="md:hidden">
+            <p className="text-muted-foreground">{greeting()},</p>
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">
+              {firstName}
+            </h1>
           </div>
 
-          {/* ======================================================
-              NAVIGATION
-          ====================================================== */}
-
-          <div className="mt-8">
-            <DashboardNav isVendor={role === "VENDOR"} />
+          {/* HEADER — tablet / desktop */}
+          <div className="hidden md:block">
+            <DashboardHeader
+              eyebrow={todayLabel()}
+              title={`${greeting()}, ${firstName}`}
+              actions={
+                <Link href="/dashboard/services" className={buttonPrimary}>
+                  <Plus className="h-4 w-4" />
+                  New service
+                </Link>
+              }
+            />
           </div>
 
-          {/* ======================================================
-              VENDOR STATS
-          ====================================================== */}
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-
-            {/* Services */}
-
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Total Services
-                  </p>
-
-                  <p className="mt-2 text-3xl font-bold tracking-tight">
-                    {vendor.services.length}
-                  </p>
-                </div>
-
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted">
-                  <BriefcaseBusiness className="h-5 w-5 text-muted-foreground" />
-                </div>
-              </div>
-
-              <Link
-                href="/dashboard/services"
-                className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline"
-              >
-                Manage services
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-
-            {/* Bookings */}
-
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Total Bookings
-                  </p>
-
-                  <p className="mt-2 text-3xl font-bold tracking-tight">
-                    {totalBookings}
-                  </p>
-                </div>
-
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted">
-                  <CalendarDays className="h-5 w-5 text-muted-foreground" />
-                </div>
-              </div>
-
-              <Link
-                href="/dashboard/bookings"
-                className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline"
-              >
-                View bookings
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-
-            {/* Revenue */}
-
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    Total Revenue
-                  </p>
-
-                  <p className="mt-2 text-3xl font-bold tracking-tight">
-                    RM{" "}
-                    {Number(totalRevenue).toLocaleString("en-MY", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  </p>
-                </div>
-
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted">
-                  <DollarSign className="h-5 w-5 text-muted-foreground" />
-                </div>
-              </div>
-
-              <p className="mt-4 text-sm text-muted-foreground">
-                Revenue from paid bookings
-              </p>
-            </div>
+          {/* NAVIGATION: top bar on desktop, bottom tab bar on phones */}
+          <div className="md:mt-6">
+            <DashboardNav isVendor pendingCount={pending.length} unreadCount={unreadCount} />
           </div>
 
-          {/* ======================================================
-              BOOKINGS
-          ====================================================== */}
+          {/* ATTENTION + UP NEXT */}
+          <div className="mt-6 grid grid-cols-1 gap-6 md:gap-5 lg:grid-cols-3">
+            <AttentionCard items={attention} />
+            <UpNextCard booking={confirmed[0]} />
+          </div>
 
-          <section className="mt-8 rounded-2xl border border-border bg-card shadow-sm">
-            <div className="flex flex-col gap-3 border-b border-border p-6 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-xl font-semibold">
-                  Upcoming Bookings
-                </h2>
+          {/* STATS — phones */}
+          <div className="mt-6 md:hidden">
+            <MobileStats
+              bookingsThisMonth={thisMonthCount}
+              earned={earned._sum.price}
+              awaiting={awaiting._sum.price}
+            />
+          </div>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Your latest event bookings and upcoming work.
-                </p>
-              </div>
+          {/* STATS — tablet / desktop */}
+          <div className="mt-5 hidden grid-cols-2 gap-4 md:grid lg:grid-cols-4">
+            <StatCard
+              label="Bookings this month"
+              value={thisMonthCount}
+              hint={`${monthDiff >= 0 ? "+" : ""}${monthDiff} vs ${lastMonthName}`}
+              tone={monthDiff > 0 ? "positive" : "muted"}
+            />
+            <StatCard
+              label="Earned"
+              value={formatRM(earned._sum.price)}
+              hint={`From ${plural(earnedCount, "paid booking")}`}
+            />
+            <StatCard
+              label="Awaiting payment"
+              value={formatRM(awaiting._sum.price)}
+              hint={awaitingCount > 0 ? `${plural(awaitingCount, "accepted booking")} unpaid` : "Nothing outstanding"}
+              tone={awaitingCount > 0 ? "warning" : "muted"}
+            />
+            <StatCard
+              label="Live services"
+              value={vendor.services.length}
+              hint="Listed on your profile"
+            />
+          </div>
 
-              <Link
-                href="/dashboard/bookings"
-                className="inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline"
-              >
-                View all
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            {bookings.length === 0 ? (
-              <div className="p-10 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                  <CalendarDays className="h-5 w-5 text-muted-foreground" />
-                </div>
-
-                <h3 className="mt-4 font-semibold">
-                  No bookings yet
-                </h3>
-
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Your upcoming bookings will appear here.
-                </p>
-              </div>
-            ) : (
-              <div className="divide-y divide-border">
-                {bookings.map((booking) => {
-                  const eventDate = booking.event?.date
-                    ? new Date(booking.event.date)
-                    : null
-
-                  return (
-                    <div
-                      key={booking.id}
-                      className="flex flex-col gap-4 p-6 transition-colors hover:bg-muted/40 md:flex-row md:items-center md:justify-between"
-                    >
-                      {/* LEFT */}
-
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="font-semibold">
-                            {booking.event?.title ?? "Event"}
-                          </h3>
-
-                          <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
-                            {booking.status}
-                          </span>
-                        </div>
-
-                        <div className="mt-2 space-y-1 text-sm text-muted-foreground">
-                          <p>
-                            Client:{" "}
-                            <span className="font-medium text-foreground">
-                              {booking.organizer?.name ?? "Unknown organizer"}
-                            </span>
-                          </p>
-
-                          <p>
-                            Service:{" "}
-                            <span className="font-medium text-foreground">
-                              {booking.service?.name ?? "Service"}
-                            </span>
-                          </p>
-
-                          {eventDate && (
-                            <p>
-                              Event date:{" "}
-                              <span className="font-medium text-foreground">
-                                {eventDate.toLocaleDateString("en-MY", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })}
-                              </span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* RIGHT */}
-
-                      <div className="flex items-center justify-between gap-6 md:justify-end">
-                        <div className="text-left md:text-right">
-                          <p className="text-xs text-muted-foreground">
-                            Booking value
-                          </p>
-
-                          <p className="mt-1 font-semibold">
-                            RM{" "}
-                            {Number(booking.price).toLocaleString("en-MY", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}
-                          </p>
-                        </div>
-
-                        <Link
-                          href={`/dashboard/bookings/${booking.id}`}
-                          className="inline-flex items-center gap-1 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                        >
-                          View
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </Link>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </section>
+          {/* UPCOMING BOOKINGS */}
+          <div className="mt-6 md:mt-5">
+            <UpcomingBookingsTable bookings={upcoming.slice(0, 6)} />
+          </div>
         </main>
       </div>
     )
@@ -657,33 +347,21 @@ export default async function DashboardPage({
   // ORGANIZER DASHBOARD
   // ============================================================
 
-  // Get organizer events for the My Events tab
   const events =
-  activeTab === "overview" || activeTab === "events" || activeTab === "bookings"
-    ? await prisma.event.findMany({
-        where: { organizerId: session.user.id },
-        orderBy: { date: "asc" },
-        include: { _count: { select: { bookings: true } } },
-      })
-    : []
+    activeTab === "overview" || activeTab === "events" || activeTab === "bookings"
+      ? await prisma.event.findMany({
+          where: { organizerId: session.user.id },
+          orderBy: { date: "asc" },
+          include: { _count: { select: { bookings: true } } },
+        })
+      : []
 
   const bookings =
     activeTab === "bookings"
       ? await prisma.booking.findMany({
-          where: {
-            organizerId: session.user.id,
-          },
-          include: {
-            organizer: true,
-            service: true,
-            event: true,
-            vendor: true,
-          },
-          orderBy: {
-            event: {
-              date: "asc",
-            },
-          },
+          where: { organizerId: session.user.id },
+          include: { organizer: true, service: true, event: true, vendor: true },
+          orderBy: { event: { date: "asc" } },
         })
       : []
 
@@ -693,182 +371,95 @@ export default async function DashboardPage({
           where: { userId: session.user.id },
           orderBy: { createdAt: "desc" },
           include: {
-            vendor: {
-              include: { services: { select: { basePrice: true } } },
-            },
+            vendor: { include: { services: { select: { basePrice: true } } } },
           },
         })
       : []
 
-      const startOfToday = new Date()
-      startOfToday.setHours(0, 0, 0, 0)
-      const upcoming = events.filter(e => e.date >= startOfToday).slice(0, 5)
+  const startOfToday = new Date()
+  startOfToday.setHours(0, 0, 0, 0)
+  const upcoming = events.filter((e) => e.date >= startOfToday).slice(0, 5)
+
+  const headerCopy: Record<string, { title: string; description: string }> = {
+    overview: { title: `${greeting()}, ${firstName}`, description: "Here's what's happening with your events." },
+    events: { title: "My events", description: "Manage your upcoming events and plan details." },
+    bookings: { title: "Bookings", description: "Manage your vendor bookings and payments." },
+    saved: { title: "Saved vendors", description: "Vendors you've saved for later." },
+  }
+  const header = headerCopy[activeTab] ?? headerCopy.overview
 
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-
         {/* HEADER */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-medium text-brand">
-              {activeTab === "events"
-                ? "Events"
-                : activeTab === "bookings"
-                  ? "Bookings"
-                  : activeTab === "vendors"
-                    ? "Vendors"
-                    : activeTab === "saved"
-                      ? "Saved Vendors"
-                      : "Overview"}
-            </p>
-
-            <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Welcome back, {session.user.name}
-            </h1>
-
-            <p className="mt-2 text-sm text-muted-foreground">
-              {activeTab === "events"
-                ? "Manage your upcoming events and plan details."
-                : activeTab === "bookings"
-                  ? "Manage your vendor bookings."
-                  : activeTab === "vendors"
-                    ? "Find vendors for your events."
-                    : activeTab === "saved"
-                      ? "Vendors you've saved for later."
-                      : "Here's what's happening with your events."}
-            </p>
-          </div>
-        </div>
+        <DashboardHeader
+          eyebrow={todayLabel()}
+          title={header.title}
+          description={header.description}
+          actions={
+            // Overview already has a "Create event" button in the Upcoming events card
+            activeTab === "events" ? (
+              <Link href="/dashboard/events/new" className={buttonPrimary}>
+                <CalendarPlus className="h-4 w-4" />
+                Create event
+              </Link>
+            ) : undefined
+          }
+        />
 
         {/* NAVIGATION */}
-        <div className="mt-8">
-          <DashboardNav />
+        <div className="mt-6">
+          <DashboardNav isOrganizer={role === "ORGANIZER"} />
         </div>
 
         {/* CONTENT */}
-        <div className="mt-8">
-
-          {/* OVERVIEW */}
+        <div className="mt-6">
           {activeTab === "overview" && (
-            <div className="space-y-8">
-              <Stats
-                events={events}
-              />
-              <UpcomingEvents events={upcoming}/>
+            <div className="space-y-5">
+              <Stats events={events} />
+              <UpcomingEvents events={upcoming} />
             </div>
           )}
 
-          {/* MY EVENTS */}
-          {activeTab === "events" && (
-            <div className="space-y-8">
+          {activeTab === "events" && <EventsList events={events} />}
 
-              {/* Events header */}
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-sm font-medium text-brand">
-                    Events
-                  </p>
-
-                  <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                    My Events
-                  </h2>
-
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Manage your upcoming events and plan details.
-                  </p>
-                </div>
-
-                <Link href="/dashboard/events/new">
-                  <button className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90">
-                    <CalendarPlus className="h-4 w-4" />
-                    Create Event
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </Link>
-              </div>
-
-              <EventsList events={events} />
-
-            </div>
-          )}
-
-          {/* BOOKINGS */}
           {activeTab === "bookings" && (
-            <div className="space-y-8">
-
-              {/* Bookings Header */}
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-sm font-medium text-brand">
-                    Bookings
-                  </p>
-
-                  <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                    My Bookings
-                  </h2>
-
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Manage your booking requests and payments.
-                  </p>
-                </div>
-              </div>
-
-              {/* Booking List */}
-              <div>
-                <BookingsList
-                  bookings={bookings as any}
-                  userRole={role}
-                  events={events}
-                />
-              </div>
-
-            </div>
+            <BookingsList bookings={bookings as any} userRole={role} events={events} />
           )}
 
-          {/* FIND VENDORS */}
           {activeTab === "vendors" && (
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-              <h2 className="text-xl font-semibold">
-                Find Vendors
-              </h2>
-
-              <p className="mt-2 text-sm text-muted-foreground">
-                Find the right vendors for your event.
-              </p>
-
-              <Link
-                href="/vendors"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-              >
-                <Search className="h-4 w-4" />
-                Browse Vendors
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+            <Panel>
+              <EmptyState
+                icon={<Search className="h-5 w-5" />}
+                title="Find vendors"
+                description="Browse photographers, caterers, venues and more for your event."
+                action={
+                  <Link href="/vendors" className={buttonPrimary}>
+                    <Search className="h-4 w-4" />
+                    Browse vendors
+                  </Link>
+                }
+              />
+            </Panel>
           )}
 
-          {/* SAVED VENDORS */}
-          {activeTab === "saved" && (
-            savedVendors.length === 0 ? (
-              <div className="rounded-2xl border border-border bg-card p-10 text-center shadow-sm">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                  <Bookmark className="h-5 w-5 text-muted-foreground" />
-                </div>
-                <h3 className="mt-4 font-semibold">No saved vendors yet</h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Tap the bookmark icon on any vendor to save it here.
-                </p>
-                <Link
-                  href="/vendors"
-                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-                >
-                  <Search className="h-4 w-4" />
-                  Browse Vendors
-                </Link>
-              </div>
+          {activeTab === "saved" &&
+            (savedVendors.length === 0 ? (
+              <Panel>
+                <EmptyState
+                  icon={<Bookmark className="h-5 w-5" />}
+                  title="No saved vendors yet"
+                  description="Tap the bookmark icon on any vendor to save it here."
+                  action={
+                    <Link href="/vendors" className={buttonPrimary}>
+                      <Search className="h-4 w-4" />
+                      Browse vendors
+                    </Link>
+                  }
+                />
+              </Panel>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {savedVendors.map(({ vendor }) => {
                   const minPrice =
                     vendor.services.length > 0
@@ -883,8 +474,8 @@ export default async function DashboardPage({
                         className="absolute left-4 top-4 z-10"
                       />
                       <Link href={`/vendors/${vendor.id}`} className="group block h-full">
-                        <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
-                          <div className="relative aspect-[16/10] w-full overflow-hidden">
+                        <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-md">
+                          <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
                             {vendor.imageUrl ? (
                               <img
                                 src={vendor.imageUrl}
@@ -893,24 +484,23 @@ export default async function DashboardPage({
                                 loading="lazy"
                               />
                             ) : (
-                              <div className="flex h-full w-full items-center justify-center bg-muted">
-                                <span className="text-sm text-muted-foreground">No image available</span>
+                              <div className="flex h-full w-full items-center justify-center">
+                                <span className="text-sm text-muted-foreground">No image yet</span>
                               </div>
                             )}
-                            <span className="absolute right-4 top-4 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur">
+                            <span className="absolute right-4 top-4 rounded-full bg-card/95 px-3 py-1 text-xs font-semibold text-foreground">
                               {vendor.category}
                             </span>
                           </div>
-                          <div className="flex flex-1 flex-col p-6">
-                            <h3 className="text-lg font-bold">{vendor.businessName}</h3>
-                            <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <div className="flex flex-1 flex-col gap-2 p-5">
+                            <h3 className="text-base font-semibold text-foreground">{vendor.businessName}</h3>
+                            <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                               <MapPin className="size-4 shrink-0" aria-hidden="true" />
                               {vendor.location}
                             </p>
                             {minPrice !== null && (
-                              <p className="mt-4 text-sm font-medium">
-                                Starts from{" "}
-                                <span className="text-primary">RM {minPrice.toLocaleString()}</span>
+                              <p className="mt-auto pt-2 text-sm">
+                                <span className="font-semibold text-foreground">From {formatRM(minPrice)}</span>
                               </p>
                             )}
                           </div>
@@ -920,13 +510,9 @@ export default async function DashboardPage({
                   )
                 })}
               </div>
-            )
-          )}
-
+            ))}
         </div>
-
       </main>
     </div>
   )
-
 }

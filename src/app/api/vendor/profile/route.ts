@@ -73,7 +73,8 @@ import {
   type SocialKey,
 } from "@/lib/social-links"
 
-const MAX_GALLERY = 12
+// 8 photos in total: 1 main photo (imageUrl) + up to 7 more (galleryImages)
+const MAX_GALLERY = 7
 
 // Uploaded images come back from /api/upload as full links (or site paths)
 const imageUrl = z
@@ -104,7 +105,7 @@ const schema = z.object({
   imageUrl: imageUrl.nullish().transform((v) => (v ? v : null)),
   galleryImages: z
     .array(imageUrl)
-    .max(MAX_GALLERY, `You can add up to ${MAX_GALLERY} gallery photos`)
+    .max(MAX_GALLERY, `You can add up to ${MAX_GALLERY + 1} photos`)
     .default([]),
   socials: z.record(z.string(), z.string().max(300).nullish()).default({}),
 })
@@ -164,8 +165,8 @@ export async function PATCH(req: Request) {
       vendorProfile: { select: { id: true } },
     },
   })
-  if (!user?.vendorProfile) {
-    return NextResponse.json({ error: "Vendor profile not found" }, { status: 404 })
+  if (!user) {
+    return NextResponse.json({ error: "Account not found" }, { status: 404 })
   }
 
   // Changing the sign-in email needs the current password and a new verification
@@ -193,27 +194,29 @@ export async function PATCH(req: Request) {
     }
   }
 
-  const gallery = Array.from(new Set(data.galleryImages))
+  const profileData = {
+    businessName: data.businessName,
+    category: data.category,
+    location: data.location,
+    description: data.description,
+    occasions: data.occasions,
+    phoneNumber: data.phoneNumber,
+    website,
+    imageUrl: data.imageUrl,
+    galleryImages: Array.from(new Set(data.galleryImages)),
+    ...socials,
+  }
 
   const [, profile] = await prisma.$transaction([
     prisma.user.update({
       where: { id: userId },
       data: emailChanged ? { email: data.email, emailVerified: null } : {},
     }),
-    prisma.vendorProfile.update({
+    // Creates the profile the first time ("Complete Profile"), updates it after that
+    prisma.vendorProfile.upsert({
       where: { userId },
-      data: {
-        businessName: data.businessName,
-        category: data.category,
-        location: data.location,
-        description: data.description,
-        occasions: data.occasions,
-        phoneNumber: data.phoneNumber,
-        website,
-        imageUrl: data.imageUrl,
-        galleryImages: gallery,
-        ...socials,
-      },
+      update: profileData,
+      create: { userId, ...profileData },
     }),
   ])
 

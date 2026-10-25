@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MessageSquare, RefreshCw, MessagesSquare } from "lucide-react";
 import {
   Popover,
@@ -10,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { notifyUnreadChanged } from "@/lib/unread";
 import BookingChatDialog from "@/app/dashboard/bookings/booking-chat-dialog";
 import {
   differenceInMinutes,
@@ -51,6 +54,8 @@ type Thread = {
 };
 
 const POLL_OPEN_MS = 8000;
+/** The full-page inbox (opened directly on phones instead of the small popover). */
+const INBOX_HREF = "/dashboard/inbox";
 const POLL_CLOSED_MS = 30000;
 
 function initialsFor(name: string) {
@@ -91,7 +96,21 @@ function chatDescriptionFor(t: Thread) {
 }
 
 export function MessagesDropdown() {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const [open, setOpenState] = useState(false);
+
+  // Phones: skip the cramped popover and go straight to the full inbox page
+  const setOpen = (next: boolean) => {
+    if (
+      next &&
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(max-width: 639px)").matches
+    ) {
+      router.push(INBOX_HREF);
+      return;
+    }
+    setOpenState(next);
+  };
   const [loading, setLoading] = useState(false);
   const [loadedOnce, setLoadedOnce] = useState(false);
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -103,8 +122,10 @@ export function MessagesDropdown() {
       const res = await fetch("/api/messages", { cache: "no-store", signal });
       if (!res.ok) throw new Error("Failed to load messages");
       const json = await res.json();
-      setThreads(Array.isArray(json) ? json : []);
+      const list: Thread[] = Array.isArray(json) ? json : [];
+      setThreads(list);
       setLoadedOnce(true);
+      notifyUnreadChanged(list.reduce((sum, t) => sum + (t.unreadCount || 0), 0));
     } catch {
       // Background refresh: keep showing the last list instead of erroring
     } finally {
@@ -192,16 +213,25 @@ export function MessagesDropdown() {
                 </span>
               )}
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-muted-foreground"
-              onClick={() => void load()}
-              disabled={loading}
-              aria-label="Refresh messages"
-            >
-              <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Link
+                href={INBOX_HREF}
+                onClick={() => setOpenState(false)}
+                className="rounded-md px-2 py-1 text-xs font-semibold text-foreground hover:bg-muted"
+              >
+                View all
+              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground"
+                onClick={() => void load()}
+                disabled={loading}
+                aria-label="Refresh messages"
+              >
+                <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+              </Button>
+            </div>
           </div>
 
           {/* List */}

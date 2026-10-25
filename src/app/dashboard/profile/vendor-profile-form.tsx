@@ -111,7 +111,15 @@
 import { useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { ImagePlus, Loader2, Trash2, Upload, X, MailWarning } from "lucide-react"
+import {
+  ImagePlus,
+  Loader2,
+  X,
+  MailWarning,
+  ChevronLeft,
+  ChevronRight,
+  Star,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -119,7 +127,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { SOCIAL_PLATFORMS, type SocialKey } from "@/lib/social-links"
 import { SocialIcon } from "@/components/social-links"
 
-const MAX_GALLERY = 12
+const MAX_PHOTOS = 8
 const MAX_FILE_MB = 5
 
 type FormValues = {
@@ -131,8 +139,8 @@ type FormValues = {
   phoneNumber: string
   website: string
   email: string
-  imageUrl: string | null
-  galleryImages: string[]
+  /** First photo = main photo (also used on vendor cards). Max 8. */
+  photos: string[]
   socials: Record<SocialKey, string>
 }
 
@@ -161,6 +169,20 @@ const twoCol: React.CSSProperties = {
 }
 const field: React.CSSProperties = { display: "grid", gap: 8 }
 
+const tileButton: React.CSSProperties = {
+  width: 28,
+  height: 28,
+  borderRadius: 9999,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "rgba(0,0,0,0.6)",
+  color: "white",
+  border: "none",
+  cursor: "pointer",
+  padding: 0,
+}
+
 export default function VendorProfileForm({
   initial,
   categories,
@@ -173,13 +195,11 @@ export default function VendorProfileForm({
   const [savedEmail, setSavedEmail] = useState(initial.email)
   const [currentPassword, setCurrentPassword] = useState("")
   const [saving, setSaving] = useState(false)
-  const [uploadingCover, setUploadingCover] = useState(false)
-  const [uploadingGallery, setUploadingGallery] = useState(0)
+  const [uploading, setUploading] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [emailNotice, setEmailNotice] = useState<string | null>(null)
 
-  const coverInput = useRef<HTMLInputElement>(null)
-  const galleryInput = useRef<HTMLInputElement>(null)
+  const photoInput = useRef<HTMLInputElement>(null)
 
   const emailChanged =
     values.email.trim().toLowerCase() !== savedEmail.trim().toLowerCase()
@@ -187,7 +207,7 @@ export default function VendorProfileForm({
     () => JSON.stringify(values) !== JSON.stringify(initial),
     [values, initial]
   )
-  const busy = saving || uploadingCover || uploadingGallery > 0
+  const busy = saving || uploading > 0
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
     setValues((v) => ({ ...v, [key]: value }))
@@ -195,59 +215,57 @@ export default function VendorProfileForm({
   const setSocial = (key: SocialKey, value: string) =>
     setValues((v) => ({ ...v, socials: { ...v.socials, [key]: value } }))
 
-  async function onCoverChosen(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    e.target.value = ""
-    if (!file) return
-    setUploadingCover(true)
-    try {
-      set("imageUrl", await uploadImage(file))
-    } catch (err) {
-      toast.error((err as Error).message)
-    } finally {
-      setUploadingCover(false)
-    }
-  }
-
-  async function onGalleryChosen(e: React.ChangeEvent<HTMLInputElement>) {
+  async function onPhotosChosen(e: React.ChangeEvent<HTMLInputElement>) {
     const files: File[] = Array.from(e.target.files ?? [])
     e.target.value = ""
     if (files.length === 0) return
 
-    const room = MAX_GALLERY - values.galleryImages.length
+    const room = MAX_PHOTOS - values.photos.length - uploading
     if (room <= 0) {
-      toast.error(`You can add up to ${MAX_GALLERY} gallery photos`)
+      toast.error(`You can add up to ${MAX_PHOTOS} photos`)
       return
     }
     const batch = files.slice(0, room)
     if (files.length > room) toast.message(`Only the first ${room} photo(s) were added`)
 
-    setUploadingGallery(batch.length)
+    setUploading((n) => n + batch.length)
     for (const file of batch) {
       try {
         const url = await uploadImage(file)
-        setValues((v) => ({ ...v, galleryImages: [...v.galleryImages, url] }))
+        setValues((v) =>
+          v.photos.length >= MAX_PHOTOS || v.photos.includes(url)
+            ? v
+            : { ...v, photos: [...v.photos, url] }
+        )
       } catch (err) {
         toast.error(`${file.name}: ${(err as Error).message}`)
       } finally {
-        setUploadingGallery((n) => n - 1)
+        setUploading((n) => n - 1)
       }
     }
   }
 
-  function removeGalleryImage(url: string) {
-    setValues((v) => ({ ...v, galleryImages: v.galleryImages.filter((u) => u !== url) }))
+  function removePhoto(index: number) {
+    setValues((v) => ({ ...v, photos: v.photos.filter((_, i) => i !== index) }))
   }
 
-  function makeCover(url: string) {
-    setValues((v) => ({
-      ...v,
-      imageUrl: url,
-      galleryImages: [
-        ...(v.imageUrl ? [v.imageUrl] : []),
-        ...v.galleryImages.filter((u) => u !== url),
-      ],
-    }))
+  /** Move a photo one place left (-1) or right (+1). */
+  function movePhoto(index: number, dir: -1 | 1) {
+    setValues((v) => {
+      const target = index + dir
+      if (target < 0 || target >= v.photos.length) return v
+      const photos = [...v.photos]
+      ;[photos[index], photos[target]] = [photos[target], photos[index]]
+      return { ...v, photos }
+    })
+  }
+
+  function makeMain(index: number) {
+    setValues((v) => {
+      const photos = [...v.photos]
+      const [picked] = photos.splice(index, 1)
+      return { ...v, photos: [picked, ...photos] }
+    })
   }
 
   async function onSubmit(e: React.FormEvent) {
@@ -266,6 +284,10 @@ export default function VendorProfileForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
+          photos: undefined,
+          // The API keeps the main photo in imageUrl and the rest in galleryImages
+          imageUrl: values.photos[0] ?? null,
+          galleryImages: values.photos.slice(1),
           currentPassword: emailChanged ? currentPassword : undefined,
         }),
       })
@@ -282,8 +304,7 @@ export default function VendorProfileForm({
         occasions: p.occasions ?? "",
         phoneNumber: p.phoneNumber ?? "",
         email: json.emailChanged ? values.email.trim().toLowerCase() : savedEmail,
-        imageUrl: p.imageUrl ?? null,
-        galleryImages: p.galleryImages ?? [],
+        photos: [p.imageUrl, ...(p.galleryImages ?? [])].filter(Boolean),
         website: p.website ?? "",
         socials: Object.fromEntries(
           SOCIAL_PLATFORMS.map((s) => [s.key, p[s.key] ?? ""])
@@ -318,216 +339,182 @@ export default function VendorProfileForm({
         <CardHeader>
           <CardTitle>Photos</CardTitle>
           <CardDescription>
-            Your cover photo is shown at the top of your page and on vendor cards.
+            Add up to {MAX_PHOTOS} photos. They appear at the top of your public page, and the
+            first one is your main photo (also shown on vendor cards). Use the arrows to change
+            the order.
           </CardDescription>
         </CardHeader>
-        <CardContent style={{ display: "grid", gap: 24 }}>
-          {/* Cover */}
-          <div>
-            <div
-              className="border border-dashed border-border bg-muted/40"
-              style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "16 / 7",
-                borderRadius: 14,
-                overflow: "hidden",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {values.imageUrl ? (
+        <CardContent>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "flex-end",
+              marginBottom: 12,
+            }}
+          >
+            <span className="text-xs text-muted-foreground">
+              {values.photos.length}/{MAX_PHOTOS}
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+              gap: 12,
+            }}
+          >
+            {values.photos.map((url, i) => (
+              <div
+                key={url}
+                className={i === 0 ? "border-2 border-primary" : "border border-border"}
+                style={{
+                  position: "relative",
+                  aspectRatio: "1 / 1",
+                  borderRadius: 12,
+                  overflow: "hidden",
+                }}
+              >
                 <img
-                  src={values.imageUrl}
-                  alt="Cover"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  src={url}
+                  alt={`Photo ${i + 1}`}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
-              ) : (
-                <div className="text-sm text-muted-foreground" style={{ textAlign: "center" }}>
-                  <ImagePlus style={{ width: 28, height: 28, margin: "0 auto 8px" }} />
-                  No cover photo yet
-                </div>
-              )}
-              {uploadingCover && (
+
+                {/* Main badge / photo number */}
+                <span
+                  className={i === 0 ? "bg-primary text-primary-foreground" : ""}
+                  style={{
+                    position: "absolute",
+                    top: 6,
+                    left: 6,
+                    padding: "2px 8px",
+                    borderRadius: 9999,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    ...(i === 0 ? {} : { background: "rgba(0,0,0,0.6)", color: "white" }),
+                  }}
+                >
+                  {i === 0 ? "Main" : i + 1}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => removePhoto(i)}
+                  aria-label="Remove photo"
+                  style={{ ...tileButton, position: "absolute", top: 6, right: 6 }}
+                >
+                  <X style={{ width: 14, height: 14 }} />
+                </button>
+
+                {/* Bottom controls: move left / make main / move right */}
                 <div
                   style={{
                     position: "absolute",
-                    inset: 0,
+                    left: 6,
+                    right: 6,
+                    bottom: 6,
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    background: "rgba(0,0,0,0.35)",
-                    color: "white",
+                    justifyContent: "space-between",
+                    gap: 4,
                   }}
                 >
-                  <Loader2 className="animate-spin" style={{ width: 24, height: 24 }} />
-                </div>
-              )}
-            </div>
+                  <button
+                    type="button"
+                    onClick={() => movePhoto(i, -1)}
+                    disabled={i === 0}
+                    aria-label="Move left"
+                    style={{ ...tileButton, opacity: i === 0 ? 0.35 : 1 }}
+                  >
+                    <ChevronLeft style={{ width: 16, height: 16 }} />
+                  </button>
 
-            <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => coverInput.current?.click()}
-                disabled={uploadingCover}
+                  {i !== 0 && (
+                    <button
+                      type="button"
+                      onClick={() => makeMain(i)}
+                      style={{
+                        ...tileButton,
+                        width: "auto",
+                        padding: "0 8px",
+                        fontSize: 11,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      <Star style={{ width: 12, height: 12, marginRight: 4 }} />
+                      Main
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => movePhoto(i, 1)}
+                    disabled={i === values.photos.length - 1}
+                    aria-label="Move right"
+                    style={{
+                      ...tileButton,
+                      opacity: i === values.photos.length - 1 ? 0.35 : 1,
+                    }}
+                  >
+                    <ChevronRight style={{ width: 16, height: 16 }} />
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {Array.from({ length: uploading }).map((_, i) => (
+              <div
+                key={`up-${i}`}
+                className="border border-border bg-muted/40"
+                style={{
+                  aspectRatio: "1 / 1",
+                  borderRadius: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                <Upload style={{ width: 16, height: 16, marginRight: 8 }} />
-                {values.imageUrl ? "Change cover" : "Upload cover"}
-              </Button>
-              {values.imageUrl && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => set("imageUrl", null)}
-                  disabled={uploadingCover}
-                >
-                  <Trash2 style={{ width: 16, height: 16, marginRight: 8 }} />
-                  Remove
-                </Button>
-              )}
-              <input
-                ref={coverInput}
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={onCoverChosen}
-              />
-            </div>
+                <Loader2
+                  className="animate-spin text-muted-foreground"
+                  style={{ width: 20, height: 20 }}
+                />
+              </div>
+            ))}
+
+            {values.photos.length + uploading < MAX_PHOTOS && (
+              <button
+                type="button"
+                onClick={() => photoInput.current?.click()}
+                className="border border-dashed border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                style={{
+                  aspectRatio: "1 / 1",
+                  borderRadius: 12,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6,
+                  fontSize: 13,
+                  background: "transparent",
+                  cursor: "pointer",
+                }}
+              >
+                <ImagePlus style={{ width: 22, height: 22 }} />
+                {values.photos.length === 0 ? "Add photos" : "Add more"}
+              </button>
+            )}
           </div>
 
-          {/* Gallery */}
-          <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                justifyContent: "space-between",
-                gap: 12,
-                marginBottom: 12,
-              }}
-            >
-              <Label>Gallery</Label>
-              <span className="text-xs text-muted-foreground">
-                {values.galleryImages.length}/{MAX_GALLERY}
-              </span>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-                gap: 12,
-              }}
-            >
-              {values.galleryImages.map((url) => (
-                <div
-                  key={url}
-                  className="group border border-border"
-                  style={{
-                    position: "relative",
-                    aspectRatio: "1 / 1",
-                    borderRadius: 12,
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    src={url}
-                    alt=""
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeGalleryImage(url)}
-                    aria-label="Remove photo"
-                    style={{
-                      position: "absolute",
-                      top: 6,
-                      right: 6,
-                      width: 28,
-                      height: 28,
-                      borderRadius: 9999,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "rgba(0,0,0,0.6)",
-                      color: "white",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <X style={{ width: 14, height: 14 }} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => makeCover(url)}
-                    style={{
-                      position: "absolute",
-                      left: 6,
-                      bottom: 6,
-                      padding: "3px 8px",
-                      borderRadius: 9999,
-                      background: "rgba(0,0,0,0.6)",
-                      color: "white",
-                      fontSize: 11,
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Set as cover
-                  </button>
-                </div>
-              ))}
-
-              {Array.from({ length: uploadingGallery }).map((_, i) => (
-                <div
-                  key={`up-${i}`}
-                  className="border border-border bg-muted/40"
-                  style={{
-                    aspectRatio: "1 / 1",
-                    borderRadius: 12,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Loader2 className="animate-spin text-muted-foreground" style={{ width: 20, height: 20 }} />
-                </div>
-              ))}
-
-              {values.galleryImages.length + uploadingGallery < MAX_GALLERY && (
-                <button
-                  type="button"
-                  onClick={() => galleryInput.current?.click()}
-                  className="border border-dashed border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  style={{
-                    aspectRatio: "1 / 1",
-                    borderRadius: 12,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                    fontSize: 13,
-                    background: "transparent",
-                    cursor: "pointer",
-                  }}
-                >
-                  <ImagePlus style={{ width: 22, height: 22 }} />
-                  Add photos
-                </button>
-              )}
-            </div>
-            <input
-              ref={galleryInput}
-              type="file"
-              accept="image/*"
-              multiple
-              hidden
-              onChange={onGalleryChosen}
-            />
-          </div>
+          <input
+            ref={photoInput}
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            onChange={onPhotosChosen}
+          />
         </CardContent>
       </Card>
 

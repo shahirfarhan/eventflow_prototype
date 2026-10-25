@@ -11,8 +11,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { CalendarHeart, Store, MailCheck } from 'lucide-react'
+import { CalendarHeart, Store, MailCheck, ChevronDown } from 'lucide-react'
 import ResendVerificationButton from '@/components/resend-verification-button'
+
 
 const MALAYSIAN_STATES = [
   'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan', 'Pahang',
@@ -35,7 +36,7 @@ const registerSchema = z
       .string()
       .min(8, 'Phone number is required')
       .regex(/^[0-9+\-\s()]+$/, 'Enter a valid phone number'),
-    location: z.string().min(1, 'Please select an operating location'),
+    location: z.string().min(1, 'Please select a location'),
     description: z.string().optional(),
     category: z.string().optional(),
   })
@@ -76,7 +77,20 @@ const roleOptions = [
 ]
 
 const selectClass =
-  'flex h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+  'h-11 w-full appearance-none rounded-md border border-input bg-transparent pl-3 pr-10 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+
+/** Wraps a <select> so our own arrow sits neatly inside the box (the browser's one is hidden). */
+function SelectBox({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative">
+      {children}
+      <ChevronDown
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        aria-hidden="true"
+      />
+    </div>
+  )
+}
 
 export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -284,13 +298,15 @@ export default function RegisterForm() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="location">Operating Location</Label>
-              <select id="location" className={selectClass} {...register('location')}>
-                <option value="">Select a state</option>
-                {MALAYSIAN_STATES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
+              <Label htmlFor="location">Location</Label>
+              <SelectBox>
+                <select id="location" className={selectClass} {...register('location')}>
+                  <option value="">Select a state</option>
+                  {MALAYSIAN_STATES.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </SelectBox>
               {errors.location && (
                 <p className="text-red-500 text-sm">{errors.location.message}</p>
               )}
@@ -299,12 +315,14 @@ export default function RegisterForm() {
             {isVendor && (
               <div className="grid gap-2 sm:col-span-2">
                 <Label htmlFor="category">Business Type</Label>
-                <select id="category" className={selectClass} {...register('category')}>
-                  <option value="">Select your industry</option>
-                  {BUSINESS_TYPES.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
+                <SelectBox>
+                  <select id="category" className={selectClass} {...register('category')}>
+                    <option value="">Select your industry</option>
+                    {BUSINESS_TYPES.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </SelectBox>
                 {errors.category && (
                   <p className="text-red-500 text-sm">{errors.category.message}</p>
                 )}

@@ -279,10 +279,10 @@ export default function EventForm({
   const ageEndPct = ((maxAgeVal - AGE_MIN) / (AGE_MAX - AGE_MIN)) * 100;
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-10 md:grid-cols-3">
-      <div className="md:col-span-2 space-y-8">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
+      <div className="min-w-0 space-y-6 md:col-span-2 md:space-y-8">
         <Card>
-          <CardHeader className="pb-6">
+          <CardHeader className="pb-4 md:pb-6">
             <CardTitle className="text-lg flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" /> Event Name
             </CardTitle>
@@ -303,7 +303,7 @@ export default function EventForm({
                   className="pl-10 h-11"
                 />
               </div>
-              <div className="space-y-1 min-h-[20px]">
+              <div className="space-y-1 empty:hidden">
                 {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -315,7 +315,7 @@ export default function EventForm({
         </Card>
 
         <Card>
-          <CardHeader className="pb-6">
+          <CardHeader className="pb-4 md:pb-6">
             <CardTitle className="text-lg">Event Details</CardTitle>
             <CardDescription>All the key information for planning the day.</CardDescription>
           </CardHeader>
@@ -349,7 +349,7 @@ export default function EventForm({
                     />
                   </PopoverContent>
                 </Popover>
-                <div className="space-y-1 min-h-[20px]">
+                <div className="space-y-1 empty:hidden">
                   {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
                 </div>
               </div>
@@ -357,31 +357,31 @@ export default function EventForm({
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Start / End Time</Label>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="relative w-full">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                  <div className="relative w-full min-w-0">
                     <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
                     <Input
                       name="startTime"
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      className="pl-10"
+                      className="w-full min-w-0 pl-10"
                     />
                   </div>
 
-                  <div className="relative w-full">
-                    <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <div className="relative w-full min-w-0">
+                    <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
                     <Input
                       name="endTime"
                       type="time"
                       value={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
                       placeholder="End"
-                      className="pl-10"
+                      className="w-full min-w-0 pl-10"
                     />
                   </div>
                 </div>
-                <div className="space-y-1 min-h-[20px]">
+                <div className="space-y-1 empty:hidden">
                   {errors.startTime && <p className="text-red-500 text-sm">{errors.startTime}</p>}
                   {errors.endTime && <p className="text-red-500 text-sm">{errors.endTime}</p>}
                 </div>
@@ -406,7 +406,7 @@ export default function EventForm({
                     className="pl-10 h-11"
                   />
                 </div>
-                <div className="space-y-1 min-h-[20px]">
+                <div className="space-y-1 empty:hidden">
                   {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
                 </div>
               </div>
@@ -451,7 +451,7 @@ export default function EventForm({
                     </Button>
                   ))}
                 </div>
-                <div className="space-y-1 min-h-[20px]">
+                <div className="space-y-1 empty:hidden">
                   {errors.eventType && (
                     <p className="text-red-500 text-sm">{errors.eventType}</p>
                   )}
@@ -485,7 +485,7 @@ export default function EventForm({
                     }
                   />
                 </div>
-                <div className="space-y-1 min-h-[20px]">
+                <div className="space-y-1 empty:hidden">
                   {errors.headcount && (
                     <p className="text-red-500 text-sm">{errors.headcount}</p>
                   )}
@@ -596,7 +596,7 @@ export default function EventForm({
                       }
                     />
                   </div>
-                  <div className="space-y-1 min-h-[20px]">
+                  <div className="space-y-1 empty:hidden">
                     {errors.budget && (
                       <p className="text-red-500 text-sm">{errors.budget}</p>
                     )}
@@ -605,8 +605,8 @@ export default function EventForm({
 
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Budget Range (Min / Max)</Label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="min-w-0 space-y-2">
                       <div className="relative">
                         <span className="absolute left-3 top-3.5 text-sm font-medium text-muted-foreground pointer-events-none select-none">
                           RM
@@ -627,13 +627,13 @@ export default function EventForm({
                           }
                         />
                       </div>
-                      <div className="space-y-1 min-h-[20px]">
+                      <div className="space-y-1 empty:hidden">
                         {errors.budgetMin && (
                           <p className="text-red-500 text-sm">{errors.budgetMin}</p>
                         )}
                       </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className="min-w-0 space-y-2">
                       <div className="relative">
                         <span className="absolute left-3 top-3.5 text-sm font-medium text-muted-foreground pointer-events-none select-none">
                           RM
@@ -654,7 +654,7 @@ export default function EventForm({
                           }
                         />
                       </div>
-                      <div className="space-y-1 min-h-[20px]">
+                      <div className="space-y-1 empty:hidden">
                         {errors.budgetMax && (
                           <p className="text-red-500 text-sm">{errors.budgetMax}</p>
                         )}
@@ -674,15 +674,15 @@ export default function EventForm({
               <div className="space-y-4">
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Age Range</Label>
-                  <div className="flex items-center gap-4">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="min-w-0 space-y-2">
                       <div className="flex items-center gap-2">
-                        <span className="bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full text-xs font-semibold">
+                        <span className="shrink-0 bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full text-xs font-semibold">
                           Min
                         </span>
                         <Input
                           type="number"
-                          className="w-28 h-11"
+                          className="h-11 w-full min-w-0"
                           min={AGE_MIN}
                           max={AGE_MAX}
                           step={1}
@@ -696,21 +696,20 @@ export default function EventForm({
                           }
                         />
                       </div>
-                      <div className="space-y-1 min-h-[20px]">
+                      <div className="space-y-1 empty:hidden">
                         {errors.minAge && (
                           <p className="text-red-500 text-sm">{errors.minAge}</p>
                         )}
                       </div>
                     </div>
-                    <span className="text-muted-foreground font-semibold pt-2">—</span>
-                    <div className="space-y-2">
+                    <div className="min-w-0 space-y-2">
                       <div className="flex items-center gap-2">
-                        <span className="bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full text-xs font-semibold">
+                        <span className="shrink-0 bg-muted/70 text-muted-foreground px-2.5 py-1 rounded-full text-xs font-semibold">
                           Max
                         </span>
                         <Input
                           type="number"
-                          className="w-28 h-11"
+                          className="h-11 w-full min-w-0"
                           min={AGE_MIN}
                           max={AGE_MAX}
                           step={1}
@@ -724,7 +723,7 @@ export default function EventForm({
                           }
                         />
                       </div>
-                      <div className="space-y-1 min-h-[20px]">
+                      <div className="space-y-1 empty:hidden">
                         {errors.maxAge && (
                           <p className="text-red-500 text-sm">{errors.maxAge}</p>
                         )}
@@ -780,11 +779,11 @@ export default function EventForm({
           </CardContent>
         </Card>
 
-        <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 pt-2">
-          <Button variant="outline" asChild type="button" className="h-11 px-6">
+        <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end sm:gap-4">
+          <Button variant="outline" asChild type="button" className="h-11 w-full px-6 sm:w-auto">
             <Link href={returnTo}>Cancel</Link>
           </Button>
-          <Button size="lg" className="h-11 px-10" type="submit" disabled={isLoading}>
+          <Button size="lg" className="h-12 w-full px-10 sm:h-11 sm:w-auto" type="submit" disabled={isLoading}>
             {isLoading
               ? isEditing
                 ? "Saving…"
@@ -796,9 +795,9 @@ export default function EventForm({
         </div>
       </div>
 
-      <div className="space-y-6">
-        <Card className="sticky top-6 overflow-hidden">
-          <CardHeader className="pb-6">
+      <div className="hidden min-w-0 space-y-6 md:block">
+        <Card className="sticky top-24 overflow-hidden">
+          <CardHeader className="pb-4 md:pb-6">
             <CardTitle className="text-lg flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" /> Event Overview
             </CardTitle>

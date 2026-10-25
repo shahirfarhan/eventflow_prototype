@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { VendorCard } from "@/components/vendor-card"
 import { heroVendors, categories } from "@/lib/vendors"
 import Link from "next/link"
+import { MobileTabBar } from "@/components/dashboard/mobile-tab-bar"
 
 export function Hero() {
   return (
@@ -80,6 +81,7 @@ export function Hero() {
           </div>
         </div>
       </div>
+      <MobileTabBar />
     </section>
   )
 }

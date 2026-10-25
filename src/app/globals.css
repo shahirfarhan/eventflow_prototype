@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@source "../components";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -42,27 +43,44 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-strong: var(--brand-strong);
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   color-scheme: light;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* --background: oklch(1 0 0); */
+  /* --foreground: oklch(0.145 0 0); */
+
+
+  --background: #F7F5F2;
+  --foreground: #0E0E0C;
+  --card: #FFFFFF;
+  --card-foreground: #0E0E0C;
+  --muted: #ECE8E2;
+  --muted-foreground: #57534D;
+  --border: #ECE8E2;
+  --input: #E0DBD4;
+
+
+  /* --card: oklch(1 0 0); */
+  /* --card-foreground: oklch(0.145 0 0); */
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.79 0.128 84);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* --muted: oklch(0.97 0 0); */
+  /* --muted-foreground: oklch(0.556 0 0); */
   --accent: oklch(0.955 0.045 90);
   --accent-foreground: oklch(0.42 0.09 75);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  /* --border: oklch(0.922 0 0); */
+  /* --input: oklch(0.922 0 0); */
   --ring: oklch(0.79 0.128 84);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -78,6 +96,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --brand: #D8341A;
+  --brand-foreground: #FFFFFF;
+  --brand-muted: #FFEDE6;
+  --brand-strong: #B42A12;
 }
 
 .dark {
@@ -158,5 +181,15 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Phones: when the bottom tab bar is showing, add empty space after
+   everything on the page (footer included) so nothing sits under the bar */
+@media (max-width: 767px) {
+  body:has(.mobile-tabbar)::after {
+    content: "";
+    display: block;
+    height: calc(var(--tabbar-h, 80px) + env(safe-area-inset-bottom));
   }
 }

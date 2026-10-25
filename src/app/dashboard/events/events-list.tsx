@@ -1,3 +1,256 @@
+// "use client";
+
+// import { useState } from "react";
+// import { useRouter } from "next/navigation";
+// import Link from "next/link";
+// import { format } from "date-fns";
+// import { toast } from "sonner";
+
+// import {
+//   MoreHorizontal,
+//   Pencil,
+//   Trash,
+//   Calendar as CalendarIcon,
+//   MapPin,
+//   DollarSign,
+//   CalendarCheck,
+// } from "lucide-react";
+
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+
+// import { Button } from "@/components/ui/button";
+
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
+
+// import EventDialog from "./event-dialog";
+
+// interface Event {
+//   id: string;
+//   title: string;
+//   date: string | Date;
+//   location: string;
+//   type: string;
+//   budget: number;
+// }
+
+// interface EventsListProps {
+//   events: Event[];
+// }
+
+// export default function EventsList({ events }: EventsListProps) {
+//   const router = useRouter();
+//   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+//   const handleDelete = async (id: string) => {
+//     if (!confirm("Are you sure you want to delete this event?")) {
+//       return;
+//     }
+
+//     setDeletingId(id);
+
+//     try {
+//       const response = await fetch(`/api/organizer/events/${id}`, {
+//         method: "DELETE",
+//       });
+
+//       if (!response.ok) {
+//         throw new Error("Failed to delete event");
+//       }
+
+//       toast.success("Event deleted successfully");
+//       router.refresh();
+//     } catch (error) {
+//       toast.error("Something went wrong");
+//     } finally {
+//       setDeletingId(null);
+//     }
+//   };
+
+//   {/* ============================================================
+//       EMPTY STATE
+//   ============================================================ */}
+
+//   if (events.length === 0) {
+//     return (
+//       <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
+//         <h3 className="text-lg font-semibold text-foreground">
+//           No events yet
+//         </h3>
+
+//         <p className="mt-1 text-sm text-muted-foreground">
+//           Get started by creating a new event.
+//         </p>
+
+//         <div className="mt-6">
+//           <Link href="/dashboard/events/new">
+//             <Button>
+//               <PlusIcon />
+//               Create Event
+//             </Button>
+//           </Link>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+//       {/* ==========================================================
+//           EVENT CARDS
+//       ========================================================== */}
+
+//       {events.map((event) => (
+//         <Card
+//           key={event.id}
+//           className="overflow-hidden transition-shadow hover:shadow-md"
+//         >
+//           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+//             <div className="min-w-0 space-y-1 pr-3">
+//               <CardTitle className="truncate">
+//                 {event.title}
+//               </CardTitle>
+
+//               <CardDescription className="font-semibold text-primary">
+//                 {event.type}
+//               </CardDescription>
+//             </div>
+
+//             {/* Event menu */}
+//             <DropdownMenu>
+//               <DropdownMenuTrigger asChild>
+//                 <Button
+//                   variant="ghost"
+//                   className="h-8 w-8 shrink-0 p-0"
+//                 >
+//                   <span className="sr-only">
+//                     Open menu
+//                   </span>
+
+//                   <MoreHorizontal className="h-4 w-4" />
+//                 </Button>
+//               </DropdownMenuTrigger>
+
+//               <DropdownMenuContent align="end">
+
+//                 {/* Edit */}
+//                 <DropdownMenuItem asChild>
+//                   <Link href={`/dashboard/events/${event.id}/edit`}>
+//                     <Pencil className="mr-2 h-4 w-4" />
+//                     Edit
+//                   </Link>
+//                 </DropdownMenuItem>
+
+//                 {/* Bookings */}
+//                 <DropdownMenuItem
+//                   onClick={() =>
+//                     router.push("/dashboard/bookings")
+//                   }
+//                 >
+//                   <CalendarCheck className="mr-2 h-4 w-4" />
+//                   Bookings
+//                 </DropdownMenuItem>
+
+//                 {/* Delete */}
+//                 <DropdownMenuItem
+//                   className="text-red-600 focus:text-red-600"
+//                   onClick={() => handleDelete(event.id)}
+//                   disabled={deletingId === event.id}
+//                 >
+//                   <Trash className="mr-2 h-4 w-4" />
+
+//                   {deletingId === event.id
+//                     ? "Deleting..."
+//                     : "Delete"}
+//                 </DropdownMenuItem>
+
+//               </DropdownMenuContent>
+//             </DropdownMenu>
+//           </CardHeader>
+
+//           <CardContent className="space-y-3 text-sm text-muted-foreground">
+
+//             {/* Date */}
+//             <div className="flex items-center">
+//               <CalendarIcon className="mr-2 h-4 w-4 shrink-0 opacity-70" />
+
+//               {format(
+//                 new Date(event.date),
+//                 "PPP"
+//               )}
+//             </div>
+
+//             {/* Location */}
+//             <div className="flex items-center">
+//               <MapPin className="mr-2 h-4 w-4 shrink-0 opacity-70" />
+
+//               <span className="truncate">
+//                 {event.location}
+//               </span>
+//             </div>
+
+//             {/* Budget */}
+//             <div className="flex items-center">
+//               <DollarSign className="mr-2 h-4 w-4 shrink-0 opacity-70" />
+
+//               Budget: RM
+//               {event.budget.toLocaleString()}
+//             </div>
+
+//           </CardContent>
+//         </Card>
+//       ))}
+
+//       {/* ==========================================================
+//           CREATE NEW EVENT CARD
+//       ========================================================== */}
+
+//       <Card className="relative flex min-h-[200px] flex-col items-center justify-center border-dashed border-border transition-colors hover:bg-accent/50">
+
+//         <Link
+//           href="/dashboard/events/new"
+//           className="absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2"
+//         >
+//           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+//             <span className="text-2xl font-light text-primary">
+//               +
+//             </span>
+//           </div>
+
+//           <span className="text-sm font-medium text-foreground">
+//             Create New Event
+//           </span>
+//         </Link>
+
+//       </Card>
+//     </div>
+//   );
+// }
+
+// /* ================================================================
+//    SMALL PLUS ICON
+// ================================================================ */
+
+// function PlusIcon() {
+//   return (
+//     <span className="mr-2 text-lg leading-none">
+//       +
+//     </span>
+//   );
+// }
+
+
 "use client";
 
 import { useState } from "react";
@@ -10,19 +263,12 @@ import {
   MoreHorizontal,
   Pencil,
   Trash,
-  Calendar as CalendarIcon,
   MapPin,
-  DollarSign,
+  Wallet,
   CalendarCheck,
+  CalendarPlus,
+  Plus,
 } from "lucide-react";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +279,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import EventDialog from "./event-dialog";
+import {
+  DateBlock,
+  EmptyState,
+  buttonPrimary,
+  formatRM,
+} from "@/components/dashboard/ui";
 
 interface Event {
   id: string;
@@ -77,74 +328,64 @@ export default function EventsList({ events }: EventsListProps) {
     }
   };
 
-  {/* ============================================================
-      EMPTY STATE
-  ============================================================ */}
+  /* ============================================================
+     EMPTY STATE
+  ============================================================ */
 
   if (events.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
-        <h3 className="text-lg font-semibold text-foreground">
-          No events yet
-        </h3>
-
-        <p className="mt-1 text-sm text-muted-foreground">
-          Get started by creating a new event.
-        </p>
-
-        <div className="mt-6">
-          <Link href="/dashboard/events/new">
-            <Button>
-              <PlusIcon />
-              Create Event
-            </Button>
-          </Link>
-        </div>
+      <div className="rounded-2xl border border-dashed border-border bg-card">
+        <EmptyState
+          icon={<CalendarPlus className="h-5 w-5" />}
+          title="No events yet"
+          description="Create your first event, then start adding vendors to it."
+          action={
+            <Link href="/dashboard/events/new" className={buttonPrimary}>
+              <Plus className="h-4 w-4" />
+              Create event
+            </Link>
+          }
+        />
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {/* ==========================================================
           EVENT CARDS
       ========================================================== */}
 
       {events.map((event) => (
-        <Card
+        <article
           key={event.id}
-          className="overflow-hidden transition-shadow hover:shadow-md"
+          className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-md"
         >
-          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-            <div className="min-w-0 space-y-1 pr-3">
-              <CardTitle className="truncate">
-                {event.title}
-              </CardTitle>
+          <div className="flex items-start gap-4 p-5">
+            <DateBlock date={event.date} />
 
-              <CardDescription className="font-semibold text-primary">
-                {event.type}
-              </CardDescription>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-base font-semibold text-foreground">
+                {event.title}
+              </h3>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                {format(new Date(event.date), "EEE, d MMM yyyy")}
+              </p>
+              <span className="mt-2 inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-semibold capitalize text-foreground">
+                {event.type.toLowerCase()}
+              </span>
             </div>
 
             {/* Event menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="h-8 w-8 shrink-0 p-0"
-                >
-                  <span className="sr-only">
-                    Open menu
-                  </span>
-
+                <Button variant="ghost" className="h-9 w-9 shrink-0 rounded-xl p-0">
+                  <span className="sr-only">Open menu</span>
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end">
-
-                {/* Edit */}
                 <DropdownMenuItem asChild>
                   <Link href={`/dashboard/events/${event.id}/edit`}>
                     <Pencil className="mr-2 h-4 w-4" />
@@ -152,100 +393,55 @@ export default function EventsList({ events }: EventsListProps) {
                   </Link>
                 </DropdownMenuItem>
 
-                {/* Bookings */}
-                <DropdownMenuItem
-                  onClick={() =>
-                    router.push("/dashboard/bookings")
-                  }
-                >
+                <DropdownMenuItem onClick={() => router.push("/dashboard/bookings")}>
                   <CalendarCheck className="mr-2 h-4 w-4" />
                   Bookings
                 </DropdownMenuItem>
 
-                {/* Delete */}
                 <DropdownMenuItem
                   className="text-red-600 focus:text-red-600"
                   onClick={() => handleDelete(event.id)}
                   disabled={deletingId === event.id}
                 >
                   <Trash className="mr-2 h-4 w-4" />
-
-                  {deletingId === event.id
-                    ? "Deleting..."
-                    : "Delete"}
+                  {deletingId === event.id ? "Deleting..." : "Delete"}
                 </DropdownMenuItem>
-
               </DropdownMenuContent>
             </DropdownMenu>
-          </CardHeader>
+          </div>
 
-          <CardContent className="space-y-3 text-sm text-muted-foreground">
-
-            {/* Date */}
-            <div className="flex items-center">
-              <CalendarIcon className="mr-2 h-4 w-4 shrink-0 opacity-70" />
-
-              {format(
-                new Date(event.date),
-                "PPP"
-              )}
+          <div className="mt-auto grid grid-cols-2 gap-4 border-t border-border px-5 py-4 text-sm">
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">Location</p>
+              <p className="mt-0.5 flex items-center gap-1.5 font-medium text-foreground">
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                <span className="truncate">{event.location}</span>
+              </p>
             </div>
-
-            {/* Location */}
-            <div className="flex items-center">
-              <MapPin className="mr-2 h-4 w-4 shrink-0 opacity-70" />
-
-              <span className="truncate">
-                {event.location}
-              </span>
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">Budget</p>
+              <p className="mt-0.5 flex items-center gap-1.5 font-medium text-foreground">
+                <Wallet className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                {formatRM(event.budget)}
+              </p>
             </div>
-
-            {/* Budget */}
-            <div className="flex items-center">
-              <DollarSign className="mr-2 h-4 w-4 shrink-0 opacity-70" />
-
-              Budget: RM
-              {event.budget.toLocaleString()}
-            </div>
-
-          </CardContent>
-        </Card>
+          </div>
+        </article>
       ))}
 
       {/* ==========================================================
           CREATE NEW EVENT CARD
       ========================================================== */}
 
-      <Card className="relative flex min-h-[200px] flex-col items-center justify-center border-dashed border-border transition-colors hover:bg-accent/50">
-
-        <Link
-          href="/dashboard/events/new"
-          className="absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2"
-        >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-            <span className="text-2xl font-light text-primary">
-              +
-            </span>
-          </div>
-
-          <span className="text-sm font-medium text-foreground">
-            Create New Event
-          </span>
-        </Link>
-
-      </Card>
+      <Link
+        href="/dashboard/events/new"
+        className="flex min-h-[200px] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border bg-card/60 text-foreground transition-colors hover:bg-card"
+      >
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-muted text-brand-strong">
+          <Plus className="h-5 w-5" />
+        </span>
+        <span className="text-sm font-semibold">Create new event</span>
+      </Link>
     </div>
-  );
-}
-
-/* ================================================================
-   SMALL PLUS ICON
-================================================================ */
-
-function PlusIcon() {
-  return (
-    <span className="mr-2 text-lg leading-none">
-      +
-    </span>
   );
 }

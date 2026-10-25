@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { notifyUnreadChanged } from '@/lib/unread'
 import { format, isSameDay, isToday, isYesterday } from 'date-fns'
 import {
   Paperclip,
@@ -86,6 +87,25 @@ export type ChatContextService = {
 }
 
 const POLL_MS = 6000
+
+/** True on phone-sized screens, where the chat opens full screen. */
+function useIsPhone() {
+  const [isPhone, setIsPhone] = useState(false)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return
+    const mq = window.matchMedia('(max-width: 639px)')
+    const update = () => setIsPhone(mq.matches)
+    update()
+    // Older Safari only has addListener
+    if (mq.addEventListener) mq.addEventListener('change', update)
+    else mq.addListener(update)
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener('change', update)
+      else mq.removeListener(update)
+    }
+  }, [])
+  return isPhone
+}
 
 /**
  * Where "Pay now" takes the planner. Change this to match your payment flow,
@@ -325,6 +345,7 @@ export default function BookingChatDialog({
   vendorUserId?: string
 }) {
   const { data: session } = useSession()
+  const isPhone = useIsPhone()
   const [internalOpen, setInternalOpen] = useState(false)
   const isControlled = typeof open === 'boolean'
   const effectiveOpen = isControlled ? open! : internalOpen
@@ -430,6 +451,9 @@ export default function BookingChatDialog({
       })
     } catch {
       /* ignore */
+    } finally {
+      // Update the unread badges straight away
+      notifyUnreadChanged()
     }
   }
 
@@ -798,17 +822,32 @@ export default function BookingChatDialog({
           e.preventDefault()
           textareaRef.current?.focus({ preventScroll: true })
         }}
-        style={{
-          width: 'min(480px, calc(100vw - 1.5rem))',
-          height: 'min(680px, 90vh)',
-          maxWidth: 'none',
-        }}
+        style={
+          isPhone
+            ? {
+                // Phones: take over the whole screen like a messaging app
+                width: '100vw',
+                height: '100dvh',
+                maxWidth: 'none',
+                maxHeight: 'none',
+                borderRadius: 0,
+                border: 0,
+              }
+            : {
+                width: 'min(480px, calc(100vw - 1.5rem))',
+                height: 'min(680px, 90vh)',
+                maxWidth: 'none',
+              }
+        }
       >
         {/* ---------- Header ---------- */}
         <div
           className="flex shrink-0 items-center gap-3 border-b px-4 py-3"
           // Leave room on the right for the dialog's ✕ button (inline so it applies in every browser)
-          style={{ paddingRight: 64 }}
+          style={{
+            paddingRight: 64,
+            ...(isPhone ? { paddingTop: 'max(12px, env(safe-area-inset-top))' } : {}),
+          }}
         >
           <Avatar className="h-10 w-10 shrink-0">
             <AvatarFallback className="text-sm font-medium">{initialsFor(avatarName)}</AvatarFallback>
@@ -1108,7 +1147,11 @@ export default function BookingChatDialog({
         </div>
 
         {/* ---------- Composer ---------- */}
-        <div className="shrink-0 border-t bg-background px-3 pb-3 pt-2.5 sm:px-4">
+        <div
+          className="shrink-0 border-t bg-background px-3 pb-3 pt-2.5 sm:px-4"
+          // Keep the message box above the iPhone home bar
+          style={isPhone ? { paddingBottom: 'max(12px, env(safe-area-inset-bottom))' } : undefined}
+        >
           {pendingPreview && (
             <div className="mb-2 flex items-center gap-3 rounded-xl border bg-muted/40 p-2 pr-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1142,7 +1185,7 @@ export default function BookingChatDialog({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-9 w-9 shrink-0 rounded-full text-muted-foreground"
+              className="h-10 w-10 shrink-0 rounded-full text-muted-foreground sm:h-9 sm:w-9"
               onClick={handlePickFile}
               disabled={sending || uploading}
               aria-label="Attach an image"
@@ -1300,7 +1343,8 @@ export default function BookingChatDialog({
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write a message…"
               aria-label="Message"
-              className="max-h-40 min-h-9 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-5 outline-none placeholder:text-muted-foreground"
+              // text-base (16px) on phones stops iPhone from zooming in when you tap the box
+              className="max-h-40 min-h-9 flex-1 resize-none bg-transparent px-2 py-2 text-base leading-5 outline-none placeholder:text-muted-foreground sm:text-sm"
               onKeyDown={(e) => {
                 // Enter sends, Shift+Enter adds a new line (ignored while typing with an IME)
                 if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -1313,7 +1357,7 @@ export default function BookingChatDialog({
             <Button
               type="button"
               size="icon"
-              className="h-9 w-9 shrink-0 rounded-full"
+              className="h-10 w-10 shrink-0 rounded-full sm:h-9 sm:w-9"
               onClick={() => void send()}
               disabled={!canSend}
               aria-label={uploading ? 'Uploading' : sending ? 'Sending' : 'Send message'}

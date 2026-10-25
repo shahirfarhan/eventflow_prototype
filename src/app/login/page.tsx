@@ -1,8 +1,18 @@
+// import LoginForm from './login-form';
+
+// export default function LoginPage() {
+//   return (
+//     <div className="flex h-screen w-full items-center justify-center px-4">
+//       <LoginForm />
+//     </div>
+//   );
+// }
+
 import LoginForm from './login-form';
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen w-full items-center justify-center px-4">
+    <div className="flex h-[calc(100dvh-4rem)] w-full items-center justify-center px-4">
       <LoginForm />
     </div>
   );

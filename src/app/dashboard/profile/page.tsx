@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import VendorProfileForm from "./vendor-profile-form"
+import { DashboardHeader, buttonSecondary } from "@/components/dashboard/ui"
+import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 
 const DEFAULT_CATEGORIES = [
   "Venue",
@@ -44,55 +46,41 @@ export default async function VendorProfileSettingsPage() {
   const profile = user.vendorProfile
   const isNew = !profile
 
+  // Keeps the red badge on the Bookings tab, same as the other dashboard pages
+  const pendingCount = profile
+    ? await prisma.booking.count({
+        where: { vendorId: profile.id, status: "PENDING" },
+      })
+    : 0
+
   const categories = Array.from(
     new Set([...DEFAULT_CATEGORIES, ...categoryRows.map((r) => r.category).filter(Boolean)])
   ).sort((a, b) => a.localeCompare(b))
 
   return (
     <div className="min-h-screen bg-background">
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "40px 16px 120px" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 12,
-            flexWrap: "wrap",
-            marginBottom: 24,
-          }}
-        >
-          <Link
-            href="/dashboard"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-          >
-            <ArrowLeft style={{ width: 16, height: 16 }} />
-            Back to dashboard
-          </Link>
+      <main className="mx-auto max-w-7xl space-y-8 px-4 pb-32 pt-10 sm:px-6 lg:px-8">
+        <DashboardHeader
+          title={isNew ? "Complete your profile" : "Profile"}
+          description={
+            isNew
+              ? "Add your business details so planners can find and book you."
+              : "Update the details planners see on your public page."
+          }
+          actions={
+            profile && (
+              <Link href={`/vendors/${profile.id}`} target="_blank" className={buttonSecondary}>
+                View public page
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            )
+          }
+        />
 
-          {profile && (
-            <Link
-              href={`/vendors/${profile.id}`}
-              target="_blank"
-              className="text-sm font-medium text-primary hover:underline"
-              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
-              View public page
-              <ExternalLink style={{ width: 14, height: 14 }} />
-            </Link>
-          )}
-        </div>
+        <DashboardNav isVendor pendingCount={pendingCount} />
 
-        <h1 className="text-3xl font-bold tracking-tight">
-          {isNew ? "Complete your profile" : "Profile settings"}
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          {isNew
-            ? "Add your business details so planners can find and book you."
-            : "Update the details planners see on your public page."}
-        </p>
-
-        <div style={{ marginTop: 32 }}>
+        {/* Form stays at a comfortable reading width */}
+        <div style={{ maxWidth: 860 }}>
           <VendorProfileForm
             categories={categories}
             initial={{
@@ -104,8 +92,10 @@ export default async function VendorProfileSettingsPage() {
               phoneNumber: profile?.phoneNumber ?? "",
               website: profile?.website ?? "",
               email: user.email,
-              imageUrl: profile?.imageUrl ?? null,
-              galleryImages: profile?.galleryImages ?? [],
+              // Main photo first, then the rest (max 8 in total)
+              photos: [profile?.imageUrl, ...(profile?.galleryImages ?? [])]
+                .filter((u): u is string => !!u)
+                .slice(0, 8),
               socials: {
                 instagram: profile?.instagram ?? "",
                 facebook: profile?.facebook ?? "",
