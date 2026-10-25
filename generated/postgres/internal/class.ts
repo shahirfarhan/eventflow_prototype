@@ -26,8 +26,8 @@ const config: runtime.GetPrismaClientConfig = {
       "fromEnvVar": null
     },
     "config": {
-      "runtime": "workerd",
-      "engineType": "client"
+      "engineType": "client",
+      "runtime": "workerd"
     },
     "binaryTargets": [
       {
