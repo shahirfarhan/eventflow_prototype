@@ -1,98 +1,69 @@
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { NextResponse } from "next/server"
+import { auth } from "@/auth"
+import { prisma } from "@/lib/prisma"
 
-const createSchema = z.object({
-  url: z.string().min(5),
-});
+const MAX_PHOTOS = 8
 
-const deleteSchema = z.object({
-  imageId: z.string().min(1),
-});
-
-export async function POST(
+export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ serviceId: string }> }
+  { params }: { params: Promise<{ serviceId: string }> },
 ) {
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "VENDOR") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await auth()
+  if (!session?.user?.id || session.user.role !== "VENDOR") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const { serviceId } = await params;
+  const { serviceId } = await params
 
-  const service = await prisma.service.findUnique({
-    where: { id: serviceId },
-    include: { vendor: true },
-  });
-
-  if (!service || service.vendor.userId !== session.user.id) {
-    return NextResponse.json({ error: "Not found or unauthorized" }, { status: 404 });
+  // Safety: without an id, Prisma would treat the filters below as "match everything"
+  if (!serviceId) {
+    return NextResponse.json({ error: "Missing service id" }, { status: 400 })
   }
 
-  try {
-    const body = await req.json();
-    const data = createSchema.parse(body);
-
-    const created = await prisma.serviceImage.create({
-      data: {
-        serviceId,
-        url: data.url,
-      },
-    });
-
-    return NextResponse.json(created, { status: 201 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-  }
-}
-
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ serviceId: string }> }
-) {
-  const session = await auth();
-
-  if (!session?.user || session.user.role !== "VENDOR") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Only the vendor who owns the service can change its photos
+  const service = await prisma.service.findFirst({
+    where: { id: serviceId, vendor: { userId: session.user.id } },
+    select: { id: true },
+  })
+  if (!service) {
+    return NextResponse.json({ error: "Service not found" }, { status: 404 })
   }
 
-  const { serviceId } = await params;
-
-  const service = await prisma.service.findUnique({
-    where: { id: serviceId },
-    include: { vendor: true },
-  });
-
-  if (!service || service.vendor.userId !== session.user.id) {
-    return NextResponse.json({ error: "Not found or unauthorized" }, { status: 404 });
+  const body = await req.json().catch(() => null)
+  const urls: unknown = body?.urls
+  if (!Array.isArray(urls)) {
+    return NextResponse.json({ error: "urls must be a list" }, { status: 400 })
   }
 
-  try {
-    const body = await req.json();
-    const data = deleteSchema.parse(body);
+  const clean = Array.from(
+    new Set(
+      urls.filter(
+        (u): u is string =>
+          typeof u === "string" &&
+          u.length > 0 &&
+          u.length < 2000 &&
+          (u.startsWith("http") || u.startsWith("/")),
+      ),
+    ),
+  )
 
-    const deleted = await prisma.serviceImage.deleteMany({
-      where: {
-        id: data.imageId,
-        serviceId,
-      },
-    });
-
-    if (deleted.count === 0) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ message: "Image deleted" });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  if (clean.length > MAX_PHOTOS) {
+    return NextResponse.json({ error: `You can add up to ${MAX_PHOTOS} photos` }, { status: 400 })
   }
+
+  // Replace the old list. createdAt is staggered by 1ms so the order you chose is kept
+  // (the first photo is the cover).
+  await prisma.serviceImage.deleteMany({ where: { serviceId: service.id } })
+  if (clean.length > 0) {
+    const start = Date.now()
+    await prisma.serviceImage.createMany({
+      data: clean.map((url, i) => ({
+        serviceId: service.id,
+        url,
+        createdAt: new Date(start + i),
+      })),
+    })
+  }
+
+  return NextResponse.json({ ok: true, count: clean.length })
 }

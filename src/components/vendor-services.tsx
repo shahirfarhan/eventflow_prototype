@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-
+import { ServicePhotoStrip } from "@/components/service-photos"
 import {
   Card,
   CardContent,
@@ -97,6 +97,9 @@ export default function VendorServices({
               <p className="text-sm text-gray-500">
                 {service.description || "No description provided."}
               </p>
+              <div className="mt-4">
+                <ServicePhotoStrip name={service.name} images={service.images ?? []} />
+              </div>
 
               {/* Your images/packages can remain here */}
             </CardContent>

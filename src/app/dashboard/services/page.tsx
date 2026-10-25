@@ -8,7 +8,8 @@ import { DashboardHeader, buttonPrimary } from "@/components/dashboard/ui";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 
 const serviceInclude = {
-  images: true,
+  // In the order the vendor chose, so the first photo is the cover
+  images: { orderBy: { createdAt: "asc" } },
   packages: {
     include: {
       images: true,

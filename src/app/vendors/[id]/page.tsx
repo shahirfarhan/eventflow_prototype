@@ -44,7 +44,8 @@ export default async function PublicVendorDetailsPage({
       },
       services: {
         include: {
-          images: true,
+          // In the order the vendor chose (first = cover)
+          images: { orderBy: { createdAt: "asc" } },
           packages: {
             include: {
               images: true,
