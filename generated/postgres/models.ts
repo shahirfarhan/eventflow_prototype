@@ -8,7 +8,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/EmailVerificationToken'
+export type * from './models/PasswordResetToken'
 export type * from './models/VendorProfile'
+export type * from './models/SavedVendor'
 export type * from './models/Service'
 export type * from './models/Package'
 export type * from './models/Event'

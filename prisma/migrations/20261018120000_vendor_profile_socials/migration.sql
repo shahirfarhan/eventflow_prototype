@@ -1,0 +1,1 @@
+ALTER TABLE "VendorProfile" ADD COLUMN "instagram" TEXT, ADD COLUMN "facebook" TEXT, ADD COLUMN "tiktok" TEXT, ADD COLUMN "youtube" TEXT, ADD COLUMN "twitter" TEXT, ADD COLUMN "linkedin" TEXT, ADD COLUMN "galleryImages" TEXT[] DEFAULT ARRAY[]::TEXT[];

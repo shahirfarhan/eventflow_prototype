@@ -1,127 +1,9 @@
-// 'use client'
-
-// import { useState } from 'react'
-// import { useForm } from 'react-hook-form'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { z } from 'zod'
-// import { useRouter } from 'next/navigation'
-// import { Button } from '@/components/ui/button'
-// import { Input } from '@/components/ui/input'
-// import { Label } from '@/components/ui/label'
-// import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-// import Link from 'next/link'
-// import { toast } from 'sonner'
-
-// const registerSchema = z.object({
-//   name: z.string().min(2, 'Name must be at least 2 characters'),
-//   email: z.string().email('Invalid email address'),
-//   password: z.string().min(6, 'Password must be at least 6 characters'),
-//   role: z.enum(['ORGANIZER', 'VENDOR']),
-// })
-
-// type RegisterFormValues = z.infer<typeof registerSchema>
-
-// export default function RegisterForm() {
-//   const router = useRouter()
-//   const [isLoading, setIsLoading] = useState(false)
-//   const { register, handleSubmit, formState: { errors }, setValue } = useForm<RegisterFormValues>({
-//     resolver: zodResolver(registerSchema),
-//     defaultValues: {
-//       role: 'ORGANIZER',
-//     }
-//   })
-
-//   const onSubmit = async (data: RegisterFormValues) => {
-//     setIsLoading(true)
-//     try {
-//       const response = await fetch('/api/auth/register', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(data),
-//       })
-
-//       if (!response.ok) {
-//         const result = await response.json()
-//         throw new Error(result.error || 'Registration failed')
-//       }
-
-//       toast.success('Account created successfully')
-//       router.push('/login')
-//     } catch (error) {
-//       if (error instanceof Error) {
-//         toast.error(error.message)
-//       } else {
-//         toast.error('Something went wrong')
-//       }
-//     } finally {
-//       setIsLoading(false)
-//     }
-//   }
-
-//   return (
-//     <Card className="w-full max-w-sm">
-//       <CardHeader>
-//         <CardTitle className="text-2xl">Create an account</CardTitle>
-//         <CardDescription>
-//           Enter your information to create an account
-//         </CardDescription>
-//       </CardHeader>
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <CardContent className="grid gap-4">
-//           <div className="grid gap-2">
-//             <Label htmlFor="name">Full Name</Label>
-//             <Input id="name" {...register('name')} placeholder="John Doe" />
-//             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-//           </div>
-//           <div className="grid gap-2">
-//             <Label htmlFor="email">Email</Label>
-//             <Input id="email" type="email" {...register('email')} placeholder="m@example.com" />
-//             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-//           </div>
-//           <div className="grid gap-2">
-//             <Label htmlFor="password">Password</Label>
-//             <Input id="password" type="password" {...register('password')} />
-//             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-//           </div>
-//           <div className="grid gap-2 pb-4">
-//             <Label htmlFor="role">I am a...</Label>
-//             <select 
-//               id="role" 
-//               className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-//               {...register('role')}
-//             >
-//               <option value="ORGANIZER">Event Organizer</option>
-//               <option value="VENDOR">Service Provider</option>
-//             </select>
-//              {/* Using native select for simplicity or I need to install Select component */}
-//              {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
-//           </div>
-//         </CardContent>
-//         <CardFooter className="flex flex-col gap-4">
-//           <Button className="w-full" disabled={isLoading}>
-//             {isLoading ? 'Creating account...' : 'Create account'}
-//           </Button>
-//           <div className="text-center text-sm">
-//             Already have an account?{" "}
-//             <Link href="/login" className="underline">
-//               Sign in
-//             </Link>
-//           </div>
-//         </CardFooter>
-//       </form>
-//     </Card>
-//   )
-// }
-
-// -----------------------
-
 'use client'
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -129,7 +11,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { CalendarHeart, Store } from 'lucide-react'
+import { CalendarHeart, Store, MailCheck } from 'lucide-react'
+import ResendVerificationButton from '@/components/resend-verification-button'
 
 const MALAYSIAN_STATES = [
   'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan', 'Pahang',
@@ -196,8 +79,13 @@ const selectClass =
   'flex h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
 
 export default function RegisterForm() {
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [submitted, setSubmitted] = useState<{
+    name: string
+    email: string
+    isVendor: boolean
+    emailSent: boolean
+  } | null>(null)
 
   const {
     register,
@@ -228,18 +116,70 @@ export default function RegisterForm() {
         body: JSON.stringify(data),
       })
 
+      const result = await response.json().catch(() => null)
+
       if (!response.ok) {
-        const result = await response.json()
-        throw new Error(result.error || 'Registration failed')
+        throw new Error(result?.error || 'Registration failed')
       }
 
-      toast.success('Account created successfully')
-      router.push('/login')
+      // Every new account must verify its email; vendors also wait for admin approval
+      setSubmitted({
+        name: data.name,
+        email: data.email,
+        isVendor: Boolean(result?.pendingApproval),
+        emailSent: result?.emailSent !== false,
+      })
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (submitted) {
+    return (
+      <Card className="w-full max-w-2xl text-center">
+        <CardContent className="space-y-6 py-12">
+          <div className="flex justify-center">
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-sky-100 text-sky-600">
+              <MailCheck className="h-8 w-8" />
+            </span>
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold">Check your email</h2>
+            <p className="mx-auto max-w-md text-muted-foreground">
+              {submitted.emailSent ? (
+                <>
+                  Thanks, {submitted.name}! We sent a verification link to{' '}
+                  <span className="font-medium text-foreground">{submitted.email}</span>.
+                  Click it to activate your account.
+                </>
+              ) : (
+                <>
+                  Thanks, {submitted.name}! Your account was created, but we couldn&apos;t
+                  send the verification email. Use the button below to try again.
+                </>
+              )}
+            </p>
+            {submitted.isVendor && (
+              <p className="mx-auto max-w-md text-sm text-muted-foreground">
+                After you verify, our team will review your business details. You&apos;ll be
+                able to sign in once your application is approved.
+              </p>
+            )}
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <ResendVerificationButton email={submitted.email} className="h-11 px-6" />
+            <Button asChild className="h-11 px-6">
+              <Link href="/login">Go to login</Link>
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Can&apos;t find it? Check your spam or promotions folder.
+          </p>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -251,8 +191,7 @@ export default function RegisterForm() {
         </CardDescription>
       </CardHeader>
 
-      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-      <form onSubmit={handleSubmit(onSubmit, (errs) => console.log("Validation errors:", errs))}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="grid gap-6">
           {/* Role pill toggle */}
           <div className="grid gap-3">
@@ -293,6 +232,11 @@ export default function RegisterForm() {
               })}
             </div>
             <input type="hidden" {...register('role')} />
+            {isVendor && (
+              <p className="text-xs text-muted-foreground">
+                Service provider accounts are reviewed by our team before they go live.
+              </p>
+            )}
           </div>
 
           <div className="h-px w-full bg-border/70" />
@@ -399,7 +343,11 @@ export default function RegisterForm() {
 
         <CardFooter className="flex flex-col gap-4 pt-6">
           <Button type="submit" className="w-full h-11 text-base" disabled={isLoading}>
-            {isLoading ? 'Creating account...' : 'Create account'}
+            {isLoading
+              ? 'Creating account...'
+              : isVendor
+                ? 'Submit for approval'
+                : 'Create account'}
           </Button>
           <div className="text-center text-sm">
             Already have an account?{' '}

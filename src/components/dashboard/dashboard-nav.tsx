@@ -7,7 +7,8 @@ import {
   LayoutGrid,
   Search,
   Ticket,
-  Briefcase
+  Briefcase,
+  Bookmark,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -41,6 +42,11 @@ const baseNavItems: NavItem[] = [
     tab: "vendors",
     href: "/vendors",
   },
+  {
+    label: "Saved Vendors",
+    icon: Bookmark,
+    tab: "saved",
+  },
 ]
 
 const vendorNavItem: NavItem = {
@@ -60,7 +66,9 @@ export function DashboardNav({ isVendor = false, isOrganizer = false }: Dashboar
   const activeTab = searchParams.get("tab") ?? "overview"
 
   const navItems = [
-    ...baseNavItems.filter((item) => item.tab !== "events" || isOrganizer),
+    ...baseNavItems
+      .filter((item) => item.tab !== "events" || isOrganizer)
+      .filter((item) => item.tab !== "saved" || !isVendor),
     ...(isVendor ? [vendorNavItem] : []),
   ]
 

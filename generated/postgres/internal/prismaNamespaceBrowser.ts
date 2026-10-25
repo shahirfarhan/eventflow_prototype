@@ -20,7 +20,10 @@ export type * from './prismaNamespace'
 export const Decimal = runtime.Decimal
 export const ModelName = {
   User: 'User',
+  EmailVerificationToken: 'EmailVerificationToken',
+  PasswordResetToken: 'PasswordResetToken',
   VendorProfile: 'VendorProfile',
+  SavedVendor: 'SavedVendor',
   Service: 'Service',
   Package: 'Package',
   Event: 'Event',
@@ -60,10 +63,36 @@ export const UserScalarFieldEnum = {
   location: 'location',
   role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  vendorStatus: 'vendorStatus',
+  rejectionReason: 'rejectionReason',
+  reviewedAt: 'reviewedAt',
+  emailVerified: 'emailVerified'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const EmailVerificationTokenScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailVerificationTokenScalarFieldEnum = (typeof EmailVerificationTokenScalarFieldEnum)[keyof typeof EmailVerificationTokenScalarFieldEnum]
+
+
+export const PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
 export const VendorProfileScalarFieldEnum = {
@@ -79,10 +108,27 @@ export const VendorProfileScalarFieldEnum = {
   imageUrl: 'imageUrl',
   rating: 'rating',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  instagram: 'instagram',
+  facebook: 'facebook',
+  tiktok: 'tiktok',
+  youtube: 'youtube',
+  twitter: 'twitter',
+  linkedin: 'linkedin',
+  galleryImages: 'galleryImages'
 } as const
 
 export type VendorProfileScalarFieldEnum = (typeof VendorProfileScalarFieldEnum)[keyof typeof VendorProfileScalarFieldEnum]
+
+
+export const SavedVendorScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  vendorId: 'vendorId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedVendorScalarFieldEnum = (typeof SavedVendorScalarFieldEnum)[keyof typeof SavedVendorScalarFieldEnum]
 
 
 export const ServiceScalarFieldEnum = {

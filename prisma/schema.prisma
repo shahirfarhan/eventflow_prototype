@@ -7,7 +7,11 @@ generator client {
   runtime    = "workerd"
   engineType = "client"
 }
-
+enum VendorStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -30,6 +34,16 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Vendor approval
+  vendorStatus    VendorStatus?        // null for organizers/admins
+  rejectionReason String?
+  reviewedAt      DateTime?
+
+  emailVerified            DateTime?
+  emailVerificationTokens  EmailVerificationToken[]
+
+  passwordResetTokens  PasswordResetToken[]
+
   // Relationships
   vendorProfile VendorProfile?
   events        Event[]
@@ -40,6 +54,29 @@ model User {
   notifications Notification[]
   sentQuotations     ChatQuotation[] @relation("SentQuotations")
   receivedQuotations ChatQuotation[] @relation("ReceivedQuotations")
+  savedVendors       SavedVendor[]
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique   // we store a hash, never the raw token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique   // we store a hash, never the raw token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model VendorProfile {
@@ -58,6 +95,15 @@ model VendorProfile {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  instagram     String?
+  facebook      String?
+  tiktok        String?
+  youtube       String?
+  twitter       String?   // X
+  linkedin      String?
+
+  galleryImages String[]  @default([])
+
   // Relationships
   services      Service[]
   bookings      Booking[] // Bookings received by this vendor
@@ -66,6 +112,19 @@ model VendorProfile {
   reviews       Review[]  @relation("VendorReviews")
   messagesAsContext Message[] @relation("MessageContextVendor")
   chatQuotations ChatQuotation[] @relation("QuotationVendor")
+  savedBy       SavedVendor[]
+}
+
+model SavedVendor {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vendorId  String
+  vendor    VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@unique([userId, vendorId])
+  @@index([vendorId])
 }
 
 model Service {

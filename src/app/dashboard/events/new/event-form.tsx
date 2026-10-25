@@ -82,6 +82,7 @@ export default function EventForm({
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [createdEventId, setCreatedEventId] = useState<string | null>(null);
+  const [savedEventId, setSavedEventId] = useState<string | null>(null);
 
   const isEditing = Boolean(event)
 
@@ -162,56 +163,63 @@ export default function EventForm({
   };
 
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
-    if (!validate()) {
-      toast.error("Please fix the highlighted errors");
-      return;
-    }
-    setIsLoading(true);
-
-    const budNum = budget === "" ? 0 : Number(budget);
-
-    try {
-      const res = await fetch(
-        event?.id
-          ? `/api/organizer/events/${event.id}`
-          : "/api/organizer/events",
-        {
-          method: event?.id ? "PUT" : "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: title.trim(),
-            date,
-            startTime: startTime || null,
-            endTime: endTime || null,
-            location: location.trim(),
-            type: eventType.trim(),
-            budget: budNum,
-            budgetMin: budgetMin === "" ? null : Number(budgetMin),
-            budgetMax: budgetMax === "" ? null : Number(budgetMax),
-            headcount: headcount === "" ? null : Number(headcount),
-            minAge: minAge === "" ? null : Number(minAge),
-            maxAge: maxAge === "" ? null : Number(maxAge),
-            venueType: venueType || null,
-            venueAccess: venueAccess || null,
-            notes,
-          }),
-        });
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(text || "Failed to create event");
+      ev.preventDefault();
+      if (!validate()) {
+        toast.error("Please fix the highlighted errors");
+        return;
       }
-      const created = await res.json();
-      setCreatedEventId(created?.id || null);
-      toast.success("Event created successfully");
-      setIsSuccess(true);
-      router.refresh();
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(true);
+
+      const budNum = budget === "" ? 0 : Number(budget);
+
+      try {
+        const res = await fetch(
+          event?.id
+            ? `/api/organizer/events/${event.id}`
+            : "/api/organizer/events",
+          {
+            method: event?.id ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: title.trim(),
+              date,
+              startTime: startTime || null,
+              endTime: endTime || null,
+              location: location.trim(),
+              type: eventType.trim(),
+              budget: budNum,
+              budgetMin: budgetMin === "" ? null : Number(budgetMin),
+              budgetMax: budgetMax === "" ? null : Number(budgetMax),
+              headcount: headcount === "" ? null : Number(headcount),
+              minAge: minAge === "" ? null : Number(minAge),
+              maxAge: maxAge === "" ? null : Number(maxAge),
+              venueType: venueType || null,
+              venueAccess: venueAccess || null,
+              notes,
+            }),
+          });
+        if (!res.ok) {
+          const text = await res.text().catch(() => "");
+          throw new Error(
+            text || (isEditing ? "Failed to update event" : "Failed to create event")
+          );
+        }
+
+        // The API should return the saved event (e.g. { id: "...", ... }).
+        // When editing, fall back to the existing id in case PUT returns nothing.
+        const saved = await res.json().catch(() => null);
+        const savedId: string | null = saved?.id ?? event?.id ?? null;
+        setSavedEventId(savedId);
+
+        toast.success(isEditing ? "Event updated successfully" : "Event created successfully");
+        router.push(`/dashboard/events/${savedId}`);
+        router.refresh();
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
   if (isSuccess) {
     const bookParams = new URLSearchParams();

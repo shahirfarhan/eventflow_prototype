@@ -20,6 +20,9 @@ import {
 import Link from "next/link";
 import { auth } from "@/auth";
 import VendorServices from "@/components/vendor-services";
+import { SaveVendorButton } from "@/components/save-vendor-button";
+import { SocialLinksRow } from "@/components/social-links";
+import { websiteHref, websiteLabel } from "@/lib/social-links";
 
 export default async function PublicVendorDetailsPage({
   params,
@@ -66,6 +69,27 @@ export default async function PublicVendorDetailsPage({
   if (!vendor) {
     notFound();
   }
+
+  const canSave = session?.user?.role === "ORGANIZER";
+  const isSaved = canSave
+    ? !!(await prisma.savedVendor.findUnique({
+        where: {
+          userId_vendorId: { userId: session!.user!.id!, vendorId: vendor.id },
+        },
+        select: { id: true },
+      }))
+    : false;
+
+  const socialLinks = {
+    instagram: vendor.instagram,
+    facebook: vendor.facebook,
+    tiktok: vendor.tiktok,
+    youtube: vendor.youtube,
+    twitter: vendor.twitter,
+    linkedin: vendor.linkedin,
+  };
+  const hasSocials = Object.values(socialLinks).some(Boolean);
+  const isOwner = session?.user?.id === vendor.user.id;
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,7 +156,29 @@ export default async function PublicVendorDetailsPage({
               )}
             </div>
           </div>
+
+          {canSave && (
+            <SaveVendorButton
+              vendorId={vendor.id}
+              initialSaved={isSaved}
+              variant="button"
+            />
+          )}
+
+          {isOwner && (
+            <Link href="/dashboard/profile">
+              <Button variant="outline">Edit profile</Button>
+            </Link>
+          )}
         </div>
+
+        {/* SOCIAL LOGOS (under the name) */}
+
+        {hasSocials && (
+          <div style={{ marginTop: 16 }}>
+            <SocialLinksRow links={socialLinks} businessName={vendor.businessName} />
+          </div>
+        )}
 
         {/* ======================================================
             MAIN CONTENT
@@ -176,6 +222,47 @@ export default async function PublicVendorDetailsPage({
                 )}
               </CardContent>
             </Card>
+
+            {/* GALLERY */}
+
+            {vendor.galleryImages.length > 0 && (
+              <div>
+                <h2 className="mb-4 text-2xl font-bold tracking-tight">
+                  Gallery
+                </h2>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                    gap: 12,
+                  }}
+                >
+                  {vendor.galleryImages.map((url, i) => (
+                    <a
+                      key={url}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border border-border"
+                      style={{
+                        display: "block",
+                        aspectRatio: "1 / 1",
+                        borderRadius: 12,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <img
+                        src={url}
+                        alt={`${vendor.businessName} photo ${i + 1}`}
+                        loading="lazy"
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* SERVICES */}
 
@@ -265,12 +352,12 @@ export default async function PublicVendorDetailsPage({
                     <Globe className="mr-3 mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
 
                     <a
-                      href={`http://${vendor.website}`}
+                      href={websiteHref(vendor.website)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="break-all text-blue-600 hover:underline"
                     >
-                      {vendor.website}
+                      {websiteLabel(vendor.website)}
                     </a>
                   </div>
                 )}

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { z } from "zod";
+import { sendVerificationFor } from "@/lib/verification-token";
 
 const MALAYSIAN_STATES = [
   "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang",
@@ -73,6 +74,7 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hash(password, 12);
+    const isVendor = role === "VENDOR";
 
     const user = await prisma.user.create({
       data: {
@@ -82,7 +84,9 @@ export async function POST(req: Request) {
         role,
         phoneNumber,
         location,
-        ...(role === "VENDOR" && {
+        // Vendors go into the admin approval queue; organizers don't need one
+        vendorStatus: isVendor ? "PENDING" : null,
+        ...(isVendor && {
           vendorProfile: {
             create: {
               businessName: name,
@@ -96,16 +100,35 @@ export async function POST(req: Request) {
       },
     });
 
+    // Send the verification email. If it fails, the account still exists —
+    // the user can request a new email from the login page.
+    let emailSent = true;
+    try {
+      await sendVerificationFor({ id: user.id, email: user.email, name: user.name });
+    } catch (err) {
+      emailSent = false;
+      console.error("Failed to send verification email:", err);
+    }
+
     return NextResponse.json(
       {
-        message: "User created successfully",
+        message: isVendor
+          ? "Application submitted for review"
+          : "User created successfully",
         user: { id: user.id, email: user.email, role: user.role },
+        pendingApproval: isVendor,
+        needsVerification: true,
+        emailSent,
       },
       { status: 201 }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
+      // Return a readable message so the form's toast shows real text
+      return NextResponse.json(
+        { error: error.issues[0]?.message ?? "Invalid input", issues: error.issues },
+        { status: 400 }
+      );
     }
     console.error("Registration error:", error);
     return NextResponse.json(

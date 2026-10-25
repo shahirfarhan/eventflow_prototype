@@ -228,6 +228,9 @@ import {
   DollarSign,
   ArrowRight,
   UserRound,
+  Bookmark,
+  MapPin,
+  UserCog,
 } from "lucide-react"
 import { redirect } from "next/navigation"
 
@@ -240,6 +243,7 @@ import { UpcomingEvents } from "@/components/dashboard/upcoming-events"
 import AdminDashboardPage from "./admin/page"
 import EventsList from "./events/events-list"
 import BookingsList from "./bookings/bookings-list"
+import { SaveVendorButton } from "@/components/save-vendor-button"
 
 export default async function DashboardPage({
   searchParams,
@@ -408,6 +412,14 @@ export default async function DashboardPage({
               >
                 <CalendarDays className="h-4 w-4" />
                 View Bookings
+              </Link>
+
+              <Link
+                href="/dashboard/profile"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
+              >
+                <UserCog className="h-4 w-4" />
+                Profile Settings
               </Link>
             </div>
           </div>
@@ -675,6 +687,19 @@ export default async function DashboardPage({
         })
       : []
 
+  const savedVendors =
+    activeTab === "saved"
+      ? await prisma.savedVendor.findMany({
+          where: { userId: session.user.id },
+          orderBy: { createdAt: "desc" },
+          include: {
+            vendor: {
+              include: { services: { select: { basePrice: true } } },
+            },
+          },
+        })
+      : []
+
       const startOfToday = new Date()
       startOfToday.setHours(0, 0, 0, 0)
       const upcoming = events.filter(e => e.date >= startOfToday).slice(0, 5)
@@ -693,7 +718,9 @@ export default async function DashboardPage({
                   ? "Bookings"
                   : activeTab === "vendors"
                     ? "Vendors"
-                    : "Overview"}
+                    : activeTab === "saved"
+                      ? "Saved Vendors"
+                      : "Overview"}
             </p>
 
             <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -707,7 +734,9 @@ export default async function DashboardPage({
                   ? "Manage your vendor bookings."
                   : activeTab === "vendors"
                     ? "Find vendors for your events."
-                    : "Here's what's happening with your events."}
+                    : activeTab === "saved"
+                      ? "Vendors you've saved for later."
+                      : "Here's what's happening with your events."}
             </p>
           </div>
         </div>
@@ -817,6 +846,81 @@ export default async function DashboardPage({
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+          )}
+
+          {/* SAVED VENDORS */}
+          {activeTab === "saved" && (
+            savedVendors.length === 0 ? (
+              <div className="rounded-2xl border border-border bg-card p-10 text-center shadow-sm">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                  <Bookmark className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <h3 className="mt-4 font-semibold">No saved vendors yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Tap the bookmark icon on any vendor to save it here.
+                </p>
+                <Link
+                  href="/vendors"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+                >
+                  <Search className="h-4 w-4" />
+                  Browse Vendors
+                </Link>
+              </div>
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {savedVendors.map(({ vendor }) => {
+                  const minPrice =
+                    vendor.services.length > 0
+                      ? Math.min(...vendor.services.map((s) => s.basePrice))
+                      : null
+
+                  return (
+                    <div key={vendor.id} className="relative h-full">
+                      <SaveVendorButton
+                        vendorId={vendor.id}
+                        initialSaved
+                        className="absolute left-4 top-4 z-10"
+                      />
+                      <Link href={`/vendors/${vendor.id}`} className="group block h-full">
+                        <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
+                          <div className="relative aspect-[16/10] w-full overflow-hidden">
+                            {vendor.imageUrl ? (
+                              <img
+                                src={vendor.imageUrl}
+                                alt={`${vendor.businessName} — ${vendor.category}`}
+                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center bg-muted">
+                                <span className="text-sm text-muted-foreground">No image available</span>
+                              </div>
+                            )}
+                            <span className="absolute right-4 top-4 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur">
+                              {vendor.category}
+                            </span>
+                          </div>
+                          <div className="flex flex-1 flex-col p-6">
+                            <h3 className="text-lg font-bold">{vendor.businessName}</h3>
+                            <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+                              <MapPin className="size-4 shrink-0" aria-hidden="true" />
+                              {vendor.location}
+                            </p>
+                            {minPrice !== null && (
+                              <p className="mt-4 text-sm font-medium">
+                                Starts from{" "}
+                                <span className="text-primary">RM {minPrice.toLocaleString()}</span>
+                              </p>
+                            )}
+                          </div>
+                        </article>
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
+            )
           )}
 
         </div>

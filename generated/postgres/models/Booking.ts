@@ -1122,10 +1122,6 @@ export type BookingUncheckedUpdateManyWithoutEventNestedInput = {
   deleteMany?: Prisma.BookingScalarWhereInput | Prisma.BookingScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type BookingCreateNestedOneWithoutQuotesInput = {
   create?: Prisma.XOR<Prisma.BookingCreateWithoutQuotesInput, Prisma.BookingUncheckedCreateWithoutQuotesInput>
   connectOrCreate?: Prisma.BookingCreateOrConnectWithoutQuotesInput

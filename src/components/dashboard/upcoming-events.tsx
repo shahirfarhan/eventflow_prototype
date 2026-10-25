@@ -143,7 +143,7 @@ export function UpcomingEvents({ events }: { events: EventItem[] }) {
               </div>
 
               <a
-                href="#"
+                href={`/dashboard/events/${event.id}`}
                 className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
               >
                 View

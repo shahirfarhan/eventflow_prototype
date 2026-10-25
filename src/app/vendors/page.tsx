@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import VendorFilters from "@/app/vendors/vendor-filters";
 import { auth } from "@/auth";
 import { buttonVariants } from "@/components/ui/button"
+import { SaveVendorButton } from "@/components/save-vendor-button";
 
 export const dynamic = "force-dynamic";
 
@@ -129,6 +130,18 @@ export default async function VendorsPage({
   // ============================================================
   // GET CATEGORIES
   // ============================================================
+
+  const canSave = session?.user?.role === "ORGANIZER";
+  const savedVendorIds = new Set(
+    canSave
+      ? (
+          await prisma.savedVendor.findMany({
+            where: { userId: session!.user!.id },
+            select: { vendorId: true },
+          })
+        ).map((s) => s.vendorId)
+      : []
+  );
 
   const allVendors = await prisma.vendorProfile.findMany({
     select: {
@@ -294,72 +307,94 @@ export default async function VendorsPage({
                   : null;
 
               return (
-                <Link
+                <article
                   key={vendor.id}
-                  href={`/vendors/${vendor.id}`}
-                  className="group block h-full"
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+                  style={{ position: "relative" }}
                 >
-                  <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
-                    {/* ==========================================
-                        IMAGE
-                    ========================================== */}
+                  {/* Makes the whole card clickable without putting the
+                      save button inside the link */}
+                  <Link
+                    href={`/vendors/${vendor.id}`}
+                    aria-label={`View ${vendor.businessName}`}
+                    className="absolute inset-0"
+                    style={{ position: "absolute", inset: 0, zIndex: 0 }}
+                  />
 
-                    <div className="relative aspect-[16/10] w-full overflow-hidden">
-                      {vendor.imageUrl ? (
-                        <img
-                          src={vendor.imageUrl}
-                          alt={`${vendor.businessName} — ${vendor.category}`}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-muted">
-                          <span className="text-sm text-muted-foreground">
-                            No image available
-                          </span>
-                        </div>
-                      )}
+                  {/* ==========================================
+                      IMAGE
+                  ========================================== */}
 
-                      {/* Category */}
-                      <div className="absolute right-4 top-4">
-                        <Badge
-                          variant="secondary"
-                          className="rounded-full bg-background/90 px-3 py-1 backdrop-blur"
-                        >
-                          {vendor.category}
-                        </Badge>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    {vendor.imageUrl ? (
+                      <img
+                        src={vendor.imageUrl}
+                        alt={`${vendor.businessName} — ${vendor.category}`}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-muted">
+                        <span className="text-sm text-muted-foreground">
+                          No image available
+                        </span>
                       </div>
+                    )}
+
+                    {/* Category */}
+                    <div className="absolute right-4 top-4">
+                      <Badge
+                        variant="secondary"
+                        className="rounded-full bg-background/90 px-3 py-1 backdrop-blur"
+                      >
+                        {vendor.category}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  {/* ==========================================
+                      CARD CONTENT
+                  ========================================== */}
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <div
+                      className="flex items-center justify-between gap-3"
+                      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}
+                    >
+                      <h3 className="min-w-0 truncate text-xl font-bold">
+                        {vendor.businessName}
+                      </h3>
+                      {canSave && (
+                        // Sits above the card link so clicking it saves instead of opening the page
+                        <span style={{ position: "relative", zIndex: 10, flexShrink: 0 }}>
+                          <SaveVendorButton
+                            vendorId={vendor.id}
+                            initialSaved={savedVendorIds.has(vendor.id)}
+                            className="border-0 bg-transparent shadow-none ring-0 backdrop-blur-none hover:bg-muted"
+                          />
+                        </span>
+                      )}
                     </div>
 
-                    {/* ==========================================
-                        CARD CONTENT
-                    ========================================== */}
+                    <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+                      <MapPin className="size-4 shrink-0" aria-hidden="true" />
+                      {vendor.location}
+                    </p>
 
-                    <div className="flex flex-col p-6">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-xl font-bold">{vendor.businessName}</h3>
-                        
-                      </div>
+                    <p className="mt-4 flex-1 text-pretty line-clamp-3 text-muted-foreground">
+                      {vendor.description || "No description provided."}
+                    </p>
 
-                      <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <MapPin className="size-4 shrink-0" aria-hidden="true" />
-                        {vendor.location}
+                    {minPrice !== null && (
+                      <p className="mt-4 text-sm font-medium">
+                        Starts from{" "}
+                        <span className="text-primary">
+                          RM {minPrice.toLocaleString()}
+                        </span>
                       </p>
+                    )}
 
-                      <p className="mt-4 flex-1 text-pretty line-clamp-3 text-muted-foreground">
-                        {vendor.description || "No description provided."}
-                      </p>
-
-                      {minPrice !== null && (
-                        <p className="mt-4 text-sm font-medium">
-                          Starts from{" "}
-                          <span className="text-primary">
-                            RM {minPrice.toLocaleString()}
-                          </span>
-                        </p>
-                      )}
-
-                      <div
+                    <div
                       className={buttonVariants({
                         variant: "outline",
                         size: "lg",
@@ -368,9 +403,8 @@ export default async function VendorsPage({
                     >
                       View profile
                     </div>
-                    </div>
-                  </article>
-                </Link>
+                  </div>
+                </article>
               );
             })}
         </div>

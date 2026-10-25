@@ -15,7 +15,7 @@ export const authConfig = {
       )
 
       // Define auth routes (logged in users shouldn't see these)
-      const authRoutes = ['/login', '/register']
+      const authRoutes = ['/login', '/register', '/forgot-password']
       const isAuthRoute = authRoutes.some(route =>
         nextUrl.pathname.startsWith(route)
       )

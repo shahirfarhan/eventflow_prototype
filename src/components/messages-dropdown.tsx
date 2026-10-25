@@ -1,18 +1,24 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { MessageSquare, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { MessageSquare, RefreshCw, MessagesSquare } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import BookingChatDialog from "@/app/dashboard/bookings/booking-chat-dialog";
-import { formatDistanceToNow } from "date-fns";
+import {
+  differenceInMinutes,
+  differenceInHours,
+  isToday,
+  isYesterday,
+  differenceInCalendarDays,
+  format,
+} from "date-fns";
 
 type Thread = {
   id: string;
@@ -44,64 +50,79 @@ type Thread = {
   unreadCount: number;
 };
 
-function fallbackFor(name: string) {
-  const base = (name || "??").trim();
+const POLL_OPEN_MS = 8000;
+const POLL_CLOSED_MS = 30000;
+
+function initialsFor(name: string) {
+  const base = (name || "").trim();
   if (!base) return "?";
   const parts = base.split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-  }
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
   return base.substring(0, 2).toUpperCase();
 }
 
-function chatTitleFor(t: Thread) {
-  const pieces: string[] = [];
-  if (t.eventTitle) pieces.push(t.eventTitle);
-  if (t.serviceName) pieces.push(t.serviceName);
-  return [t.peerName, pieces.join(" • ")].filter(Boolean).join(" — ");
+/** Compact time label that never wraps: "now", "5m", "3h", "Yesterday", "Mon", "12 Oct". */
+function shortTime(iso: string) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const now = new Date();
+  const mins = differenceInMinutes(now, d);
+  if (mins < 1) return "now";
+  if (mins < 60) return `${mins}m`;
+  if (isToday(d)) return `${differenceInHours(now, d)}h`;
+  if (isYesterday(d)) return "Yesterday";
+  if (differenceInCalendarDays(now, d) < 7) return format(d, "EEE");
+  if (d.getFullYear() === now.getFullYear()) return format(d, "d MMM");
+  return format(d, "d MMM yy");
+}
+
+function contextLine(t: Thread) {
+  return [t.eventTitle, t.serviceName ?? t.contextServiceName]
+    .filter(Boolean)
+    .join(", ");
 }
 
 function chatDescriptionFor(t: Thread) {
   const pieces: string[] = [];
-  if (t.eventTitle) pieces.push(`Event: ${t.eventTitle}`);
-  if (t.serviceName) pieces.push(`Service: ${t.serviceName}`);
-  if (t.bookingId) pieces.push(`Booking ${t.bookingId.substring(0, 6)}…`);
-  return pieces.join(" • ");
+  if (t.eventTitle) pieces.push(t.eventTitle);
+  if (t.serviceName) pieces.push(t.serviceName);
+  if (!pieces.length && t.contextServiceName) pieces.push(t.contextServiceName);
+  return pieces.join(", ");
 }
 
 export function MessagesDropdown() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadedOnce, setLoadedOnce] = useState(false);
   const [threads, setThreads] = useState<Thread[]>([]);
-  const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
-  const [activePeerId, setActivePeerId] = useState<string | null>(null);
   const [activeThread, setActiveThread] = useState<Thread | null>(null);
 
-  const load = async (signal?: AbortSignal) => {
+  const load = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/messages", {
-        cache: "no-store",
-        signal,
-      });
+      const res = await fetch("/api/messages", { cache: "no-store", signal });
       if (!res.ok) throw new Error("Failed to load messages");
       const json = await res.json();
       setThreads(Array.isArray(json) ? json : []);
+      setLoadedOnce(true);
+    } catch {
+      // Background refresh: keep showing the last list instead of erroring
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  // Load on mount so the unread badge is correct before the menu is opened,
+  // then poll — faster while the menu is open.
   useEffect(() => {
-    if (!open) return;
     const controller = new AbortController();
-    load(controller.signal);
-    const interval = setInterval(() => load(), 8000);
+    void load(controller.signal);
+    const id = setInterval(() => void load(), open ? POLL_OPEN_MS : POLL_CLOSED_MS);
     return () => {
       controller.abort();
-      clearInterval(interval);
+      clearInterval(id);
     };
-  }, [open]);
+  }, [open, load]);
 
   const totalUnread = useMemo(
     () => threads.reduce((acc, t) => acc + (t.unreadCount || 0), 0),
@@ -109,110 +130,188 @@ export function MessagesDropdown() {
   );
 
   const onOpenThread = async (t: Thread) => {
-  setActiveThread(t);
+    setActiveThread(t);
+    setOpen(false);
 
-  // Only mark booking messages as read through the booking endpoint
-  if (t.bookingId) {
-    try {
-      await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bookingId: t.bookingId,
-          peerId: t.peerId,
-        }),
-      });
-    } catch {
-      /* ignore */
+    // Optimistically clear the unread state for this thread
+    setThreads((prev) =>
+      prev.map((x) => (x.id === t.id ? { ...x, unread: false, unreadCount: 0 } : x))
+    );
+
+    if (t.bookingId) {
+      try {
+        await fetch("/api/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookingId: t.bookingId, peerId: t.peerId }),
+        });
+      } catch {
+        /* ignore */
+      }
     }
-  }
 
-  void load();
-  setOpen(false);
-};
+    void load();
+  };
 
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon" className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative"
+            aria-label={totalUnread ? `Messages, ${totalUnread} unread` : "Messages"}
+          >
             <MessageSquare className="h-5 w-5" />
             {totalUnread > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[14px] h-[14px] px-[3px] text-[9px] font-semibold leading-none rounded-full bg-primary text-white ring-2 ring-background">
+              <span
+                className="absolute -right-0.5 -top-0.5 flex items-center justify-center rounded-full bg-primary font-semibold leading-none text-primary-foreground ring-2 ring-background"
+                style={{ height: 16, minWidth: 16, padding: '0 4px', fontSize: 10 }}
+              >
                 {totalUnread > 99 ? "99+" : totalUnread}
               </span>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-88 p-0" align="end">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold text-sm">Messages</h3>
+
+        <PopoverContent
+          align="end"
+          sideOffset={8}
+          className="overflow-hidden p-0"
+          // Fixed width set inline so it holds in every browser, including older Safari
+          style={{ width: 'min(380px, calc(100vw - 1.5rem))', maxWidth: 'none' }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-semibold">Messages</h3>
+              {totalUnread > 0 && (
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                  {totalUnread} unread
+                </span>
+              )}
+            </div>
             <Button
               variant="ghost"
-              size="sm"
-              className="text-xs h-7 px-2"
-              onClick={() => load()}
+              size="icon"
+              className="h-8 w-8 text-muted-foreground"
+              onClick={() => void load()}
               disabled={loading}
+              aria-label="Refresh messages"
             >
-              {loading ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                "Refresh"
-              )}
+              <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
             </Button>
           </div>
-          <ScrollArea className="h-80">
-            {loading && threads.length === 0 ? (
-              <div className="p-8 text-sm text-muted-foreground text-center">
-                Loading…
-              </div>
+
+          {/* List */}
+          <div
+            className="overflow-y-auto overscroll-contain"
+            style={{ maxHeight: 'min(440px, 70vh)' }}
+          >
+            {!loadedOnce && threads.length === 0 ? (
+              <ul aria-hidden className="divide-y">
+                {[0, 1, 2].map((i) => (
+                  <li key={i} className="flex items-start gap-3 px-4 py-3">
+                    <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-muted" />
+                    <div className="flex-1 space-y-2 pt-1">
+                      <div className="h-3 w-1/3 animate-pulse rounded bg-muted" />
+                      <div className="h-3 w-4/5 animate-pulse rounded bg-muted" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
             ) : threads.length === 0 ? (
-              <div className="p-8 text-sm text-muted-foreground text-center">
-                No messages yet.
-                <br />
-                When you contact a vendor/planner about a booking, it will
-                show up here.
+              <div className="flex flex-col items-center px-6 py-10 text-center">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                  <MessagesSquare className="h-5 w-5" />
+                </span>
+                <p className="mt-3 text-sm font-medium">No conversations yet</p>
+                <p className="mt-1 max-w-[260px] text-xs leading-relaxed text-muted-foreground">
+                  Message a vendor or planner from a service or booking and the
+                  conversation will appear here.
+                </p>
               </div>
             ) : (
-              threads.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => onOpenThread(t)}
-                  className={cn(
-                    "w-full flex items-start gap-3 p-4 hover:bg-muted cursor-pointer transition-colors text-left border-b last:border-b-0",
-                    t.unread && "bg-muted/50"
-                  )}
-                >
-                  <Avatar className="h-9 w-9 shrink-0">
-                    <AvatarFallback>{fallbackFor(t.peerName)}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 space-y-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-medium leading-none truncate">
-                        {t.peerName}
-                      </p>
-                      <p className="text-xs text-muted-foreground shrink-0">
-                        {formatDistanceToNow(new Date(t.lastMessageAt), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    </div>
-                    {t.eventTitle || t.serviceName ? (
-                      <p className="text-[11px] text-muted-foreground truncate">
-                        {[t.eventTitle, t.serviceName]
-                          .filter(Boolean)
-                          .join(" • ")}
-                      </p>
-                    ) : null}
-                    <p className="text-xs text-muted-foreground line-clamp-2">
-                      {t.lastMessage}
-                    </p>
-                  </div>
-                </button>
-              ))
+              <ul className="divide-y">
+                {threads.map((t) => {
+                  const ctx = contextLine(t);
+                  const unread = t.unread || t.unreadCount > 0;
+                  return (
+                    <li key={t.id}>
+                      <button
+                        type="button"
+                        onClick={() => onOpenThread(t)}
+                        className={cn(
+                          "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none",
+                          unread && "bg-primary/[0.04]"
+                        )}
+                      >
+                        <Avatar className="h-10 w-10 shrink-0">
+                          <AvatarFallback className="text-xs font-medium">
+                            {initialsFor(t.peerName)}
+                          </AvatarFallback>
+                        </Avatar>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-baseline justify-between gap-3">
+                            <p
+                              className={cn(
+                                "truncate text-sm",
+                                unread ? "font-semibold" : "font-medium"
+                              )}
+                            >
+                              {t.peerName}
+                            </p>
+                            <span
+                              className={cn(
+                                "shrink-0 whitespace-nowrap text-[11px] tabular-nums",
+                                unread ? "font-medium text-primary" : "text-muted-foreground"
+                              )}
+                            >
+                              {shortTime(t.lastMessageAt)}
+                            </span>
+                          </div>
+
+                          {ctx && (
+                            <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                              {ctx}
+                            </p>
+                          )}
+
+                          <div className="mt-1 flex items-center gap-2">
+                            <p
+                              className={cn(
+                                "min-w-0 flex-1 truncate",
+                                unread ? "text-foreground" : "text-muted-foreground"
+                              )}
+                              style={{
+                                fontSize: 13,
+                                minWidth: 0,
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis',
+                              }}
+                            >
+                              {t.lastMessage || "Sent an attachment"}
+                            </p>
+                            {t.unreadCount > 0 && (
+                              <span
+                                className="flex shrink-0 items-center justify-center rounded-full bg-primary font-semibold leading-none text-primary-foreground"
+                                style={{ height: 20, minWidth: 20, padding: '0 6px', fontSize: 11 }}
+                              >
+                                {t.unreadCount > 99 ? "99+" : t.unreadCount}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
             )}
-          </ScrollArea>
+          </div>
         </PopoverContent>
       </Popover>
 
@@ -227,8 +326,9 @@ export function MessagesDropdown() {
             }
           }}
           peerId={activeThread.peerId}
+          directPeerName={activeThread.peerName}
           trigger={<span />}
-          title={chatTitleFor(activeThread)}
+          title={activeThread.peerName}
           description={chatDescriptionFor(activeThread)}
           contextService={
             activeThread.contextServiceId
@@ -245,10 +345,8 @@ export function MessagesDropdown() {
                     activeThread.contextServiceVendorBusinessName ??
                     activeThread.vendorBusinessName ??
                     activeThread.peerName,
-                  vendorLocation:
-                    activeThread.contextServiceVendorLocation,
-                  occasions:
-                    activeThread.contextServiceOccasions,
+                  vendorLocation: activeThread.contextServiceVendorLocation,
+                  occasions: activeThread.contextServiceOccasions,
                 }
               : undefined
           }

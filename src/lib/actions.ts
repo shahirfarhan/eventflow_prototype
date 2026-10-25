@@ -1,79 +1,62 @@
-// 'use server'
- 
-// import { signIn, auth } from '@/auth'
-// import { AuthError } from 'next-auth'
-// import { redirect } from 'next/navigation'  
-// import { prisma } from '@/lib/prisma'
-
-// export async function authenticate(
-//   prevState: string | undefined,
-//   formData: FormData,
-// ) {
-//   try {
-//     await signIn('credentials', {
-//       email: formData.get('email'),
-//       password: formData.get('password'),
-//       redirect: false,  
-//     })
-//   } catch (error) {
-//     if (error instanceof AuthError) {
-//       switch (error.type) {
-//         case 'CredentialsSignin':
-//           return 'Invalid credentials.'
-//         default:
-//           return 'Something went wrong.'
-//       }
-//     }
-//     throw error
-//   }
-//   const email = formData.get('email') as string
-//   const user = await prisma.user.findUnique({
-//     where: { email },
-//     select: { role: true }
-//   })
-
-//   console.log("role:", user?.role)
-//   if (user?.role === 'VENDOR') {
-//     redirect('/dashboard')
-//   } else if (user?.role === 'ORGANIZER') {
-//     redirect('/')
-//   } else {
-//     redirect('/')
-//   }
-// }
-
-// ---------------
-
 "use server"
 
 import { signIn } from "@/auth"
-import { AuthError } from "next-auth"
+import { AuthError, CredentialsSignin } from "next-auth"
+
+export type LoginState =
+  | { kind: "success" }
+  | { kind: "unverified"; message: string; email: string }
+  | { kind: "pending" | "rejected" | "error"; message: string }
+  | undefined
 
 export async function authenticate(
-  prevState: string | undefined,
+  prevState: LoginState,
   formData: FormData
-) {
+): Promise<LoginState> {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
 
   if (!email || !password) {
-    return "Email and password are required."
+    return { kind: "error", message: "Email and password are required." }
   }
 
   try {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirect: false, // the browser does a full reload instead (see login form)
     })
+    return { kind: "success" }
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return "Invalid email or password."
-        default:
-          return "Something went wrong."
+    // Custom errors thrown from authorize() in auth.ts
+    if (error instanceof CredentialsSignin) {
+      if (error.code === "email_unverified") {
+        return {
+          kind: "unverified",
+          email,
+          message:
+            "Please verify your email before signing in. Check your inbox for the link we sent you.",
+        }
       }
+      if (error.code === "vendor_pending") {
+        return {
+          kind: "pending",
+          message:
+            "Your vendor application is still being reviewed. You'll be able to sign in once our team approves it.",
+        }
+      }
+      if (error.code === "vendor_rejected") {
+        return {
+          kind: "rejected",
+          message:
+            "Your vendor application was not approved. Please contact support if you think this is a mistake.",
+        }
+      }
+      return { kind: "error", message: "Invalid email or password." }
+    }
+
+    if (error instanceof AuthError) {
+      return { kind: "error", message: "Something went wrong." }
     }
 
     throw error
