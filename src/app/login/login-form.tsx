@@ -52,7 +52,7 @@ export default function LoginForm() {
       </CardHeader>
       <form action={dispatch}>
         <CardContent className="grid gap-4">
-          {state && notice && (
+          {state && state.kind !== 'success' && notice && (
             <div
               role="alert"
               className={cn('flex gap-3 rounded-lg border p-3 text-sm', notice.tone)}
