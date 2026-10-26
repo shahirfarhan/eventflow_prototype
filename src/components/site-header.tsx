@@ -65,11 +65,6 @@ export async function SiteHeader() {
             </div>
           ) : (
             <>
-              <Link href="/vendors">
-                <Button variant="ghost" size="sm" className="hidden md:inline-flex">
-                  Vendors
-                </Button>
-              </Link>
               <Link href="/login">
                 <Button variant="ghost" size="sm">Log In</Button>
               </Link>

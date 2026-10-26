@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
+import { sendVendorApprovedEmail, sendVendorRejectedEmail } from "@/lib/mail"
 
 const reviewSchema = z.object({
   action: z.enum(["APPROVE", "REJECT"]),
@@ -51,8 +52,33 @@ export async function PATCH(
             rejectionReason: reason?.trim() || null,
             reviewedAt: new Date(),
           },
-    select: { id: true, vendorStatus: true },
+    // name + email are for the email below
+    select: { id: true, vendorStatus: true, name: true, email: true, rejectionReason: true },
   })
 
-  return NextResponse.json(updated)
+  // Let the vendor know. If the email fails, the decision still stands.
+  let emailSent = false
+  if (updated.email) {
+    try {
+      if (updated.vendorStatus === "APPROVED") {
+        await sendVendorApprovedEmail({
+          to: updated.email,
+          name: null, // the account name is the business name, so greet with a plain "Hi,"
+          businessName: updated.name,
+        })
+      } else {
+        await sendVendorRejectedEmail({
+          to: updated.email,
+          name: null,
+          businessName: updated.name,
+          reason: updated.rejectionReason,
+        })
+      }
+      emailSent = true
+    } catch (err) {
+      console.error(`[PATCH /api/admin/vendors/${id}] Failed to send status email:`, err)
+    }
+  }
+
+  return NextResponse.json({ id: updated.id, vendorStatus: updated.vendorStatus, emailSent })
 }
