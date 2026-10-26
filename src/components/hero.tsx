@@ -13,7 +13,7 @@ export function Hero() {
         <div className="max-w-xl">
           <p className="mb-4 flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <span className="inline-block size-2 rounded-full bg-primary" aria-hidden="true" />
-            Trusted by 2,000+ planners across Malaysia
+            Now open: be one of the first planners on Gaffers
           </p>
           <h1 className="text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
             What Are We Planning Today?

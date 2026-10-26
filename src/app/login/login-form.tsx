@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { Hourglass, XCircle, AlertCircle, MailWarning } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ResendVerificationButton from '@/components/resend-verification-button'
+import { PasswordInput } from '@/components/ui/password-input'
 
 const NOTICE = {
   unverified: {
@@ -85,7 +86,8 @@ export default function LoginForm() {
                 Forgot your password?
               </Link>
             </div>
-            <Input id="password" name="password" type="password" required />
+            {/* <Input id="password" name="password" type="password" required /> */}
+            <PasswordInput id="password" name="password" autoComplete="current-password" required />
           </div>
 
           {state?.kind === 'error' && (

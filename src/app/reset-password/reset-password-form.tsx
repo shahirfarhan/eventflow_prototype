@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { PasswordInput } from '@/components/ui/password-input'
 
 export default function ResetPasswordForm({ token }: { token: string }) {
   const [password, setPassword] = useState('')
@@ -77,9 +78,8 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         <CardContent className="grid gap-4 pb-6">
           <div className="grid gap-2">
             <Label htmlFor="password">New password</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -89,9 +89,8 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirm">Confirm new password</Label>
-            <Input
+            <PasswordInput
               id="confirm"
-              type="password"
               autoComplete="new-password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}

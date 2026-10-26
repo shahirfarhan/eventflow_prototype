@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-import { ServicePhotoStrip } from "@/components/service-photos"
+import { ServicePhotoStrip } from "@/components/service-photos";
 import {
   Card,
   CardContent,
@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 
 import BookingChatDialog, {
   ChatContextService,
@@ -30,9 +29,7 @@ type VendorServicesProps = {
   };
 };
 
-export default function VendorServices({
-  vendor,
-}: VendorServicesProps) {
+export default function VendorServices({ vendor }: VendorServicesProps) {
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedService, setSelectedService] =
     useState<ChatContextService | null>(null);
@@ -52,59 +49,79 @@ export default function VendorServices({
     setChatOpen(true);
   };
 
+  if (vendor.services.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+        No services listed yet.
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="grid gap-4">
-        {vendor.services.map((service) => (
-          <Card key={service.id}>
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle>{service.name}</CardTitle>
+      {/* grid-cols-1 + min-w-0 keep every card inside the screen on phones */}
+      <div className="grid grid-cols-1 gap-3 sm:gap-4">
+        {vendor.services.map((service) => {
+          const bookHref = `/vendors/${vendor.id}/book?serviceId=${service.id}`;
 
-                  <CardDescription className="mt-1">
-                    Starting at{" "}
-                    <span className="font-semibold text-primary">
-                      RM {service.basePrice.toLocaleString()}
-                    </span>
-                  </CardDescription>
-                </div>
+          return (
+            <Card key={service.id} className="min-w-0 overflow-hidden">
+              <CardHeader className="pb-3">
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  {/* Title + price (allowed to shrink and wrap) */}
+                  <div className="min-w-0 flex-1">
+                    <CardTitle className="break-words text-base leading-snug sm:text-lg">
+                      {service.name}
+                    </CardTitle>
 
-                <div className="flex gap-2">
-                  {/* Message */}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => openChat(service)}
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                  </Button>
+                    <CardDescription className="mt-1">
+                      Starting at{" "}
+                      <span className="font-semibold text-primary">
+                        RM {Number(service.basePrice ?? 0).toLocaleString()}
+                      </span>
+                    </CardDescription>
+                  </div>
 
-                  {/* Book */}
-                  <Button asChild>
-                    <Link
-                      href={`/vendors/${vendor.id}/book?serviceId=${service.id}`}
+                  {/* Message + Book: top right on desktop */}
+                  <div className="flex shrink-0 gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-10 w-10"
+                      onClick={() => openChat(service)}
+                      aria-label={`Message ${vendor.businessName} about ${service.name}`}
                     >
-                      Book Now
-                    </Link>
-                  </Button>
+                      <MessageCircle className="h-4 w-4" />
+                    </Button>
+
+                    <Button asChild className="hidden sm:inline-flex">
+                      <Link href={bookHref}>Book Now</Link>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </CardHeader>
+              </CardHeader>
 
-            <CardContent>
-              <p className="text-sm text-gray-500">
-                {service.description || "No description provided."}
-              </p>
-              <div className="mt-4">
-                <ServicePhotoStrip name={service.name} images={service.images ?? []} />
-              </div>
+              <CardContent className="min-w-0 space-y-4">
+                {/* pre-line keeps the vendor's line breaks but still wraps long lines */}
+                <p className="whitespace-pre-line break-words text-sm leading-relaxed text-muted-foreground">
+                  {service.description || "No description provided."}
+                </p>
 
-              {/* Your images/packages can remain here */}
-            </CardContent>
-          </Card>
-        ))}
+                {service.images?.length > 0 && (
+                  <div className="min-w-0">
+                    <ServicePhotoStrip name={service.name} images={service.images} />
+                  </div>
+                )}
+
+                {/* Book: full width at the bottom on phones */}
+                <Button asChild className="h-11 w-full sm:hidden">
+                  <Link href={bookHref}>Book Now</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* ONE chat dialog for this vendor */}

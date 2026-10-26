@@ -228,13 +228,13 @@ export default async function VendorsPage({
           </p>
         </div>
 
-        {!session?.user && (
+        {/* {!session?.user && (
           <Link href="/vendors/register">
             <Button size="lg">
               Register as a vendor
             </Button>
-          </Link>
-        )}
+          </Link> */}
+        {/* )} */}
       </div>
 
       {/* ========================================================
