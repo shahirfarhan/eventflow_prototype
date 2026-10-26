@@ -5,10 +5,11 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { PasswordInput } from '@/components/ui/password-input'
+import { PasswordChecklist } from '@/components/password-checklist'
+import { passwordProblem } from '@/lib/password-rules'
 
 export default function ResetPasswordForm({ token }: { token: string }) {
   const [password, setPassword] = useState('')
@@ -17,12 +18,15 @@ export default function ResetPasswordForm({ token }: { token: string }) {
   const [isLoading, setIsLoading] = useState(false)
   const [done, setDone] = useState(false)
 
+  const mismatch = confirm.length > 0 && password !== confirm
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+    const problem = passwordProblem(password)
+    if (problem) {
+      setError(problem)
       return
     }
     if (password !== confirm) {
@@ -86,6 +90,8 @@ export default function ResetPasswordForm({ token }: { token: string }) {
               required
               autoFocus
             />
+            {/* One column: the card is narrow */}
+            <PasswordChecklist password={password} className="mt-1 sm:grid-cols-1" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirm">Confirm new password</Label>
@@ -94,8 +100,10 @@ export default function ResetPasswordForm({ token }: { token: string }) {
               autoComplete="new-password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
+              aria-invalid={mismatch}
               required
             />
+            {mismatch && <p className="text-xs text-red-500">Passwords don&apos;t match yet</p>}
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
         </CardContent>

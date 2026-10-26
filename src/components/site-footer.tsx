@@ -22,15 +22,15 @@ function Logo() {
 const columns = [
   {
     heading: "Product",
-    links: ["How it works", "Pricing", "For vendors", "Dashboard"],
+    links: ["How it works", "Pricing"],
   },
   {
     heading: "Company",
-    links: ["About", "Careers", "Blog", "Contact"],
+    links: ["About", "Contact"],
   },
   {
     heading: "Support",
-    links: ["Help center", "Trust & safety", "Terms", "Privacy"],
+    links: ["Help center", "Terms & Privacy"],
   },
 ]
 
