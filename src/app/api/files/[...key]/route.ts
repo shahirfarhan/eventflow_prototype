@@ -1,5 +1,14 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare"
 
+
+/** Just the part of Cloudflare's R2 bucket we use (no generated types needed). */
+type Bucket = {
+  get(key: string): Promise<{
+    body: ReadableStream
+    httpEtag: string
+    writeHttpMetadata(headers: Headers): void
+  } | null>
+}
 /**
  * GET /api/files/<key>
  * Serves an uploaded image from R2. Images never change (each upload gets a new
@@ -18,7 +27,7 @@ export async function GET(
   }
 
   const { env } = await getCloudflareContext({ async: true })
-  const bucket = (env as unknown as { UPLOADS?: R2Bucket }).UPLOADS
+  const bucket = (env as unknown as { UPLOADS?: Bucket }).UPLOADS
   if (!bucket) return new Response("Uploads are not set up", { status: 500 })
 
   const object = await bucket.get(key)

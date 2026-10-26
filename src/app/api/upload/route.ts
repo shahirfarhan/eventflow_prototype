@@ -125,6 +125,15 @@ import { NextResponse } from "next/server"
 import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { auth } from "@/auth"
 
+/** Just the part of Cloudflare's R2 bucket we use (no generated types needed). */
+type Bucket = {
+  put(
+    key: string,
+    value: ArrayBuffer,
+    options?: { httpMetadata?: { contentType?: string; cacheControl?: string } },
+  ): Promise<unknown>
+}
+
 /**
  * POST /api/upload  (form field: "file")
  * Saves the image to Cloudflare R2 (bucket bound as UPLOADS in wrangler.jsonc)
@@ -171,7 +180,7 @@ export async function POST(req: Request) {
   }
 
   const { env } = await getCloudflareContext({ async: true })
-  const bucket = (env as unknown as { UPLOADS?: R2Bucket }).UPLOADS
+  const bucket = (env as unknown as { UPLOADS?: Bucket }).UPLOADS
   if (!bucket) {
     console.error("[POST /api/upload] R2 binding UPLOADS is missing — check wrangler.jsonc")
     return NextResponse.json({ error: "Uploads are not set up yet" }, { status: 500 })
