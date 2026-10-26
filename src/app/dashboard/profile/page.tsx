@@ -105,7 +105,6 @@ export default async function VendorProfileSettingsPage() {
                 youtube: profile?.youtube ?? "",
                 twitter: profile?.twitter ?? "",
                 linkedin: profile?.linkedin ?? "",
-                pinterest: profile?.pinterest ?? "",
               },
             }}
           />
