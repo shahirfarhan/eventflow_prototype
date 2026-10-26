@@ -42,7 +42,8 @@ export default async function VendorsPage({
   // BUILD FILTERS
   // ============================================================
 
-  let where: any = {};
+  // Only approved vendors are shown to planners
+  let where: any = { user: { vendorStatus: "APPROVED" } };
 
   if (category && category !== "All") {
     where.category = category;
@@ -178,6 +179,7 @@ export default async function VendorsPage({
     : [0, 0];
 
   const allVendors = await prisma.vendorProfile.findMany({
+    where: { user: { vendorStatus: "APPROVED" } },
     select: {
       category: true,
     },

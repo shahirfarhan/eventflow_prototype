@@ -1,30 +1,76 @@
+// import { prisma } from "@/lib/prisma";
+// import { NextResponse } from "next/server";
+
+// export async function GET(req: Request) {
+//   const { searchParams } = new URL(req.url);
+//   const query = searchParams.get("query");
+//   const category = searchParams.get("category");
+//   const location = searchParams.get("location");
+
+//   const where: any = {};
+
+//   if (query) {
+//     where.OR = [
+//       { businessName: { contains: query } }, // removed mode: 'insensitive' for SQLite compatibility if needed, but Prisma usually handles it.
+//       // Note: SQLite support for insensitive search is limited. 
+//       // If using PostgreSQL later, add mode: 'insensitive'.
+//       // For now, I'll stick to basic contains.
+//       { description: { contains: query } },
+//     ];
+//   }
+
+//   if (category) {
+//     where.category = { contains: category };
+//   }
+
+//   if (location) {
+//     where.location = { contains: location };
+//   }
+
+//   try {
+//     const vendors = await prisma.vendorProfile.findMany({
+//       where,
+//       include: {
+//         services: {
+//           take: 3, // Show a few services
+//         }
+//       }
+//     });
+
+//     return NextResponse.json(vendors);
+//   } catch (error) {
+//     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+//   }
+// }
+
+
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const query = searchParams.get("query");
-  const category = searchParams.get("category");
-  const location = searchParams.get("location");
+  const query = searchParams.get("query")?.trim();
+  const category = searchParams.get("category")?.trim();
+  const location = searchParams.get("location")?.trim();
 
-  const where: any = {};
+  // Only approved vendors are ever returned
+  const where: any = {
+    user: { vendorStatus: "APPROVED" },
+  };
 
   if (query) {
     where.OR = [
-      { businessName: { contains: query } }, // removed mode: 'insensitive' for SQLite compatibility if needed, but Prisma usually handles it.
-      // Note: SQLite support for insensitive search is limited. 
-      // If using PostgreSQL later, add mode: 'insensitive'.
-      // For now, I'll stick to basic contains.
-      { description: { contains: query } },
+      { businessName: { contains: query, mode: "insensitive" } },
+      { description: { contains: query, mode: "insensitive" } },
     ];
   }
 
   if (category) {
-    where.category = { contains: category };
+    where.category = { contains: category, mode: "insensitive" };
   }
 
   if (location) {
-    where.location = { contains: location };
+    where.location = { contains: location, mode: "insensitive" };
   }
 
   try {
@@ -33,12 +79,13 @@ export async function GET(req: Request) {
       include: {
         services: {
           take: 3, // Show a few services
-        }
-      }
+        },
+      },
     });
 
     return NextResponse.json(vendors);
   } catch (error) {
+    console.error("[GET /api/vendors] error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

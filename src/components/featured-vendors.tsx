@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function FeaturedVendors() {
   const vendors = await prisma.vendorProfile.findMany({
+    where: { user: { vendorStatus: "APPROVED" } },
     take: 3,
     include: {
       user: true,

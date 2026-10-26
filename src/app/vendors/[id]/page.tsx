@@ -42,6 +42,7 @@ export default async function PublicVendorDetailsPage({
         select: {
           id: true,
           email: true,
+          vendorStatus: true,
         },
       },
       services: {
@@ -71,6 +72,14 @@ export default async function PublicVendorDetailsPage({
   });
 
   if (!vendor) {
+    notFound();
+  }
+
+  // Unapproved vendors: only the vendor themselves and admins can see the page
+  const isApproved = vendor.user.vendorStatus === "APPROVED";
+  const canPreview =
+    session?.user?.id === vendor.user.id || session?.user?.role === "ADMIN";
+  if (!isApproved && !canPreview) {
     notFound();
   }
 
