@@ -10,7 +10,8 @@ export const POLICIES_COMPANY = "Gaffers Application"
 
 export type PolicyBlock =
   | { type: "p"; text: string }
-  | { type: "ul" | "ol"; items: string[] }
+  | { type: "ul"; items: string[] }
+  | { type: "ol"; items: string[] }
   | { type: "table"; head: string[]; rows: string[][] }
 
 export type PolicySection = { number: string; title: string; blocks: PolicyBlock[] }
