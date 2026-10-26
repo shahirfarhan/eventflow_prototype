@@ -1858,6 +1858,7 @@ export const VendorProfileScalarFieldEnum = {
   youtube: 'youtube',
   twitter: 'twitter',
   linkedin: 'linkedin',
+  paymentQrUrl: 'paymentQrUrl',
   galleryImages: 'galleryImages'
 } as const
 
@@ -1958,7 +1959,10 @@ export const BookingScalarFieldEnum = {
   organizerDisputedAt: 'organizerDisputedAt',
   notes: 'notes',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paymentReceiptUrl: 'paymentReceiptUrl',
+  paymentSubmittedAt: 'paymentSubmittedAt',
+  paymentVerifiedAt: 'paymentVerifiedAt'
 } as const
 
 export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]

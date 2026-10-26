@@ -13,12 +13,16 @@ import {
   Check,
   ChevronDown,
   CreditCard,
+  Loader2,
   MessageSquare,
+  Receipt,
   Search,
+  ShieldCheck,
   X,
 } from "lucide-react";
 
 import OpenChatButton from "./open-chat-button";
+import { PayDialog } from "./pay-dialog";
 import { cn } from "@/lib/utils";
 import {
   APP_TIME_ZONE,
@@ -49,6 +53,10 @@ interface Booking {
   specialRequests: string | null;
   vendorProvidedAt: string | null;
   organizerDisputedAt: string | null;
+  /** Pay-by-QR: the planner's uploaded receipt, and when it was sent / verified */
+  paymentReceiptUrl?: string | null;
+  paymentSubmittedAt?: string | Date | null;
+  paymentVerifiedAt?: string | Date | null;
 
   event: {
     id: string;
@@ -69,6 +77,8 @@ interface Booking {
     id: string;
     /** The vendor's user account id, needed to find your existing chat with them */
     userId?: string | null;
+    /** The vendor's payment QR picture, shown in the Pay now pop-up */
+    paymentQrUrl?: string | null;
   };
 
   organizer?: {
@@ -88,6 +98,9 @@ interface BookingsListProps {
 }
 
 type Tab = "requests" | "upcoming" | "past";
+
+/** Accepted, being paid, or paid: the booking is going ahead */
+const ACTIVE_STATUSES = ["ACCEPTED", "PAYMENT_PENDING", "PAID"];
 
 /* ================================================================
    HELPERS
@@ -115,7 +128,7 @@ const timeRange = (booking: Booking) => {
 function tabFor(booking: Booking, today: string): Tab {
   const isFuture = dayKey(booking.date) >= today;
   if (booking.status === "PENDING" && isFuture) return "requests";
-  if ((booking.status === "ACCEPTED" || booking.status === "PAID") && isFuture) return "upcoming";
+  if (ACTIVE_STATUSES.includes(booking.status) && isFuture) return "upcoming";
   return "past";
 }
 
@@ -250,6 +263,34 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
         throw new Error(text || "Failed to send message");
       }
       toast.success("Message sent to vendor");
+    } catch (e: any) {
+      toast.error(e?.message || "Something went wrong");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  /** Vendor checks the planner's receipt: verify → PAID, reject → back to unpaid */
+  const reviewPayment = async (bookingId: string, action: "verify" | "reject") => {
+    if (
+      action === "reject" &&
+      !confirm(
+        "Mark this payment as not received? The planner will be asked to pay and upload a receipt again.",
+      )
+    )
+      return;
+
+    setProcessingId(bookingId);
+    try {
+      const res = await fetch(`/api/bookings/${bookingId}/payment/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      const json = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(json?.error || "Could not update the payment");
+      toast.success(action === "verify" ? "Payment verified" : "Payment marked as not received");
+      router.refresh();
     } catch (e: any) {
       toast.error(e?.message || "Something went wrong");
     } finally {
@@ -456,6 +497,7 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 onProvided={markProvided}
                 onDispute={dispute}
                 onAskProvided={askProvided}
+                onReviewPayment={reviewPayment}
                       />
                     </div>
                   )}
@@ -484,6 +526,7 @@ export default function BookingsList({ bookings, userRole, events }: BookingsLis
                 onProvided={markProvided}
                 onDispute={dispute}
                 onAskProvided={askProvided}
+                onReviewPayment={reviewPayment}
               />
             )}
           </div>
@@ -509,6 +552,7 @@ function BookingDetail({
   onProvided,
   onDispute,
   onAskProvided,
+  onReviewPayment,
 }: {
   booking: Booking;
   /** Phones: the card above already shows the title, so skip it and tighten spacing */
@@ -523,18 +567,21 @@ function BookingDetail({
   onProvided: (id: string) => void;
   onDispute: (id: string) => void;
   onAskProvided: (id: string) => void;
+  onReviewPayment: (id: string, action: "verify" | "reject") => void;
 }) {
   const name = getBookingName(booking);
   const planner = plannerName(booking);
   const isPending = booking.status === "PENDING";
-  const live = booking.status === "ACCEPTED" || booking.status === "PAID";
+  const live = ACTIVE_STATUSES.includes(booking.status);
+  const awaitingVerification = booking.status === "PAYMENT_PENDING";
+  const [payOpen, setPayOpen] = useState(false);
 
   /* ---------- Vendor: is that day already taken? ---------- */
   const clash = isVendor
     ? allBookings.find(
         (other) =>
           other.id !== booking.id &&
-          (other.status === "ACCEPTED" || other.status === "PAID") &&
+          ACTIVE_STATUSES.includes(other.status) &&
           dayKey(other.date) === dayKey(booking.date),
       )
     : undefined;
@@ -699,6 +746,61 @@ function BookingDetail({
         </div>
       )}
 
+      {/* Payment (pay-by-QR receipt) */}
+      {(awaitingVerification || (booking.status !== "ACCEPTED" && booking.paymentReceiptUrl)) && (
+        <div
+          className={cn(
+            "mt-4 flex items-start gap-3 rounded-xl border p-3 sm:mt-5 sm:p-4",
+            awaitingVerification
+              ? "border-amber-200 bg-amber-50 text-amber-900"
+              : "border-emerald-200 bg-emerald-50 text-emerald-900",
+          )}
+        >
+          {booking.paymentReceiptUrl ? (
+            <a
+              href={booking.paymentReceiptUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-20 w-16 shrink-0 overflow-hidden rounded-lg border border-black/10 bg-white"
+              title="Open receipt"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={booking.paymentReceiptUrl} alt="Payment receipt" className="h-full w-full object-cover" />
+            </a>
+          ) : (
+            <Receipt className="mt-0.5 h-5 w-5 shrink-0" />
+          )}
+          <div className="min-w-0 text-sm leading-relaxed">
+            <p className="font-semibold">
+              {awaitingVerification
+                ? isVendor
+                  ? `${planner} says they've paid ${formatRM(booking.price)}`
+                  : "Receipt sent. Waiting for the vendor to verify"
+                : "Payment verified"}
+            </p>
+            <p className="mt-0.5">
+              {awaitingVerification
+                ? isVendor
+                  ? "Check this amount has arrived in your account before verifying."
+                  : `${booking.vendor?.businessName ?? "The vendor"} will confirm once they've checked your payment.`
+                : booking.paymentVerifiedAt
+                  ? `Confirmed ${formatDistanceToNow(new Date(booking.paymentVerifiedAt), { addSuffix: true })}.`
+                  : "The vendor has confirmed this payment."}
+            </p>
+            {booking.paymentReceiptUrl && (
+              <a
+                href={booking.paymentReceiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block font-semibold underline underline-offset-4"
+              >
+                View receipt
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Actions (hidden for admins, who only view) */}
       {!readOnly && (
       <>
@@ -765,12 +867,36 @@ function BookingDetail({
             <button
               type="button"
               className={buttonPrimary}
-              onClick={() => onStatus(booking.id, "PAID")}
+              onClick={() => setPayOpen(true)}
               disabled={busy}
             >
               <CreditCard className="h-4 w-4" />
               Pay now
             </button>
+          )}
+
+          {/* Vendor → Check the receipt */}
+          {isVendor && awaitingVerification && (
+            <>
+              <button
+                type="button"
+                className={cn(buttonSecondary, "text-red-700")}
+                onClick={() => onReviewPayment(booking.id, "reject")}
+                disabled={busy}
+              >
+                <X className="h-4 w-4" />
+                Not received
+              </button>
+              <button
+                type="button"
+                className={buttonPrimary}
+                onClick={() => onReviewPayment(booking.id, "verify")}
+                disabled={busy}
+              >
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
+                Verify payment
+              </button>
+            </>
           )}
 
           {/* Vendor → Service provided (on the day) */}
@@ -826,6 +952,19 @@ function BookingDetail({
         </div>
       </div>
       </>
+      )}
+
+      {!isVendor && (
+        <PayDialog
+          open={payOpen}
+          onClose={() => setPayOpen(false)}
+          bookingId={booking.id}
+          amount={booking.price}
+          bookingName={name}
+          eventTitle={booking.event?.title}
+          vendorName={booking.vendor?.businessName ?? "the vendor"}
+          qrUrl={booking.vendor?.paymentQrUrl}
+        />
       )}
     </article>
   );

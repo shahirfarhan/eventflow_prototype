@@ -96,6 +96,8 @@ export default async function VendorProfileSettingsPage() {
               photos: [profile?.imageUrl, ...(profile?.galleryImages ?? [])]
                 .filter((u): u is string => !!u)
                 .slice(0, 8),
+              // The payment QR picture (empty = none uploaded yet)
+              paymentQrUrl: profile?.paymentQrUrl ?? "",
               socials: {
                 instagram: profile?.instagram ?? "",
                 facebook: profile?.facebook ?? "",
@@ -103,6 +105,7 @@ export default async function VendorProfileSettingsPage() {
                 youtube: profile?.youtube ?? "",
                 twitter: profile?.twitter ?? "",
                 linkedin: profile?.linkedin ?? "",
+                pinterest: profile?.pinterest ?? "",
               },
             }}
           />

@@ -69,6 +69,7 @@ export default async function BookingsPage() {
           businessName: true,
           id: true,
           userId: true, // so "Message vendor" can find your existing chat
+          paymentQrUrl: true, // shown in the "Pay now" pop-up
         },
       },
     },

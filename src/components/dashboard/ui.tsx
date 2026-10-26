@@ -147,6 +147,7 @@ export function DateBlock({
 const statusStyles: Record<string, { label: string; className: string }> = {
   PENDING: { label: "Pending", className: "bg-amber-50 text-amber-800" },
   ACCEPTED: { label: "Accepted · unpaid", className: "bg-blue-50 text-blue-700" },
+  PAYMENT_PENDING: { label: "Payment verification pending", className: "bg-amber-50 text-amber-800" },
   PAID: { label: "Paid", className: "bg-emerald-50 text-emerald-700" },
   COMPLETED: { label: "Completed", className: "bg-muted text-muted-foreground" },
   REJECTED: { label: "Declined", className: "bg-red-50 text-red-700" },

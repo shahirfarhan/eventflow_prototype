@@ -70,6 +70,9 @@ export type BookingMinAggregateOutputType = {
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  paymentReceiptUrl: string | null
+  paymentSubmittedAt: Date | null
+  paymentVerifiedAt: Date | null
 }
 
 export type BookingMaxAggregateOutputType = {
@@ -99,6 +102,9 @@ export type BookingMaxAggregateOutputType = {
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  paymentReceiptUrl: string | null
+  paymentSubmittedAt: Date | null
+  paymentVerifiedAt: Date | null
 }
 
 export type BookingCountAggregateOutputType = {
@@ -128,6 +134,9 @@ export type BookingCountAggregateOutputType = {
   notes: number
   createdAt: number
   updatedAt: number
+  paymentReceiptUrl: number
+  paymentSubmittedAt: number
+  paymentVerifiedAt: number
   _all: number
 }
 
@@ -177,6 +186,9 @@ export type BookingMinAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  paymentReceiptUrl?: true
+  paymentSubmittedAt?: true
+  paymentVerifiedAt?: true
 }
 
 export type BookingMaxAggregateInputType = {
@@ -206,6 +218,9 @@ export type BookingMaxAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  paymentReceiptUrl?: true
+  paymentSubmittedAt?: true
+  paymentVerifiedAt?: true
 }
 
 export type BookingCountAggregateInputType = {
@@ -235,6 +250,9 @@ export type BookingCountAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  paymentReceiptUrl?: true
+  paymentSubmittedAt?: true
+  paymentVerifiedAt?: true
   _all?: true
 }
 
@@ -351,6 +369,9 @@ export type BookingGroupByOutputType = {
   notes: string | null
   createdAt: Date
   updatedAt: Date
+  paymentReceiptUrl: string | null
+  paymentSubmittedAt: Date | null
+  paymentVerifiedAt: Date | null
   _count: BookingCountAggregateOutputType | null
   _avg: BookingAvgAggregateOutputType | null
   _sum: BookingSumAggregateOutputType | null
@@ -403,6 +424,9 @@ export type BookingWhereInput = {
   notes?: Prisma.StringNullableFilter<"Booking"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
+  paymentReceiptUrl?: Prisma.StringNullableFilter<"Booking"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
+  paymentVerifiedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorProfileScalarRelationFilter, Prisma.VendorProfileWhereInput>
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -443,6 +467,9 @@ export type BookingOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  paymentReceiptUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   event?: Prisma.EventOrderByWithRelationInput
   vendor?: Prisma.VendorProfileOrderByWithRelationInput
   organizer?: Prisma.UserOrderByWithRelationInput
@@ -486,6 +513,9 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"Booking"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
+  paymentReceiptUrl?: Prisma.StringNullableFilter<"Booking"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
+  paymentVerifiedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorProfileScalarRelationFilter, Prisma.VendorProfileWhereInput>
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -526,6 +556,9 @@ export type BookingOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  paymentReceiptUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.BookingCountOrderByAggregateInput
   _avg?: Prisma.BookingAvgOrderByAggregateInput
   _max?: Prisma.BookingMaxOrderByAggregateInput
@@ -563,6 +596,9 @@ export type BookingScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Booking"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Booking"> | Date | string
+  paymentReceiptUrl?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
+  paymentVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
 }
 
 export type BookingCreateInput = {
@@ -587,6 +623,9 @@ export type BookingCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -627,6 +666,9 @@ export type BookingUncheckedCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -657,6 +699,9 @@ export type BookingUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -697,6 +742,9 @@ export type BookingUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -732,6 +780,9 @@ export type BookingCreateManyInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateManyMutationInput = {
@@ -756,6 +807,9 @@ export type BookingUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingUncheckedUpdateManyInput = {
@@ -785,6 +839,9 @@ export type BookingUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingListRelationFilter = {
@@ -824,6 +881,9 @@ export type BookingCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  paymentReceiptUrl?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentVerifiedAt?: Prisma.SortOrder
 }
 
 export type BookingAvgOrderByAggregateInput = {
@@ -862,6 +922,9 @@ export type BookingMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  paymentReceiptUrl?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentVerifiedAt?: Prisma.SortOrder
 }
 
 export type BookingMinOrderByAggregateInput = {
@@ -891,6 +954,9 @@ export type BookingMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  paymentReceiptUrl?: Prisma.SortOrder
+  paymentSubmittedAt?: Prisma.SortOrder
+  paymentVerifiedAt?: Prisma.SortOrder
 }
 
 export type BookingSumOrderByAggregateInput = {
@@ -1234,6 +1300,9 @@ export type BookingCreateWithoutOrganizerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   package?: Prisma.PackageCreateNestedOneWithoutBookingsInput
@@ -1272,6 +1341,9 @@ export type BookingUncheckedCreateWithoutOrganizerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -1336,6 +1408,9 @@ export type BookingScalarWhereInput = {
   notes?: Prisma.StringNullableFilter<"Booking"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Booking"> | Date | string
+  paymentReceiptUrl?: Prisma.StringNullableFilter<"Booking"> | string | null
+  paymentSubmittedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
+  paymentVerifiedAt?: Prisma.DateTimeNullableFilter<"Booking"> | Date | string | null
 }
 
 export type BookingCreateWithoutVendorInput = {
@@ -1360,6 +1435,9 @@ export type BookingCreateWithoutVendorInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
   package?: Prisma.PackageCreateNestedOneWithoutBookingsInput
@@ -1398,6 +1476,9 @@ export type BookingUncheckedCreateWithoutVendorInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -1454,6 +1535,9 @@ export type BookingCreateWithoutServiceInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -1492,6 +1576,9 @@ export type BookingUncheckedCreateWithoutServiceInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -1548,6 +1635,9 @@ export type BookingCreateWithoutPackageInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -1586,6 +1676,9 @@ export type BookingUncheckedCreateWithoutPackageInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -1642,6 +1735,9 @@ export type BookingCreateWithoutEventInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
   package?: Prisma.PackageCreateNestedOneWithoutBookingsInput
@@ -1680,6 +1776,9 @@ export type BookingUncheckedCreateWithoutEventInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -1736,6 +1835,9 @@ export type BookingCreateWithoutQuotesInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -1775,6 +1877,9 @@ export type BookingUncheckedCreateWithoutQuotesInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutBookingInput
@@ -1820,6 +1925,9 @@ export type BookingUpdateWithoutQuotesInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -1859,6 +1967,9 @@ export type BookingUncheckedUpdateWithoutQuotesInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutBookingNestedInput
@@ -1888,6 +1999,9 @@ export type BookingCreateWithoutPaymentsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -1927,6 +2041,9 @@ export type BookingUncheckedCreateWithoutPaymentsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutBookingInput
@@ -1972,6 +2089,9 @@ export type BookingUpdateWithoutPaymentsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2011,6 +2131,9 @@ export type BookingUncheckedUpdateWithoutPaymentsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutBookingNestedInput
@@ -2040,6 +2163,9 @@ export type BookingCreateWithoutReviewInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -2079,6 +2205,9 @@ export type BookingUncheckedCreateWithoutReviewInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutBookingInput
@@ -2124,6 +2253,9 @@ export type BookingUpdateWithoutReviewInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2163,6 +2295,9 @@ export type BookingUncheckedUpdateWithoutReviewInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutBookingNestedInput
@@ -2192,6 +2327,9 @@ export type BookingCreateWithoutMessagesInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -2231,6 +2369,9 @@ export type BookingUncheckedCreateWithoutMessagesInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -2276,6 +2417,9 @@ export type BookingUpdateWithoutMessagesInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2315,6 +2459,9 @@ export type BookingUncheckedUpdateWithoutMessagesInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2344,6 +2491,9 @@ export type BookingCreateWithoutNotificationsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -2383,6 +2533,9 @@ export type BookingUncheckedCreateWithoutNotificationsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -2428,6 +2581,9 @@ export type BookingUpdateWithoutNotificationsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2467,6 +2623,9 @@ export type BookingUncheckedUpdateWithoutNotificationsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2496,6 +2655,9 @@ export type BookingCreateWithoutChatQuotationsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   event: Prisma.EventCreateNestedOneWithoutBookingsInput
   vendor: Prisma.VendorProfileCreateNestedOneWithoutBookingsInput
   organizer: Prisma.UserCreateNestedOneWithoutBookingsInput
@@ -2535,6 +2697,9 @@ export type BookingUncheckedCreateWithoutChatQuotationsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
@@ -2580,6 +2745,9 @@ export type BookingUpdateWithoutChatQuotationsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2619,6 +2787,9 @@ export type BookingUncheckedUpdateWithoutChatQuotationsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2652,6 +2823,9 @@ export type BookingCreateManyOrganizerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateWithoutOrganizerInput = {
@@ -2676,6 +2850,9 @@ export type BookingUpdateWithoutOrganizerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   package?: Prisma.PackageUpdateOneWithoutBookingsNestedInput
@@ -2714,6 +2891,9 @@ export type BookingUncheckedUpdateWithoutOrganizerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2748,6 +2928,9 @@ export type BookingUncheckedUpdateManyWithoutOrganizerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingCreateManyVendorInput = {
@@ -2776,6 +2959,9 @@ export type BookingCreateManyVendorInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateWithoutVendorInput = {
@@ -2800,6 +2986,9 @@ export type BookingUpdateWithoutVendorInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   package?: Prisma.PackageUpdateOneWithoutBookingsNestedInput
@@ -2838,6 +3027,9 @@ export type BookingUncheckedUpdateWithoutVendorInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2872,6 +3064,9 @@ export type BookingUncheckedUpdateManyWithoutVendorInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingCreateManyServiceInput = {
@@ -2900,6 +3095,9 @@ export type BookingCreateManyServiceInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateWithoutServiceInput = {
@@ -2924,6 +3122,9 @@ export type BookingUpdateWithoutServiceInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -2962,6 +3163,9 @@ export type BookingUncheckedUpdateWithoutServiceInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -2996,6 +3200,9 @@ export type BookingUncheckedUpdateManyWithoutServiceInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingCreateManyPackageInput = {
@@ -3024,6 +3231,9 @@ export type BookingCreateManyPackageInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateWithoutPackageInput = {
@@ -3048,6 +3258,9 @@ export type BookingUpdateWithoutPackageInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutBookingsNestedInput
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -3086,6 +3299,9 @@ export type BookingUncheckedUpdateWithoutPackageInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -3120,6 +3336,9 @@ export type BookingUncheckedUpdateManyWithoutPackageInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type BookingCreateManyEventInput = {
@@ -3148,6 +3367,9 @@ export type BookingCreateManyEventInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  paymentReceiptUrl?: string | null
+  paymentSubmittedAt?: Date | string | null
+  paymentVerifiedAt?: Date | string | null
 }
 
 export type BookingUpdateWithoutEventInput = {
@@ -3172,6 +3394,9 @@ export type BookingUpdateWithoutEventInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vendor?: Prisma.VendorProfileUpdateOneRequiredWithoutBookingsNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   package?: Prisma.PackageUpdateOneWithoutBookingsNestedInput
@@ -3210,6 +3435,9 @@ export type BookingUncheckedUpdateWithoutEventInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
@@ -3244,6 +3472,9 @@ export type BookingUncheckedUpdateManyWithoutEventInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentSubmittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -3340,6 +3571,9 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  paymentReceiptUrl?: boolean
+  paymentSubmittedAt?: boolean
+  paymentVerifiedAt?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorProfileDefaultArgs<ExtArgs>
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -3381,6 +3615,9 @@ export type BookingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  paymentReceiptUrl?: boolean
+  paymentSubmittedAt?: boolean
+  paymentVerifiedAt?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorProfileDefaultArgs<ExtArgs>
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -3415,6 +3652,9 @@ export type BookingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  paymentReceiptUrl?: boolean
+  paymentSubmittedAt?: boolean
+  paymentVerifiedAt?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorProfileDefaultArgs<ExtArgs>
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -3449,9 +3689,12 @@ export type BookingSelectScalar = {
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  paymentReceiptUrl?: boolean
+  paymentSubmittedAt?: boolean
+  paymentVerifiedAt?: boolean
 }
 
-export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "vendorId" | "organizerId" | "packageId" | "serviceId" | "status" | "date" | "price" | "location" | "guests" | "startTime" | "endTime" | "minAge" | "maxAge" | "venueType" | "venueAccess" | "budgetMin" | "budgetMax" | "specialRequests" | "vendorProvidedAt" | "organizerConfirmedAt" | "organizerDisputedAt" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "vendorId" | "organizerId" | "packageId" | "serviceId" | "status" | "date" | "price" | "location" | "guests" | "startTime" | "endTime" | "minAge" | "maxAge" | "venueType" | "venueAccess" | "budgetMin" | "budgetMax" | "specialRequests" | "vendorProvidedAt" | "organizerConfirmedAt" | "organizerDisputedAt" | "notes" | "createdAt" | "updatedAt" | "paymentReceiptUrl" | "paymentSubmittedAt" | "paymentVerifiedAt", ExtArgs["result"]["booking"]>
 export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorProfileDefaultArgs<ExtArgs>
@@ -3523,6 +3766,9 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     notes: string | null
     createdAt: Date
     updatedAt: Date
+    paymentReceiptUrl: string | null
+    paymentSubmittedAt: Date | null
+    paymentVerifiedAt: Date | null
   }, ExtArgs["result"]["booking"]>
   composites: {}
 }
@@ -3983,6 +4229,9 @@ export interface BookingFieldRefs {
   readonly notes: Prisma.FieldRef<"Booking", 'String'>
   readonly createdAt: Prisma.FieldRef<"Booking", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Booking", 'DateTime'>
+  readonly paymentReceiptUrl: Prisma.FieldRef<"Booking", 'String'>
+  readonly paymentSubmittedAt: Prisma.FieldRef<"Booking", 'DateTime'>
+  readonly paymentVerifiedAt: Prisma.FieldRef<"Booking", 'DateTime'>
 }
     
 

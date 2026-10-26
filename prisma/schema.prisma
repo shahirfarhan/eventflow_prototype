@@ -102,6 +102,8 @@ model VendorProfile {
   twitter       String?   // X
   linkedin      String?
 
+  paymentQrUrl  String?
+
   galleryImages String[]  @default([])
 
   // Relationships
@@ -231,6 +233,10 @@ model Booking {
   notes         String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+  paymentReceiptUrl   String?
+  paymentSubmittedAt  DateTime?
+  paymentVerifiedAt   DateTime?
   
 
   // Relationships

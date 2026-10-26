@@ -53,6 +53,7 @@ export type VendorProfileMinAggregateOutputType = {
   youtube: string | null
   twitter: string | null
   linkedin: string | null
+  paymentQrUrl: string | null
 }
 
 export type VendorProfileMaxAggregateOutputType = {
@@ -75,6 +76,7 @@ export type VendorProfileMaxAggregateOutputType = {
   youtube: string | null
   twitter: string | null
   linkedin: string | null
+  paymentQrUrl: string | null
 }
 
 export type VendorProfileCountAggregateOutputType = {
@@ -97,6 +99,7 @@ export type VendorProfileCountAggregateOutputType = {
   youtube: number
   twitter: number
   linkedin: number
+  paymentQrUrl: number
   galleryImages: number
   _all: number
 }
@@ -130,6 +133,7 @@ export type VendorProfileMinAggregateInputType = {
   youtube?: true
   twitter?: true
   linkedin?: true
+  paymentQrUrl?: true
 }
 
 export type VendorProfileMaxAggregateInputType = {
@@ -152,6 +156,7 @@ export type VendorProfileMaxAggregateInputType = {
   youtube?: true
   twitter?: true
   linkedin?: true
+  paymentQrUrl?: true
 }
 
 export type VendorProfileCountAggregateInputType = {
@@ -174,6 +179,7 @@ export type VendorProfileCountAggregateInputType = {
   youtube?: true
   twitter?: true
   linkedin?: true
+  paymentQrUrl?: true
   galleryImages?: true
   _all?: true
 }
@@ -284,6 +290,7 @@ export type VendorProfileGroupByOutputType = {
   youtube: string | null
   twitter: string | null
   linkedin: string | null
+  paymentQrUrl: string | null
   galleryImages: string[]
   _count: VendorProfileCountAggregateOutputType | null
   _avg: VendorProfileAvgAggregateOutputType | null
@@ -330,6 +337,7 @@ export type VendorProfileWhereInput = {
   youtube?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   twitter?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   linkedin?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
+  paymentQrUrl?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   galleryImages?: Prisma.StringNullableListFilter<"VendorProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   services?: Prisma.ServiceListRelationFilter
@@ -362,6 +370,7 @@ export type VendorProfileOrderByWithRelationInput = {
   youtube?: Prisma.SortOrderInput | Prisma.SortOrder
   twitter?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedin?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentQrUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   galleryImages?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   services?: Prisma.ServiceOrderByRelationAggregateInput
@@ -397,6 +406,7 @@ export type VendorProfileWhereUniqueInput = Prisma.AtLeast<{
   youtube?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   twitter?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   linkedin?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
+  paymentQrUrl?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   galleryImages?: Prisma.StringNullableListFilter<"VendorProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   services?: Prisma.ServiceListRelationFilter
@@ -429,6 +439,7 @@ export type VendorProfileOrderByWithAggregationInput = {
   youtube?: Prisma.SortOrderInput | Prisma.SortOrder
   twitter?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedin?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentQrUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   galleryImages?: Prisma.SortOrder
   _count?: Prisma.VendorProfileCountOrderByAggregateInput
   _avg?: Prisma.VendorProfileAvgOrderByAggregateInput
@@ -460,6 +471,7 @@ export type VendorProfileScalarWhereWithAggregatesInput = {
   youtube?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
   twitter?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
   linkedin?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
+  paymentQrUrl?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
   galleryImages?: Prisma.StringNullableListFilter<"VendorProfile">
 }
 
@@ -482,6 +494,7 @@ export type VendorProfileCreateInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -514,6 +527,7 @@ export type VendorProfileUncheckedCreateInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -544,6 +558,7 @@ export type VendorProfileUpdateInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -576,6 +591,7 @@ export type VendorProfileUncheckedUpdateInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -607,6 +623,7 @@ export type VendorProfileCreateManyInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
 }
 
@@ -629,6 +646,7 @@ export type VendorProfileUpdateManyMutationInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
 }
 
@@ -652,6 +670,7 @@ export type VendorProfileUncheckedUpdateManyInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
 }
 
@@ -688,6 +707,7 @@ export type VendorProfileCountOrderByAggregateInput = {
   youtube?: Prisma.SortOrder
   twitter?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
+  paymentQrUrl?: Prisma.SortOrder
   galleryImages?: Prisma.SortOrder
 }
 
@@ -715,6 +735,7 @@ export type VendorProfileMaxOrderByAggregateInput = {
   youtube?: Prisma.SortOrder
   twitter?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
+  paymentQrUrl?: Prisma.SortOrder
 }
 
 export type VendorProfileMinOrderByAggregateInput = {
@@ -737,6 +758,7 @@ export type VendorProfileMinOrderByAggregateInput = {
   youtube?: Prisma.SortOrder
   twitter?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
+  paymentQrUrl?: Prisma.SortOrder
 }
 
 export type VendorProfileSumOrderByAggregateInput = {
@@ -932,6 +954,7 @@ export type VendorProfileCreateWithoutUserInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
@@ -962,6 +985,7 @@ export type VendorProfileUncheckedCreateWithoutUserInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1008,6 +1032,7 @@ export type VendorProfileUpdateWithoutUserInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
@@ -1038,6 +1063,7 @@ export type VendorProfileUncheckedUpdateWithoutUserInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -1068,6 +1094,7 @@ export type VendorProfileCreateWithoutSavedByInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1099,6 +1126,7 @@ export type VendorProfileUncheckedCreateWithoutSavedByInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1144,6 +1172,7 @@ export type VendorProfileUpdateWithoutSavedByInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1175,6 +1204,7 @@ export type VendorProfileUncheckedUpdateWithoutSavedByInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -1204,6 +1234,7 @@ export type VendorProfileCreateWithoutServicesInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
@@ -1235,6 +1266,7 @@ export type VendorProfileUncheckedCreateWithoutServicesInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1280,6 +1312,7 @@ export type VendorProfileUpdateWithoutServicesInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
@@ -1311,6 +1344,7 @@ export type VendorProfileUncheckedUpdateWithoutServicesInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1340,6 +1374,7 @@ export type VendorProfileCreateWithoutBookingsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1371,6 +1406,7 @@ export type VendorProfileUncheckedCreateWithoutBookingsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1416,6 +1452,7 @@ export type VendorProfileUpdateWithoutBookingsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1447,6 +1484,7 @@ export type VendorProfileUncheckedUpdateWithoutBookingsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1476,6 +1514,7 @@ export type VendorProfileCreateWithoutQuotesInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1507,6 +1546,7 @@ export type VendorProfileUncheckedCreateWithoutQuotesInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1552,6 +1592,7 @@ export type VendorProfileUpdateWithoutQuotesInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1583,6 +1624,7 @@ export type VendorProfileUncheckedUpdateWithoutQuotesInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -1612,6 +1654,7 @@ export type VendorProfileCreateWithoutReviewsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1643,6 +1686,7 @@ export type VendorProfileUncheckedCreateWithoutReviewsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1688,6 +1732,7 @@ export type VendorProfileUpdateWithoutReviewsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1719,6 +1764,7 @@ export type VendorProfileUncheckedUpdateWithoutReviewsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -1748,6 +1794,7 @@ export type VendorProfileCreateWithoutMessagesAsContextInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1779,6 +1826,7 @@ export type VendorProfileUncheckedCreateWithoutMessagesAsContextInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1824,6 +1872,7 @@ export type VendorProfileUpdateWithoutMessagesAsContextInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1855,6 +1904,7 @@ export type VendorProfileUncheckedUpdateWithoutMessagesAsContextInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -1884,6 +1934,7 @@ export type VendorProfileCreateWithoutAvailabilityInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -1915,6 +1966,7 @@ export type VendorProfileUncheckedCreateWithoutAvailabilityInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -1960,6 +2012,7 @@ export type VendorProfileUpdateWithoutAvailabilityInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -1991,6 +2044,7 @@ export type VendorProfileUncheckedUpdateWithoutAvailabilityInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -2020,6 +2074,7 @@ export type VendorProfileCreateWithoutChatQuotationsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
@@ -2051,6 +2106,7 @@ export type VendorProfileUncheckedCreateWithoutChatQuotationsInput = {
   youtube?: string | null
   twitter?: string | null
   linkedin?: string | null
+  paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
@@ -2096,6 +2152,7 @@ export type VendorProfileUpdateWithoutChatQuotationsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
@@ -2127,6 +2184,7 @@ export type VendorProfileUncheckedUpdateWithoutChatQuotationsInput = {
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
@@ -2251,6 +2309,7 @@ export type VendorProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   youtube?: boolean
   twitter?: boolean
   linkedin?: boolean
+  paymentQrUrl?: boolean
   galleryImages?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   services?: boolean | Prisma.VendorProfile$servicesArgs<ExtArgs>
@@ -2284,6 +2343,7 @@ export type VendorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   youtube?: boolean
   twitter?: boolean
   linkedin?: boolean
+  paymentQrUrl?: boolean
   galleryImages?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vendorProfile"]>
@@ -2308,6 +2368,7 @@ export type VendorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   youtube?: boolean
   twitter?: boolean
   linkedin?: boolean
+  paymentQrUrl?: boolean
   galleryImages?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vendorProfile"]>
@@ -2332,10 +2393,11 @@ export type VendorProfileSelectScalar = {
   youtube?: boolean
   twitter?: boolean
   linkedin?: boolean
+  paymentQrUrl?: boolean
   galleryImages?: boolean
 }
 
-export type VendorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "description" | "category" | "location" | "occasions" | "phoneNumber" | "website" | "imageUrl" | "rating" | "createdAt" | "updatedAt" | "instagram" | "facebook" | "tiktok" | "youtube" | "twitter" | "linkedin" | "galleryImages", ExtArgs["result"]["vendorProfile"]>
+export type VendorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "description" | "category" | "location" | "occasions" | "phoneNumber" | "website" | "imageUrl" | "rating" | "createdAt" | "updatedAt" | "instagram" | "facebook" | "tiktok" | "youtube" | "twitter" | "linkedin" | "paymentQrUrl" | "galleryImages", ExtArgs["result"]["vendorProfile"]>
 export type VendorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   services?: boolean | Prisma.VendorProfile$servicesArgs<ExtArgs>
@@ -2388,6 +2450,7 @@ export type $VendorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     youtube: string | null
     twitter: string | null
     linkedin: string | null
+    paymentQrUrl: string | null
     galleryImages: string[]
   }, ExtArgs["result"]["vendorProfile"]>
   composites: {}
@@ -2840,6 +2903,7 @@ export interface VendorProfileFieldRefs {
   readonly youtube: Prisma.FieldRef<"VendorProfile", 'String'>
   readonly twitter: Prisma.FieldRef<"VendorProfile", 'String'>
   readonly linkedin: Prisma.FieldRef<"VendorProfile", 'String'>
+  readonly paymentQrUrl: Prisma.FieldRef<"VendorProfile", 'String'>
   readonly galleryImages: Prisma.FieldRef<"VendorProfile", 'String[]'>
 }
     

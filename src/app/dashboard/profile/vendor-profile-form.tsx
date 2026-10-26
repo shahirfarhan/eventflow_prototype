@@ -119,6 +119,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Star,
+  QrCode,
+  RefreshCw,
+  Trash2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -141,6 +144,8 @@ type FormValues = {
   email: string
   /** First photo = main photo (also used on vendor cards). Max 8. */
   photos: string[]
+  /** One payment QR image (DuitNow / bank QR). Empty string = none. */
+  paymentQrUrl: string
   socials: Record<SocialKey, string>
 }
 
@@ -183,6 +188,23 @@ const tileButton: React.CSSProperties = {
   padding: 0,
 }
 
+/** Compare forms by their content only (field order doesn't matter, empty = missing). */
+function snapshot(v: FormValues) {
+  return JSON.stringify({
+    businessName: v.businessName ?? "",
+    category: v.category ?? "",
+    location: v.location ?? "",
+    description: v.description ?? "",
+    occasions: v.occasions ?? "",
+    phoneNumber: v.phoneNumber ?? "",
+    website: v.website ?? "",
+    email: (v.email ?? "").trim().toLowerCase(),
+    photos: v.photos ?? [],
+    paymentQrUrl: v.paymentQrUrl ?? "",
+    socials: SOCIAL_PLATFORMS.map((p) => v.socials?.[p.key] ?? ""),
+  })
+}
+
 export default function VendorProfileForm({
   initial,
   categories,
@@ -192,6 +214,8 @@ export default function VendorProfileForm({
 }) {
   const router = useRouter()
   const [values, setValues] = useState<FormValues>(initial)
+  // What's currently saved; updated after every successful save
+  const [saved, setSaved] = useState<FormValues>(initial)
   const [savedEmail, setSavedEmail] = useState(initial.email)
   const [currentPassword, setCurrentPassword] = useState("")
   const [saving, setSaving] = useState(false)
@@ -200,14 +224,16 @@ export default function VendorProfileForm({
   const [emailNotice, setEmailNotice] = useState<string | null>(null)
 
   const photoInput = useRef<HTMLInputElement>(null)
+  const qrInput = useRef<HTMLInputElement>(null)
+  const [qrUploading, setQrUploading] = useState(false)
 
   const emailChanged =
     values.email.trim().toLowerCase() !== savedEmail.trim().toLowerCase()
   const dirty = useMemo(
-    () => JSON.stringify(values) !== JSON.stringify(initial),
-    [values, initial]
+    () => snapshot(values) !== snapshot(saved),
+    [values, saved]
   )
-  const busy = saving || uploading > 0
+  const busy = saving || uploading > 0 || qrUploading
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
     setValues((v) => ({ ...v, [key]: value }))
@@ -242,6 +268,24 @@ export default function VendorProfileForm({
       } finally {
         setUploading((n) => n - 1)
       }
+    }
+  }
+
+  /** Only one QR: a new upload replaces the old one. */
+  async function onQrChosen(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ""
+    if (!file) return
+
+    setQrUploading(true)
+    try {
+      const url = await uploadImage(file)
+      set("paymentQrUrl", url)
+      toast.success("QR uploaded. Save changes to keep it.")
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      setQrUploading(false)
     }
   }
 
@@ -285,6 +329,7 @@ export default function VendorProfileForm({
         body: JSON.stringify({
           ...values,
           photos: undefined,
+          paymentQrUrl: values.paymentQrUrl || null,
           // The API keeps the main photo in imageUrl and the rest in galleryImages
           imageUrl: values.photos[0] ?? null,
           galleryImages: values.photos.slice(1),
@@ -305,12 +350,14 @@ export default function VendorProfileForm({
         phoneNumber: p.phoneNumber ?? "",
         email: json.emailChanged ? values.email.trim().toLowerCase() : savedEmail,
         photos: [p.imageUrl, ...(p.galleryImages ?? [])].filter(Boolean),
+        paymentQrUrl: p.paymentQrUrl ?? "",
         website: p.website ?? "",
         socials: Object.fromEntries(
           SOCIAL_PLATFORMS.map((s) => [s.key, p[s.key] ?? ""])
         ) as Record<SocialKey, string>,
       }
       setValues(next)
+      setSaved(next)
       setCurrentPassword("")
 
       if (json.emailChanged) {
@@ -674,6 +721,90 @@ export default function VendorProfileForm({
         </CardContent>
       </Card>
 
+      {/* ================= PAYMENT QR ================= */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Payment QR</CardTitle>
+          <CardDescription>
+            Upload your DuitNow or bank QR code so planners can pay you. You can have one QR;
+            uploading a new one replaces the old one.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+            {/* Preview / upload box */}
+            {qrUploading ? (
+              <div className="flex aspect-square w-full max-w-[220px] items-center justify-center rounded-xl border border-border bg-muted/40">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : values.paymentQrUrl ? (
+              <label
+                htmlFor="payment-qr-input"
+                className="group relative block aspect-square w-full max-w-[220px] cursor-pointer overflow-hidden rounded-xl border border-border bg-white p-3"
+                aria-label="Replace payment QR"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={values.paymentQrUrl}
+                  alt="Payment QR code"
+                  className="h-full w-full object-contain"
+                />
+              </label>
+            ) : (
+              <label
+                htmlFor="payment-qr-input"
+                className="flex aspect-square w-full max-w-[220px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <QrCode className="h-8 w-8" />
+                <span className="font-medium">Upload QR</span>
+                <span className="px-4 text-center text-xs">JPG or PNG, up to {MAX_FILE_MB} MB</span>
+              </label>
+            )}
+
+            {/* Actions + tips */}
+            <div className="flex w-full max-w-[220px] flex-col gap-2 sm:max-w-none sm:flex-1">
+              {values.paymentQrUrl && !qrUploading && (
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => qrInput.current?.click()}
+                  >
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Replace
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex-1 text-red-600 hover:text-red-700 sm:flex-none"
+                    onClick={() => set("paymentQrUrl", "")}
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Remove
+                  </Button>
+                </div>
+              )}
+              <ul className="list-disc space-y-1 pl-5 text-xs text-muted-foreground sm:mt-1">
+                <li>Use a clear, straight-on screenshot of the QR from your banking app.</li>
+                <li>Make sure the account name matches your business.</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Visually hidden (not display:none) so every browser lets it open the picker */}
+          <input
+            ref={qrInput}
+            id="payment-qr-input"
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            tabIndex={-1}
+            onChange={onQrChosen}
+          />
+        </CardContent>
+      </Card>
+
       {/* ================= SOCIAL ================= */}
       <Card>
         <CardHeader>
@@ -739,7 +870,7 @@ export default function VendorProfileForm({
             variant="ghost"
             disabled={!dirty || busy}
             onClick={() => {
-              setValues(initial)
+              setValues(saved)
               setCurrentPassword("")
               setError(null)
             }}
