@@ -36,8 +36,7 @@
 	"r2_buckets": [
 		{
 			"bucket_name": "gaffers-uploads",
-			"binding": "gaffers_uploads",
-			"remote": true
+			"binding": "Uploads",
 		}
 	]
 }
