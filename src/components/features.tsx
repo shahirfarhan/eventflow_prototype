@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
+import { useSession } from "next-auth/react"
 import { Search, MessageSquare, CalendarDays, TrendingUp, Users, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -49,6 +51,15 @@ const vendorFeatures: Feature[] = [
 export function Features() {
   const [tab, setTab] = useState<"planners" | "vendors">("planners")
   const features = tab === "planners" ? plannerFeatures : vendorFeatures
+
+  // Logged in → dashboard. Not logged in → login (planners) or sign up (new vendors).
+  const { status } = useSession()
+  const loggedIn = status === "authenticated"
+  const ctaHref = loggedIn
+    ? "/dashboard"
+    : tab === "planners"
+      ? "/login"
+      : "/register"
 
   return (
     <section className="bg-muted/40 py-20">
@@ -112,8 +123,10 @@ export function Features() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <Button size="lg" className="px-8 font-semibold">
-            {tab === "planners" ? "Start Planning Your Event" : "List Your Business"}
+          <Button asChild size="lg" className="px-8 font-semibold">
+            <Link href={ctaHref}>
+              {tab === "planners" ? "Start Planning Your Event" : "List Your Business"}
+            </Link>
           </Button>
         </div>
       </div>

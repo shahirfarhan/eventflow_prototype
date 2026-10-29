@@ -27,10 +27,12 @@ export type AggregateVendorProfile = {
 
 export type VendorProfileAvgAggregateOutputType = {
   rating: number | null
+  closedWeekdays: number | null
 }
 
 export type VendorProfileSumAggregateOutputType = {
   rating: number | null
+  closedWeekdays: number[]
 }
 
 export type VendorProfileMinAggregateOutputType = {
@@ -93,6 +95,7 @@ export type VendorProfileCountAggregateOutputType = {
   rating: number
   createdAt: number
   updatedAt: number
+  closedWeekdays: number
   instagram: number
   facebook: number
   tiktok: number
@@ -107,10 +110,12 @@ export type VendorProfileCountAggregateOutputType = {
 
 export type VendorProfileAvgAggregateInputType = {
   rating?: true
+  closedWeekdays?: true
 }
 
 export type VendorProfileSumAggregateInputType = {
   rating?: true
+  closedWeekdays?: true
 }
 
 export type VendorProfileMinAggregateInputType = {
@@ -173,6 +178,7 @@ export type VendorProfileCountAggregateInputType = {
   rating?: true
   createdAt?: true
   updatedAt?: true
+  closedWeekdays?: true
   instagram?: true
   facebook?: true
   tiktok?: true
@@ -284,6 +290,7 @@ export type VendorProfileGroupByOutputType = {
   rating: number
   createdAt: Date
   updatedAt: Date
+  closedWeekdays: number[]
   instagram: string | null
   facebook: string | null
   tiktok: string | null
@@ -331,6 +338,7 @@ export type VendorProfileWhereInput = {
   rating?: Prisma.FloatFilter<"VendorProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"VendorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VendorProfile"> | Date | string
+  closedWeekdays?: Prisma.IntNullableListFilter<"VendorProfile">
   instagram?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   facebook?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   tiktok?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
@@ -340,6 +348,7 @@ export type VendorProfileWhereInput = {
   paymentQrUrl?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   galleryImages?: Prisma.StringNullableListFilter<"VendorProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  blockedDates?: Prisma.VendorBlockedDateListRelationFilter
   services?: Prisma.ServiceListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
   quotes?: Prisma.QuoteListRelationFilter
@@ -364,6 +373,7 @@ export type VendorProfileOrderByWithRelationInput = {
   rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  closedWeekdays?: Prisma.SortOrder
   instagram?: Prisma.SortOrderInput | Prisma.SortOrder
   facebook?: Prisma.SortOrderInput | Prisma.SortOrder
   tiktok?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -373,6 +383,7 @@ export type VendorProfileOrderByWithRelationInput = {
   paymentQrUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   galleryImages?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  blockedDates?: Prisma.VendorBlockedDateOrderByRelationAggregateInput
   services?: Prisma.ServiceOrderByRelationAggregateInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   quotes?: Prisma.QuoteOrderByRelationAggregateInput
@@ -400,6 +411,7 @@ export type VendorProfileWhereUniqueInput = Prisma.AtLeast<{
   rating?: Prisma.FloatFilter<"VendorProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"VendorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VendorProfile"> | Date | string
+  closedWeekdays?: Prisma.IntNullableListFilter<"VendorProfile">
   instagram?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   facebook?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   tiktok?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
@@ -409,6 +421,7 @@ export type VendorProfileWhereUniqueInput = Prisma.AtLeast<{
   paymentQrUrl?: Prisma.StringNullableFilter<"VendorProfile"> | string | null
   galleryImages?: Prisma.StringNullableListFilter<"VendorProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  blockedDates?: Prisma.VendorBlockedDateListRelationFilter
   services?: Prisma.ServiceListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
   quotes?: Prisma.QuoteListRelationFilter
@@ -433,6 +446,7 @@ export type VendorProfileOrderByWithAggregationInput = {
   rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  closedWeekdays?: Prisma.SortOrder
   instagram?: Prisma.SortOrderInput | Prisma.SortOrder
   facebook?: Prisma.SortOrderInput | Prisma.SortOrder
   tiktok?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -465,6 +479,7 @@ export type VendorProfileScalarWhereWithAggregatesInput = {
   rating?: Prisma.FloatWithAggregatesFilter<"VendorProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"VendorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"VendorProfile"> | Date | string
+  closedWeekdays?: Prisma.IntNullableListFilter<"VendorProfile">
   instagram?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
   facebook?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
   tiktok?: Prisma.StringNullableWithAggregatesFilter<"VendorProfile"> | string | null
@@ -488,6 +503,7 @@ export type VendorProfileCreateInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -497,6 +513,7 @@ export type VendorProfileCreateInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -521,6 +538,7 @@ export type VendorProfileUncheckedCreateInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -529,6 +547,7 @@ export type VendorProfileUncheckedCreateInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -552,6 +571,7 @@ export type VendorProfileUpdateInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -561,6 +581,7 @@ export type VendorProfileUpdateInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -585,6 +606,7 @@ export type VendorProfileUncheckedUpdateInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -593,6 +615,7 @@ export type VendorProfileUncheckedUpdateInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -617,6 +640,7 @@ export type VendorProfileCreateManyInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -640,6 +664,7 @@ export type VendorProfileUpdateManyMutationInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -664,6 +689,7 @@ export type VendorProfileUncheckedUpdateManyInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -677,6 +703,14 @@ export type VendorProfileUncheckedUpdateManyInput = {
 export type VendorProfileNullableScalarRelationFilter = {
   is?: Prisma.VendorProfileWhereInput | null
   isNot?: Prisma.VendorProfileWhereInput | null
+}
+
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type StringNullableListFilter<$PrismaModel = never> = {
@@ -701,6 +735,7 @@ export type VendorProfileCountOrderByAggregateInput = {
   rating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  closedWeekdays?: Prisma.SortOrder
   instagram?: Prisma.SortOrder
   facebook?: Prisma.SortOrder
   tiktok?: Prisma.SortOrder
@@ -713,6 +748,7 @@ export type VendorProfileCountOrderByAggregateInput = {
 
 export type VendorProfileAvgOrderByAggregateInput = {
   rating?: Prisma.SortOrder
+  closedWeekdays?: Prisma.SortOrder
 }
 
 export type VendorProfileMaxOrderByAggregateInput = {
@@ -763,6 +799,7 @@ export type VendorProfileMinOrderByAggregateInput = {
 
 export type VendorProfileSumOrderByAggregateInput = {
   rating?: Prisma.SortOrder
+  closedWeekdays?: Prisma.SortOrder
 }
 
 export type VendorProfileScalarRelationFilter = {
@@ -802,6 +839,10 @@ export type VendorProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VendorProfileUpdateToOneWithWhereWithoutUserInput, Prisma.VendorProfileUpdateWithoutUserInput>, Prisma.VendorProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type VendorProfileCreateclosedWeekdaysInput = {
+  set: number[]
+}
+
 export type VendorProfileCreategalleryImagesInput = {
   set: string[]
 }
@@ -812,6 +853,11 @@ export type FloatFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type VendorProfileUpdateclosedWeekdaysInput = {
+  set?: number[]
+  push?: number | number[]
 }
 
 export type VendorProfileUpdategalleryImagesInput = {
@@ -919,6 +965,20 @@ export type VendorProfileUpdateOneRequiredWithoutAvailabilityNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VendorProfileUpdateToOneWithWhereWithoutAvailabilityInput, Prisma.VendorProfileUpdateWithoutAvailabilityInput>, Prisma.VendorProfileUncheckedUpdateWithoutAvailabilityInput>
 }
 
+export type VendorProfileCreateNestedOneWithoutBlockedDatesInput = {
+  create?: Prisma.XOR<Prisma.VendorProfileCreateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedCreateWithoutBlockedDatesInput>
+  connectOrCreate?: Prisma.VendorProfileCreateOrConnectWithoutBlockedDatesInput
+  connect?: Prisma.VendorProfileWhereUniqueInput
+}
+
+export type VendorProfileUpdateOneRequiredWithoutBlockedDatesNestedInput = {
+  create?: Prisma.XOR<Prisma.VendorProfileCreateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedCreateWithoutBlockedDatesInput>
+  connectOrCreate?: Prisma.VendorProfileCreateOrConnectWithoutBlockedDatesInput
+  upsert?: Prisma.VendorProfileUpsertWithoutBlockedDatesInput
+  connect?: Prisma.VendorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VendorProfileUpdateToOneWithWhereWithoutBlockedDatesInput, Prisma.VendorProfileUpdateWithoutBlockedDatesInput>, Prisma.VendorProfileUncheckedUpdateWithoutBlockedDatesInput>
+}
+
 export type VendorProfileCreateNestedOneWithoutChatQuotationsInput = {
   create?: Prisma.XOR<Prisma.VendorProfileCreateWithoutChatQuotationsInput, Prisma.VendorProfileUncheckedCreateWithoutChatQuotationsInput>
   connectOrCreate?: Prisma.VendorProfileCreateOrConnectWithoutChatQuotationsInput
@@ -948,6 +1008,7 @@ export type VendorProfileCreateWithoutUserInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -956,6 +1017,7 @@ export type VendorProfileCreateWithoutUserInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -979,6 +1041,7 @@ export type VendorProfileUncheckedCreateWithoutUserInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -987,6 +1050,7 @@ export type VendorProfileUncheckedCreateWithoutUserInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1026,6 +1090,7 @@ export type VendorProfileUpdateWithoutUserInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1034,6 +1099,7 @@ export type VendorProfileUpdateWithoutUserInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -1057,6 +1123,7 @@ export type VendorProfileUncheckedUpdateWithoutUserInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1065,6 +1132,7 @@ export type VendorProfileUncheckedUpdateWithoutUserInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1088,6 +1156,7 @@ export type VendorProfileCreateWithoutSavedByInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1097,6 +1166,7 @@ export type VendorProfileCreateWithoutSavedByInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -1120,6 +1190,7 @@ export type VendorProfileUncheckedCreateWithoutSavedByInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1128,6 +1199,7 @@ export type VendorProfileUncheckedCreateWithoutSavedByInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1166,6 +1238,7 @@ export type VendorProfileUpdateWithoutSavedByInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1175,6 +1248,7 @@ export type VendorProfileUpdateWithoutSavedByInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -1198,6 +1272,7 @@ export type VendorProfileUncheckedUpdateWithoutSavedByInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1206,6 +1281,7 @@ export type VendorProfileUncheckedUpdateWithoutSavedByInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1228,6 +1304,7 @@ export type VendorProfileCreateWithoutServicesInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1237,6 +1314,7 @@ export type VendorProfileCreateWithoutServicesInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityCreateNestedManyWithoutVendorInput
@@ -1260,6 +1338,7 @@ export type VendorProfileUncheckedCreateWithoutServicesInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1268,6 +1347,7 @@ export type VendorProfileUncheckedCreateWithoutServicesInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutVendorInput
@@ -1306,6 +1386,7 @@ export type VendorProfileUpdateWithoutServicesInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1315,6 +1396,7 @@ export type VendorProfileUpdateWithoutServicesInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUpdateManyWithoutVendorNestedInput
@@ -1338,6 +1420,7 @@ export type VendorProfileUncheckedUpdateWithoutServicesInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1346,6 +1429,7 @@ export type VendorProfileUncheckedUpdateWithoutServicesInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
@@ -1368,6 +1452,7 @@ export type VendorProfileCreateWithoutBookingsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1377,6 +1462,7 @@ export type VendorProfileCreateWithoutBookingsInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityCreateNestedManyWithoutVendorInput
@@ -1400,6 +1486,7 @@ export type VendorProfileUncheckedCreateWithoutBookingsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1408,6 +1495,7 @@ export type VendorProfileUncheckedCreateWithoutBookingsInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutVendorInput
@@ -1446,6 +1534,7 @@ export type VendorProfileUpdateWithoutBookingsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1455,6 +1544,7 @@ export type VendorProfileUpdateWithoutBookingsInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUpdateManyWithoutVendorNestedInput
@@ -1478,6 +1568,7 @@ export type VendorProfileUncheckedUpdateWithoutBookingsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1486,6 +1577,7 @@ export type VendorProfileUncheckedUpdateWithoutBookingsInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
@@ -1508,6 +1600,7 @@ export type VendorProfileCreateWithoutQuotesInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1517,6 +1610,7 @@ export type VendorProfileCreateWithoutQuotesInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityCreateNestedManyWithoutVendorInput
@@ -1540,6 +1634,7 @@ export type VendorProfileUncheckedCreateWithoutQuotesInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1548,6 +1643,7 @@ export type VendorProfileUncheckedCreateWithoutQuotesInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   availability?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutVendorInput
@@ -1586,6 +1682,7 @@ export type VendorProfileUpdateWithoutQuotesInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1595,6 +1692,7 @@ export type VendorProfileUpdateWithoutQuotesInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUpdateManyWithoutVendorNestedInput
@@ -1618,6 +1716,7 @@ export type VendorProfileUncheckedUpdateWithoutQuotesInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1626,6 +1725,7 @@ export type VendorProfileUncheckedUpdateWithoutQuotesInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   availability?: Prisma.AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
@@ -1648,6 +1748,7 @@ export type VendorProfileCreateWithoutReviewsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1657,6 +1758,7 @@ export type VendorProfileCreateWithoutReviewsInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -1680,6 +1782,7 @@ export type VendorProfileUncheckedCreateWithoutReviewsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1688,6 +1791,7 @@ export type VendorProfileUncheckedCreateWithoutReviewsInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1726,6 +1830,7 @@ export type VendorProfileUpdateWithoutReviewsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1735,6 +1840,7 @@ export type VendorProfileUpdateWithoutReviewsInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -1758,6 +1864,7 @@ export type VendorProfileUncheckedUpdateWithoutReviewsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1766,6 +1873,7 @@ export type VendorProfileUncheckedUpdateWithoutReviewsInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1788,6 +1896,7 @@ export type VendorProfileCreateWithoutMessagesAsContextInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1797,6 +1906,7 @@ export type VendorProfileCreateWithoutMessagesAsContextInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -1820,6 +1930,7 @@ export type VendorProfileUncheckedCreateWithoutMessagesAsContextInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1828,6 +1939,7 @@ export type VendorProfileUncheckedCreateWithoutMessagesAsContextInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -1866,6 +1978,7 @@ export type VendorProfileUpdateWithoutMessagesAsContextInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1875,6 +1988,7 @@ export type VendorProfileUpdateWithoutMessagesAsContextInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -1898,6 +2012,7 @@ export type VendorProfileUncheckedUpdateWithoutMessagesAsContextInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1906,6 +2021,7 @@ export type VendorProfileUncheckedUpdateWithoutMessagesAsContextInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -1928,6 +2044,7 @@ export type VendorProfileCreateWithoutAvailabilityInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1937,6 +2054,7 @@ export type VendorProfileCreateWithoutAvailabilityInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -1960,6 +2078,7 @@ export type VendorProfileUncheckedCreateWithoutAvailabilityInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -1968,6 +2087,7 @@ export type VendorProfileUncheckedCreateWithoutAvailabilityInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -2006,6 +2126,7 @@ export type VendorProfileUpdateWithoutAvailabilityInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2015,6 +2136,7 @@ export type VendorProfileUpdateWithoutAvailabilityInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -2038,6 +2160,155 @@ export type VendorProfileUncheckedUpdateWithoutAvailabilityInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutVendorNestedInput
+  messagesAsContext?: Prisma.MessageUncheckedUpdateManyWithoutContextVendorNestedInput
+  chatQuotations?: Prisma.ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
+  savedBy?: Prisma.SavedVendorUncheckedUpdateManyWithoutVendorNestedInput
+}
+
+export type VendorProfileCreateWithoutBlockedDatesInput = {
+  id?: string
+  businessName: string
+  description?: string | null
+  category: string
+  location: string
+  occasions?: string | null
+  phoneNumber?: string | null
+  website?: string | null
+  imageUrl?: string | null
+  rating?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
+  instagram?: string | null
+  facebook?: string | null
+  tiktok?: string | null
+  youtube?: string | null
+  twitter?: string | null
+  linkedin?: string | null
+  paymentQrUrl?: string | null
+  galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
+  availability?: Prisma.AvailabilityCreateNestedManyWithoutVendorInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutVendorInput
+  messagesAsContext?: Prisma.MessageCreateNestedManyWithoutContextVendorInput
+  chatQuotations?: Prisma.ChatQuotationCreateNestedManyWithoutVendorInput
+  savedBy?: Prisma.SavedVendorCreateNestedManyWithoutVendorInput
+}
+
+export type VendorProfileUncheckedCreateWithoutBlockedDatesInput = {
+  id?: string
+  userId: string
+  businessName: string
+  description?: string | null
+  category: string
+  location: string
+  occasions?: string | null
+  phoneNumber?: string | null
+  website?: string | null
+  imageUrl?: string | null
+  rating?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
+  instagram?: string | null
+  facebook?: string | null
+  tiktok?: string | null
+  youtube?: string | null
+  twitter?: string | null
+  linkedin?: string | null
+  paymentQrUrl?: string | null
+  galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
+  availability?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutVendorInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutVendorInput
+  messagesAsContext?: Prisma.MessageUncheckedCreateNestedManyWithoutContextVendorInput
+  chatQuotations?: Prisma.ChatQuotationUncheckedCreateNestedManyWithoutVendorInput
+  savedBy?: Prisma.SavedVendorUncheckedCreateNestedManyWithoutVendorInput
+}
+
+export type VendorProfileCreateOrConnectWithoutBlockedDatesInput = {
+  where: Prisma.VendorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.VendorProfileCreateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedCreateWithoutBlockedDatesInput>
+}
+
+export type VendorProfileUpsertWithoutBlockedDatesInput = {
+  update: Prisma.XOR<Prisma.VendorProfileUpdateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedUpdateWithoutBlockedDatesInput>
+  create: Prisma.XOR<Prisma.VendorProfileCreateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedCreateWithoutBlockedDatesInput>
+  where?: Prisma.VendorProfileWhereInput
+}
+
+export type VendorProfileUpdateToOneWithWhereWithoutBlockedDatesInput = {
+  where?: Prisma.VendorProfileWhereInput
+  data: Prisma.XOR<Prisma.VendorProfileUpdateWithoutBlockedDatesInput, Prisma.VendorProfileUncheckedUpdateWithoutBlockedDatesInput>
+}
+
+export type VendorProfileUpdateWithoutBlockedDatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  occasions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
+  availability?: Prisma.AvailabilityUpdateManyWithoutVendorNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutVendorNestedInput
+  messagesAsContext?: Prisma.MessageUpdateManyWithoutContextVendorNestedInput
+  chatQuotations?: Prisma.ChatQuotationUpdateManyWithoutVendorNestedInput
+  savedBy?: Prisma.SavedVendorUpdateManyWithoutVendorNestedInput
+}
+
+export type VendorProfileUncheckedUpdateWithoutBlockedDatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  occasions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rating?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2049,6 +2320,7 @@ export type VendorProfileUncheckedUpdateWithoutAvailabilityInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
+  availability?: Prisma.AvailabilityUncheckedUpdateManyWithoutVendorNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutVendorNestedInput
   messagesAsContext?: Prisma.MessageUncheckedUpdateManyWithoutContextVendorNestedInput
   chatQuotations?: Prisma.ChatQuotationUncheckedUpdateManyWithoutVendorNestedInput
@@ -2068,6 +2340,7 @@ export type VendorProfileCreateWithoutChatQuotationsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -2077,6 +2350,7 @@ export type VendorProfileCreateWithoutChatQuotationsInput = {
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
   user: Prisma.UserCreateNestedOneWithoutVendorProfileInput
+  blockedDates?: Prisma.VendorBlockedDateCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutVendorInput
@@ -2100,6 +2374,7 @@ export type VendorProfileUncheckedCreateWithoutChatQuotationsInput = {
   rating?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  closedWeekdays?: Prisma.VendorProfileCreateclosedWeekdaysInput | number[]
   instagram?: string | null
   facebook?: string | null
   tiktok?: string | null
@@ -2108,6 +2383,7 @@ export type VendorProfileUncheckedCreateWithoutChatQuotationsInput = {
   linkedin?: string | null
   paymentQrUrl?: string | null
   galleryImages?: Prisma.VendorProfileCreategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedCreateNestedManyWithoutVendorInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutVendorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutVendorInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutVendorInput
@@ -2146,6 +2422,7 @@ export type VendorProfileUpdateWithoutChatQuotationsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2155,6 +2432,7 @@ export type VendorProfileUpdateWithoutChatQuotationsInput = {
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutVendorProfileNestedInput
+  blockedDates?: Prisma.VendorBlockedDateUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutVendorNestedInput
@@ -2178,6 +2456,7 @@ export type VendorProfileUncheckedUpdateWithoutChatQuotationsInput = {
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closedWeekdays?: Prisma.VendorProfileUpdateclosedWeekdaysInput | number[]
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tiktok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2186,6 +2465,7 @@ export type VendorProfileUncheckedUpdateWithoutChatQuotationsInput = {
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentQrUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   galleryImages?: Prisma.VendorProfileUpdategalleryImagesInput | string[]
+  blockedDates?: Prisma.VendorBlockedDateUncheckedUpdateManyWithoutVendorNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutVendorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutVendorNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutVendorNestedInput
@@ -2201,6 +2481,7 @@ export type VendorProfileUncheckedUpdateWithoutChatQuotationsInput = {
  */
 
 export type VendorProfileCountOutputType = {
+  blockedDates: number
   services: number
   bookings: number
   quotes: number
@@ -2212,6 +2493,7 @@ export type VendorProfileCountOutputType = {
 }
 
 export type VendorProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  blockedDates?: boolean | VendorProfileCountOutputTypeCountBlockedDatesArgs
   services?: boolean | VendorProfileCountOutputTypeCountServicesArgs
   bookings?: boolean | VendorProfileCountOutputTypeCountBookingsArgs
   quotes?: boolean | VendorProfileCountOutputTypeCountQuotesArgs
@@ -2230,6 +2512,13 @@ export type VendorProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
    * Select specific fields to fetch from the VendorProfileCountOutputType
    */
   select?: Prisma.VendorProfileCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VendorProfileCountOutputType without action
+ */
+export type VendorProfileCountOutputTypeCountBlockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VendorBlockedDateWhereInput
 }
 
 /**
@@ -2303,6 +2592,7 @@ export type VendorProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  closedWeekdays?: boolean
   instagram?: boolean
   facebook?: boolean
   tiktok?: boolean
@@ -2312,6 +2602,7 @@ export type VendorProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   paymentQrUrl?: boolean
   galleryImages?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.VendorProfile$blockedDatesArgs<ExtArgs>
   services?: boolean | Prisma.VendorProfile$servicesArgs<ExtArgs>
   bookings?: boolean | Prisma.VendorProfile$bookingsArgs<ExtArgs>
   quotes?: boolean | Prisma.VendorProfile$quotesArgs<ExtArgs>
@@ -2337,6 +2628,7 @@ export type VendorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  closedWeekdays?: boolean
   instagram?: boolean
   facebook?: boolean
   tiktok?: boolean
@@ -2362,6 +2654,7 @@ export type VendorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  closedWeekdays?: boolean
   instagram?: boolean
   facebook?: boolean
   tiktok?: boolean
@@ -2387,6 +2680,7 @@ export type VendorProfileSelectScalar = {
   rating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  closedWeekdays?: boolean
   instagram?: boolean
   facebook?: boolean
   tiktok?: boolean
@@ -2397,9 +2691,10 @@ export type VendorProfileSelectScalar = {
   galleryImages?: boolean
 }
 
-export type VendorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "description" | "category" | "location" | "occasions" | "phoneNumber" | "website" | "imageUrl" | "rating" | "createdAt" | "updatedAt" | "instagram" | "facebook" | "tiktok" | "youtube" | "twitter" | "linkedin" | "paymentQrUrl" | "galleryImages", ExtArgs["result"]["vendorProfile"]>
+export type VendorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "description" | "category" | "location" | "occasions" | "phoneNumber" | "website" | "imageUrl" | "rating" | "createdAt" | "updatedAt" | "closedWeekdays" | "instagram" | "facebook" | "tiktok" | "youtube" | "twitter" | "linkedin" | "paymentQrUrl" | "galleryImages", ExtArgs["result"]["vendorProfile"]>
 export type VendorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.VendorProfile$blockedDatesArgs<ExtArgs>
   services?: boolean | Prisma.VendorProfile$servicesArgs<ExtArgs>
   bookings?: boolean | Prisma.VendorProfile$bookingsArgs<ExtArgs>
   quotes?: boolean | Prisma.VendorProfile$quotesArgs<ExtArgs>
@@ -2421,6 +2716,7 @@ export type $VendorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "VendorProfile"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    blockedDates: Prisma.$VendorBlockedDatePayload<ExtArgs>[]
     services: Prisma.$ServicePayload<ExtArgs>[]
     bookings: Prisma.$BookingPayload<ExtArgs>[]
     quotes: Prisma.$QuotePayload<ExtArgs>[]
@@ -2444,6 +2740,7 @@ export type $VendorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     rating: number
     createdAt: Date
     updatedAt: Date
+    closedWeekdays: number[]
     instagram: string | null
     facebook: string | null
     tiktok: string | null
@@ -2847,6 +3144,7 @@ readonly fields: VendorProfileFieldRefs;
 export interface Prisma__VendorProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  blockedDates<T extends Prisma.VendorProfile$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorProfile$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VendorBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.VendorProfile$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorProfile$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookings<T extends Prisma.VendorProfile$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   quotes<T extends Prisma.VendorProfile$quotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorProfile$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2897,6 +3195,7 @@ export interface VendorProfileFieldRefs {
   readonly rating: Prisma.FieldRef<"VendorProfile", 'Float'>
   readonly createdAt: Prisma.FieldRef<"VendorProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"VendorProfile", 'DateTime'>
+  readonly closedWeekdays: Prisma.FieldRef<"VendorProfile", 'Int[]'>
   readonly instagram: Prisma.FieldRef<"VendorProfile", 'String'>
   readonly facebook: Prisma.FieldRef<"VendorProfile", 'String'>
   readonly tiktok: Prisma.FieldRef<"VendorProfile", 'String'>
@@ -3298,6 +3597,30 @@ export type VendorProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many VendorProfiles to delete.
    */
   limit?: number
+}
+
+/**
+ * VendorProfile.blockedDates
+ */
+export type VendorProfile$blockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VendorBlockedDate
+   */
+  select?: Prisma.VendorBlockedDateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VendorBlockedDate
+   */
+  omit?: Prisma.VendorBlockedDateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorBlockedDateInclude<ExtArgs> | null
+  where?: Prisma.VendorBlockedDateWhereInput
+  orderBy?: Prisma.VendorBlockedDateOrderByWithRelationInput | Prisma.VendorBlockedDateOrderByWithRelationInput[]
+  cursor?: Prisma.VendorBlockedDateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VendorBlockedDateScalarFieldEnum | Prisma.VendorBlockedDateScalarFieldEnum[]
 }
 
 /**

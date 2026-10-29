@@ -11,21 +11,33 @@ import {
 import {
   MapPin,
   ArrowLeft,
-  Globe,
-  Phone,
   Star,
   Calendar,
-  Mail,
   Pencil,
+  MessageSquare,
+  ShieldCheck,
+  CreditCard,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
 import VendorServices from "@/components/vendor-services";
 import { SaveVendorButton } from "@/components/save-vendor-button";
 import { SocialLinksRow } from "@/components/social-links";
-import { websiteHref, websiteLabel } from "@/lib/social-links";
 import { VendorPhotoGrid } from "@/components/vendor-photo-grid";
 import { MobileTabBar } from "@/components/dashboard/mobile-tab-bar";
+import BookingChatDialog from "@/app/dashboard/bookings/booking-chat-dialog";
+import { AvailabilityPicker } from "@/components/vendor-availability";
+import { getPublicAvailability } from "@/lib/availability";
+import { formatKey, todayKey } from "@/lib/date-keys";
+
+/** What goes after the price, by pricing model ("" = a fixed price) */
+const PRICE_UNIT: Record<string, string> = {
+  FIXED: "",
+  PER_HOUR: "/hour",
+  PER_PAX: "/pax",
+  PER_DAY: "/day",
+};
 
 export default async function PublicVendorDetailsPage({
   params,
@@ -103,74 +115,150 @@ export default async function PublicVendorDetailsPage({
   };
   const hasSocials = Object.values(socialLinks).some(Boolean);
   const isOwner = session?.user?.id === vendor.user.id;
+  const reviewCount = vendor.reviews.length;
 
   // Main photo first, then the rest (max 8)
   const photos = [vendor.imageUrl, ...vendor.galleryImages]
     .filter((u): u is string => !!u)
     .slice(0, 8);
 
-  // Shown in the sidebar on desktop, and right after "About" on phones
-  const contactCard = (
-    <Card>
-      <CardHeader className="pb-3 sm:pb-6">
-        <CardTitle className="text-lg sm:text-xl">Contact Information</CardTitle>
-      </CardHeader>
+  /* ---------- Cheapest price for the booking card ---------- */
+  // "Custom / quote" services have no comparable price, so they're left out
+  const priced = vendor.services.filter(
+    (s) => s.pricingModel !== "CUSTOM" && Number(s.basePrice) > 0,
+  );
+  const cheapest = priced.reduce<(typeof priced)[number] | null>(
+    (min, s) => (!min || Number(s.basePrice) < Number(min.basePrice) ? s : min),
+    null,
+  );
+  const hasOnlyQuotes = !cheapest && vendor.services.length > 0;
 
-      <CardContent className="space-y-1">
-        {/* WEBSITE */}
-        {vendor.website && (
-          <a
-            href={websiteHref(vendor.website)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="-mx-2 flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-muted"
-          >
-            <Globe className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span className="min-w-0 break-all text-blue-600">
-              {websiteLabel(vendor.website)}
+  /* ---------- Availability (booked + blocked days show as unavailable) ---------- */
+  const availability = await getPublicAvailability(vendor.id);
+  const nextFreeLabel = availability.nextFree
+    ? availability.nextFree === todayKey()
+      ? `Today, ${formatKey(availability.nextFree, { year: false })}`
+      : formatKey(availability.nextFree, { year: false })
+    : null;
+
+  /* ---------- Booking card (sidebar on desktop, after "About" on phones) ---------- */
+  const bookingCard = (
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+      {/* Price */}
+      {cheapest ? (
+        <>
+          <p className="text-sm text-muted-foreground">Services from</p>
+          <p className="mt-0.5 flex items-baseline gap-1">
+            <span className="font-display text-3xl font-extrabold tracking-tight text-foreground">
+              RM {Number(cheapest.basePrice).toLocaleString("en-MY")}
             </span>
-          </a>
-        )}
+            {PRICE_UNIT[cheapest.pricingModel] && (
+              <span className="text-base font-medium text-muted-foreground">
+                {PRICE_UNIT[cheapest.pricingModel]}
+              </span>
+            )}
+          </p>
+        </>
+      ) : hasOnlyQuotes ? (
+        <>
+          <p className="text-sm text-muted-foreground">Pricing</p>
+          <p className="mt-0.5 font-display text-2xl font-extrabold tracking-tight text-foreground">
+            Custom quote
+          </p>
+        </>
+      ) : (
+        <p className="text-sm text-muted-foreground">No services listed yet.</p>
+      )}
 
-        {/* PHONE: tap to call on phones */}
-        {vendor.phoneNumber && (
-          <a
-            href={`tel:${vendor.phoneNumber.replace(/[^\d+]/g, "")}`}
-            className="-mx-2 flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-muted"
-          >
-            <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span className="min-w-0">{vendor.phoneNumber}</span>
-          </a>
-        )}
+      {/* Reviews summary */}
+      {vendor.rating > 0 ? (
+        <a
+          href="#reviews"
+          className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <span className="font-semibold text-foreground">{vendor.rating.toFixed(1)}</span>
+          <span>
+            · {reviewCount} review{reviewCount === 1 ? "" : "s"}
+          </span>
+        </a>
+      ) : (
+        <p className="mt-2 text-sm text-muted-foreground">No reviews yet</p>
+      )}
 
-        {/* EMAIL */}
-        {vendor.user.email && (
-          <a
-            href={`mailto:${vendor.user.email}`}
-            className="-mx-2 flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-muted"
-          >
-            <Mail className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span className="min-w-0 break-all text-blue-600">{vendor.user.email}</span>
-          </a>
-        )}
+      {/* Availability: opens the calendar; shows the chosen date afterwards */}
+      <div className="mt-4">
+        <AvailabilityPicker
+          vendorName={vendor.businessName}
+          from={availability.from}
+          to={availability.to}
+          unavailable={availability.unavailable}
+          closedWeekdays={availability.closedWeekdays}
+          nextFreeLabel={nextFreeLabel}
+        />
+      </div>
 
-        {!vendor.website && !vendor.phoneNumber && !vendor.user.email && (
-          <p className="text-sm text-muted-foreground">No contact details yet.</p>
-        )}
+      {/* Message vendor (opens your existing chat with them) */}
+      {!isOwner && (
+        <div className="mt-5">
+          {session?.user ? (
+            <BookingChatDialog
+              title={`Chat with ${vendor.businessName}`}
+              description="Discuss your requirements with the vendor."
+              peerId={vendor.user.id}
+              directPeerName={vendor.businessName}
+              contextVendorBusinessName={vendor.businessName}
+              trigger={
+                <button
+                  type="button"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-foreground bg-card text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  Message vendor
+                </button>
+              }
+            />
+          ) : (
+            <>
+              <Button asChild className="h-12 w-full">
+                <Link href="/login">Log in to message or book</Link>
+              </Button>
+            </>
+          )}
+        </div>
+      )}
 
-        {/* LOGIN */}
-        {!session?.user && (
-          <div className="mt-4 border-t pt-4">
-            <p className="mb-3 text-sm text-muted-foreground">
-              Login to view full details and book services.
-            </p>
-            <Button asChild className="h-11 w-full">
-              <Link href="/login">Login</Link>
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      {/* Trust points */}
+      <ul className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
+        <li className="flex items-start gap-2.5">
+          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+          <span>
+            <span className="font-semibold text-foreground">Approved by Gaffers</span>
+            <span className="block text-muted-foreground">
+              Every vendor is reviewed before going live.
+            </span>
+          </span>
+        </li>
+        <li className="flex items-start gap-2.5">
+          <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+          <span>
+            <span className="font-semibold text-foreground">Pay through Gaffers</span>
+            <span className="block text-muted-foreground">
+              Receipts are tracked on your booking.
+            </span>
+          </span>
+        </li>
+        <li className="flex items-start gap-2.5">
+          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+          <span>
+            <span className="font-semibold text-foreground">Replies within 24 hours</span>
+            <span className="block text-muted-foreground">
+              Chat and book without leaving the app.
+            </span>
+          </span>
+        </li>
+      </ul>
+    </div>
   );
 
   return (
@@ -201,55 +289,52 @@ export default async function PublicVendorDetailsPage({
           </div>
         )}
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <h1 className="break-words text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
-              {vendor.businessName}
-            </h1>
+        {/* Name + save icon (planners) / edit (owner) on the same line */}
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="min-w-0 break-words text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+            {vendor.businessName}
+          </h1>
 
-            <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-              {vendor.category && <Badge variant="secondary">{vendor.category}</Badge>}
-
-              {vendor.location && (
-                <span className="inline-flex items-center">
-                  <MapPin className="mr-1.5 h-4 w-4 shrink-0" />
-                  {vendor.location}
-                </span>
-              )}
-
-              {vendor.rating > 0 && (
-                <a href="#reviews" className="inline-flex items-center hover:text-foreground">
-                  <Star className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium text-foreground">
-                    {vendor.rating.toFixed(1)}
-                  </span>
-                  <span className="ml-1">
-                    ({vendor.reviews.length} review{vendor.reviews.length === 1 ? "" : "s"})
-                  </span>
-                </a>
-              )}
+          {canSave && (
+            <div className="shrink-0">
+              <SaveVendorButton
+                vendorId={vendor.id}
+                initialSaved={isSaved}
+                className="border-0 bg-transparent shadow-none ring-0 backdrop-blur-none hover:bg-muted"
+              />
             </div>
-          </div>
+          )}
 
-          {(canSave || isOwner) && (
-            <div className="flex shrink-0 gap-2 [&>*]:flex-1 sm:[&>*]:flex-none">
-              {canSave && (
-                <SaveVendorButton
-                  vendorId={vendor.id}
-                  initialSaved={isSaved}
-                  variant="button"
-                />
-              )}
+          {isOwner && (
+            <Button asChild variant="outline" className="h-10 shrink-0">
+              <Link href="/dashboard/profile">
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit profile
+              </Link>
+            </Button>
+          )}
+        </div>
 
-              {isOwner && (
-                <Button asChild variant="outline" className="h-11 sm:h-10">
-                  <Link href="/dashboard/profile">
-                    <Pencil className="mr-2 h-4 w-4" />
-                    Edit profile
-                  </Link>
-                </Button>
-              )}
-            </div>
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+          {vendor.category && <Badge variant="secondary">{vendor.category}</Badge>}
+
+          {vendor.location && (
+            <span className="inline-flex items-center">
+              <MapPin className="mr-1.5 h-4 w-4 shrink-0" />
+              {vendor.location}
+            </span>
+          )}
+
+          {vendor.rating > 0 && (
+            <a href="#reviews" className="inline-flex items-center hover:text-foreground">
+              <Star className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <span className="font-medium text-foreground">
+                {vendor.rating.toFixed(1)}
+              </span>
+              <span className="ml-1">
+                ({reviewCount} review{reviewCount === 1 ? "" : "s"})
+              </span>
+            </a>
           )}
         </div>
 
@@ -306,11 +391,11 @@ export default async function PublicVendorDetailsPage({
               </CardContent>
             </Card>
 
-            {/* CONTACT: phones only (desktop has it in the sidebar) */}
-            <div className="md:hidden">{contactCard}</div>
+            {/* BOOKING CARD: phones only (desktop has it in the sidebar) */}
+            <div className="md:hidden">{bookingCard}</div>
 
             {/* SERVICES */}
-            <section className="min-w-0">
+            <section id="services" className="min-w-0 scroll-mt-24">
               <h2 className="mb-3 text-xl font-bold tracking-tight sm:mb-4 sm:text-2xl">
                 Services
               </h2>
@@ -332,14 +417,14 @@ export default async function PublicVendorDetailsPage({
             <section id="reviews" className="min-w-0 scroll-mt-24">
               <h2 className="mb-3 text-xl font-bold tracking-tight sm:mb-4 sm:text-2xl">
                 Reviews
-                {vendor.reviews.length > 0 && (
+                {reviewCount > 0 && (
                   <span className="ml-2 text-base font-medium text-muted-foreground">
-                    ({vendor.reviews.length})
+                    ({reviewCount})
                   </span>
                 )}
               </h2>
 
-              {vendor.reviews.length > 0 ? (
+              {reviewCount > 0 ? (
                 <div className="grid gap-3 sm:gap-4">
                   {vendor.reviews.map((review) => (
                     <Card key={review.id}>
@@ -381,11 +466,11 @@ export default async function PublicVendorDetailsPage({
           </div>
 
           {/* ====================================================
-              RIGHT / CONTACT COLUMN (desktop)
+              RIGHT / BOOKING CARD (desktop, stays in view)
           ==================================================== */}
 
           <aside className="hidden min-w-0 md:block">
-            <div className="space-y-6 md:sticky md:top-24">{contactCard}</div>
+            <div className="md:sticky md:top-24">{bookingCard}</div>
           </aside>
         </div>
       </main>

@@ -1,3 +1,4 @@
+import { Mail, Phone } from "lucide-react"
 import { categories } from "@/lib/vendors"
 
 function Logo() {
@@ -18,6 +19,11 @@ function Logo() {
     </svg>
   )
 }
+
+// Contact details shown at the bottom of every page
+const CONTACT_EMAIL = "admin@gaffersapp.com"
+const CONTACT_PHONE = "+60104240358" // used for the "tap to call" link
+const CONTACT_PHONE_DISPLAY = "+60 10-424 0358" // how it's shown on the page
 
 const columns = [
   {
@@ -42,10 +48,10 @@ export function SiteFooter() {
           <div className="lg:col-span-2">
             <a href="/" className="flex items-center gap-2">
               <img
-                    src="/gaffers_logo.png"
-                    alt="Gaffers"
-                    className="h-7 w-7 object-contain"
-                />
+                src="/gaffers_logo.png"
+                alt="Gaffers"
+                className="h-7 w-7 object-contain"
+              />
               <span className="text-lg font-bold tracking-tight">Gaffers</span>
             </a>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">
@@ -60,7 +66,10 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-3 text-sm">
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                    <a
+                      href={link === "Contact" ? `mailto:${CONTACT_EMAIL}` : "#"}
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
                       {link}
                     </a>
                   </li>
@@ -83,9 +92,27 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p className="mt-8 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Gaffers. All rights reserved.
-        </p>
+        {/* Bottom row: copyright on the left, contact on the right (stacked on phones) */}
+        <div className="mt-8 flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Gaffers. All rights reserved.</p>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
+            >
+              <Mail className="h-4 w-4 shrink-0" />
+              {CONTACT_EMAIL}
+            </a>
+            <a
+              href={`tel:${CONTACT_PHONE}`}
+              className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
+            >
+              <Phone className="h-4 w-4 shrink-0" />
+              {CONTACT_PHONE_DISPLAY}
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   )

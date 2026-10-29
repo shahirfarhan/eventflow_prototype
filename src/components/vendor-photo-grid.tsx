@@ -1,317 +1,250 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { createPortal } from "react-dom"
+import { useCallback, useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
-
-const VISIBLE = 5 // 1 big + 4 small
+import { cn } from "@/lib/utils"
 
 /**
- * Photo collage for the public vendor page:
- * big main photo on the left, up to 4 smaller ones on the right,
- * "+N" on the last tile when there are more, and a full-screen viewer.
+ * Photo grid at the top of a vendor's page.
+ *   Phones:  main photo on the left, 2 photos stacked on the right, "+N" on the 3rd.
+ *   Desktop: main photo on the left, up to 4 photos (2×2) on the right, "+N" on the 5th.
+ * Tap any photo to open the full-screen viewer.
  */
 export function VendorPhotoGrid({ photos, name }: { photos: string[]; name: string }) {
   const [openAt, setOpenAt] = useState<number | null>(null)
+  const list = photos.filter(Boolean)
+  if (list.length === 0) return null
 
-  if (photos.length === 0) return null
+  const extras = list.slice(1, 5) // up to 4 tiles next to the main photo
+  const mobileTiles = Math.min(2, extras.length) // phones show 2 of them
+  const hiddenOnMobile = list.length - 1 - mobileTiles // shown as "+N" on phones
+  const hiddenOnDesktop = list.length - 1 - extras.length // shown as "+N" on desktop
 
-  const shown = photos.slice(0, VISIBLE)
-  const extra = photos.length - VISIBLE
-  const side = shown.slice(1)
-
-  // Right-hand side: 4 photos → 2×2 squares; 1–3 photos → stacked in one column
-  const sideCols = side.length === 4 ? 2 : 1
-  const sideRows = side.length === 4 ? 2 : side.length
+  // Single photo: just show it full width
+  if (extras.length === 0) {
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => setOpenAt(0)}
+          className="block h-64 w-full overflow-hidden rounded-2xl bg-muted sm:h-[420px]"
+          aria-label={`Open photo of ${name}`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={list[0]} alt={name} className="h-full w-full object-cover" />
+        </button>
+        {openAt !== null && (
+          <Viewer title={name} photos={list} startIndex={openAt} onClose={() => setOpenAt(null)} />
+        )}
+      </>
+    )
+  }
 
   return (
     <>
-      {/* Plain CSS so it works on older Safari too */}
-      <style>{`
-        .vpg { height: 440px; }
-        @media (max-width: 1024px) { .vpg { height: 360px; } }
-        @media (max-width: 640px)  { .vpg { height: 260px; } }
-        .vpg-tile img { transition: transform .35s ease, filter .2s ease; }
-        .vpg-tile:hover img { transform: scale(1.04); filter: brightness(.92); }
-      `}</style>
+      <div className="grid h-64 grid-cols-2 grid-rows-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] sm:grid-cols-4">
+        {/* Main photo: left half, full height */}
+        <Tile
+          src={list[0]}
+          alt={`${name}, main photo`}
+          onClick={() => setOpenAt(0)}
+          className="col-span-1 row-span-2 sm:col-span-2"
+        />
 
-      <div
-        className="vpg"
-        style={{
-          display: "grid",
-          gridTemplateColumns: side.length > 0 ? (sideCols === 2 ? "2fr 1fr 1fr" : "2fr 1fr") : "1fr",
-          gridTemplateRows: `repeat(${Math.max(sideRows, 1)}, 1fr)`,
-          gap: 8,
-          borderRadius: 16,
-          overflow: "hidden",
-        }}
-      >
-        {shown.map((url, i) => {
-          const isMain = i === 0
-          const isLast = i === shown.length - 1
-          const showMore = isLast && extra > 0
+        {extras.map((src, i) => {
+          const n = i + 1 // 1–4 among the side tiles
+          const isLastMobile = n === mobileTiles
+          const isLastDesktop = n === extras.length
 
           return (
-            <button
-              key={url}
-              type="button"
-              onClick={() => setOpenAt(i)}
-              aria-label={showMore ? `View all ${photos.length} photos` : `View photo ${i + 1}`}
-              className="vpg-tile bg-muted"
-              style={{
-                position: "relative",
-                padding: 0,
-                border: "none",
-                overflow: "hidden",
-                cursor: "zoom-in",
-                minHeight: 0,
-                minWidth: 0,
-                ...(isMain ? { gridRow: `1 / span ${Math.max(sideRows, 1)}` } : {}),
-              }}
-            >
-              <img
-                src={url}
-                alt={isMain ? name : `${name} photo ${i + 1}`}
-                loading={isMain ? "eager" : "lazy"}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-
-              {showMore && (
-                <span
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "rgba(0,0,0,0.5)",
-                    color: "white",
-                    fontSize: 26,
-                    fontWeight: 700,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  +{extra}
-                </span>
+            <Tile
+              key={src + i}
+              src={src}
+              alt={`${name}, photo ${n + 1}`}
+              onClick={() => setOpenAt(n)}
+              className={cn(
+                // Phones: only the first 2 side tiles; one tile alone fills the column
+                n > 2 && "hidden sm:block",
+                mobileTiles === 1 && "row-span-2",
+                // Desktop: fill the 2×2 area neatly whatever the count
+                desktopSpan(extras.length, n),
               )}
-            </button>
+            >
+              {/* "+N" on phones: on the last visible side tile */}
+              {isLastMobile && hiddenOnMobile > 0 && (
+                <MoreOverlay count={hiddenOnMobile} className="sm:hidden" />
+              )}
+              {/* "+N" on desktop: on the last side tile */}
+              {isLastDesktop && hiddenOnDesktop > 0 && (
+                <MoreOverlay count={hiddenOnDesktop} className="hidden sm:flex" />
+              )}
+            </Tile>
           )
         })}
       </div>
 
       {openAt !== null && (
-        <PhotoViewer
-          photos={photos}
-          name={name}
-          start={openAt}
-          onClose={() => setOpenAt(null)}
-        />
+        <Viewer title={name} photos={list} startIndex={openAt} onClose={() => setOpenAt(null)} />
       )}
     </>
   )
 }
 
-function PhotoViewer({
+/** Desktop layout of the side tiles in the 2×2 area (sm and up). */
+function desktopSpan(count: number, n: number) {
+  if (count === 1) return "sm:col-span-2 sm:row-span-2"
+  if (count === 2) return "sm:col-span-2 sm:row-span-1"
+  if (count === 3) return n === 1 ? "sm:col-span-2 sm:row-span-1" : "sm:col-span-1 sm:row-span-1"
+  return "sm:col-span-1 sm:row-span-1"
+}
+
+function Tile({
+  src,
+  alt,
+  onClick,
+  className,
+  children,
+}: {
+  src: string
+  alt: string
+  onClick: () => void
+  className?: string
+  children?: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn("group relative min-h-0 min-w-0 overflow-hidden bg-muted", className)}
+      aria-label={`Open ${alt}`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      />
+      {children}
+    </button>
+  )
+}
+
+function MoreOverlay({ count, className }: { count: number; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "absolute inset-0 flex items-center justify-center bg-black/45 text-2xl font-bold text-white sm:text-3xl",
+        className,
+      )}
+    >
+      +{count}
+    </span>
+  )
+}
+
+/* ================================================================
+   FULL-SCREEN VIEWER
+================================================================ */
+
+function Viewer({
+  title,
   photos,
-  name,
-  start,
+  startIndex,
   onClose,
 }: {
+  title: string
   photos: string[]
-  name: string
-  start: number
+  startIndex: number
   onClose: () => void
 }) {
-  const [index, setIndex] = useState(start)
-  const touchX = useRef<number | null>(null)
-  const thumbsRef = useRef<HTMLDivElement>(null)
-
+  const [index, setIndex] = useState(startIndex)
+  const [touchX, setTouchX] = useState<number | null>(null)
   const count = photos.length
+
   const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count])
   const next = useCallback(() => setIndex((i) => (i + 1) % count), [count])
 
-  // Keyboard: ← → to navigate, Esc to close. Also stop the page scrolling behind.
+  // ← → to move, Esc to close, and stop the page behind from scrolling
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
       if (e.key === "ArrowLeft") prev()
-      else if (e.key === "ArrowRight") next()
-      else if (e.key === "Escape") onClose()
+      if (e.key === "ArrowRight") next()
     }
     window.addEventListener("keydown", onKey)
-    const overflow = document.body.style.overflow
+    const prevOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
       window.removeEventListener("keydown", onKey)
-      document.body.style.overflow = overflow
+      document.body.style.overflow = prevOverflow
     }
-  }, [prev, next, onClose])
+  }, [onClose, prev, next])
 
-  // Keep the active thumbnail in view
-  useEffect(() => {
-    const el = thumbsRef.current?.children[index] as HTMLElement | undefined
-    el?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" })
-  }, [index])
-
-  const arrow: React.CSSProperties = {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    width: 48,
-    height: 48,
-    borderRadius: 9999,
-    border: "none",
-    background: "rgba(255,255,255,0.14)",
-    color: "white",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    zIndex: 2,
-  }
-
-  return createPortal(
+  return (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`${name} photos`}
+      aria-label={`${title} photos`}
+      className="fixed inset-0 z-[60] flex flex-col bg-black/95 text-white"
       onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 100,
-        background: "rgba(0,0,0,0.92)",
-        display: "flex",
-        flexDirection: "column",
-        color: "white",
-      }}
     >
-      {/* Top bar */}
       <div
+        className="flex items-center justify-between gap-3 px-4 py-3"
+        style={{ paddingTop: "max(12px, env(safe-area-inset-top))" }}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "14px 16px",
-          fontSize: 14,
-        }}
       >
-        <span style={{ opacity: 0.85 }}>
-          {index + 1} / {count}
-        </span>
+        <p className="min-w-0 truncate text-sm font-semibold">
+          {title} · {index + 1} / {count}
+        </p>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          style={{ ...arrow, position: "static", transform: "none", width: 40, height: 40 }}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
         >
-          <X style={{ width: 20, height: 20 }} />
+          <X className="h-5 w-5" />
         </button>
       </div>
 
-      {/* Image + arrows */}
       <div
-        style={{
-          position: "relative",
-          flex: 1,
-          minHeight: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 56px",
-        }}
-        onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+        className="relative flex min-h-0 flex-1 items-center justify-center px-2 pb-6"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
         onTouchEnd={(e) => {
-          if (touchX.current === null) return
-          const dx = e.changedTouches[0].clientX - touchX.current
-          touchX.current = null
+          if (touchX === null) return
+          const dx = e.changedTouches[0].clientX - touchX
           if (Math.abs(dx) > 40) (dx > 0 ? prev : next)()
+          setTouchX(null)
         }}
       >
-        {count > 1 && (
-          <button
-            type="button"
-            aria-label="Previous photo"
-            onClick={(e) => {
-              e.stopPropagation()
-              prev()
-            }}
-            style={{ ...arrow, left: 12 }}
-          >
-            <ChevronLeft style={{ width: 26, height: 26 }} />
-          </button>
-        )}
-
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          key={photos[index]}
           src={photos[index]}
-          alt={`${name} photo ${index + 1}`}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            maxWidth: "100%",
-            maxHeight: "100%",
-            objectFit: "contain",
-            borderRadius: 8,
-            userSelect: "none",
-          }}
+          alt={`${title}, photo ${index + 1}`}
+          className="max-h-full max-w-full rounded-lg object-contain"
         />
 
         {count > 1 && (
-          <button
-            type="button"
-            aria-label="Next photo"
-            onClick={(e) => {
-              e.stopPropagation()
-              next()
-            }}
-            style={{ ...arrow, right: 12 }}
-          >
-            <ChevronRight style={{ width: 26, height: 26 }} />
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous photo"
+              className="absolute left-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 sm:flex"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next photo"
+              className="absolute right-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 sm:flex"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
         )}
       </div>
-
-      {/* Thumbnails */}
-      {count > 1 && (
-        <div
-          ref={thumbsRef}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            display: "flex",
-            gap: 8,
-            padding: "14px 16px 18px",
-            overflowX: "auto",
-          }}
-        >
-          {photos.map((url, i) => (
-            <button
-              key={url}
-              type="button"
-              onClick={() => setIndex(i)}
-              aria-label={`Show photo ${i + 1}`}
-              style={{
-                flexShrink: 0,
-                width: 64,
-                height: 48,
-                padding: 0,
-                borderRadius: 6,
-                overflow: "hidden",
-                cursor: "pointer",
-                border: i === index ? "2px solid white" : "2px solid transparent",
-                opacity: i === index ? 1 : 0.55,
-                background: "transparent",
-              }}
-            >
-              <img
-                src={url}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>,
-    document.body
+    </div>
   )
 }

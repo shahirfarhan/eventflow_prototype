@@ -95,6 +95,9 @@ model VendorProfile {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  blockedDates    VendorBlockedDate[]
+  closedWeekdays  Int[]   @default([])   // 0 = Monday … 6 = Sunday
+
   instagram     String?
   facebook      String?
   tiktok        String?
@@ -326,6 +329,17 @@ model Availability {
   updatedAt     DateTime           @updatedAt
 
   @@unique([vendorId, date])
+}
+
+model VendorBlockedDate {
+  id        String        @id @default(cuid())
+  vendorId  String
+  vendor    VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  date      String        // "YYYY-MM-DD", Malaysia time
+  createdAt DateTime      @default(now())
+
+  @@unique([vendorId, date])
+  @@index([vendorId])
 }
 
 model ServiceImage {

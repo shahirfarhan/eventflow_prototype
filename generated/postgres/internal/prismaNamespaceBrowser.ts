@@ -33,6 +33,7 @@ export const ModelName = {
   Review: 'Review',
   Message: 'Message',
   Availability: 'Availability',
+  VendorBlockedDate: 'VendorBlockedDate',
   ServiceImage: 'ServiceImage',
   PackageImage: 'PackageImage',
   Notification: 'Notification',
@@ -109,6 +110,7 @@ export const VendorProfileScalarFieldEnum = {
   rating: 'rating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  closedWeekdays: 'closedWeekdays',
   instagram: 'instagram',
   facebook: 'facebook',
   tiktok: 'tiktok',
@@ -296,6 +298,16 @@ export const AvailabilityScalarFieldEnum = {
 } as const
 
 export type AvailabilityScalarFieldEnum = (typeof AvailabilityScalarFieldEnum)[keyof typeof AvailabilityScalarFieldEnum]
+
+
+export const VendorBlockedDateScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  date: 'date',
+  createdAt: 'createdAt'
+} as const
+
+export type VendorBlockedDateScalarFieldEnum = (typeof VendorBlockedDateScalarFieldEnum)[keyof typeof VendorBlockedDateScalarFieldEnum]
 
 
 export const ServiceImageScalarFieldEnum = {

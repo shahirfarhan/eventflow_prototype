@@ -403,6 +403,7 @@ export const ModelName = {
   Review: 'Review',
   Message: 'Message',
   Availability: 'Availability',
+  VendorBlockedDate: 'VendorBlockedDate',
   ServiceImage: 'ServiceImage',
   PackageImage: 'PackageImage',
   Notification: 'Notification',
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "emailVerificationToken" | "passwordResetToken" | "vendorProfile" | "savedVendor" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability" | "serviceImage" | "packageImage" | "notification" | "chatQuotation"
+    modelProps: "user" | "emailVerificationToken" | "passwordResetToken" | "vendorProfile" | "savedVendor" | "service" | "package" | "event" | "booking" | "quote" | "payment" | "review" | "message" | "availability" | "vendorBlockedDate" | "serviceImage" | "packageImage" | "notification" | "chatQuotation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1462,6 +1463,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VendorBlockedDate: {
+      payload: Prisma.$VendorBlockedDatePayload<ExtArgs>
+      fields: Prisma.VendorBlockedDateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VendorBlockedDateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VendorBlockedDateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        findFirst: {
+          args: Prisma.VendorBlockedDateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VendorBlockedDateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        findMany: {
+          args: Prisma.VendorBlockedDateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>[]
+        }
+        create: {
+          args: Prisma.VendorBlockedDateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        createMany: {
+          args: Prisma.VendorBlockedDateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VendorBlockedDateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>[]
+        }
+        delete: {
+          args: Prisma.VendorBlockedDateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        update: {
+          args: Prisma.VendorBlockedDateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        deleteMany: {
+          args: Prisma.VendorBlockedDateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VendorBlockedDateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VendorBlockedDateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>[]
+        }
+        upsert: {
+          args: Prisma.VendorBlockedDateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VendorBlockedDatePayload>
+        }
+        aggregate: {
+          args: Prisma.VendorBlockedDateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVendorBlockedDate>
+        }
+        groupBy: {
+          args: Prisma.VendorBlockedDateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VendorBlockedDateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VendorBlockedDateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VendorBlockedDateCountAggregateOutputType> | number
+        }
+      }
+    }
     ServiceImage: {
       payload: Prisma.$ServiceImagePayload<ExtArgs>
       fields: Prisma.ServiceImageFieldRefs
@@ -1852,6 +1927,7 @@ export const VendorProfileScalarFieldEnum = {
   rating: 'rating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  closedWeekdays: 'closedWeekdays',
   instagram: 'instagram',
   facebook: 'facebook',
   tiktok: 'tiktok',
@@ -2041,6 +2117,16 @@ export const AvailabilityScalarFieldEnum = {
 export type AvailabilityScalarFieldEnum = (typeof AvailabilityScalarFieldEnum)[keyof typeof AvailabilityScalarFieldEnum]
 
 
+export const VendorBlockedDateScalarFieldEnum = {
+  id: 'id',
+  vendorId: 'vendorId',
+  date: 'date',
+  createdAt: 'createdAt'
+} as const
+
+export type VendorBlockedDateScalarFieldEnum = (typeof VendorBlockedDateScalarFieldEnum)[keyof typeof VendorBlockedDateScalarFieldEnum]
+
+
 export const ServiceImageScalarFieldEnum = {
   id: 'id',
   serviceId: 'serviceId',
@@ -2187,16 +2273,16 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'Int'
+ * Reference to a field of type 'Int[]'
  */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
 /**
- * Reference to a field of type 'Int[]'
+ * Reference to a field of type 'Int'
  */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 /**
@@ -2300,6 +2386,7 @@ export type GlobalOmitConfig = {
   review?: Prisma.ReviewOmit
   message?: Prisma.MessageOmit
   availability?: Prisma.AvailabilityOmit
+  vendorBlockedDate?: Prisma.VendorBlockedDateOmit
   serviceImage?: Prisma.ServiceImageOmit
   packageImage?: Prisma.PackageImageOmit
   notification?: Prisma.NotificationOmit

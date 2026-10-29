@@ -87,6 +87,11 @@ export type Message = Prisma.MessageModel
  */
 export type Availability = Prisma.AvailabilityModel
 /**
+ * Model VendorBlockedDate
+ * 
+ */
+export type VendorBlockedDate = Prisma.VendorBlockedDateModel
+/**
  * Model ServiceImage
  * 
  */

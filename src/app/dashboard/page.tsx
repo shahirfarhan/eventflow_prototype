@@ -30,6 +30,7 @@ import {
   formatRM,
 } from "@/components/dashboard/ui"
 import { SaveVendorButton } from "@/components/save-vendor-button"
+import { AvailabilityButton } from "@/components/dashboard/availability-dialog"
 
 import AdminDashboardPage from "./admin/page"
 import EventsList from "./events/events-list"
@@ -158,7 +159,7 @@ export default async function DashboardPage({
       prisma.booking.findMany({
         where: {
           vendorId: vendor.id,
-          status: { in: ["PENDING", "ACCEPTED", "PAID"] },
+          status: { in: ["PENDING", "ACCEPTED", "PAYMENT_PENDING", "PAID"] },
           date: { gte: startOfToday },
         },
         include: { organizer: true, service: true, event: true },
@@ -198,7 +199,10 @@ export default async function DashboardPage({
     ])
 
     const pending = upcoming.filter((b) => b.status === "PENDING")
-    const confirmed = upcoming.filter((b) => b.status === "ACCEPTED" || b.status === "PAID")
+    // Accepted, waiting for the vendor to check the receipt, or paid
+    const confirmed = upcoming.filter(
+      (b) => b.status === "ACCEPTED" || b.status === "PAYMENT_PENDING" || b.status === "PAID",
+    )
     const unpaid = confirmed.filter((b) => b.status === "ACCEPTED")
     const dueToday = confirmed.filter(
       (b) => isSameDay(new Date(b.date), now) && !b.vendorProvidedAt,
@@ -267,11 +271,14 @@ export default async function DashboardPage({
       <div className="min-h-screen bg-background">
         <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-8">
           {/* HEADER — phones */}
-          <div className="md:hidden">
-            <p className="text-muted-foreground">{greeting()},</p>
-            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">
-              {firstName}
-            </h1>
+          <div className="flex items-end justify-between gap-3 md:hidden">
+            <div className="min-w-0">
+              <p className="text-muted-foreground">{greeting()},</p>
+              <h1 className="truncate font-display text-3xl font-extrabold tracking-tight text-foreground">
+                {firstName}
+              </h1>
+            </div>
+            <AvailabilityButton className="h-10 shrink-0 px-3" />
           </div>
 
           {/* HEADER — tablet / desktop */}
@@ -280,10 +287,14 @@ export default async function DashboardPage({
               eyebrow={todayLabel()}
               title={`${greeting()}, ${firstName}`}
               actions={
-                <Link href="/dashboard/services" className={buttonPrimary}>
-                  <Plus className="h-4 w-4" />
-                  New service
-                </Link>
+                <div className="flex flex-wrap gap-2">
+                  {/* Block days off; bookings block their dates automatically */}
+                  <AvailabilityButton />
+                  <Link href="/dashboard/services" className={buttonPrimary}>
+                    <Plus className="h-4 w-4" />
+                    New service
+                  </Link>
+                </div>
               }
             />
           </div>
