@@ -16,6 +16,8 @@ import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
+import { getLocale } from "@/lib/i18n-server"
+import { dateLocale, getDictionary, type Dictionary } from "@/lib/i18n"
 
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { Stats } from "@/components/dashboard/stats"
@@ -47,7 +49,7 @@ import {
    Helpers
 ================================================================ */
 
-function greeting() {
+function greeting(t: Dictionary["dashboard"]) {
   const hour = Number(
     new Intl.DateTimeFormat("en-GB", {
       hour: "numeric",
@@ -55,13 +57,14 @@ function greeting() {
       timeZone: APP_TIME_ZONE,
     }).format(new Date()),
   )
-  if (hour < 12) return "Good morning"
-  if (hour < 18) return "Good afternoon"
-  return "Good evening"
+  if (hour < 12) return t.goodMorning
+  if (hour < 18) return t.goodAfternoon
+  return t.goodEvening
 }
 
-function todayLabel() {
-  return new Intl.DateTimeFormat("en-GB", {
+/** "Wednesday, 4 November" / "Rabu, 4 November" */
+function todayLabel(dl: string) {
+  return new Intl.DateTimeFormat(dl, {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -77,8 +80,6 @@ function isSameDay(a: Date, b: Date) {
   )
 }
 
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`
-
 export default async function DashboardPage({
   searchParams,
 }: {
@@ -90,10 +91,14 @@ export default async function DashboardPage({
     redirect("/login")
   }
 
+  const locale = await getLocale()
+  const t = getDictionary(locale).dashboard
+  const dl = dateLocale(locale)
+
   const role = session.user.role
   const { tab } = await searchParams
   const activeTab = tab ?? "overview"
-  const firstName = session.user.name ?? "there"
+  const firstName = session.user.name ?? t.there
 
   // ============================================================
   // ADMIN DASHBOARD
@@ -120,19 +125,19 @@ export default async function DashboardPage({
         <div className="min-h-screen bg-background">
           <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <DashboardHeader
-              eyebrow={todayLabel()}
-              title={`${greeting()}, ${firstName}`}
-              description="Complete your vendor profile to start receiving bookings."
+              eyebrow={todayLabel(dl)}
+              title={`${greeting(t)}, ${firstName}`}
+              description={t.completeProfileIntro}
             />
 
             <Panel className="mt-8">
               <EmptyState
                 icon={<UserRound className="h-6 w-6" />}
-                title="Complete your vendor profile"
-                description="Add your business information, services, pricing and photos so event planners can discover and book you."
+                title={t.completeProfileTitle}
+                description={t.completeProfileText}
                 action={
                   <Link href="/dashboard/profile" className={buttonPrimary}>
-                    Complete profile
+                    {t.completeProfile}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 }
@@ -216,12 +221,15 @@ export default async function DashboardPage({
         href: "/dashboard/bookings",
         icon: CalendarDays,
         tone: "brand",
-        title: `${plural(pending.length, "new booking request")}`,
+        title: t.newRequests(pending.length),
         detail: pending
           .slice(0, 2)
-          .map((b) => `${b.organizer?.name ?? "Planner"} · ${b.event?.title ?? b.service?.name ?? "Event"}`)
+          .map(
+            (b) =>
+              `${b.organizer?.name ?? t.planner} · ${b.event?.title ?? b.service?.name ?? t.event}`,
+          )
           .join(", "),
-        chip: "Reply soon",
+        chip: t.replySoon,
       })
     }
 
@@ -230,8 +238,8 @@ export default async function DashboardPage({
         href: "/dashboard/bookings",
         icon: CheckCircle2,
         tone: "green",
-        title: `Mark ${plural(dueToday.length, "booking")} as provided`,
-        detail: "Happening today. Confirm once you've delivered the service",
+        title: t.markProvided(dueToday.length),
+        detail: t.markProvidedDetail,
       })
     }
 
@@ -241,8 +249,8 @@ export default async function DashboardPage({
         href: "/dashboard/bookings",
         icon: Wallet,
         tone: "blue",
-        title: `${plural(unpaid.length, "booking")} awaiting payment`,
-        detail: `${formatRM(unpaidTotal)} accepted, not yet paid by the planner`,
+        title: t.awaitingPaymentTitle(unpaid.length),
+        detail: t.awaitingPaymentDetail(formatRM(unpaidTotal)),
       })
     }
 
@@ -251,14 +259,14 @@ export default async function DashboardPage({
         href: "/dashboard/services",
         icon: BriefcaseBusiness,
         tone: "neutral",
-        title: "Add your first service",
-        detail: "Planners can't book you until you list at least one service",
+        title: t.addFirstService,
+        detail: t.addFirstServiceDetail,
       })
     }
 
     // ---------- Stats ----------
     const monthDiff = thisMonthCount - lastMonthCount
-    const lastMonthName = startOfLastMonth.toLocaleDateString("en-GB", { month: "long" })
+    const lastMonthName = startOfLastMonth.toLocaleDateString(dl, { month: "long" })
     const earnedCount = earned._count._all
     const awaitingCount = awaiting._count._all
 
@@ -273,7 +281,7 @@ export default async function DashboardPage({
           {/* HEADER — phones */}
           <div className="flex items-end justify-between gap-3 md:hidden">
             <div className="min-w-0">
-              <p className="text-muted-foreground">{greeting()},</p>
+              <p className="text-muted-foreground">{greeting(t)},</p>
               <h1 className="truncate font-display text-3xl font-extrabold tracking-tight text-foreground">
                 {firstName}
               </h1>
@@ -284,15 +292,15 @@ export default async function DashboardPage({
           {/* HEADER — tablet / desktop */}
           <div className="hidden md:block">
             <DashboardHeader
-              eyebrow={todayLabel()}
-              title={`${greeting()}, ${firstName}`}
+              eyebrow={todayLabel(dl)}
+              title={`${greeting(t)}, ${firstName}`}
               actions={
                 <div className="flex flex-wrap gap-2">
-                  {/* Block days off; bookings block their dates automatically */}
+                  {/* Block days off */}
                   <AvailabilityButton />
                   <Link href="/dashboard/services" className={buttonPrimary}>
                     <Plus className="h-4 w-4" />
-                    New service
+                    {t.newService}
                   </Link>
                 </div>
               }
@@ -306,8 +314,8 @@ export default async function DashboardPage({
 
           {/* ATTENTION + UP NEXT */}
           <div className="mt-6 grid grid-cols-1 gap-6 md:gap-5 lg:grid-cols-3">
-            <AttentionCard items={attention} />
-            <UpNextCard booking={confirmed[0]} />
+            <AttentionCard items={attention} locale={locale} />
+            <UpNextCard booking={confirmed[0]} locale={locale} />
           </div>
 
           {/* STATS — phones */}
@@ -316,38 +324,39 @@ export default async function DashboardPage({
               bookingsThisMonth={thisMonthCount}
               earned={earned._sum.price}
               awaiting={awaiting._sum.price}
+              locale={locale}
             />
           </div>
 
           {/* STATS — tablet / desktop */}
           <div className="mt-5 hidden grid-cols-2 gap-4 md:grid lg:grid-cols-4">
             <StatCard
-              label="Bookings this month"
+              label={t.statBookingsMonth}
               value={thisMonthCount}
-              hint={`${monthDiff >= 0 ? "+" : ""}${monthDiff} vs ${lastMonthName}`}
+              hint={t.vsMonth(`${monthDiff >= 0 ? "+" : ""}${monthDiff}`, lastMonthName)}
               tone={monthDiff > 0 ? "positive" : "muted"}
             />
             <StatCard
-              label="Earned"
+              label={t.statEarned}
               value={formatRM(earned._sum.price)}
-              hint={`From ${plural(earnedCount, "paid booking")}`}
+              hint={t.fromPaid(earnedCount)}
             />
             <StatCard
-              label="Awaiting payment"
+              label={t.statAwaiting}
               value={formatRM(awaiting._sum.price)}
-              hint={awaitingCount > 0 ? `${plural(awaitingCount, "accepted booking")} unpaid` : "Nothing outstanding"}
+              hint={awaitingCount > 0 ? t.acceptedUnpaid(awaitingCount) : t.nothingOutstanding}
               tone={awaitingCount > 0 ? "warning" : "muted"}
             />
             <StatCard
-              label="Live services"
+              label={t.statLiveServices}
               value={vendor.services.length}
-              hint="Listed on your profile"
+              hint={t.listedOnProfile}
             />
           </div>
 
           {/* UPCOMING BOOKINGS */}
           <div className="mt-6 md:mt-5">
-            <UpcomingBookingsTable bookings={upcoming.slice(0, 6)} />
+            <UpcomingBookingsTable bookings={upcoming.slice(0, 6)} locale={locale} />
           </div>
         </main>
       </div>
@@ -392,10 +401,10 @@ export default async function DashboardPage({
   const upcoming = events.filter((e) => e.date >= startOfToday).slice(0, 5)
 
   const headerCopy: Record<string, { title: string; description: string }> = {
-    overview: { title: `${greeting()}, ${firstName}`, description: "Here's what's happening with your events." },
-    events: { title: "My events", description: "Manage your upcoming events and plan details." },
-    bookings: { title: "Bookings", description: "Manage your vendor bookings and payments." },
-    saved: { title: "Saved vendors", description: "Vendors you've saved for later." },
+    overview: { title: `${greeting(t)}, ${firstName}`, description: t.overviewDesc },
+    events: { title: t.myEvents, description: t.myEventsDesc },
+    bookings: { title: t.bookings, description: t.bookingsDesc },
+    saved: { title: t.savedVendors, description: t.savedVendorsDesc },
   }
   const header = headerCopy[activeTab] ?? headerCopy.overview
 
@@ -404,7 +413,7 @@ export default async function DashboardPage({
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* HEADER */}
         <DashboardHeader
-          eyebrow={todayLabel()}
+          eyebrow={todayLabel(dl)}
           title={header.title}
           description={header.description}
           actions={
@@ -412,7 +421,7 @@ export default async function DashboardPage({
             activeTab === "events" ? (
               <Link href="/dashboard/events/new" className={buttonPrimary}>
                 <CalendarPlus className="h-4 w-4" />
-                Create event
+                {t.createEvent}
               </Link>
             ) : undefined
           }
@@ -442,12 +451,12 @@ export default async function DashboardPage({
             <Panel>
               <EmptyState
                 icon={<Search className="h-5 w-5" />}
-                title="Find vendors"
-                description="Browse photographers, caterers, venues and more for your event."
+                title={t.findVendors}
+                description={t.findVendorsDesc}
                 action={
                   <Link href="/vendors" className={buttonPrimary}>
                     <Search className="h-4 w-4" />
-                    Browse vendors
+                    {t.browseVendors}
                   </Link>
                 }
               />
@@ -459,12 +468,12 @@ export default async function DashboardPage({
               <Panel>
                 <EmptyState
                   icon={<Bookmark className="h-5 w-5" />}
-                  title="No saved vendors yet"
-                  description="Tap the bookmark icon on any vendor to save it here."
+                  title={t.noSaved}
+                  description={t.noSavedDesc}
                   action={
                     <Link href="/vendors" className={buttonPrimary}>
                       <Search className="h-4 w-4" />
-                      Browse vendors
+                      {t.browseVendors}
                     </Link>
                   }
                 />
@@ -496,7 +505,7 @@ export default async function DashboardPage({
                               />
                             ) : (
                               <div className="flex h-full w-full items-center justify-center">
-                                <span className="text-sm text-muted-foreground">No image yet</span>
+                                <span className="text-sm text-muted-foreground">{t.noImageYet}</span>
                               </div>
                             )}
                             <span className="absolute right-4 top-4 rounded-full bg-card/95 px-3 py-1 text-xs font-semibold text-foreground">
@@ -511,7 +520,9 @@ export default async function DashboardPage({
                             </p>
                             {minPrice !== null && (
                               <p className="mt-auto pt-2 text-sm">
-                                <span className="font-semibold text-foreground">From {formatRM(minPrice)}</span>
+                                <span className="font-semibold text-foreground">
+                                  {t.from(formatRM(minPrice))}
+                                </span>
                               </p>
                             )}
                           </div>

@@ -4,8 +4,11 @@ import { VendorCard } from "@/components/vendor-card"
 import { heroVendors, categories } from "@/lib/vendors"
 import Link from "next/link"
 import { MobileTabBar } from "@/components/dashboard/mobile-tab-bar"
+import { getT } from "@/lib/i18n-server"
 
-export function Hero() {
+export async function Hero() {
+  const t = await getT()
+
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
       <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -13,21 +16,21 @@ export function Hero() {
         <div className="max-w-xl">
           <p className="mb-4 flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <span className="inline-block size-2 rounded-full bg-primary" aria-hidden="true" />
-            Now open: be one of the first planners on Gaffers
+            {t.hero.badge}
           </p>
           <h1 className="text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            What Are We Planning Today?
+            {t.hero.title}
           </h1>
           <p className="mt-5 text-lg text-muted-foreground">
-            All your vendors and bookings. Now in one app.
+            {t.hero.subtitle}
           </p>
 
           <div className="mt-8 flex flex-col gap-4">
             <Link href="/dashboard/events/new">
-                <Button size="lg" className="w-fit gap-2 font-semibold">
-                    <Plus className="size-5" aria-hidden="true" />
-                    Create Event
-                </Button>
+              <Button size="lg" className="w-fit gap-2 font-semibold">
+                <Plus className="size-5" aria-hidden="true" />
+                {t.hero.createEvent}
+              </Button>
             </Link>
 
             <form
@@ -40,18 +43,18 @@ export function Hero() {
                   aria-hidden="true"
                 />
                 <label htmlFor="vendor-search" className="sr-only">
-                  Search vendors by name or category
+                  {t.hero.searchLabel}
                 </label>
                 <input
                   id="vendor-search"
                   name="q"
                   type="search"
-                  placeholder="Search vendors by name or category..."
+                  placeholder={t.hero.searchPlaceholder}
                   className="h-12 w-full rounded-xl border border-input bg-background pl-10 pr-4 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40"
                 />
               </div>
               <Button type="submit" size="lg" className="h-12 font-semibold">
-                Search Vendors
+                {t.hero.searchButton}
               </Button>
             </form>
 

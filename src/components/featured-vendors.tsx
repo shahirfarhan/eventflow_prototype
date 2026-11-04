@@ -1,8 +1,11 @@
 import { MapPin } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { prisma } from "@/lib/prisma"
+import { getT } from "@/lib/i18n-server"
 
 export async function FeaturedVendors() {
+  const t = (await getT()).featuredVendors
+
   const vendors = await prisma.vendorProfile.findMany({
     where: { user: { vendorStatus: "APPROVED" } },
     take: 3,
@@ -16,13 +19,9 @@ export async function FeaturedVendors() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-extrabold tracking-tight">
-            Featured Vendors
-          </h2>
+          <h2 className="text-3xl font-extrabold tracking-tight">{t.title}</h2>
 
-          <p className="mt-2 text-muted-foreground">
-            Hand-picked professionals for your next event.
-          </p>
+          <p className="mt-2 text-muted-foreground">{t.subtitle}</p>
         </div>
 
         <a
@@ -32,7 +31,7 @@ export async function FeaturedVendors() {
             size: "lg",
           })}
         >
-          View all vendors
+          {t.viewAll}
         </a>
       </div>
 
@@ -55,9 +54,7 @@ export async function FeaturedVendors() {
             {/* Content */}
             <div className="flex flex-1 flex-col p-6">
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold">
-                  {vendor.businessName}
-                </h3>
+                <h3 className="text-xl font-bold">{vendor.businessName}</h3>
 
                 <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
                   {vendor.category}
@@ -66,17 +63,13 @@ export async function FeaturedVendors() {
 
               {vendor.location && (
                 <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin
-                    className="size-4 shrink-0"
-                    aria-hidden="true"
-                  />
+                  <MapPin className="size-4 shrink-0" aria-hidden="true" />
                   {vendor.location}
                 </p>
               )}
 
               <p className="mt-4 flex-1 text-pretty text-muted-foreground">
-                {vendor.description ||
-                  `Professional ${vendor.category?.toLowerCase() || "event"} services for your special occasion.`}
+                {vendor.description || t.fallbackDescription(vendor.category)}
               </p>
 
               <a
@@ -87,7 +80,7 @@ export async function FeaturedVendors() {
                   className: "mt-6 w-full",
                 })}
               >
-                View profile
+                {t.viewProfile}
               </a>
             </div>
           </article>

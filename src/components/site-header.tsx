@@ -2,17 +2,23 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { auth } from "@/auth"
 import { cn } from "@/lib/utils"
+import { getLocale } from "@/lib/i18n-server"
+import { getDictionary } from "@/lib/i18n"
 import { MessagesDropdown } from "./messages-dropdown"
 import { UserDropdown } from "./user-dropdown"
 import { NotificationBell } from "./notifications-bell"
+import { LanguageToggle } from "./language-toggle"
 
 export async function SiteHeader() {
-  const session = await auth()
+  const [session, locale] = await Promise.all([auth(), getLocale()])
+  const t = getDictionary(locale)
 
-  // Signed-in vendors and planners get the bottom tab bar on phones,
-  // which already has a Home tab for the vendors page
+  // Signed-in vendors, planners and admins get the bottom tab bar on phones,
+  // which already has a tab for the vendors page
   const hasTabBar =
-    session?.user?.role === "VENDOR" || session?.user?.role === "ORGANIZER"
+    session?.user?.role === "VENDOR" ||
+    session?.user?.role === "ORGANIZER" ||
+    session?.user?.role === "ADMIN"
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur">
@@ -28,7 +34,7 @@ export async function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="flex min-w-0 items-center gap-2 text-xs font-medium sm:gap-7 sm:text-sm">
+        <nav className="flex min-w-0 items-center gap-2 text-xs font-medium sm:gap-6 sm:text-sm">
           <Link
             href="/vendors"
             className={cn(
@@ -37,7 +43,7 @@ export async function SiteHeader() {
               hasTabBar && "hidden md:inline"
             )}
           >
-            Vendors
+            {t.header.vendors}
           </Link>
 
           {/* Desktop/tablet only; on phones it's in the bottom tab bar */}
@@ -46,9 +52,12 @@ export async function SiteHeader() {
               href="/dashboard"
               className="hidden whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground md:inline"
             >
-              Dashboard
+              {t.header.dashboard}
             </Link>
           )}
+
+          {/* EN | BM */}
+          <LanguageToggle locale={locale} />
 
           {session?.user ? (
             <div className="flex shrink-0 items-center gap-1 sm:gap-4">
@@ -66,10 +75,10 @@ export async function SiteHeader() {
           ) : (
             <>
               <Link href="/login">
-                <Button variant="ghost" size="sm">Log In</Button>
+                <Button variant="ghost" size="sm">{t.header.logIn}</Button>
               </Link>
               <Link href="/register">
-                <Button size="sm">Get Started</Button>
+                <Button size="sm">{t.header.getStarted}</Button>
               </Link>
             </>
           )}

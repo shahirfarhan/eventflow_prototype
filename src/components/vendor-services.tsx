@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 import BookingChatDialog, {
   ChatContextService,
@@ -27,9 +28,12 @@ type VendorServicesProps = {
     };
     services: any[];
   };
+  /** "en" or "ms" (defaults to English) */
+  locale?: Locale;
 };
 
-export default function VendorServices({ vendor }: VendorServicesProps) {
+export default function VendorServices({ vendor, locale = "en" }: VendorServicesProps) {
+  const t = getDictionary(locale).services;
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedService, setSelectedService] =
     useState<ChatContextService | null>(null);
@@ -52,7 +56,7 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
   if (vendor.services.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-        No services listed yet.
+        {t.noServices}
       </div>
     );
   }
@@ -75,9 +79,9 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
                     </CardTitle>
 
                     <CardDescription className="mt-1">
-                      Starting at{" "}
+                      {t.startingAt}{" "}
                       <span className="font-semibold text-primary">
-                        RM {Number(service.basePrice ?? 0).toLocaleString()}
+                        RM {Number(service.basePrice ?? 0).toLocaleString("en-MY")}
                       </span>
                     </CardDescription>
                   </div>
@@ -90,13 +94,13 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
                       size="icon"
                       className="h-10 w-10"
                       onClick={() => openChat(service)}
-                      aria-label={`Message ${vendor.businessName} about ${service.name}`}
+                      aria-label={t.messageAbout(vendor.businessName, service.name)}
                     >
                       <MessageCircle className="h-4 w-4" />
                     </Button>
 
                     <Button asChild className="hidden sm:inline-flex">
-                      <Link href={bookHref}>Book Now</Link>
+                      <Link href={bookHref}>{t.bookNow}</Link>
                     </Button>
                   </div>
                 </div>
@@ -105,7 +109,7 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
               <CardContent className="min-w-0 space-y-4">
                 {/* pre-line keeps the vendor's line breaks but still wraps long lines */}
                 <p className="whitespace-pre-line break-words text-sm leading-relaxed text-muted-foreground">
-                  {service.description || "No description provided."}
+                  {service.description || t.noDescription}
                 </p>
 
                 {service.images?.length > 0 && (
@@ -116,7 +120,7 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
 
                 {/* Book: full width at the bottom on phones */}
                 <Button asChild className="h-11 w-full sm:hidden">
-                  <Link href={bookHref}>Book Now</Link>
+                  <Link href={bookHref}>{t.bookNow}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -128,8 +132,8 @@ export default function VendorServices({ vendor }: VendorServicesProps) {
       <BookingChatDialog
         open={chatOpen}
         onOpenChange={setChatOpen}
-        title={`Chat with ${vendor.businessName}`}
-        description="Discuss your requirements with the vendor."
+        title={t.chatTitle(vendor.businessName)}
+        description={t.chatDescription}
         peerId={vendor.user.id}
         contextService={selectedService || undefined}
         contextVendorBusinessName={vendor.businessName}

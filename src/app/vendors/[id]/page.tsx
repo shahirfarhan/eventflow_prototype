@@ -30,14 +30,8 @@ import BookingChatDialog from "@/app/dashboard/bookings/booking-chat-dialog";
 import { AvailabilityPicker } from "@/components/vendor-availability";
 import { getPublicAvailability } from "@/lib/availability";
 import { formatKey, todayKey } from "@/lib/date-keys";
-
-/** What goes after the price, by pricing model ("" = a fixed price) */
-const PRICE_UNIT: Record<string, string> = {
-  FIXED: "",
-  PER_HOUR: "/hour",
-  PER_PAX: "/pax",
-  PER_DAY: "/day",
-};
+import { getLocale } from "@/lib/i18n-server";
+import { dateLocale, getDictionary } from "@/lib/i18n";
 
 export default async function PublicVendorDetailsPage({
   params,
@@ -46,6 +40,10 @@ export default async function PublicVendorDetailsPage({
 }) {
   const { id } = await params;
   const session = await auth();
+  const locale = await getLocale();
+  const t = getDictionary(locale);
+  const tp = t.vendorProfile;
+  const dl = dateLocale(locale);
 
   const vendor = await prisma.vendorProfile.findUnique({
     where: { id },
@@ -137,9 +135,10 @@ export default async function PublicVendorDetailsPage({
   const availability = await getPublicAvailability(vendor.id);
   const nextFreeLabel = availability.nextFree
     ? availability.nextFree === todayKey()
-      ? `Today, ${formatKey(availability.nextFree, { year: false })}`
-      : formatKey(availability.nextFree, { year: false })
+      ? `${tp.today}, ${formatKey(availability.nextFree, { year: false, locale: dl })}`
+      : formatKey(availability.nextFree, { year: false, locale: dl })
     : null;
+  const priceUnit = cheapest ? tp.unit[cheapest.pricingModel] ?? "" : "";
 
   /* ---------- Booking card (sidebar on desktop, after "About" on phones) ---------- */
   const bookingCard = (
@@ -147,27 +146,27 @@ export default async function PublicVendorDetailsPage({
       {/* Price */}
       {cheapest ? (
         <>
-          <p className="text-sm text-muted-foreground">Services from</p>
+          <p className="text-sm text-muted-foreground">{tp.servicesFrom}</p>
           <p className="mt-0.5 flex items-baseline gap-1">
             <span className="font-display text-3xl font-extrabold tracking-tight text-foreground">
               RM {Number(cheapest.basePrice).toLocaleString("en-MY")}
             </span>
-            {PRICE_UNIT[cheapest.pricingModel] && (
+            {priceUnit && (
               <span className="text-base font-medium text-muted-foreground">
-                {PRICE_UNIT[cheapest.pricingModel]}
+                {priceUnit}
               </span>
             )}
           </p>
         </>
       ) : hasOnlyQuotes ? (
         <>
-          <p className="text-sm text-muted-foreground">Pricing</p>
+          <p className="text-sm text-muted-foreground">{tp.pricing}</p>
           <p className="mt-0.5 font-display text-2xl font-extrabold tracking-tight text-foreground">
-            Custom quote
+            {tp.customQuote}
           </p>
         </>
       ) : (
-        <p className="text-sm text-muted-foreground">No services listed yet.</p>
+        <p className="text-sm text-muted-foreground">{tp.noServicesYet}</p>
       )}
 
       {/* Reviews summary */}
@@ -178,12 +177,10 @@ export default async function PublicVendorDetailsPage({
         >
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
           <span className="font-semibold text-foreground">{vendor.rating.toFixed(1)}</span>
-          <span>
-            · {reviewCount} review{reviewCount === 1 ? "" : "s"}
-          </span>
+          <span>{tp.reviewsAfterDot(reviewCount)}</span>
         </a>
       ) : (
-        <p className="mt-2 text-sm text-muted-foreground">No reviews yet</p>
+        <p className="mt-2 text-sm text-muted-foreground">{tp.noReviewsYet}</p>
       )}
 
       {/* Availability: opens the calendar; shows the chosen date afterwards */}
@@ -195,6 +192,7 @@ export default async function PublicVendorDetailsPage({
           unavailable={availability.unavailable}
           closedWeekdays={availability.closedWeekdays}
           nextFreeLabel={nextFreeLabel}
+          locale={locale}
         />
       </div>
 
@@ -203,8 +201,8 @@ export default async function PublicVendorDetailsPage({
         <div className="mt-5">
           {session?.user ? (
             <BookingChatDialog
-              title={`Chat with ${vendor.businessName}`}
-              description="Discuss your requirements with the vendor."
+              title={tp.chatTitle(vendor.businessName)}
+              description={tp.chatDescription}
               peerId={vendor.user.id}
               directPeerName={vendor.businessName}
               contextVendorBusinessName={vendor.businessName}
@@ -214,14 +212,14 @@ export default async function PublicVendorDetailsPage({
                   className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-foreground bg-card text-sm font-semibold text-foreground transition-colors hover:bg-muted"
                 >
                   <MessageSquare className="h-4 w-4" />
-                  Message vendor
+                  {tp.messageVendor}
                 </button>
               }
             />
           ) : (
             <>
               <Button asChild className="h-12 w-full">
-                <Link href="/login">Log in to message or book</Link>
+                <Link href="/login">{tp.loginToMessage}</Link>
               </Button>
             </>
           )}
@@ -233,27 +231,27 @@ export default async function PublicVendorDetailsPage({
         <li className="flex items-start gap-2.5">
           <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
           <span>
-            <span className="font-semibold text-foreground">Approved by Gaffers</span>
+            <span className="font-semibold text-foreground">{tp.trustApprovedTitle}</span>
             <span className="block text-muted-foreground">
-              Every vendor is reviewed before going live.
+              {tp.trustApprovedText}
             </span>
           </span>
         </li>
         <li className="flex items-start gap-2.5">
           <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
           <span>
-            <span className="font-semibold text-foreground">Pay through Gaffers</span>
+            <span className="font-semibold text-foreground">{tp.trustPayTitle}</span>
             <span className="block text-muted-foreground">
-              Receipts are tracked on your booking.
+              {tp.trustPayText}
             </span>
           </span>
         </li>
         <li className="flex items-start gap-2.5">
           <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
           <span>
-            <span className="font-semibold text-foreground">Replies within 24 hours</span>
+            <span className="font-semibold text-foreground">{tp.trustReplyTitle}</span>
             <span className="block text-muted-foreground">
-              Chat and book without leaving the app.
+              {tp.trustReplyText}
             </span>
           </span>
         </li>
@@ -275,7 +273,7 @@ export default async function PublicVendorDetailsPage({
             className="-ml-2 inline-flex min-h-10 items-center rounded-lg px-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Vendors
+            {tp.backToVendors}
           </Link>
         </div>
 
@@ -309,7 +307,7 @@ export default async function PublicVendorDetailsPage({
             <Button asChild variant="outline" className="h-10 shrink-0">
               <Link href="/dashboard/profile">
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit profile
+                {tp.editProfile}
               </Link>
             </Button>
           )}
@@ -331,9 +329,7 @@ export default async function PublicVendorDetailsPage({
               <span className="font-medium text-foreground">
                 {vendor.rating.toFixed(1)}
               </span>
-              <span className="ml-1">
-                ({reviewCount} review{reviewCount === 1 ? "" : "s"})
-              </span>
+              <span className="ml-1">{tp.reviewsInBrackets(reviewCount)}</span>
             </a>
           )}
         </div>
@@ -360,19 +356,19 @@ export default async function PublicVendorDetailsPage({
             {/* ABOUT */}
             <Card>
               <CardHeader className="pb-3 sm:pb-6">
-                <CardTitle className="text-lg sm:text-xl">About</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{tp.about}</CardTitle>
               </CardHeader>
 
               <CardContent className="space-y-5">
                 <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  {vendor.description || "No description provided."}
+                  {vendor.description || tp.noDescription}
                 </p>
 
                 {vendor.occasions && (
                   <div className="border-t pt-5">
                     <h3 className="mb-3 flex items-center text-sm font-semibold">
                       <Calendar className="mr-2 h-4 w-4" />
-                      Perfect for Occasions
+                      {tp.perfectFor}
                     </h3>
 
                     <div className="flex flex-wrap gap-2">
@@ -397,7 +393,7 @@ export default async function PublicVendorDetailsPage({
             {/* SERVICES */}
             <section id="services" className="min-w-0 scroll-mt-24">
               <h2 className="mb-3 text-xl font-bold tracking-tight sm:mb-4 sm:text-2xl">
-                Services
+                {tp.services}
               </h2>
 
               <VendorServices
@@ -410,13 +406,14 @@ export default async function PublicVendorDetailsPage({
                   },
                   services: vendor.services,
                 }}
+                locale={locale}
               />
             </section>
 
             {/* REVIEWS */}
             <section id="reviews" className="min-w-0 scroll-mt-24">
               <h2 className="mb-3 text-xl font-bold tracking-tight sm:mb-4 sm:text-2xl">
-                Reviews
+                {tp.reviews}
                 {reviewCount > 0 && (
                   <span className="ml-2 text-base font-medium text-muted-foreground">
                     ({reviewCount})
@@ -431,10 +428,10 @@ export default async function PublicVendorDetailsPage({
                       <CardHeader className="pb-2">
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0 truncate font-semibold">
-                            {review.author.name ?? "Planner"}
+                            {review.author.name ?? tp.planner}
                           </div>
 
-                          <div className="flex shrink-0" aria-label={`${review.rating} out of 5 stars`}>
+                          <div className="flex shrink-0" aria-label={tp.starsLabel(review.rating)}>
                             {Array.from({ length: 5 }).map((_, i) => (
                               <Star
                                 key={i}
@@ -459,7 +456,7 @@ export default async function PublicVendorDetailsPage({
                 </div>
               ) : (
                 <div className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-                  No reviews yet.
+                  {tp.noReviews}
                 </div>
               )}
             </section>

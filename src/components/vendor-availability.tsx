@@ -4,8 +4,10 @@ import { useEffect, useMemo, useState } from "react"
 import { createPortal } from "react-dom"
 import { CalendarCheck, CalendarDays, Check, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { dateLocale, getDictionary, type Locale } from "@/lib/i18n"
 import {
   WEEKDAYS_SHORT,
+  WEEKDAYS_SHORT_MS,
   formatKey,
   monthCells,
   monthLabel,
@@ -23,6 +25,8 @@ type AvailabilityProps = {
   closedWeekdays: number[]
   /** "Today, Tue 27 Oct" — shown before a date is picked */
   nextFreeLabel?: string | null
+  /** "en" or "ms" (defaults to English) */
+  locale?: Locale
 }
 
 /**
@@ -33,6 +37,8 @@ type AvailabilityProps = {
 export function AvailabilityPicker(props: AvailabilityProps) {
   const [open, setOpen] = useState(false)
   const [picked, setPicked] = useState<string | null>(null)
+  const t = getDictionary(props.locale ?? "en").availability
+  const dl = dateLocale(props.locale ?? "en")
 
   return (
     <>
@@ -42,11 +48,11 @@ export function AvailabilityPicker(props: AvailabilityProps) {
           <div className="flex items-start gap-2.5">
             <CalendarCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-muted-foreground">Your date</p>
-              <p className="font-semibold text-foreground">{formatKey(picked)}</p>
+              <p className="text-sm text-muted-foreground">{t.yourDate}</p>
+              <p className="font-semibold text-foreground">{formatKey(picked, { locale: dl })}</p>
               <p className="mt-0.5 flex items-center gap-1 text-sm font-medium text-emerald-700">
                 <Check className="h-3.5 w-3.5" />
-                {props.vendorName} is available
+                {t.isAvailable(props.vendorName)}
               </p>
             </div>
             <button
@@ -54,14 +60,14 @@ export function AvailabilityPicker(props: AvailabilityProps) {
               onClick={() => setOpen(true)}
               className="shrink-0 rounded-lg px-2 py-1 text-sm font-semibold text-foreground underline underline-offset-4 hover:bg-emerald-100"
             >
-              Change
+              {t.change}
             </button>
           </div>
           <a
             href="#services"
             className="mt-3 flex h-10 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Choose a service
+            {t.chooseService}
           </a>
         </div>
       ) : (
@@ -73,10 +79,10 @@ export function AvailabilityPicker(props: AvailabilityProps) {
         >
           <CalendarDays className="h-5 w-5 shrink-0 text-foreground" />
           <span className="min-w-0 flex-1">
-            <span className="block font-semibold text-foreground">Check availability</span>
+            <span className="block font-semibold text-foreground">{t.checkAvailability}</span>
             {props.nextFreeLabel && (
               <span className="block text-sm text-muted-foreground">
-                Next free: {props.nextFreeLabel}
+                {t.nextFree} {props.nextFreeLabel}
               </span>
             )}
           </span>
@@ -106,6 +112,7 @@ function AvailabilityDialog({
   to,
   unavailable,
   closedWeekdays,
+  locale = "en",
   value,
   onPick,
   onClose,
@@ -115,6 +122,9 @@ function AvailabilityDialog({
   onClose: () => void
 }) {
   const [mounted, setMounted] = useState(false)
+  const t = getDictionary(locale).availability
+  const dl = dateLocale(locale)
+  const weekdays = locale === "ms" ? WEEKDAYS_SHORT_MS : WEEKDAYS_SHORT
   const months = useMemo(() => monthsFrom(from, 13), [from])
   const taken = useMemo(() => new Set(unavailable), [unavailable])
   const closed = useMemo(() => new Set(closedWeekdays), [closedWeekdays])
@@ -163,14 +173,14 @@ function AvailabilityDialog({
         <div className="flex items-start justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
           <div className="min-w-0">
             <h2 id="availability-dialog-title" className="text-lg font-bold">
-              Availability
+              {t.title}
             </h2>
-            <p className="text-sm text-muted-foreground">Pick a date to check if {vendorName} is free.</p>
+            <p className="text-sm text-muted-foreground">{t.pickDate(vendorName)}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t.close}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted transition-colors hover:bg-border"
           >
             <X className="h-5 w-5" />
@@ -182,7 +192,7 @@ function AvailabilityDialog({
           <div className="mb-3 flex justify-end gap-1.5">
             <button
               type="button"
-              aria-label="Earlier months"
+              aria-label={t.earlier}
               onClick={() => setStart((s) => Math.max(0, s - 1))}
               disabled={start === 0}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card transition-colors hover:bg-muted disabled:opacity-40"
@@ -191,7 +201,7 @@ function AvailabilityDialog({
             </button>
             <button
               type="button"
-              aria-label="Later months"
+              aria-label={t.later}
               onClick={() => setStart((s) => Math.min(maxStart, s + 1))}
               disabled={start >= maxStart}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card transition-colors hover:bg-muted disabled:opacity-40"
@@ -204,9 +214,9 @@ function AvailabilityDialog({
             {[months[start], months[start + 1]].map((m, idx) => (
               // Phones show one month; the arrows step through them
               <div key={`${m.year}-${m.month}`} className={cn("min-w-0", idx === 1 && "hidden md:block")}>
-                <p className="mb-2.5 text-center text-sm font-bold">{monthLabel(m.year, m.month)}</p>
+                <p className="mb-2.5 text-center text-sm font-bold">{monthLabel(m.year, m.month, dl)}</p>
                 <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-muted-foreground">
-                  {WEEKDAYS_SHORT.map((d) => (
+                  {weekdays.map((d) => (
                     <span key={d}>{d}</span>
                   ))}
                 </div>
@@ -222,7 +232,7 @@ function AvailabilityDialog({
                         type="button"
                         disabled={!free}
                         onClick={() => onPick(key)}
-                        aria-label={`${formatKey(key)}, ${past ? "past" : free ? "available" : "unavailable"}`}
+                        aria-label={`${formatKey(key, { locale: dl })}, ${(past ? t.past : free ? t.available : t.unavailable).toLowerCase()}`}
                         aria-pressed={isPicked}
                         className={cn(
                           "h-10 w-full rounded-full text-sm font-semibold transition-colors",
@@ -250,13 +260,13 @@ function AvailabilityDialog({
         >
           <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 bg-card" /> Available
+              <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 bg-card" /> {t.available}
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-3.5 w-3.5 rounded-full bg-muted" /> Unavailable
+              <span className="h-3.5 w-3.5 rounded-full bg-muted" /> {t.unavailable}
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-3.5 w-3.5 rounded-full bg-foreground" /> Your date
+              <span className="h-3.5 w-3.5 rounded-full bg-foreground" /> {t.yourDate}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -266,7 +276,7 @@ function AvailabilityDialog({
                 onClick={() => onPick(null)}
                 className="h-11 flex-1 rounded-xl px-4 text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:flex-none"
               >
-                Clear
+                {t.clear}
               </button>
             )}
             <button
@@ -274,7 +284,7 @@ function AvailabilityDialog({
               onClick={onClose}
               className="h-11 flex-1 rounded-xl bg-foreground px-5 text-sm font-semibold text-background transition-opacity hover:opacity-90 sm:flex-none"
             >
-              {value ? `Use ${formatKey(value, { year: false })}` : "Done"}
+              {value ? t.use(formatKey(value, { year: false, locale: dl })) : t.done}
             </button>
           </div>
         </div>

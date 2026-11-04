@@ -7,6 +7,8 @@ export const APP_TIME_ZONE = "Asia/Kuala_Lumpur"
 export const DATE_KEY_RE = /^\d{4}-\d{2}-\d{2}$/
 
 export const WEEKDAYS_SHORT = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+/** Isnin, Selasa, Rabu, Khamis, Jumaat, Sabtu, Ahad */
+export const WEEKDAYS_SHORT_MS = ["Is", "Se", "Ra", "Kh", "Ju", "Sa", "Ah"]
 export const WEEKDAYS_LONG = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 /** "2026-12-30" for a Date, in Malaysia time */
@@ -39,9 +41,12 @@ export function addDays(key: string, days: number) {
   return date.toISOString().slice(0, 10)
 }
 
-/** "Sat, 14 Nov 2026" (pass { year: false } to drop the year) */
-export function formatKey(key: string, opts: { year?: boolean } = {}) {
-  return toUTC(key).toLocaleDateString("en-GB", {
+/**
+ * "Sat, 14 Nov 2026" (pass { year: false } to drop the year).
+ * Pass { locale: "ms-MY" } for Malay ("Sab, 14 Nov 2026").
+ */
+export function formatKey(key: string, opts: { year?: boolean; locale?: string } = {}) {
+  return toUTC(key).toLocaleDateString(opts.locale ?? "en-GB", {
     timeZone: "UTC",
     weekday: "short",
     day: "numeric",
@@ -50,9 +55,9 @@ export function formatKey(key: string, opts: { year?: boolean } = {}) {
   })
 }
 
-/** "November 2026" for a { year, month } (month 0–11) */
-export function monthLabel(year: number, month: number) {
-  return new Date(Date.UTC(year, month, 1)).toLocaleDateString("en-GB", {
+/** "November 2026" for a { year, month } (month 0–11); pass "ms-MY" for Malay */
+export function monthLabel(year: number, month: number, locale = "en-GB") {
+  return new Date(Date.UTC(year, month, 1)).toLocaleDateString(locale, {
     timeZone: "UTC",
     month: "long",
     year: "numeric",

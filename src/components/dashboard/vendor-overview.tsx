@@ -21,6 +21,10 @@ import {
   formatRM,
 } from "@/components/dashboard/ui"
 import BookingChatDialog from "../../app/dashboard/bookings/booking-chat-dialog"
+import { dateLocale, getDictionary, type Dictionary, type Locale } from "@/lib/i18n"
+
+type DashT = Dictionary["dashboard"]
+const dict = (locale: Locale = "en") => getDictionary(locale).dashboard
 
 /** The fields the vendor overview reads from a booking (with organizer, service, event). */
 export type VendorBooking = {
@@ -39,8 +43,8 @@ export type VendorBooking = {
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24
 
-function plannerName(b: VendorBooking) {
-  return b.organizer?.name ?? "Planner"
+function plannerName(b: VendorBooking, t: DashT) {
+  return b.organizer?.name ?? t.planner
 }
 
 function timeRange(b: VendorBooking) {
@@ -48,11 +52,11 @@ function timeRange(b: VendorBooking) {
   return `${b.startTime ?? "?"}${b.endTime ? `–${b.endTime}` : ""}`
 }
 
-function chatDescription(b: VendorBooking) {
+function chatDescription(b: VendorBooking, t: DashT) {
   return (
     [
-      b.event?.title ? `Event: ${b.event.title}` : null,
-      b.service?.name ? `Booking: ${b.service.name}` : null,
+      b.event?.title ? t.chatEvent(b.event.title) : null,
+      b.service?.name ? t.chatBooking(b.service.name) : null,
     ]
       .filter(Boolean)
       .join(" • ") || undefined
@@ -88,18 +92,19 @@ const attentionTones: Record<AttentionItem["tone"], string> = {
   neutral: "bg-muted text-muted-foreground",
 }
 
-export function AttentionCard({ items }: { items: AttentionItem[] }) {
+export function AttentionCard({ items, locale }: { items: AttentionItem[]; locale?: Locale }) {
+  const t = dict(locale)
   return (
     <div className="min-w-0 lg:col-span-2">
-      <MobileSectionLabel>Needs your attention</MobileSectionLabel>
+      <MobileSectionLabel>{t.needsAttention}</MobileSectionLabel>
 
       <Panel className="flex flex-col overflow-hidden md:h-full">
         {/* Card header: desktop only (phones use the label above) */}
         <div className="hidden items-center justify-between px-6 pb-4 pt-5 md:flex">
-          <h2 className="text-base font-semibold text-foreground">Needs your attention</h2>
+          <h2 className="text-base font-semibold text-foreground">{t.needsAttention}</h2>
           {items.length > 0 && (
             <span className="rounded-full bg-brand-muted px-2.5 py-1 text-xs font-bold text-brand-strong">
-              {items.length} to do
+              {t.toDo(items.length)}
             </span>
           )}
         </div>
@@ -108,8 +113,8 @@ export function AttentionCard({ items }: { items: AttentionItem[] }) {
           <div className="flex flex-1 flex-col justify-center md:border-t md:border-border">
             <EmptyState
               icon={<CalendarCheck className="h-5 w-5" />}
-              title="You're all caught up"
-              description="New booking requests and anything that needs your reply will show up here."
+              title={t.allCaughtUp}
+              description={t.allCaughtUpDesc}
             />
           </div>
         ) : (
@@ -160,24 +165,23 @@ export function AttentionCard({ items }: { items: AttentionItem[] }) {
    UP NEXT (dark card)
 ================================================================ */
 
-export function UpNextCard({ booking }: { booking?: VendorBooking }) {
+export function UpNextCard({ booking, locale }: { booking?: VendorBooking; locale?: Locale }) {
+  const t = dict(locale)
   if (!booking) {
     return (
       <div className="flex min-w-0 flex-col pt-2 md:pt-0">
-        <MobileSectionLabel>Up next</MobileSectionLabel>
+        <MobileSectionLabel>{t.upNext}</MobileSectionLabel>
         <section className="flex flex-1 flex-col rounded-2xl bg-foreground p-6 text-background">
-          <p className="hidden text-xs font-bold tracking-wider text-background/70 md:block">
-            UP NEXT
+          <p className="hidden text-xs font-bold uppercase tracking-wider text-background/70 md:block">
+            {t.upNext}
           </p>
-          <p className="text-lg font-semibold md:mt-4">No confirmed bookings yet</p>
-          <p className="mt-1 text-sm text-background/70">
-            Once you accept a request, your next event shows up here so you can prep for the day.
-          </p>
+          <p className="text-lg font-semibold md:mt-4">{t.noConfirmed}</p>
+          <p className="mt-1 text-sm text-background/70">{t.noConfirmedDesc}</p>
           <Link
             href="/dashboard/bookings"
             className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-background text-sm font-semibold text-foreground transition-opacity hover:opacity-90 lg:mt-auto"
           >
-            View requests
+            {t.viewRequests}
           </Link>
         </section>
       </div>
@@ -189,12 +193,12 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
   const eventDay = new Date(booking.date)
   eventDay.setHours(0, 0, 0, 0)
   const days = Math.round((eventDay.getTime() - startOfToday.getTime()) / MS_PER_DAY)
-  const when = days <= 0 ? "TODAY" : days === 1 ? "TOMORROW" : `IN ${days} DAYS`
+  const when = days <= 0 ? t.today : days === 1 ? t.tomorrow : t.inDays(days)
 
-  const name = plannerName(booking)
+  const name = plannerName(booking, t)
   const time = timeRange(booking)
-  const title = booking.service?.name ?? booking.event?.title ?? "Booking"
-  const weekday = new Intl.DateTimeFormat("en-GB", {
+  const title = booking.service?.name ?? booking.event?.title ?? t.booking
+  const weekday = new Intl.DateTimeFormat(dateLocale(locale ?? "en"), {
     weekday: "short",
     timeZone: APP_TIME_ZONE,
   }).format(new Date(booking.date))
@@ -204,15 +208,17 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
       <BookingChatDialog
         bookingId={booking.id}
         peerId={booking.organizer.id}
-        title={`Planner — ${name}`}
-        description={chatDescription(booking)}
+        title={t.plannerChat(name)}
+        description={chatDescription(booking, t)}
         trigger={trigger}
       />
     ) : null
 
   return (
     <div className="flex min-w-0 flex-col pt-2 md:pt-0">
-      <MobileSectionLabel>Up next · {when.toLowerCase()}</MobileSectionLabel>
+      <MobileSectionLabel>
+        {t.upNext} · {when}
+      </MobileSectionLabel>
 
       {/* ---------- Phones: compact card ---------- */}
       <section className="flex items-center gap-4 rounded-2xl bg-foreground p-4 text-background md:hidden">
@@ -226,7 +232,7 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
             </p>
             {(booking.location || booking.guests) && (
               <p className="truncate text-sm text-background/70">
-                {[booking.location, booking.guests ? `${booking.guests} pax` : null]
+                {[booking.location, booking.guests ? t.pax(booking.guests) : null]
                   .filter(Boolean)
                   .join(" · ")}
               </p>
@@ -236,7 +242,7 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
         {chat(
           <button
             type="button"
-            aria-label={`Message ${name}`}
+            aria-label={t.messageName(name)}
             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10 text-background transition-colors hover:bg-white/15"
           >
             <MessageSquare className="h-5 w-5" />
@@ -246,7 +252,9 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
 
       {/* ---------- Tablet / desktop: full card ---------- */}
       <section className="hidden flex-1 flex-col gap-5 rounded-2xl bg-foreground p-6 text-background md:flex">
-        <p className="text-xs font-bold tracking-wider text-background/70">UP NEXT · {when}</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-background/70">
+          {t.upNext} · {when}
+        </p>
 
         <div className="flex items-center gap-4">
           <DateBlock date={booking.date} tone="brand" size="lg" />
@@ -268,8 +276,8 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
           )}
           <li className="flex items-center gap-2">
             <Users className="h-4 w-4 shrink-0" />
-            {booking.guests ? `${booking.guests} guests · ` : ""}
-            {booking.status === "PAID" ? "Paid" : "Awaiting payment"}
+            {booking.guests ? `${t.guests(booking.guests)} · ` : ""}
+            {booking.status === "PAID" ? t.paid : t.awaitingPayment}
           </li>
         </ul>
 
@@ -280,14 +288,14 @@ export function UpNextCard({ booking }: { booking?: VendorBooking }) {
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white/10 text-sm font-semibold text-background transition-colors hover:bg-white/15"
             >
               <MessageSquare className="h-4 w-4" />
-              Message
+              {t.message}
             </button>,
           ) ?? <span />}
           <Link
             href={`/dashboard/bookings/${booking.id}`}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-background text-sm font-semibold text-foreground transition-opacity hover:opacity-90"
           >
-            View booking
+            {t.viewBooking}
           </Link>
         </div>
       </section>
@@ -315,29 +323,32 @@ export function MobileStats({
   bookingsThisMonth,
   earned,
   awaiting,
+  locale,
 }: {
   bookingsThisMonth: number
   earned: unknown
   awaiting: unknown
+  locale?: Locale
 }) {
+  const t = dict(locale)
   const tiles = [
-    { label: "Bookings", sub: "this month", prefix: null, value: String(bookingsThisMonth) },
-    { label: "Earned", sub: "all time", ...compactRM(earned) },
-    { label: "Unpaid", sub: "accepted", ...compactRM(awaiting) },
+    { label: t.tileBookings, sub: t.thisMonth, prefix: null, value: String(bookingsThisMonth) },
+    { label: t.tileEarned, sub: t.allTime, ...compactRM(earned) },
+    { label: t.tileUnpaid, sub: t.accepted, ...compactRM(awaiting) },
   ]
 
   return (
     <div className="md:hidden">
-      <MobileSectionLabel>At a glance</MobileSectionLabel>
+      <MobileSectionLabel>{t.atAGlance}</MobileSectionLabel>
       <div className="grid grid-cols-3 gap-2.5">
-        {tiles.map((t) => (
-          <div key={t.label} className="min-w-0 rounded-2xl border border-border bg-card px-3 py-3.5">
-            <p className="truncate text-xs text-muted-foreground">{t.label}</p>
+        {tiles.map((tile) => (
+          <div key={tile.label} className="min-w-0 rounded-2xl border border-border bg-card px-3 py-3.5">
+            <p className="truncate text-xs text-muted-foreground">{tile.label}</p>
             <p className="mt-1 truncate font-display text-xl font-extrabold leading-tight tracking-tight text-foreground">
-              {t.prefix && <span className="mr-0.5 text-xs font-bold">{t.prefix}</span>}
-              {t.value}
+              {tile.prefix && <span className="mr-0.5 text-xs font-bold">{tile.prefix}</span>}
+              {tile.value}
             </p>
-            <p className="truncate text-[11px] text-muted-foreground">{t.sub}</p>
+            <p className="truncate text-[11px] text-muted-foreground">{tile.sub}</p>
           </div>
         ))}
       </div>
@@ -350,28 +361,35 @@ export function MobileStats({
    Phones: simple list · Tablet/desktop: table
 ================================================================ */
 
-export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] }) {
+export function UpcomingBookingsTable({
+  bookings,
+  locale,
+}: {
+  bookings: VendorBooking[]
+  locale?: Locale
+}) {
+  const t = dict(locale)
   return (
     <div className="min-w-0">
       <div className="mb-3 flex items-center justify-between md:hidden">
         <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-          Upcoming
+          {t.upcoming}
         </h2>
         <Link href="/dashboard/bookings" className="text-sm font-semibold text-foreground">
-          View all
+          {t.viewAll}
         </Link>
       </div>
 
       <Panel className="overflow-hidden">
         <div className="hidden md:block">
           <PanelHeader
-            title="Upcoming bookings"
+            title={t.upcomingBookings}
             action={
               <Link
                 href="/dashboard/bookings"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-foreground hover:text-brand"
               >
-                View all <ArrowRight className="h-4 w-4" />
+                {t.viewAll} <ArrowRight className="h-4 w-4" />
               </Link>
             }
           />
@@ -381,8 +399,8 @@ export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] 
           <div className="md:border-t md:border-border">
             <EmptyState
               icon={<CalendarDays className="h-5 w-5" />}
-              title="No upcoming bookings"
-              description="Requests and confirmed bookings for future dates will appear here."
+              title={t.noUpcoming}
+              description={t.noUpcomingDesc}
             />
           </div>
         ) : (
@@ -398,11 +416,11 @@ export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] 
                     <DateBlock date={b.date} />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-semibold text-foreground">
-                        {b.event?.title ?? "Event"}
+                        {b.event?.title ?? t.event}
                       </p>
                       <p className="truncate text-sm text-muted-foreground">
-                        {plannerName(b)}
-                        {b.guests ? ` · ${b.guests} pax` : ""}
+                        {plannerName(b, t)}
+                        {b.guests ? ` · ${t.pax(b.guests)}` : ""}
                       </p>
                       <div className="mt-1.5">
                         <StatusBadge status={b.status} />
@@ -421,20 +439,20 @@ export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] 
               <table className="w-full min-w-[760px] border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-t border-border bg-muted/50 text-xs font-semibold text-muted-foreground">
-                    <th scope="col" className="w-[88px] py-3 pl-6 pr-4 font-semibold">Date</th>
-                    <th scope="col" className="px-4 py-3 font-semibold">Event</th>
-                    <th scope="col" className="px-4 py-3 font-semibold">Service</th>
-                    <th scope="col" className="px-4 py-3 font-semibold">Value</th>
-                    <th scope="col" className="px-4 py-3 font-semibold">Status</th>
+                    <th scope="col" className="w-[88px] py-3 pl-6 pr-4 font-semibold">{t.colDate}</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">{t.colEvent}</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">{t.colService}</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">{t.colValue}</th>
+                    <th scope="col" className="px-4 py-3 font-semibold">{t.colStatus}</th>
                     <th scope="col" className="w-[76px] py-3 pl-4 pr-6">
-                      <span className="sr-only">Message</span>
+                      <span className="sr-only">{t.message}</span>
                     </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {bookings.map((b) => {
-                    const name = plannerName(b)
+                    const name = plannerName(b, t)
                     return (
                       <tr key={b.id} className="border-t border-border transition-colors hover:bg-muted/40">
                         <td className="py-4 pl-6 pr-4 align-middle">
@@ -446,11 +464,11 @@ export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] 
                             href={`/dashboard/bookings/${b.id}`}
                             className="block font-semibold text-foreground hover:text-brand"
                           >
-                            {b.event?.title ?? "Event"}
+                            {b.event?.title ?? t.event}
                           </Link>
                           <span className="text-muted-foreground">
                             {name}
-                            {b.guests ? ` · ${b.guests} pax` : ""}
+                            {b.guests ? ` · ${t.pax(b.guests)}` : ""}
                           </span>
                         </td>
 
@@ -471,12 +489,12 @@ export function UpcomingBookingsTable({ bookings }: { bookings: VendorBooking[] 
                             <BookingChatDialog
                               bookingId={b.id}
                               peerId={b.organizer.id}
-                              title={`Planner — ${name}`}
-                              description={chatDescription(b)}
+                              title={t.plannerChat(name)}
+                              description={chatDescription(b, t)}
                               trigger={
                                 <button
                                   type="button"
-                                  aria-label={`Message ${name}`}
+                                  aria-label={t.messageName(name)}
                                   className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card text-foreground transition-colors hover:bg-muted"
                                 >
                                   <MessageSquare className="h-4 w-4" />
