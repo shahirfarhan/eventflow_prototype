@@ -17,6 +17,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import { useLocale, useT } from "@/components/locale-provider"
+import { dateLocale } from "@/lib/i18n"
 
 export type PendingVendor = {
   id: string
@@ -29,8 +31,8 @@ export type PendingVendor = {
   createdAt: string
 }
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString("en-MY", {
+const formatDate = (iso: string, dl: string) =>
+  new Date(iso).toLocaleDateString(dl, {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -38,6 +40,8 @@ const formatDate = (iso: string) =>
 
 export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] }) {
   const router = useRouter()
+  const t = useT().admin
+  const dl = dateLocale(useLocale())
   const [items, setItems] = useState(vendors)
   const [openId, setOpenId] = useState<string | null>(vendors[0]?.id ?? null)
   const [rejectingId, setRejectingId] = useState<string | null>(null)
@@ -54,14 +58,14 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
       })
       if (!res.ok) {
         const data = await res.json().catch(() => null)
-        throw new Error(data?.error || "Could not update vendor")
+        throw new Error(data?.error || t.couldNotUpdate)
       }
 
       const vendor = items.find((v) => v.id === id)
       toast.success(
         action === "APPROVE"
-          ? `${vendor?.name ?? "Vendor"} approved`
-          : `${vendor?.name ?? "Vendor"} rejected`,
+          ? t.vendorApproved(vendor?.name ?? t.vendor)
+          : t.vendorRejected(vendor?.name ?? t.vendor),
       )
 
       const remaining = items.filter((v) => v.id !== id)
@@ -71,7 +75,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
       setReason("")
       router.refresh()
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong")
+      toast.error(err instanceof Error ? err.message : t.somethingWrong)
     } finally {
       setBusyId(null)
     }
@@ -82,11 +86,9 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
       <div className="flex items-center justify-between gap-4 border-b border-border p-5 sm:p-6">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Vendor approvals
+            {t.approvalsTitle}
           </h2>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            New service providers waiting for review before they can sign in
-          </p>
+          <p className="mt-0.5 text-sm text-muted-foreground">{t.approvalsDesc}</p>
         </div>
         <span
           className={cn(
@@ -96,14 +98,14 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
               : "bg-emerald-100 text-emerald-700",
           )}
         >
-          {items.length} pending
+          {t.pending(items.length)}
         </span>
       </div>
 
       {items.length === 0 ? (
         <div className="flex items-center gap-3 p-6 text-sm text-muted-foreground">
           <ShieldCheck className="h-5 w-5 text-emerald-600" />
-          All caught up. New vendor sign-ups will appear here.
+          {t.allCaughtUp}
         </div>
       ) : (
         <ul className="divide-y divide-border">
@@ -125,16 +127,16 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                 >
                   <div className="min-w-0">
                     <p className="truncate font-semibold text-foreground">
-                      {v.name ?? "Unnamed business"}
+                      {v.name ?? t.unnamedBusiness}
                     </p>
                     <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                      {v.category ?? "No category"} · {v.location ?? "No location"}
+                      {v.category ?? t.noCategory} · {v.location ?? t.noLocation}
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
                     <span className="hidden items-center gap-1 text-xs text-muted-foreground sm:inline-flex">
                       <Clock className="h-3.5 w-3.5" />
-                      {formatDate(v.createdAt)}
+                      {formatDate(v.createdAt, dl)}
                     </span>
                     <ChevronDown
                       className={cn(
@@ -148,18 +150,18 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                 {isOpen && (
                   <div className="space-y-5 bg-muted/30 px-4 pb-5 pt-1 sm:px-6">
                     <dl className="grid gap-3 text-sm sm:grid-cols-2">
-                      <Detail icon={Mail} label="Email" value={v.email} />
-                      <Detail icon={Phone} label="Phone" value={v.phoneNumber} />
-                      <Detail icon={MapPin} label="Operating location" value={v.location} />
-                      <Detail icon={Tag} label="Business type" value={v.category} />
+                      <Detail icon={Mail} label={t.email} value={v.email} />
+                      <Detail icon={Phone} label={t.phone} value={v.phoneNumber} />
+                      <Detail icon={MapPin} label={t.operatingLocation} value={v.location} />
+                      <Detail icon={Tag} label={t.businessType} value={v.category} />
                     </dl>
 
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
-                        Business description
+                        {t.businessDescription}
                       </p>
                       <p className="mt-1.5 whitespace-pre-line rounded-lg border border-border bg-background p-3 text-sm leading-relaxed text-foreground">
-                        {v.description || "No description provided."}
+                        {v.description || t.noDescription}
                       </p>
                     </div>
 
@@ -168,7 +170,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                         <Textarea
                           value={reason}
                           onChange={(e) => setReason(e.target.value)}
-                          placeholder="Reason for rejection (optional) — e.g. description too vague, invalid phone number…"
+                          placeholder={t.reasonPlaceholder}
                           className="min-h-[90px] resize-y bg-background"
                           maxLength={500}
                         />
@@ -182,7 +184,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                               setReason("")
                             }}
                           >
-                            Cancel
+                            {t.cancel}
                           </Button>
                           <Button
                             type="button"
@@ -191,7 +193,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                             onClick={() => review(v.id, "REJECT")}
                           >
                             <X className="mr-1.5 h-4 w-4" />
-                            {isBusy ? "Rejecting…" : "Confirm rejection"}
+                            {isBusy ? t.rejecting : t.confirmRejection}
                           </Button>
                         </div>
                       </div>
@@ -205,7 +207,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                           onClick={() => setRejectingId(v.id)}
                         >
                           <X className="mr-1.5 h-4 w-4" />
-                          Reject
+                          {t.reject}
                         </Button>
                         <Button
                           type="button"
@@ -214,7 +216,7 @@ export default function VendorApprovals({ vendors }: { vendors: PendingVendor[] 
                           onClick={() => review(v.id, "APPROVE")}
                         >
                           <Check className="mr-1.5 h-4 w-4" />
-                          {isBusy ? "Approving…" : "Approve"}
+                          {isBusy ? t.approving : t.approve}
                         </Button>
                       </div>
                     )}
