@@ -17,6 +17,7 @@ import {
 import type { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { UNREAD_EVENT, fetchUnreadTotal } from "@/lib/unread"
+import { useT } from "@/components/locale-provider"
 
 /**
  * The unread count from the server is only a starting point. This keeps it live:
@@ -100,6 +101,7 @@ export function DashboardNav({
   const searchParams = useSearchParams()
   const liveUnread = useLiveUnread(unreadCount, isVendor || isOrganizer)
   const activeTab = searchParams.get("tab") ?? "overview"
+  const t = useT().nav
 
   const isActive = (item: NavItem) =>
     item.match
@@ -112,26 +114,26 @@ export function DashboardNav({
 
   const topItems: NavItem[] = isAdmin
     ? [
-        { label: "Overview", icon: LayoutGrid, href: "/dashboard", match: (p) => p === "/dashboard" },
-        { label: "All Bookings", icon: Ticket, href: "/dashboard/bookings" },
-        { label: "All Services", icon: Briefcase, href: "/dashboard/services" },
-        { label: "Vendors", icon: Search, href: "/vendors" },
+        { label: t.overview, icon: LayoutGrid, href: "/dashboard", match: (p) => p === "/dashboard" },
+        { label: t.allBookings, icon: Ticket, href: "/dashboard/bookings" },
+        { label: t.allServices, icon: Briefcase, href: "/dashboard/services" },
+        { label: t.vendors, icon: Search, href: "/vendors" },
       ]
     : isVendor
     ? [
-        { label: "Overview", icon: LayoutGrid, href: "/dashboard", tab: "overview" },
-        { label: "Bookings", icon: Ticket, href: "/dashboard/bookings", badge: pendingCount },
-        { label: "My Services", icon: Briefcase, href: "/dashboard/services" },
-        { label: "Profile", icon: UserRound, href: "/dashboard/profile" },
+        { label: t.overview, icon: LayoutGrid, href: "/dashboard", tab: "overview" },
+        { label: t.bookings, icon: Ticket, href: "/dashboard/bookings", badge: pendingCount },
+        { label: t.myServices, icon: Briefcase, href: "/dashboard/services" },
+        { label: t.profile, icon: UserRound, href: "/dashboard/profile" },
       ]
     : [
-        { label: "Overview", icon: LayoutGrid, href: "/dashboard", tab: "overview" },
+        { label: t.overview, icon: LayoutGrid, href: "/dashboard", tab: "overview" },
         ...(isOrganizer
-          ? [{ label: "My Events", icon: CalendarDays, href: "/dashboard?tab=events", tab: "events" }]
+          ? [{ label: t.myEvents, icon: CalendarDays, href: "/dashboard?tab=events", tab: "events" }]
           : []),
-        { label: "Bookings", icon: Ticket, href: "/dashboard?tab=bookings", tab: "bookings", badge: pendingCount },
-        { label: "Find Vendors", icon: Search, href: "/vendors" },
-        { label: "Saved Vendors", icon: Bookmark, href: "/dashboard?tab=saved", tab: "saved" },
+        { label: t.bookings, icon: Ticket, href: "/dashboard?tab=bookings", tab: "bookings", badge: pendingCount },
+        { label: t.findVendors, icon: Search, href: "/vendors" },
+        { label: t.savedVendors, icon: Bookmark, href: "/dashboard?tab=saved", tab: "saved" },
       ]
 
   /* ---------- Phones: tab bar fixed to the bottom ---------- */
@@ -141,33 +143,33 @@ export function DashboardNav({
   const bottomItems: NavItem[] = isAdmin
     ? // Admins: Vendors · Dashboard · Bookings · Services (all read across every user)
       [
-        { label: "Vendors", icon: Search, href: "/vendors", match: (p) => onVendorsPage(p) },
-        { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", match: (p) => p === "/dashboard" },
-        { label: "Bookings", icon: CalendarDays, href: "/dashboard/bookings" },
-        { label: "Services", icon: Briefcase, href: "/dashboard/services" },
+        { label: t.vendors, icon: Search, href: "/vendors", match: (p) => onVendorsPage(p) },
+        { label: t.dashboard, icon: LayoutGrid, href: "/dashboard", match: (p) => p === "/dashboard" },
+        { label: t.bookings, icon: CalendarDays, href: "/dashboard/bookings" },
+        { label: t.services, icon: Briefcase, href: "/dashboard/services" },
       ]
     : isVendor
     ? // Vendors: Home · Dashboard · Inbox · Bookings · Services (Inbox in the middle)
       [
         {
-          label: "Home",
+          label: t.home,
           icon: House,
           href: "/",
           // Vendors have no Vendors tab, so browsing vendors counts as Home
           match: (p) => p === "/" || onVendorsPage(p),
         },
-        { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", tab: "overview" },
-        { label: "Inbox", icon: MessageSquare, href: inboxHref, badge: liveUnread },
-        { label: "Bookings", icon: CalendarDays, href: "/dashboard/bookings", badge: pendingCount },
-        { label: "Services", icon: Briefcase, href: "/dashboard/services" },
+        { label: t.dashboard, icon: LayoutGrid, href: "/dashboard", tab: "overview" },
+        { label: t.inbox, icon: MessageSquare, href: inboxHref, badge: liveUnread },
+        { label: t.bookings, icon: CalendarDays, href: "/dashboard/bookings", badge: pendingCount },
+        { label: t.services, icon: Briefcase, href: "/dashboard/services" },
       ]
     : // Planners: Home · Vendors · Inbox · Bookings · Profile (Inbox in the middle)
       [
-        { label: "Home", icon: House, href: "/", match: (p) => p === "/" },
-        { label: "Vendors", icon: Search, href: "/vendors", match: (p) => onVendorsPage(p) },
-        { label: "Inbox", icon: MessageSquare, href: inboxHref, badge: liveUnread },
+        { label: t.home, icon: House, href: "/", match: (p) => p === "/" },
+        { label: t.vendors, icon: Search, href: "/vendors", match: (p) => onVendorsPage(p) },
+        { label: t.inbox, icon: MessageSquare, href: inboxHref, badge: liveUnread },
         {
-          label: "Bookings",
+          label: t.bookings,
           icon: Ticket,
           href: "/dashboard?tab=bookings",
           badge: pendingCount,
@@ -175,7 +177,7 @@ export function DashboardNav({
             (p === "/dashboard" && tab === "bookings") || p.startsWith("/dashboard/bookings"),
         },
         {
-          label: "Profile",
+          label: t.profile,
           icon: UserRound,
           href: ORGANIZER_PROFILE_HREF,
           // Lit anywhere else in the dashboard (overview, events, saved vendors…)
@@ -191,7 +193,7 @@ export function DashboardNav({
     <>
       {!mobileOnly && (
       <nav
-        aria-label="Dashboard"
+        aria-label={t.ariaLabel}
         className="hidden md:block md:overflow-x-auto"
       >
         <div className="inline-flex min-w-max gap-1 rounded-xl bg-border p-1">
@@ -199,7 +201,7 @@ export function DashboardNav({
             const active = isActive(item)
             return (
               <Link
-                key={item.label}
+                key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
@@ -224,7 +226,7 @@ export function DashboardNav({
       )}
 
       <nav
-        aria-label="Dashboard"
+        aria-label={t.ariaLabel}
         className="mobile-tabbar fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card md:hidden"
         /* margin: 0 stops a parent's space-y-* from pushing the bar up off the bottom edge */
         style={{ margin: 0, paddingBottom: "env(safe-area-inset-bottom)" }}
@@ -234,11 +236,12 @@ export function DashboardNav({
             const active = isActive(item)
             return (
               <Link
-                key={item.label}
+                key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-1 flex-col items-center gap-1 pb-2 pt-3 text-[11px]",
+                  // min-w-0 + leading-tight: "Papan Pemuka" wraps onto 2 lines instead of squeezing the others
+                  "flex min-w-0 flex-1 flex-col items-center gap-1 px-0.5 pb-2 pt-3 text-center text-[11px] leading-tight",
                   active ? "font-bold text-foreground" : "font-medium text-muted-foreground",
                 )}
               >

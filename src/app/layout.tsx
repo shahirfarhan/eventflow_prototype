@@ -1,56 +1,9 @@
-// import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
-// import { Toaster } from "@/components/ui/sonner";
-// import { Navbar } from "@/components/navbar";
-// import { SessionProvider } from "@/components/session-provider";
-// import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
-// export const metadata: Metadata = {
-//   title: "Gaffers",
-//   description: "One-stop platform for event planning",
-// };
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body
-//         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-//       >
-//         <SessionProvider>
-//           <Navbar />
-//           {children}
-//           <Toaster />
-//         </SessionProvider>
-//       </body>
-//     </html>
-//   );
-// }
-
-
-
-
-
-
-
-
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { SiteHeader } from "@/components/site-header"
-import { SessionProvider } from "@/components/session-provider";
+import { SessionProvider } from "@/components/session-provider"
+import { LocaleProvider } from "@/components/locale-provider"
+import { getLocale } from "@/lib/i18n-server"
 
 export const metadata: Metadata = {
   title: 'Gaffers — Find every vendor for your event',
@@ -84,18 +37,22 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="antialiased">
-        <SessionProvider>
-          <SiteHeader />
-          {children}
-        </SessionProvider>
+        <LocaleProvider locale={locale}>
+          <SessionProvider>
+            <SiteHeader />
+            {children}
+          </SessionProvider>
+        </LocaleProvider>
       </body>
     </html>
   )

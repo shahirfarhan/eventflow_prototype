@@ -436,8 +436,8 @@ export default async function DashboardPage({
         <div className="mt-6">
           {activeTab === "overview" && (
             <div className="space-y-5">
-              <Stats events={events} />
-              <UpcomingEvents events={upcoming} />
+              <Stats events={events} locale={locale} />
+              <UpcomingEvents events={upcoming} locale={locale} />
             </div>
           )}
 
