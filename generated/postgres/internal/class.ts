@@ -26,8 +26,8 @@ const config: runtime.GetPrismaClientConfig = {
       "fromEnvVar": null
     },
     "config": {
-      "runtime": "workerd",
-      "engineType": "client"
+      "engineType": "client",
+      "runtime": "workerd"
     },
     "binaryTargets": [
       {
@@ -47,6 +47,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

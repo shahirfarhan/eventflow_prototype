@@ -4,19 +4,25 @@ import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { ServicePhotoStrip } from "@/components/service-photos";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ServiceTitle, type ServiceTitleLabels } from "@/components/service-title";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
 import BookingChatDialog, {
   ChatContextService,
 } from "@/app/dashboard/bookings/booking-chat-dialog";
+
+// "What's included" labels for each language
+const INCLUDED_LABELS: Record<string, Partial<ServiceTitleLabels>> = {
+  ms: {
+    whatsIncluded: "Apa yang termasuk",
+    seeWhatsIncluded: "Lihat apa yang termasuk",
+    guestsRange: (min, max) => `${min}–${max} tetamu`,
+    guestsFrom: (min) => `Dari ${min} tetamu`,
+    guestsUpTo: (max) => `Sehingga ${max} tetamu`,
+  },
+};
 
 type VendorServicesProps = {
   vendor: {
@@ -73,17 +79,22 @@ export default function VendorServices({ vendor, locale = "en" }: VendorServices
               <CardHeader className="pb-3">
                 <div className="flex min-w-0 items-start justify-between gap-3">
                   {/* Title + price (allowed to shrink and wrap) */}
+                  {/* Click the name to show "What's included" */}
                   <div className="min-w-0 flex-1">
-                    <CardTitle className="break-words text-base leading-snug sm:text-lg">
-                      {service.name}
-                    </CardTitle>
-
-                    <CardDescription className="mt-1">
-                      {t.startingAt}{" "}
-                      <span className="font-semibold text-primary">
-                        RM {Number(service.basePrice ?? 0).toLocaleString("en-MY")}
+                    <ServiceTitle
+                      name={service.name}
+                      includedItems={service.includedItems}
+                      minGuests={service.minGuests}
+                      maxGuests={service.maxGuests}
+                      labels={INCLUDED_LABELS[locale]}
+                    >
+                      <span className="text-sm text-muted-foreground">
+                        {t.startingAt}{" "}
+                        <span className="font-semibold text-primary">
+                          RM {Number(service.basePrice ?? 0).toLocaleString("en-MY")}
+                        </span>
                       </span>
-                    </CardDescription>
+                    </ServiceTitle>
                   </div>
 
                   {/* Message + Book: top right on desktop */}
