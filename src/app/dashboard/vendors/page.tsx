@@ -49,6 +49,7 @@ export default async function VendorsPage({
   }
 
   if (q && q.trim().length > 0) {
+    const term = q.trim();
     where.OR = [
       {
         businessName: {
@@ -66,6 +67,11 @@ export default async function VendorsPage({
         occasions: {
           contains: q,
           mode: "insensitive",
+        },
+      },
+      {
+        services: {
+          some: { name: { contains: term, mode: "insensitive" } },
         },
       },
     ];
@@ -108,7 +114,7 @@ export default async function VendorsPage({
   // ============================================================
   // GET VENDORS
   // ============================================================
-
+  console.log("VENDOR SEARCH", JSON.stringify(where));
   const vendors = await prisma.vendorProfile.findMany({
     where,
     include: {
@@ -250,7 +256,7 @@ export default async function VendorsPage({
           <Input
             type="search"
             name="q"
-            placeholder="Search vendors by name or category..."
+            placeholder="Search vendors, categories or services..."
             defaultValue={q || ""}
             className="h-12 flex-1 rounded-xl"
           />

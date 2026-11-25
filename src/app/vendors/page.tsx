@@ -51,6 +51,7 @@ export default async function VendorsPage({
   }
 
   if (q && q.trim().length > 0) {
+    const term = q.trim();
     where.OR = [
       {
         businessName: {
@@ -68,6 +69,11 @@ export default async function VendorsPage({
         occasions: {
           contains: q,
           mode: "insensitive",
+        },
+      },
+            {
+        services: {
+          some: { name: { contains: term, mode: "insensitive" } },
         },
       },
     ];
