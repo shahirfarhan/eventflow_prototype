@@ -213,17 +213,46 @@ export default function ServiceForm({ service }: { service?: EditableService }) 
     );
   };
 
+  /**
+   * Adds every line in the box as its own item, so vendors can paste a whole list.
+   * Bullets / numbering at the start of a line ("-", "•", "1.", "2)") are removed.
+   */
   const addIncludedItem = () => {
-    const item = includedInput.trim();
+    const lines = includedInput
+      .split(/\r?\n/)
+      .map((line) => line.replace(/^\s*(?:[-*•–]|\d+[.)])\s*/, "").trim())
+      .filter(Boolean);
 
-    if (!item) return;
+    if (lines.length === 0) return;
 
-    if (includedItems.includes(item)) {
-      toast.error("This item has already been added.");
-      return;
+    const existing = new Set(includedItems.map((i) => i.toLowerCase()));
+    const toAdd: string[] = [];
+    let skipped = 0;
+
+    for (const line of lines) {
+      const key = line.toLowerCase();
+      if (existing.has(key)) {
+        skipped++;
+        continue;
+      }
+      existing.add(key);
+      toAdd.push(line);
     }
 
-    setIncludedItems((prev) => [...prev, item]);
+    if (toAdd.length > 0) {
+      setIncludedItems((prev) => [...prev, ...toAdd]);
+    }
+
+    if (skipped > 0) {
+      toast.error(
+        toAdd.length === 0
+          ? lines.length === 1
+            ? "This item has already been added."
+            : "These items have already been added."
+          : `Added ${toAdd.length}. Skipped ${skipped} already in the list.`
+      );
+    }
+
     setIncludedInput("");
   };
 
@@ -645,27 +674,40 @@ export default function ServiceForm({ service }: { service?: EditableService }) 
             <div className="space-y-3">
               <Label>What's Included?</Label>
 
-              <div className="flex gap-2">
-                <Input
+              <div className="flex items-start gap-2">
+                <Textarea
                   value={includedInput}
                   onChange={(e) => setIncludedInput(e.target.value)}
-                  placeholder="e.g. 4 hours of photography"
+                  placeholder={"One item per line, e.g.\n4 hours of photography\n200 edited photos\nOnline gallery"}
+                  rows={Math.min(Math.max(includedInput.split("\n").length, 3), 10)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    // Enter adds the items; Shift+Enter starts a new line
+                    // (skip while typing with an input method, e.g. Chinese/Japanese)
+                    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
                       e.preventDefault();
                       addIncludedItem();
                     }
                   }}
+                  className="min-w-0 flex-1"
                 />
 
                 <Button
                   type="button"
                   variant="outline"
                   onClick={addIncludedItem}
+                  className="shrink-0"
                 >
-                  Add
+                  {(() => {
+                    const n = includedInput.split("\n").filter((l) => l.trim()).length;
+                    return n > 1 ? `Add ${n}` : "Add";
+                  })()}
                 </Button>
               </div>
+
+              <p className="text-xs text-muted-foreground">
+                Paste or type a list with one item per line. Press Enter to add them all,
+                or Shift+Enter for a new line.
+              </p>
 
               <div className="space-y-2">
                 {includedItems.map((item) => (

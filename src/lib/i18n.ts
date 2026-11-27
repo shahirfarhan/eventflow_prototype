@@ -54,6 +54,9 @@ const en = {
   vendorProfile: {
     backToVendors: "Back to Vendors",
     editProfile: "Edit profile",
+    copyLink: "Copy profile link",
+    linkCopied: "Link copied",
+    copyFailed: "Couldn't copy the link",
     reviewsInBrackets: (n: number) => `(${n} review${n === 1 ? "" : "s"})`,
     reviewsAfterDot: (n: number) => `· ${n} review${n === 1 ? "" : "s"}`,
     servicesFrom: "Services from",
@@ -406,6 +409,9 @@ const ms: Dictionary = {
   vendorProfile: {
     backToVendors: "Kembali ke Vendor",
     editProfile: "Sunting profil",
+    copyLink: "Salin pautan profil",
+    linkCopied: "Pautan disalin",
+    copyFailed: "Tidak dapat menyalin pautan",
     reviewsInBrackets: (n: number) => `(${n} ulasan)`,
     reviewsAfterDot: (n: number) => `· ${n} ulasan`,
     servicesFrom: "Perkhidmatan dari",
@@ -706,6 +712,7 @@ const ms: Dictionary = {
     couldNotUpdate: "Tidak dapat mengemas kini vendor",
     somethingWrong: "Ada masalah berlaku",
   },
+  
 }
 
 const dictionaries: Record<Locale, Dictionary> = { en, ms }
