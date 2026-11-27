@@ -363,6 +363,30 @@ const en = {
     vendorRejected: (name: string) => `${name} rejected`,
     couldNotUpdate: "Could not update vendor",
     somethingWrong: "Something went wrong",
+    // Recently reviewed: details popup + "Show all"
+    showAll: (n: number) => `Show all (${n.toLocaleString()})`,
+    allReviewedTitle: "All reviewed vendors",
+    allReviewedDesc: (n: number) =>
+      `${n.toLocaleString()} approval decision${n === 1 ? "" : "s"}, newest first`,
+    backToList: "Back to list",
+    vendorDetails: "Vendor details",
+    contactName: "Contact name",
+    occasions: "Occasions",
+    website: "Website",
+    signedUp: "Signed up",
+    reviewedOn: "Reviewed",
+    rejectionReason: "Reason for rejection",
+    notProvided: "Not provided",
+    socialMedia: "Social media",
+    viewPublicPage: "View public page",
+    // Vendors by category
+    vendorsByCategory: "Vendors by category",
+    vendorsByCategoryDesc: (n: number, c: number, date: string) =>
+      `${n.toLocaleString()} vendor${n === 1 ? "" : "s"} in ${c} categor${c === 1 ? "y" : "ies"} joined since ${date} (rejected not counted)`,
+    noVendorsYet: "No vendors yet.",
+    liveCount: (n: number) => `${n.toLocaleString()} live`,
+    vendorsLabel: "vendors",
+    otherCategories: (n: number) => `Other (${n} categor${n === 1 ? "y" : "ies"})`,
   },
 }
 
@@ -711,6 +735,27 @@ const ms: Dictionary = {
     vendorRejected: (name: string) => `${name} ditolak`,
     couldNotUpdate: "Tidak dapat mengemas kini vendor",
     somethingWrong: "Ada masalah berlaku",
+    showAll: (n: number) => `Lihat semua (${n.toLocaleString()})`,
+    allReviewedTitle: "Semua vendor yang disemak",
+    allReviewedDesc: (n: number) => `${n.toLocaleString()} keputusan kelulusan, terkini dahulu`,
+    backToList: "Kembali ke senarai",
+    vendorDetails: "Butiran vendor",
+    contactName: "Nama untuk dihubungi",
+    occasions: "Majlis",
+    website: "Laman web",
+    signedUp: "Mendaftar",
+    reviewedOn: "Disemak",
+    rejectionReason: "Sebab penolakan",
+    notProvided: "Tidak diberikan",
+    socialMedia: "Media sosial",
+    viewPublicPage: "Lihat halaman awam",
+    vendorsByCategory: "Vendor mengikut kategori",
+    vendorsByCategoryDesc: (n: number, c: number, date: string) =>
+      `${n.toLocaleString()} vendor dalam ${c} kategori menyertai sejak ${date} (tidak termasuk yang ditolak)`,
+    noVendorsYet: "Belum ada vendor.",
+    liveCount: (n: number) => `${n.toLocaleString()} aktif`,
+    vendorsLabel: "vendor",
+    otherCategories: (n: number) => `Lain-lain (${n} kategori)`,
   },
   
 }

@@ -4,14 +4,13 @@ import { redirect } from "next/navigation"
 import {
   ArrowRight,
   CalendarCheck,
-  CheckCircle2,
   History,
+  PieChart,
   Ticket,
   TrendingUp,
   UserCheck,
   Users,
   Wallet,
-  XCircle,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { prisma } from "@/lib/prisma"
@@ -19,6 +18,7 @@ import { cn } from "@/lib/utils"
 import { getLocale } from "@/lib/i18n-server"
 import { dateLocale, getDictionary } from "@/lib/i18n"
 import VendorApprovals from "@/components/admin/vendor-approvals"
+import ReviewedVendors, { type ReviewedVendor } from "@/components/admin/reviewed-vendors"
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import {
   APP_TIME_ZONE,
@@ -48,7 +48,7 @@ const todayLabel = (dl: string) =>
   }).format(new Date())
 
 /**
- * "Users by role" only counts people who joined on or after this date
+ * "Users by role" and "Vendors by category" only count people who joined on or after this date
  * (27 Oct 2026, midnight Malaysia time), so earlier test accounts are left out.
  */
 const ROLE_STATS_SINCE = new Date("2026-10-26T00:00:00+08:00")
@@ -92,6 +92,78 @@ function StatTile({
 }
 
 /* ================================================================
+   DOUGHNUT CHART (plain SVG, no chart library)
+================================================================ */
+
+// Full class names so Tailwind keeps them: `stroke` colours the slice, `dot` the legend
+const SLICE_COLORS = [
+  { stroke: "text-brand", dot: "bg-brand" },
+  { stroke: "text-violet-500", dot: "bg-violet-500" },
+  { stroke: "text-amber-400", dot: "bg-amber-400" },
+  { stroke: "text-emerald-500", dot: "bg-emerald-500" },
+  { stroke: "text-sky-500", dot: "bg-sky-500" },
+  { stroke: "text-pink-500", dot: "bg-pink-500" },
+  { stroke: "text-teal-700", dot: "bg-teal-700" },
+]
+const OTHER_COLOR = { stroke: "text-stone-300", dot: "bg-stone-300" }
+
+function Doughnut({
+  slices,
+  total,
+  centerLabel,
+}: {
+  slices: { label: string; count: number; stroke: string }[]
+  total: number
+  centerLabel: string
+}) {
+  // A circle with r = 15.9155 has a circumference of 100, so each slice's
+  // length is simply its percentage. Slices start at 12 o'clock.
+  const R = 15.9155
+  const GAP = slices.length > 1 ? 0.8 : 0
+  let start = 0
+
+  return (
+    <div className="relative mx-auto" style={{ width: 176, height: 176 }}>
+      <svg viewBox="0 0 42 42" width="176" height="176" role="img" aria-label={centerLabel}>
+        {/* Track */}
+        <circle cx="21" cy="21" r={R} fill="none" strokeWidth="6" className="text-muted" stroke="currentColor" />
+        {total > 0 &&
+          slices.map((s) => {
+            const pct = (s.count / total) * 100
+            const dash = Math.max(pct - GAP, 0.01)
+            const offset = 25 - start // 25 = start at the top
+            start += pct
+            return (
+              <circle
+                key={s.label}
+                cx="21"
+                cy="21"
+                r={R}
+                fill="none"
+                strokeWidth="6"
+                stroke="currentColor"
+                className={s.stroke}
+                strokeDasharray={`${dash} ${100 - dash}`}
+                strokeDashoffset={offset}
+              >
+                <title>{`${s.label}: ${s.count}`}</title>
+              </circle>
+            )
+          })}
+      </svg>
+      <div
+        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center"
+      >
+        <span className="font-display text-3xl font-extrabold tracking-tight text-foreground">
+          {total.toLocaleString()}
+        </span>
+        <span className="text-xs text-muted-foreground">{centerLabel}</span>
+      </div>
+    </div>
+  )
+}
+
+/* ================================================================
    PAGE
 ================================================================ */
 
@@ -125,6 +197,7 @@ export default async function AdminDashboardPage() {
     usersSince,
     vendorsSince,
     organizersSince,
+    categoryRows,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { role: "VENDOR" } }),
@@ -141,7 +214,7 @@ export default async function AdminDashboardPage() {
     prisma.booking.count({ where: { createdAt: { gte: startOfMonth } } }),
     prisma.event.count({ where: { date: { gte: now } } }),
     prisma.booking.findMany({
-      take: 6,
+      take: 10, // fills the space beside Users by role + the category chart
       orderBy: { createdAt: "desc" },
       include: {
         event: { select: { title: true } },
@@ -168,6 +241,7 @@ export default async function AdminDashboardPage() {
         },
       },
     }),
+    // All reviewed vendors (panel shows 5, "Show all" shows the rest), with full details for the popup
     prisma.user.findMany({
       where: {
         role: "VENDOR",
@@ -175,15 +249,34 @@ export default async function AdminDashboardPage() {
         reviewedAt: { not: null }, // skips vendors bulk-approved before this feature
       },
       orderBy: { reviewedAt: "desc" },
-      take: 8,
+      take: 200,
       select: {
         id: true,
         name: true,
+        email: true,
+        phoneNumber: true,
+        location: true,
+        createdAt: true,
         vendorStatus: true,
         rejectionReason: true,
         reviewedAt: true,
         vendorProfile: {
-          select: { businessName: true, category: true },
+          select: {
+            id: true,
+            businessName: true,
+            category: true,
+            description: true,
+            occasions: true,
+            location: true,
+            phoneNumber: true,
+            website: true,
+            instagram: true,
+            facebook: true,
+            tiktok: true,
+            youtube: true,
+            twitter: true,
+            linkedin: true,
+          },
         },
       },
     }),
@@ -191,6 +284,11 @@ export default async function AdminDashboardPage() {
     prisma.user.count({ where: { createdAt: { gte: ROLE_STATS_SINCE } } }),
     prisma.user.count({ where: { role: "VENDOR", createdAt: { gte: ROLE_STATS_SINCE } } }),
     prisma.user.count({ where: { role: "ORGANIZER", createdAt: { gte: ROLE_STATS_SINCE } } }),
+    // For "Vendors by category": same cut-off as "Users by role" (by account sign-up date)
+    prisma.vendorProfile.findMany({
+      where: { user: { createdAt: { gte: ROLE_STATS_SINCE } } },
+      select: { category: true, user: { select: { vendorStatus: true } } },
+    }),
   ])
 
   const totalRevenue = Number(revenue._sum.price ?? 0)
@@ -203,6 +301,71 @@ export default async function AdminDashboardPage() {
     { label: t.roleVendors, count: vendorsSince, bar: "bg-brand" },
     { label: t.rolePlanners, count: organizersSince, bar: "bg-violet-500" },
     { label: t.roleOthers, count: others, bar: "bg-muted-foreground/40" },
+  ]
+
+  /* ---------- Recently reviewed: plain data for the popup ---------- */
+  const reviewedVendors: ReviewedVendor[] = recentlyReviewed.map((v) => {
+    const p = v.vendorProfile
+    return {
+      id: v.id,
+      profileId: p?.id ?? null,
+      businessName: p?.businessName ?? null,
+      contactName: v.name,
+      email: v.email,
+      phoneNumber: p?.phoneNumber ?? v.phoneNumber,
+      location: p?.location ?? v.location,
+      category: p?.category ?? null,
+      description: p?.description ?? null,
+      occasions: p?.occasions ?? null,
+      website: p?.website ?? null,
+      socials: {
+        instagram: p?.instagram ?? null,
+        facebook: p?.facebook ?? null,
+        tiktok: p?.tiktok ?? null,
+        youtube: p?.youtube ?? null,
+        twitter: p?.twitter ?? null,
+        linkedin: p?.linkedin ?? null,
+      },
+      status: v.vendorStatus === "APPROVED" ? "APPROVED" : "REJECTED",
+      rejectionReason: v.rejectionReason,
+      reviewedAt: v.reviewedAt?.toISOString() ?? null,
+      createdAt: v.createdAt.toISOString(),
+    }
+  })
+
+  /* ---------- Vendors by category (rejected vendors not counted) ---------- */
+  const byCategory = new Map<string, { live: number; pending: number }>()
+  for (const row of categoryRows) {
+    const status = row.user.vendorStatus
+    if (status === "REJECTED") continue
+    const key = row.category?.trim() || t.noCategory
+    const entry = byCategory.get(key) ?? { live: 0, pending: 0 }
+    if (status === "PENDING") entry.pending++
+    else entry.live++ // APPROVED (or older vendors with no status)
+    byCategory.set(key, entry)
+  }
+  const categoryStats = Array.from(byCategory, ([name, c]) => ({
+    name,
+    ...c,
+    total: c.live + c.pending,
+  })).sort((a, b) => b.total - a.total || a.name.localeCompare(b.name))
+  const categoryVendorTotal = categoryStats.reduce((sum, c) => sum + c.total, 0)
+
+  // Doughnut: biggest 7 categories get their own colour, the rest are grouped as "Other"
+  const TOP_SLICES = 7
+  const topCategories = categoryStats.slice(0, TOP_SLICES)
+  const restCategories = categoryStats.slice(TOP_SLICES)
+  const slices = [
+    ...topCategories.map((c, i) => ({ label: c.name, count: c.total, ...SLICE_COLORS[i] })),
+    ...(restCategories.length > 0
+      ? [
+          {
+            label: t.otherCategories(restCategories.length),
+            count: restCategories.reduce((sum, c) => sum + c.total, 0),
+            ...OTHER_COLOR,
+          },
+        ]
+      : []),
   ]
 
   return (
@@ -310,69 +473,15 @@ export default async function AdminDashboardPage() {
               description={t.recentlyReviewedDesc}
             />
 
-            {recentlyReviewed.length === 0 ? (
-              <p className="border-t border-border px-5 py-6 text-sm text-muted-foreground sm:px-6">
-                {t.noDecisions}
-              </p>
-            ) : (
-              <ul>
-                {recentlyReviewed.map((v) => {
-                  const approved = v.vendorStatus === "APPROVED"
-                  return (
-                    <li
-                      key={v.id}
-                      className="flex items-start gap-3 border-t border-border px-5 py-4 sm:px-6"
-                    >
-                      <span
-                        className={cn(
-                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                          approved ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700",
-                        )}
-                      >
-                        {approved ? (
-                          <CheckCircle2 className="h-4 w-4" />
-                        ) : (
-                          <XCircle className="h-4 w-4" />
-                        )}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="truncate text-sm font-semibold text-foreground">
-                            {v.vendorProfile?.businessName ?? v.name ?? t.unnamedBusiness}
-                          </p>
-                          <span
-                            className={cn(
-                              "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold",
-                              approved
-                                ? "bg-emerald-50 text-emerald-700"
-                                : "bg-red-50 text-red-700",
-                            )}
-                          >
-                            {approved ? t.approved : t.rejected}
-                          </span>
-                        </div>
-                        <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                          {v.vendorProfile?.category ?? t.noCategory}
-                          {v.reviewedAt && <> · {formatDate(v.reviewedAt, dl)}</>}
-                        </p>
-                        {!approved && v.rejectionReason && (
-                          <p className="mt-1.5 line-clamp-2 text-xs italic text-muted-foreground">
-                            &ldquo;{v.rejectionReason}&rdquo;
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
+            {/* Latest 5 · tap a vendor for full details · "Show all" for the rest */}
+            <ReviewedVendors vendors={reviewedVendors} locale={locale} />
           </Panel>
         </div>
 
         {/* ========================================================
             RECENT BOOKINGS + USERS BY ROLE
         ======================================================== */}
-        <div className="grid grid-cols-1 items-start gap-6 md:gap-5 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-6 md:gap-5 lg:grid-cols-3 lg:items-stretch">
           <Panel className="min-w-0 overflow-hidden lg:col-span-2">
             <PanelHeader
               title={t.recentBookings}
@@ -426,6 +535,8 @@ export default async function AdminDashboardPage() {
             )}
           </Panel>
 
+          {/* Right column: Users by role, then Vendors by category */}
+          <div className="flex min-w-0 flex-col gap-6 md:gap-5">
           <Panel className="min-w-0">
             <PanelHeader
               title={t.usersByRole}
@@ -460,6 +571,47 @@ export default async function AdminDashboardPage() {
               </p>
             </div>
           </Panel>
+
+          {/* Vendors by category (doughnut) */}
+          <Panel className="min-w-0">
+            <PanelHeader
+              title={
+                <span className="flex items-center gap-2">
+                  <PieChart className="h-4 w-4 text-muted-foreground" />
+                  {t.vendorsByCategory}
+                </span>
+              }
+              description={t.vendorsByCategoryDesc(categoryVendorTotal, categoryStats.length, formatDate(ROLE_STATS_SINCE, dl))}
+            />
+
+            {categoryStats.length === 0 ? (
+              <p className="border-t border-border px-5 py-6 text-sm text-muted-foreground sm:px-6">
+                {t.noVendorsYet}
+              </p>
+            ) : (
+              <div className="space-y-5 border-t border-border px-5 py-5 sm:px-6">
+                <Doughnut slices={slices} total={categoryVendorTotal} centerLabel={t.vendorsLabel} />
+
+                <ul className="space-y-2.5">
+                  {slices.map((s) => (
+                    <li key={s.label} className="flex items-center justify-between gap-3 text-sm">
+                      <span className="flex min-w-0 items-center gap-2 text-foreground">
+                        <span className={cn("h-2.5 w-2.5 shrink-0 rounded-full", s.dot)} />
+                        <span className="truncate">{s.label}</span>
+                      </span>
+                      <span className="shrink-0 font-semibold text-foreground">
+                        {s.count.toLocaleString()}
+                        <span className="ml-1.5 text-xs font-normal text-muted-foreground">
+                          {((s.count / categoryVendorTotal) * 100).toFixed(0)}%
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </Panel>
+          </div>
         </div>
       </main>
     </div>
